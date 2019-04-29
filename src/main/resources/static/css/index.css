@@ -1,0 +1,173 @@
+/*文章列表*/
+#post-list{
+    background:#f5f5f5;
+    padding: 2em 0 2em;
+}
+
+.post-card {
+    margin: 0 0 15px;
+    background-color: #fff;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, .1);
+    border-radius: 0;
+}
+
+/*文章列表图片*/
+.post-list-pic {
+    position: relative;
+    float: left;
+    width: 240px;
+    height: 145px;
+    overflow: hidden;
+    margin: 20px
+}
+
+.post-list-pic img {
+    padding: 2px;
+    border: 1px solid #F3F3F3;
+    height: 145px;
+    width: 240px
+}
+
+@media screen and (max-width:768px) {
+    .post-list-pic {
+        position: relative;
+        float: none;
+        width: auto;
+        height: auto;
+        overflow: hidden;
+        padding: 0;
+        margin: 0 0 20px 0;
+    }
+
+    .post-list-pic img {
+        height: auto;
+        max-width: 100%;
+        width: 750px;
+        padding: 0;
+        border: 0
+    }
+
+
+
+    .post-list-meta .read-more {
+        margin-right: 8px
+    }
+
+    .post-list-inner-content {
+        height: auto
+    }
+
+    .post-list-meta a {
+        margin-right: 10px
+    }
+}
+
+/*文章简介*/
+.post-list-inner {
+    margin-left: 255px;
+    height: 160px;
+    padding: 21px 20px 0 3px
+}
+
+.post-list-inner header .label {
+    position: relative;
+    display: inline-block;
+    padding: 4px 6px 3px;
+    font-size: 12px;
+    line-height: 14px;
+    color: #fff;
+    vertical-align: baseline;
+    white-space: nowrap;
+    background-color: #00a2ff;
+    margin-right: 5px;
+    top: -2px;
+    border-radius: 0
+}
+
+.post-list-inner header .label:hover {
+    color: #fff!important
+}
+
+.post-list-inner header .label .label-arrow {
+    position: absolute;
+    width: 0;
+    height: 0;
+    vertical-align: top;
+    content: "";
+    top: 6px;
+    right: -4px;
+    border-left: 4px solid #00a2ff;
+    border-top: 4px solid transparent;
+    border-bottom: 4px solid transparent
+}
+
+@media screen and (max-width:768px) {
+    .post-list-inner {
+        margin-left: 0;
+        height: auto;
+        padding: 0 20px
+    }
+
+    .post-list-inner header .label {
+        display: none
+    }
+}
+
+/*文章简介头部*/
+.post-list-inner-header {
+    margin: 3px 0 6px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    -webkit-box-orient: vertical;
+    display: -webkit-box;
+    max-height: 25px
+}
+
+/*文章简介标题*/
+.post-list-inner-title {
+    display: inline;
+    margin: 0;
+    font-size: 21px
+}
+
+/*文章简介内容*/
+.post-list-inner-content p {
+    font-size: 15px;
+    word-break: break-all;
+}
+
+@media screen and (max-width:1200px) {
+    .post-list-inner-content {
+        height: 80px;
+        overflow: hidden;
+        text-overflow: ellipsis
+    }
+}
+
+@media screen and (max-width:992px) {
+    .post-list-inner-content {
+        height: auto;
+        overflow: hidden;
+        text-overflow: ellipsis
+    }
+}
+
+/*文章状态*/
+.post-list-meta {
+    padding: 8px 20px;
+    border-top: 1px solid #F3F3F3;
+    line-height: 27px;
+    overflow: hidden;
+    display: block;
+    clear: both;
+    font-size: 12px
+}
+
+.post-list-meta a {
+    margin-right: 15px
+}
+
+.post-list-meta .read-more {
+    margin-right: 0
+}
+

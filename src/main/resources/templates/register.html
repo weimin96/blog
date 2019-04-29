@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:http="http://www.w3.org/1999/xhtml">
+<head th:replace="common/head :: head(~{::title},~{::link},~{})">
+    <title>wiblog - Areo的个人网站</title>
+    <link rel="stylesheet" th:href="@{css/loginAndRegister.css}">
+
+    <style >
+
+    </style>
+
+</head>
+<body>
+<div class="login-main">
+    <header class="layui-elip" style="width: 82%">注册页</header>
+
+    <!-- 表单选项 -->
+    <form class="layui-form">
+        <div class="layui-input-inline" id="us">
+            <!-- 用户名 -->
+            <div class="layui-inline" style="width: 85%">
+                <input type="text" id="username" name="account" onblur="checkValid('username')" lay-verify="required|username" placeholder="请输入用户名" autocomplete="off" class="layui-input">
+            </div>
+            <!-- 对号 -->
+            <div class="layui-inline">
+                <i class="layui-icon rn" style="color: green;font-weight: bolder;" hidden></i>
+            </div>
+            <!-- 错号 -->
+            <div class="layui-inline">
+                <i class="layui-icon wn" style="color: red; font-weight: bolder;" hidden>ဆ</i>
+            </div>
+        </div>
+        <div class="layui-input-inline" id="ph">
+            <!-- 手机号 -->
+            <div class="layui-inline" style="width: 85%">
+                <input type="text" id="phone" name="account" onblur="checkValid('phone')"  placeholder="请输入手机号" autocomplete="off" class="layui-input">
+            </div>
+            <!-- 对号 -->
+            <div class="layui-inline">
+                <i class="layui-icon rn" style="color: green;font-weight: bolder;" hidden></i>
+            </div>
+            <!-- 错号 -->
+            <div class="layui-inline">
+                <i class="layui-icon wn" style="color: red; font-weight: bolder;" hidden>ဆ</i><p></p>
+            </div>
+        </div>
+        <div class="layui-input-inline" id="em">
+            <!-- 邮箱 -->
+            <div class="layui-inline" style="width: 85%">
+                <input type="text" id="email" name="account" onblur="checkValid('email')" placeholder="请输入邮箱" autocomplete="off" class="layui-input">
+            </div>
+            <!-- 对号 -->
+            <div class="layui-inline">
+                <i class="layui-icon rn" style="color: green;font-weight: bolder;" hidden></i>
+            </div>
+            <!-- 错号 -->
+            <div class="layui-inline">
+                <i class="layui-icon" id="ewr" style="color: red; font-weight: bolder;" hidden>ဆ</i>
+            </div>
+        </div>
+        <!-- 密码 -->
+        <div class="layui-input-inline">
+            <div class="layui-inline" style="width: 85%">
+                <input type="password" id="pwd" name="password" lay-verify="required" placeholder="请输入密码" autocomplete="off" class="layui-input">
+            </div>
+            <!-- 对号 -->
+            <div class="layui-inline">
+                <i class="layui-icon" id="pri" style="color: green;font-weight: bolder;" hidden></i>
+            </div>
+            <!-- 错号 -->
+            <div class="layui-inline">
+                <i class="layui-icon" id="pwr" style="color: red; font-weight: bolder;" hidden>ဆ</i>
+            </div>
+        </div>
+        <!-- 确认密码 -->
+        <div class="layui-input-inline">
+            <div class="layui-inline" style="width: 85%">
+                <input type="password" id="rpwd" name="repassword" lay-verify="required" placeholder="请确认密码" autocomplete="off" class="layui-input">
+            </div>
+            <!-- 对号 -->
+            <div class="layui-inline">
+                <i class="layui-icon" id="rpri" style="color: green;font-weight: bolder;" hidden></i>
+            </div>
+            <!-- 错号 -->
+            <div class="layui-inline">
+                <i class="layui-icon" id="rpwr" style="color: red; font-weight: bolder;" hidden>ဆ</i>
+            </div>
+        </div>
+
+
+        <div class="layui-input-inline login-btn" style="width: 85%">
+            <button type="submit" lay-submit="" lay-filter="register" class="layui-btn">注册</button>
+        </div>
+        <hr style="width: 85%" />
+        <p style="width: 85%"><a href="login.html" class="fl">已有账号？立即登录</a><a href="javascript:;" class="fr">忘记密码？</a></p>
+    </form>
+</div>
+</body>
+<div th:replace="common/foot :: foot"></div>
+<script th:src="@{js/loginAndRegister.js}"></script>
+</html>

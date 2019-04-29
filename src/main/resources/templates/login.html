@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:http="http://www.w3.org/1999/xhtml">
+<head th:replace="common/head :: head(~{::title},~{::link},~{})">
+    <title>wiblog - Areo的个人网站</title>
+    <link rel="stylesheet" th:href="@{css/loginAndRegister.css}">
+
+    <style >
+
+    </style>
+
+</head>
+<body>
+    <div class="login-main">
+        <header class="layui-elip">登录</header>
+        <form class="layui-form">
+            <div class="layui-input-inline">
+                <input type="text" name="account" required lay-verify="required" placeholder="用户名" autocomplete="off"
+                       class="layui-input">
+            </div>
+            <div class="layui-input-inline">
+                <input type="password" name="password" required lay-verify="required" placeholder="密码" autocomplete="off"
+                       class="layui-input">
+            </div>
+            <div class="layui-input-inline login-btn">
+                <button lay-submit lay-filter="login" class="layui-btn">登录</button>
+            </div>
+            <hr/>
+            <p><a href="register.html" class="fl">立即注册</a><a href="javascript:;" class="fr">忘记密码？</a></p>
+        </form>
+    </div>
+</body>
+<div th:replace="common/foot :: foot"></div>
+<script th:src="@{js/loginAndRegister.js}"></script>
+</html>
