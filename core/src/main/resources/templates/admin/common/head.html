@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head th:fragment="head(title,links,styles)">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta name="robots" content="index,follow">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="keywords" content="Areo,博客,技术,编程">
+    <meta name="author" content="Areo"/>
+    <meta name="description" content="Wiblog | Areo的个人网站 - 作者:Areo"/>
+
+
+    <title th:replace="${title}">wiblog - Areo的个人网站</title>
+
+    <!--动画-->
+    <link rel="stylesheet" th:href="@{../css/animate.css}">
+    <!--字体-->
+    <link rel="stylesheet" th:href="@{../lib/font-awesome.min.css}">
+    <link rel="stylesheet" th:href="@{../css/bootstrap.min.css}">
+    <link rel="stylesheet" th:href="@{css/style.css}">
+
+
+
+    <!--/* Per-page placeholder for additional links */-->
+    <th:block th:replace="${links}" />
+    <!--/* Per-page placeholder for additional styles */-->
+    <th:block th:replace="${styles}" />
+</head>
