@@ -59,8 +59,20 @@ var app = new Vue({
         },
         // 文章发表
         pushArticle: function () {
+            // 发表新文章
             if (this.articleId === ''){
-                
+                $.post('/post/push',{
+                    title: this.article.title,
+                    author: 'areo',
+                    content: this.article.content,
+                    tags: this.article.tags,
+                    articleCategories: this.article.articleCategories,
+                    url: this.article.url,
+                    articleSummary: this.article.articleSummary,
+                    likes: 0,
+                    hits: 0,
+                    commentsCounts: 0
+                })
             }
         }
 

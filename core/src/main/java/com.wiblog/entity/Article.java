@@ -2,6 +2,7 @@ package com.wiblog.entity;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.util.Date;
 
 import lombok.Data;
 
@@ -77,8 +78,8 @@ public class Article implements Serializable{
      */
     private Integer commentsCounts;
 
-    private LocalDateTime createTime;
+    private Date createTime;
 
-    private LocalDateTime updateTime;
+    private Date updateTime;
 
 }

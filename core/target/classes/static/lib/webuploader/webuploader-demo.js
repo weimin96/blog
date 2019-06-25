@@ -300,7 +300,6 @@ jQuery(function() {
 
         switch ( state ) {
             case 'pedding':
-                console.log('pedding');
                 $placeHolder.removeClass( 'element-invisible' );
                 $queue.parent().removeClass('filled');
                 $queue.hide();
@@ -309,7 +308,6 @@ jQuery(function() {
                 break;
 
             case 'ready':
-                console.log('ready');
                 $placeHolder.addClass( 'element-invisible' );
                 $( '#filePicker2' ).removeClass( 'element-invisible');
                 $queue.parent().addClass('filled');
@@ -321,20 +319,17 @@ jQuery(function() {
                 break;
 
             case 'uploading':
-                console.log('uploading');
                 //$( '#filePicker2' ).addClass( 'element-invisible' );
                 $progress.show();
                 $upload.text( '暂停上传' );
                 break;
 
             case 'paused':
-                console.log('paused');
                 $progress.show();
                 $upload.text( '继续上传' );
                 break;
 
             case 'confirm':
-                console.log('confirm');
                 $progress.hide();
                 $upload.text( '开始上传' ).addClass( 'disabled' );
 
@@ -345,9 +340,9 @@ jQuery(function() {
                 }
                 break;
             case 'finish':
-                console.log('finish');
                 stats = uploader.getStats();
                 if ( stats.successNum ) {
+
                     // alert( '上传成功' );
                 } else {
                     // 没有成功的图片，重设

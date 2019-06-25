@@ -23,6 +23,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Date;
 import java.util.Map;
 
 import lombok.extern.java.Log;
@@ -44,6 +45,13 @@ public class ArticleController {
 
 
     private String picPath;
+
+    private String host;
+
+    @Value("${host-name}")
+    public void setHost(String host){
+        this.host = host;
+    }
 
     @Value("${pic-path}")
     public void setPicPath(String picPath){
@@ -69,6 +77,25 @@ public class ArticleController {
     public ServerResponse<Article> getArticleById(@PathVariable Integer id){
         Article article = articleService.getById(id);
         return ServerResponse.success(article,"获取文章成功");
+    }
+
+    /**
+     * 发表文章
+     * @param article article
+     * @return ServerResponse
+     */
+    @PostMapping("/push")
+    public ServerResponse<Article> updateArticle(Article article){
+        Date date = new Date();
+        article.setUpdateTime(date);
+        article.setCreateTime(date);
+        article.setArticleUrl(host+"/post/"+date.getTime());
+
+        Boolean bool = articleService.save(article);
+        if (bool) {
+            return ServerResponse.success(null, "文章发表成功");
+        }
+        return ServerResponse.error("文章发表失败",30001);
     }
 
     @PostMapping("/upload")
