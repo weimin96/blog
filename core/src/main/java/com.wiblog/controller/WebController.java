@@ -1,7 +1,17 @@
 package com.wiblog.controller;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.wiblog.entity.Article;
+import com.wiblog.service.IArticleService;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+
+import java.util.Date;
+
+import javax.servlet.http.HttpServletRequest;
 
 /**
  * @author pwm
@@ -9,6 +19,9 @@ import org.springframework.web.bind.annotation.GetMapping;
  */
 @Controller
 public class WebController {
+
+    @Autowired
+    private IArticleService articleService;
 
     /**
      * 跳转首页
@@ -24,6 +37,22 @@ public class WebController {
     @GetMapping("/login")
     public String login(){
         return "login";
+    }
+
+    /**
+     * 跳转文章页
+     */
+    @GetMapping("/post/{url}")
+    public String article(HttpServletRequest request, @PathVariable Long url){
+        Date date = new Date();
+        date.setTime(url);
+        System.out.println("url:"+date);
+        Article article = articleService.getOne(new QueryWrapper<Article>().eq("create_time",date));
+        if (article == null){
+            return "404";
+        }
+        request.setAttribute("article",article);
+        return "article";
     }
 
     /**

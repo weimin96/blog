@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:http="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta name="robots" content="index,follow">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="keywords" content="Areo,博客,技术,编程">
+    <meta name="author" content="Areo"/>
+    <meta name="description" content="Wiblog | Areo的个人网站 - 作者:Areo"/>
+
+    <title>wiblog - Areo的个人网站</title>
+
+    <!--动画-->
+    <link rel="stylesheet" th:href="@{../css/animate.css}">
+    <!--字体-->
+    <link rel="stylesheet" th:href="@{../lib/font-awesome.min.css}">
+    <link rel="stylesheet" th:href="@{../css/bootstrap.min.css}">
+    <!--多级菜单-->
+    <link rel="stylesheet" th:href="@{../css/superfish.min.css}">
+    <link rel="stylesheet" th:href="@{../css/all.css}">
+</head>
+<body>
+
+<div id="index-wrapper">
+    <div id="index-page">
+        <!--header-->
+        <!--<div th:include="common/header :: header"></div>-->
+
+        <!--body-->
+        <div id="post-list">
+            <div class="container">
+                <div class="row">
+                    <section id="main" class="col-md-8">
+                        <div id="article">
+                            <div class="article-header">
+                                <div class="title">
+                                    <a href="articleUrl" th:text="${article.title}"></a>
+                                </div>
+                                <div class="article-data">
+                                    作者<th:block th:text="${article.author}"/>
+                                    发布于<time th:text="${article.createTime}"></time>
+                                    <a href="#comments" th:text="${article.commentsCounts ?: 0}+' 条评论'"></a>
+                                    <th:block th:text="${article.hits}"/>次阅读
+                                    <th:block th:text="${article.likes}"/>人点赞
+                                </div>
+                            </div>
+                            <div class="article-content">
+                                <th:block th:text="${article.tags}"/>
+                                <th:block th:utext="${commons.article(article.content)}"/>
+                            </div>
+
+                            <div id="comments" class="article-comment">
+                                <div class="social-feed-box">
+
+                                    <div class="social-avatar">
+                                        <a href="" class="pull-left">
+                                            <img alt="image" src="">
+                                        </a>
+                                        <div class="media-body">
+                                            <a href="#">
+                                                尤小右
+                                            </a>
+                                            <small class="text-muted">8月18日 16:05 来自 微博 weibo.com</small>
+                                        </div>
+                                    </div>
+                                    <div class="social-body">
+                                        <p>
+                                            内容
+                                        </p>
+
+                                        <div class="btn-group">
+                                            <button class="btn btn-white btn-xs"><i class="fa fa-thumbs-up"></i> 赞</button>
+                                            <button class="btn btn-white btn-xs"><i class="fa fa-comments"></i> 评论</button>
+                                            <button class="btn btn-white btn-xs"><i class="fa fa-share"></i> 分享</button>
+                                        </div>
+                                    </div>
+                                    <div class="social-footer">
+                                        <div class="social-comment">
+                                            <a href="" class="pull-left">
+                                                <img alt="image" src="">
+                                            </a>
+                                            <div class="media-body">
+                                                <a href="#">
+                                                    尤小右
+                                                </a> jQuery的作者在Twitter上发了一条这样的推，也是有点平衡了
+                                                <br>
+                                                <a href="#" class="small"><i class="fa fa-thumbs-up"></i> 26</a> -
+                                                <small class="text-muted">8月18日</small>
+                                            </div>
+                                        </div>
+
+
+                                        <div class="social-comment">
+                                            <a href="" class="pull-left">
+                                                <img alt="image" src="img/a3.jpg">
+                                            </a>
+                                            <div class="media-body">
+                                                <textarea class="form-control" placeholder="填写评论..."></textarea>
+                                            </div>
+                                        </div>
+
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+                </div>
+            </div>
+        </div>
+
+        <!--<footer th:include="common/footer :: copyright"></footer>-->
+    </div>
+</div>
+
+<script th:src="@{../lib/jquery-3.4.0.min.js}"></script>
+<script src="https://cdn.jsdelivr.net/npm/vue"></script>
+<script th:src="@{../lib/superfish.min.js}"></script>
+<script th:src="@{../js/all.js}"></script>
+</body>
+</html>

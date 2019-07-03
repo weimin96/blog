@@ -85,13 +85,38 @@ public class ArticleController {
      * @return ServerResponse
      */
     @PostMapping("/push")
-    public ServerResponse<Article> updateArticle(Article article){
+    public ServerResponse<String> pushArticle(Article article){
         Date date = new Date();
         article.setUpdateTime(date);
         article.setCreateTime(date);
-        article.setArticleUrl(host+"/post/"+date.getTime());
+        // TODO
+        String articleUrl = host+"/post/"+date.getTime();
+        article.setArticleUrl(articleUrl);
+        article.setCommentsCounts(0);
+        article.setHits(0);
+        article.setLikes(0);
+        // TODO
+        article.setAuthor("areo");
 
         Boolean bool = articleService.save(article);
+        if (bool) {
+            return ServerResponse.success(articleUrl, "文章发表成功");
+        }
+        return ServerResponse.error("文章发表失败",30001);
+    }
+
+    /**
+     * 修改文章
+     * @param article article
+     * @return ServerResponse
+     */
+    @PostMapping("/update")
+    public ServerResponse<String> updateArticle(Article article){
+        Date date = new Date();
+        article.setUpdateTime(date);
+
+
+        Boolean bool = articleService.updateById(article);
         if (bool) {
             return ServerResponse.success(null, "文章发表成功");
         }

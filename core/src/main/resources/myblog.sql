@@ -21,7 +21,7 @@ INSERT INTO `archives` VALUES ('2', '2018年08月');
 -- ----------------------------
 DROP TABLE IF EXISTS `article`;
 CREATE TABLE `article` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id` bigint(11) NOT NULL AUTO_INCREMENT,
   `author` varchar(255) NOT NULL COMMENT '作者名',
   `title` varchar(255) NOT NULL COMMENT '标题',
   `content` longtext NOT NULL COMMENT '内容',

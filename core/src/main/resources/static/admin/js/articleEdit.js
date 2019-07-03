@@ -14,7 +14,8 @@ var app = new Vue({
             content: '',
             articleCategories: '',
             articleSummary: '',
-            tags: ''
+            tags: '',
+            url: ''
         }
     },
     created(){
@@ -57,21 +58,31 @@ var app = new Vue({
                 }
             });
         },
-        // 文章发表
+        // 文章发表修改
         pushArticle: function () {
             // 发表新文章
             if (this.articleId === ''){
                 $.post('/post/push',{
                     title: this.article.title,
-                    author: 'areo',
                     content: this.article.content,
                     tags: this.article.tags,
                     articleCategories: this.article.articleCategories,
                     url: this.article.url,
-                    articleSummary: this.article.articleSummary,
-                    likes: 0,
-                    hits: 0,
-                    commentsCounts: 0
+                    articleSummary: this.article.articleSummary
+                },function (res) {
+                    if (res.code === 10000){
+                        window.parent.location.href = "http://"+res.data;
+                    }
+                })
+            }else {
+                $.post('/post/update',{
+                    id: this.articleId,
+                    title: this.article.title,
+                    content: this.article.content,
+                    tags: this.article.tags,
+                    articleCategories: this.article.articleCategories,
+                    url: this.article.url,
+                    articleSummary: this.article.articleSummary
                 })
             }
         }
