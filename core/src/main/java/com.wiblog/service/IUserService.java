@@ -4,6 +4,8 @@ import com.baomidou.mybatisplus.extension.service.IService;
 import com.wiblog.common.ServerResponse;
 import com.wiblog.entity.User;
 
+import javax.servlet.http.HttpServletRequest;
+
 /**
  *   服务类
  *
@@ -46,4 +48,11 @@ public interface IUserService extends IService<User> {
      * @return ServerResponse
      */
     ServerResponse checkEmail(String email);
+
+    /**
+     * 获取当前登录用户
+     * @param request request
+     * @return user
+     */
+    User loginUser(HttpServletRequest request);
 }

@@ -1,5 +1,6 @@
 package com.wiblog.service.impl;
 
+import com.alibaba.fastjson.JSON;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.wiblog.common.Constant;
 import com.wiblog.common.ResultConstant;
@@ -9,12 +10,16 @@ import com.wiblog.exception.WiblogException;
 import com.wiblog.mapper.UserMapper;
 import com.wiblog.service.IUserService;
 import com.wiblog.utils.Md5Util;
+import com.wiblog.utils.WiblogUtil;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
+
+import javax.servlet.http.HttpServletRequest;
 
 /**
  *  服务实现类
@@ -26,6 +31,8 @@ import java.util.Date;
 public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IUserService {
     @Autowired
     private UserMapper userMapper;
+    @Autowired
+    private RedisTemplate<String, Object> redisTemplate;
 
     @Override
     public ServerResponse<User> login(String account, String password) {
@@ -142,5 +149,17 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
             return ServerResponse.error(ResultConstant.UserCenter.EMAIL_EXIT_MSG,ResultConstant.UserCenter.EMAIL_EXIT_CODE);
         }
         return ServerResponse.success(null,ResultConstant.PARA_SUCCESS_MSG);
+    }
+
+    @Override
+    public User loginUser(HttpServletRequest request) {
+        String token = WiblogUtil.getCookie(request,Constant.COOKIES_KEY);
+        if (StringUtils.isNotBlank(token)) {
+            String userJson = (String) redisTemplate.opsForValue().get(Constant.LOGIN_REDIS_KEY +token);
+            if (StringUtils.isNotBlank(userJson)){
+                return JSON.parseObject(userJson, User.class);
+            }
+        }
+        return null;
     }
 }
