@@ -1,7 +1,9 @@
 package com.wiblog.entity;
 
+
+
 import java.io.Serializable;
-import java.time.LocalDateTime;
+import java.util.Date;
 
 import lombok.Data;
 
@@ -55,11 +57,11 @@ public class User implements Serializable{
     /**
      * 创建时间
      */
-    private LocalDateTime createTime;
+    private Date createTime;
 
     /**
      * 上次登录时间
      */
-    private LocalDateTime logged;
+    private Date logged;
 
 }

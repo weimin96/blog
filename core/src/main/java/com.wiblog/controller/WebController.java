@@ -3,6 +3,7 @@ package com.wiblog.controller;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.wiblog.entity.Article;
 import com.wiblog.service.IArticleService;
+import com.wiblog.utils.Commons;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -11,6 +12,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 
 import java.util.Date;
 
+import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 
 /**
@@ -22,6 +24,9 @@ public class WebController {
 
     @Autowired
     private IArticleService articleService;
+
+    @Resource
+    private Commons commons;
 
     /**
      * 跳转首页
@@ -52,6 +57,7 @@ public class WebController {
             return "404";
         }
         request.setAttribute("article",article);
+        request.setAttribute("commons", commons);
         return "article";
     }
 

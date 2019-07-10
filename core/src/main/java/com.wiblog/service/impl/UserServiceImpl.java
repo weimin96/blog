@@ -5,6 +5,7 @@ import com.wiblog.common.Constant;
 import com.wiblog.common.ResultConstant;
 import com.wiblog.common.ServerResponse;
 import com.wiblog.entity.User;
+import com.wiblog.exception.WiblogException;
 import com.wiblog.mapper.UserMapper;
 import com.wiblog.service.IUserService;
 import com.wiblog.utils.Md5Util;
@@ -12,6 +13,8 @@ import com.wiblog.utils.Md5Util;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.Date;
 
 /**
  *  服务实现类
@@ -30,11 +33,9 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
         password=password.trim();
         //非空判断
         if (StringUtils.isEmpty(account)|| StringUtils.isEmpty(password)){
-            return ServerResponse.error(ResultConstant.UserCenter.NOT_ALLOW_NULL_MSG,ResultConstant.UserCenter.NOT_ALLOW_NULL_CODE);
+            throw new WiblogException("用户名和密码不能为空");
         }
         // 用户名 邮箱 手机号
-
-
         User user= new User();
         if (account.matches(Constant.EM)){
             user.setEmail(account);
@@ -47,7 +48,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
         user.setPassword(password);
         User loginUser = userMapper.login(user);
         if (loginUser == null){
-            return ServerResponse.error(ResultConstant.UserCenter.MATCH_ERROR_MSG,ResultConstant.UserCenter.MATCH_ERROR_CODE);
+            throw new WiblogException("用户名或密码错误");
         }
         return ServerResponse.success(loginUser,ResultConstant.UserCenter.LOGIN_SUCCESS);
     }
@@ -77,6 +78,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
 
         user.setAvatarImg("");
         user.setSex("male");
+        user.setCreateTime(new Date());
         int count = userMapper.insert(user);
         if (count <=0){
             return ServerResponse.error(ResultConstant.UserCenter.REGISTER_ERROR_MSG,ResultConstant.UserCenter.REGISTER_ERROR_CODE);

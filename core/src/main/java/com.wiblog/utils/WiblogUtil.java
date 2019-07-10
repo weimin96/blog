@@ -1,9 +1,13 @@
 package com.wiblog.utils;
 
+import com.wiblog.entity.User;
+
 import org.apache.commons.lang3.StringUtils;
 import org.commonmark.node.Node;
 import org.commonmark.parser.Parser;
 import org.commonmark.renderer.html.HtmlRenderer;
+
+import javax.servlet.http.HttpServletRequest;
 
 /**
  * TODO 描述
@@ -33,5 +37,9 @@ public class WiblogUtil {
         String content = renderer.render(document);
         content = Commons.emoji(content);
         return content;
+    }
+
+    public static User getLoginUser(HttpServletRequest request){
+        return null;
     }
 }
