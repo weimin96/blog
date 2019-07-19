@@ -1,3 +1,6 @@
+create database `blog` DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;
+use `blog`;
+
 SET FOREIGN_KEY_CHECKS=0;
 
 -- ----------------------------
@@ -68,10 +71,11 @@ INSERT INTO `article` VALUES ('8',
 DROP TABLE IF EXISTS `article_likes_record`;
 CREATE TABLE `article_likes_record` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `articleId` bigint(20) NOT NULL,
-  `likerId` int(11) NOT NULL,
-  `likeDate` varchar(255) NOT NULL,
-  PRIMARY KEY (`id`)
+  `article_id` bigint(20) NOT NULL,
+  `liker_id` int(11) NOT NULL,
+  `create_time` varchar(255) NOT NULL,
+  PRIMARY KEY (`id`),
+  INDEX article (article_id)
 ) ENGINE=InnoDB AUTO_INCREMENT=29 DEFAULT CHARSET=utf8;
 
 -- ----------------------------

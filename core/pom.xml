@@ -12,6 +12,10 @@
     <groupId>com.wiblog</groupId>
     <artifactId>core</artifactId>
 
+    <properties>
+        <docker.image.prefix>wiblog</docker.image.prefix>
+    </properties>
+
     <dependencies>
         <!--spring boot-->
         <dependency>
@@ -68,12 +72,11 @@
             <version>3.1.1</version>
         </dependency>
         <!-- https://mvnrepository.com/artifact/com.alibaba/druid-spring-boot-starter -->
-        <dependency>
-            <groupId>com.alibaba</groupId>
-            <artifactId>druid-spring-boot-starter</artifactId>
-            <version>1.1.10</version>
-        </dependency>
-
+        <!--<dependency>-->
+            <!--<groupId>com.alibaba</groupId>-->
+            <!--<artifactId>druid-spring-boot-starter</artifactId>-->
+            <!--<version>1.1.10</version>-->
+        <!--</dependency>-->
 
         <!--其他插件-->
         <!--热部署-->
@@ -121,6 +124,30 @@
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
+            </plugin>
+            <plugin>
+                <groupId>com.spotify</groupId>
+                <artifactId>docker-maven-plugin</artifactId>
+                <version>1.0.0</version>
+                <configuration>
+                    <!--镜像名-->
+                    <imageName>${docker.image.prefix}/${project.artifactId}</imageName>
+                    <dockerHost>118.24.95.165</dockerHost>
+                    <imageTags>latest</imageTags>
+
+                    <!--Dockerfile 所在目录-->
+                    <dockerDirectory>src/main/docker</dockerDirectory>
+                    <resources>
+                        <resource>
+                            <!--打包目录-->
+                            <targetPath>/</targetPath>
+                            <!--jar包所在路径 此处路径对应 target目录-->
+                            <directory>${project.build.directory}</directory>
+                            <!--对应Dockerfile中添加的文件名-->
+                            <include>${project.build.finalName}.jar</include>
+                        </resource>
+                    </resources>
+                </configuration>
             </plugin>
         </plugins>
     </build>
