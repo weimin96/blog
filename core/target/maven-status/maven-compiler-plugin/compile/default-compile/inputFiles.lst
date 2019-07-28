@@ -4,8 +4,10 @@ E:\project\idealProjects\wiblog\core\src\main\java\com.wiblog\WiblogApplication.
 E:\project\idealProjects\wiblog\core\src\main\java\com.wiblog\common\ServerResponse.java
 E:\project\idealProjects\wiblog\core\src\main\java\com.wiblog\service\impl\CategoryServiceImpl.java
 E:\project\idealProjects\wiblog\core\src\main\java\com.wiblog\exception\WiblogException.java
+E:\project\idealProjects\wiblog\core\src\main\java\com.wiblog\utils\CheckoutUtil.java
 E:\project\idealProjects\wiblog\core\src\main\java\com.wiblog\service\impl\UserServiceImpl.java
 E:\project\idealProjects\wiblog\core\src\main\java\com.wiblog\aop\RequestRequireAspect.java
+E:\project\idealProjects\wiblog\core\src\main\java\com.wiblog\config\SwaggerConfig.java
 E:\project\idealProjects\wiblog\core\src\main\java\com.wiblog\controller\ArticleController.java
 E:\project\idealProjects\wiblog\core\src\main\java\com.wiblog\utils\Md5Util.java
 E:\project\idealProjects\wiblog\core\src\main\java\com.wiblog\common\ResultConstant.java
@@ -13,6 +15,7 @@ E:\project\idealProjects\wiblog\core\src\main\java\com.wiblog\service\IArticleSe
 E:\project\idealProjects\wiblog\core\src\main\java\com.wiblog\exception\GlobalExceptionHandler.java
 E:\project\idealProjects\wiblog\core\src\main\java\com.wiblog\common\Constant.java
 E:\project\idealProjects\wiblog\core\src\main\java\com.wiblog\controller\CategoryController.java
+E:\project\idealProjects\wiblog\core\src\main\java\com.wiblog\controller\SpeechRecognizerDemo.java
 E:\project\idealProjects\wiblog\core\src\main\java\com.wiblog\controller\WebController.java
 E:\project\idealProjects\wiblog\core\src\main\java\com.wiblog\interceptor\BaseInterceptor.java
 E:\project\idealProjects\wiblog\core\src\main\java\com.wiblog\entity\Article.java
@@ -20,6 +23,7 @@ E:\project\idealProjects\wiblog\core\src\main\java\com.wiblog\utils\MapCache.jav
 E:\project\idealProjects\wiblog\core\src\main\java\com.wiblog\config\WebMvcConfig.java
 E:\project\idealProjects\wiblog\core\src\main\java\com.wiblog\entity\Category.java
 E:\project\idealProjects\wiblog\core\src\main\java\com.wiblog\config\MybatisPlusConfig.java
+E:\project\idealProjects\wiblog\core\src\main\java\com.wiblog\utils\WeixinUtil.java
 E:\project\idealProjects\wiblog\core\src\main\java\com.wiblog\service\IUserService.java
 E:\project\idealProjects\wiblog\core\src\main\java\com.wiblog\aop\RequestRequire.java
 E:\project\idealProjects\wiblog\core\src\main\java\com.wiblog\mapper\CategoryMapper.java
@@ -31,5 +35,7 @@ E:\project\idealProjects\wiblog\core\src\main\java\com.wiblog\controller\BaseCon
 E:\project\idealProjects\wiblog\core\src\main\java\com.wiblog\entity\User.java
 E:\project\idealProjects\wiblog\core\src\main\java\com.wiblog\utils\WiblogUtil.java
 E:\project\idealProjects\wiblog\core\src\main\java\com.wiblog\service\impl\ArticleServiceImpl.java
+E:\project\idealProjects\wiblog\core\src\main\java\com.wiblog\entity\Voice.java
 E:\project\idealProjects\wiblog\core\src\main\java\com.wiblog\mapper\ArticleMapper.java
+E:\project\idealProjects\wiblog\core\src\main\java\com.wiblog\controller\WeixinController.java
 E:\project\idealProjects\wiblog\core\src\main\java\com.wiblog\utils\IPUtil.java

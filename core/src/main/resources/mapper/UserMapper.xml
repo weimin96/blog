@@ -24,7 +24,7 @@ uid, phone, username, password, sex, email, avatar_img, create_time, logged
     <select id="login" parameterType="com.wiblog.entity.User" resultMap="BaseResultMap">
         SELECT
         <include refid="Base_Column_List"/>
-        FROM USER
+        FROM user
         <where>
             <if test="username != null">
                 username = #{username}
@@ -41,19 +41,19 @@ uid, phone, username, password, sex, email, avatar_img, create_time, logged
     <select id="checkUsername" parameterType="string" resultType="java.lang.Integer">
         SELECT
         COUNT(*)
-        FROM USER
+        FROM user
         WHERE username=#{username}
     </select>
     <select id="checkPhone" parameterType="string" resultType="java.lang.Integer">
         SELECT
         COUNT(*)
-        FROM USER
+        FROM user
         WHERE phone=#{phone}
     </select>
     <select id="checkEmail" parameterType="string" resultType="java.lang.Integer">
         SELECT
         COUNT(*)
-        FROM USER
+        FROM user
         WHERE email=#{email}
     </select>
 </mapper>

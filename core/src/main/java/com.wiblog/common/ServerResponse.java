@@ -5,13 +5,18 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 
 import java.io.Serializable;
 
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
+
 /**
  * @author pwm
  * @date 2019/4/13
  */
+
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class ServerResponse<T> implements Serializable {
     private static final long serialVersionUID = -516174735253208470L;
+
 
     private int code;
     private String msg;

@@ -24,6 +24,10 @@ import java.util.concurrent.TimeUnit;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
+import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 
 
@@ -37,6 +41,7 @@ import lombok.extern.slf4j.Slf4j;
 @RequestMapping("/u")
 @Transactional(rollbackFor = WiblogException.class)
 @Slf4j
+@Api(tags = "用户中心api")
 public class UserController extends BaseController {
 
     @Autowired
@@ -50,6 +55,11 @@ public class UserController extends BaseController {
         this.userService = userService;
     }
 
+    @ApiOperation(value="登录", notes="根据账号密码登录，账号可以为手机号、用户名、邮箱")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "account", value = "账号", required = true,paramType="form"),
+            @ApiImplicitParam(name = "password", value = "密码", required = true,paramType="form")
+    })
     @PostMapping("/login")
     public ServerResponse login(String account, String password, HttpServletRequest request, HttpServletResponse response) {
         // 错误次数
@@ -87,21 +97,25 @@ public class UserController extends BaseController {
         return serverResponse;
     }
 
+    @ApiOperation(value="注册", notes="用户注册")
     @PostMapping("/register")
     public ServerResponse register(User user) {
         return userService.register(user);
     }
 
+    @ApiOperation(value="检查用户名")
     @PostMapping("/checkUsername")
     public ServerResponse checkUsername(String value) {
         return userService.checkUsername(value);
     }
 
+    @ApiOperation(value="检查手机号")
     @PostMapping("/checkPhone")
     public ServerResponse checkPhone(String value) {
         return userService.checkPhone(value);
     }
 
+    @ApiOperation(value="检查邮箱")
     @PostMapping("/checkEmail")
     public ServerResponse checkEmail(String value) {
         return userService.checkEmail(value);

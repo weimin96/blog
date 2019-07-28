@@ -36,12 +36,13 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
 
     @Override
     public ServerResponse<User> login(String account, String password) {
-        account=account.trim();
-        password=password.trim();
+
         //非空判断
-        if (StringUtils.isEmpty(account)|| StringUtils.isEmpty(password)){
+        if (StringUtils.isBlank(account)|| StringUtils.isBlank(password)){
             throw new WiblogException("用户名和密码不能为空");
         }
+        account=account.trim();
+        password=password.trim();
         // 用户名 邮箱 手机号
         User user= new User();
         if (account.matches(Constant.EM)){
