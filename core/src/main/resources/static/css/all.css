@@ -19,7 +19,7 @@ a {
 
 a:hover {
     text-decoration: none;
-    color: #0097ee!important
+    color: #0097ee
 }
 
 a:focus {
@@ -45,7 +45,7 @@ cite {
 
 @media screen and (max-width:768px) {
     h1 {
-        font-size: 25px!important
+        font-size: 25px
     }
 }
 
@@ -101,7 +101,19 @@ article a {
 }
 
 table,table tbody tr th {
-    text-align: center!important
+    text-align: center
+}
+
+.main-color{
+    color: #00a1d6;
+}
+
+.main-background{
+    background: #00a1d6;
+}
+
+.main-border-color{
+    border-color: #00a1d6;
 }
 
 /*===================================================*/
@@ -143,7 +155,7 @@ table,table tbody tr th {
     right: -240px;
     width: 240px;
     padding: 20px;
-    overflow-y: scroll!important
+    overflow-y: scroll
 }
 
 #offcanvas-menu ul {
@@ -428,3 +440,5 @@ table,table tbody tr th {
     text-decoration: none;
     color: #5a5a5a
 }
+
+

@@ -37,12 +37,12 @@ public class BaseInterceptor implements HandlerInterceptor {
 
     @Autowired
     private IUserService userService;
-/*
+
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object o) throws Exception {
         String uri = request.getRequestURI();
 
-        log.info("UserAgent:" + request.getHeader(USER_AGENT));
+        //log.info("UserAgent:" + request.getHeader(USER_AGENT));
         log.info("用户访问地址:{}, 来路地址: {}" ,uri, IPUtil.getIpAddr(request));
 
 
@@ -59,11 +59,11 @@ public class BaseInterceptor implements HandlerInterceptor {
         }
         return true;
     }
-*/
+
     @Override
     public void postHandle(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, Object o, ModelAndView modelAndView) throws Exception {
         // 一些工具类和公共方法
-//        log.info("拦截");
+        log.info("拦截");
         httpServletRequest.setAttribute("commons", commons);
     }
 }

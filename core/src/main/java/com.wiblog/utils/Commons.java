@@ -5,6 +5,11 @@ import com.vdurmont.emoji.EmojiParser;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Component;
 
+import java.text.DateFormat;
+import java.util.Calendar;
+import java.util.Date;
+
+
 /**
  * TODO 描述
  *
@@ -38,5 +43,18 @@ public final class Commons {
             return WiblogUtil.mdToHtml(value);
         }
         return "";
+    }
+
+    public static String dateFormat(Date date){
+        DateFormat df = DateFormat.getDateInstance();
+        System.out.println(df.format(date));
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(date);
+        int year = cal.get(Calendar.YEAR);
+        int month=cal.get(Calendar.MONTH);
+        int day=cal.get(Calendar.DATE);
+
+        String[] m = new String[]{"一","二","三","四","五","六","七","八","九","十","十一","十二"};
+        return m[month]+"月"+day+","+year;
     }
 }

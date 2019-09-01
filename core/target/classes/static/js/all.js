@@ -48,9 +48,6 @@ function dateFormat(d) {
     var year=date.getFullYear();
     var month=switchNum(date.getMonth());
     var day=change(date.getDate());
-    var hour=change(date.getHours());
-    var minute=change(date.getMinutes());
-    var second=change(date.getSeconds());
     function change(t){
         if(t<10){
             return "0"+t;
@@ -64,4 +61,22 @@ function dateFormat(d) {
     }
 
     return month+"月"+day+", "+year;
+}
+
+function dateFormat2(d) {
+    var date=new Date(d);
+    var year=date.getFullYear();
+    var month=change(date.getMonth());
+    var day=change(date.getDate());
+    var hour=change(date.getHours());
+    var minute=change(date.getMinutes());
+    function change(t){
+        if(t<10){
+            return "0"+t;
+        }else{
+            return t;
+        }
+    }
+
+    return year+"."+month+"."+day+" "+hour+":"+minute;
 }

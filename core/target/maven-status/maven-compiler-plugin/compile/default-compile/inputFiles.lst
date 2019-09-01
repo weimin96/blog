@@ -12,14 +12,17 @@ E:\project\idealProjects\wiblog\core\src\main\java\com.wiblog\controller\Article
 E:\project\idealProjects\wiblog\core\src\main\java\com.wiblog\utils\Md5Util.java
 E:\project\idealProjects\wiblog\core\src\main\java\com.wiblog\common\ResultConstant.java
 E:\project\idealProjects\wiblog\core\src\main\java\com.wiblog\service\IArticleService.java
+E:\project\idealProjects\wiblog\core\src\main\java\com.wiblog\controller\WordFilter.java
 E:\project\idealProjects\wiblog\core\src\main\java\com.wiblog\exception\GlobalExceptionHandler.java
 E:\project\idealProjects\wiblog\core\src\main\java\com.wiblog\common\Constant.java
 E:\project\idealProjects\wiblog\core\src\main\java\com.wiblog\controller\CategoryController.java
 E:\project\idealProjects\wiblog\core\src\main\java\com.wiblog\controller\SpeechRecognizerDemo.java
 E:\project\idealProjects\wiblog\core\src\main\java\com.wiblog\controller\WebController.java
 E:\project\idealProjects\wiblog\core\src\main\java\com.wiblog\interceptor\BaseInterceptor.java
+E:\project\idealProjects\wiblog\core\src\main\java\com.wiblog\utils\XunFeiUtil.java
 E:\project\idealProjects\wiblog\core\src\main\java\com.wiblog\entity\Article.java
 E:\project\idealProjects\wiblog\core\src\main\java\com.wiblog\utils\MapCache.java
+E:\project\idealProjects\wiblog\core\src\main\java\com.wiblog\utils\Amr2Mp3Util.java
 E:\project\idealProjects\wiblog\core\src\main\java\com.wiblog\config\WebMvcConfig.java
 E:\project\idealProjects\wiblog\core\src\main\java\com.wiblog\entity\Category.java
 E:\project\idealProjects\wiblog\core\src\main\java\com.wiblog\config\MybatisPlusConfig.java

@@ -4,6 +4,7 @@ import com.wiblog.interceptor.BaseInterceptor;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.stereotype.Component;
+import org.springframework.web.servlet.config.annotation.InterceptorRegistration;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
@@ -23,6 +24,9 @@ public class WebMvcConfig implements WebMvcConfigurer {
 
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
-        registry.addInterceptor(baseInterceptor);
+        registry.addInterceptor(baseInterceptor).excludePathPatterns(
+                "/js/**","/css/**","/lib/**","/fonts/**","/img/**",
+                "/admin/js/**","/admin/css/**"
+        );
     }
 }

@@ -9,7 +9,7 @@
     width: 100%;
     z-index: -999999;
     position: fixed;
-    background: #694a0a1f;
+    background: #f5f5f5;
 }
 
 .bg-img img{
@@ -23,7 +23,10 @@
 
 /*表单*/
 .form-box {
-    margin-top: 35px;
+    margin-top: 3%;
+    text-align: center;
+    width: 40%;
+    margin-left: 30%;
 }
 
 /*输入框*/
@@ -69,9 +72,10 @@
 .form-top {
     overflow: hidden;
     padding: 0 25px 15px 25px;
-    background: #444;
-    background: rgba(0, 0, 0, 0.35);
-    -moz-border-radius: 4px 4px 0 0; -webkit-border-radius: 4px 4px 0 0; border-radius: 4px 4px 0 0;
+    background: #fff;
+    -moz-border-radius: 4px 4px 0 0;
+    -webkit-border-radius: 4px 4px 0 0;
+    border-radius: 4px 4px 0 0;
     text-align: left;
 }
 
@@ -81,8 +85,8 @@
     padding-top: 25px;
 }
 
-.form-top-left h3 { margin-top: 0; color: #fff; }
-.form-top-left p { opacity: 0.8; color: #fff; }
+.form-top-left i{font-size: 430%;margin-right: 5%;}
+.form-top-left .form-title{font-size: 212%;}
 
 .form-top-right {
     float: left;
@@ -100,7 +104,6 @@
     width: 90%;
     border-radius: 2px;
     color: #f1ebeb;
-    background: #3a9fda;
 }
 
 .form-bottom .login-form .btn {
@@ -111,13 +114,12 @@
 }
 
 .form-bottom .btn:hover{
-    color: #a09393;
+    background: #5194bb;
 }
 
 .form-bottom {
     padding: 25px 25px 30px 25px;
-    background: #444;
-    background: rgba(0, 0, 0, 0.3);
+    background: #fff;
     -moz-border-radius: 0 0 4px 4px; -webkit-border-radius: 0 0 4px 4px; border-radius: 0 0 4px 4px;
     text-align: left;
 }
@@ -126,10 +128,13 @@
 .hasAccount{
     font-size: 14px;
     float: right;
+    margin-bottom: 10px;
 }
 
 .social-login {
     margin-top: 35px;
+    margin-left: 30%;
+    width: 40%;
 }
 
 .social-login h3 {
@@ -145,7 +150,7 @@
 
 .h-content .h-title{
     width: 25%;
-    background: #e4e0d8;
+    background: #f5f5f5;
     text-align: center;
     line-height: 50px;
     font-size: 16px;
@@ -157,11 +162,16 @@
 
 .login-else{
     width: 100%;
-    margin: 5% 27%;
+    margin: 5% 0;
+    text-align: center;
     font-size: 30px;
 }
 
 .login-else i{
-    padding-left: 22px;
+    width: 40px;
+}
+
+.form-group{
+    margin-bottom: 20px;
 }
 

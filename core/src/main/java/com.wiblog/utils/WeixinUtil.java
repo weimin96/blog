@@ -1,13 +1,18 @@
 package com.wiblog.utils;
 
 import com.alibaba.fastjson.JSONObject;
-import com.alibaba.nls.client.AccessToken;
 
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.core.io.Resource;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.RestTemplate;
 
 import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.io.UnsupportedEncodingException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -15,6 +20,7 @@ import java.util.Formatter;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
+
 
 /**
  * TODO 描述
@@ -40,7 +46,7 @@ public class WeixinUtil {
         if (StringUtils.isBlank(access_token)) {
             setAccessToken();
         }
-        if (Long.valueOf(access_token_expires) + 7200 >= Long.valueOf(createTimestamp())){
+        if (Long.valueOf(access_token_expires) + 7200 < Long.valueOf(createTimestamp())){
             setAccessToken();
         }
         String url = "https://api.weixin.qq.com/cgi-bin/ticket/getticket?access_token=ACCESS_TOKEN&type=jsapi";
@@ -78,7 +84,7 @@ public class WeixinUtil {
             setJsApiTicket();
         }
         // 当jsapi_ticket过期
-        if (Long.valueOf(jsapi_ticket) + 7200 >= Long.valueOf(createTimestamp())){
+        if (Long.valueOf(jsapi_ticket_expires) + 7200 < Long.valueOf(createTimestamp())){
             setJsApiTicket();
         }
         Map<String, String> ret = new HashMap<>(5);
@@ -128,13 +134,35 @@ public class WeixinUtil {
         return Long.toString(System.currentTimeMillis() / 1000);
     }
 
-    public static String getWeixinFile(String mediaId){
+    public static File getWeixinFile(String mediaId) throws IOException {
         String url = "https://api.weixin.qq.com/cgi-bin/media/get?access_token=ACCESS_TOKEN&media_id=MEDIA_ID";
         url = url.replace("ACCESS_TOKEN", access_token)
                 .replace("MEDIA_ID", mediaId);
         RestTemplate restTemplate = new RestTemplate();
-        ResponseEntity<byte[]> rsp = restTemplate.getForEntity(url, byte[].class);
-        return rsp.getBody();
+        ResponseEntity<Resource> entity = restTemplate.getForEntity(url, Resource.class);
+        File file = null;
+        if (entity.getStatusCode().equals(HttpStatus.OK)) {
+            InputStream is = entity.getBody().getInputStream();
+            OutputStream os = null;
+            try {
+                file = new File("E:\\桌面\\tmp\\"+mediaId+".amr");
+                if (!file.exists()){
+                    file.createNewFile();
+                }
+                os = new FileOutputStream(file);
+                int len = 0;
+                byte[] buffer = new byte[8192];
+
+                while ((len = is.read(buffer)) != -1) {
+                    os.write(buffer, 0, len);
+                }
+            } finally {
+                os.close();
+                is.close();
+            }
+        }
+        return file;
     }
+
 
 }

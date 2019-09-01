@@ -62,6 +62,7 @@ public class UserController extends BaseController {
     })
     @PostMapping("/login")
     public ServerResponse login(String account, String password, HttpServletRequest request, HttpServletResponse response) {
+        System.out.println("登录");
         // 错误次数
         Integer errorCount = cache.get("login_error_count");
         ServerResponse serverResponse;

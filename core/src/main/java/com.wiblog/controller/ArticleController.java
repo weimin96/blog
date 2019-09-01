@@ -85,13 +85,13 @@ public class ArticleController {
      * @return ServerResponse
      */
     @PostMapping("/push")
-    public ServerResponse<String> pushArticle(Article article){
+    public ServerResponse<Long> pushArticle(Article article){
         Date date = new Date();
         article.setUpdateTime(date);
         article.setCreateTime(date);
         // TODO
-        String articleUrl = host+"/post/"+date.getTime();
-        article.setArticleUrl(articleUrl);
+        //String articleUrl = "/post/"+date.getTime();
+        article.setArticleUrl("--");
         article.setCommentsCounts(0);
         article.setHits(0);
         article.setLikes(0);
@@ -99,8 +99,10 @@ public class ArticleController {
         article.setAuthor("areo");
 
         Boolean bool = articleService.save(article);
+
+        Article result = articleService.getOne(new QueryWrapper<Article>().select("id").eq("crate_time",date));
         if (bool) {
-            return ServerResponse.success(articleUrl, "文章发表成功");
+            return ServerResponse.success(result.getId(), "文章发表成功");
         }
         return ServerResponse.error("文章发表失败",30001);
     }

@@ -14,24 +14,19 @@
     <br>
     <div class="row">
 
-        <div class="col-sm-6 col-sm-offset-3 form-box">
+        <div class="form-box">
             <div class="form-top">
                 <div class="form-top-left">
-                    <h3>wiblog</h3>
-                    <p>注册账号，收藏更多有趣的文章</p>
+                    <span><i class="fa fa-user-circle main-color"></i></span>
+                    <span class="form-title">注册</span>
                 </div>
-                <div class="form-top-right">
-                    <i class="fa fa-user-circle fa-spin"></i>
-                </div>
-                <div class="hasAccount">
-                    <a href="/login">已有账号？登录</a>
-                </div>
+
             </div>
             <div class="form-bottom">
                 <form name="form" class="register-form" action="" novalidate>
                     <div class="form-group">
                         <label class="sr-only" for="username">用户名</label><strong><i>*</i></strong>
-                        <input type="text" v-model.trim="username" @blur="checkName()" name="username" placeholder="用户名" class="form-control" id="username" autocomplete="off">
+                        <input type="text" v-on:keyup.enter="register" v-model.trim="username" @blur="checkName()" name="username" placeholder="用户名" class="form-control" id="username" autocomplete="off">
                         <template v-if="nameTag === '1'">
                             <i class="fa fa-check-circle green pdr" aria-hidden="true"></i>
                         </template>
@@ -42,7 +37,7 @@
                     </div>
                     <div class="form-group">
                         <label class="sr-only" for="phone">手机号</label><strong><i style="opacity: 0">*</i></strong>
-                        <input type="text" v-model.trim="phone" @blur="checkPhone()" name="phone" placeholder="手机号" class="form-control" id="phone" autocomplete="off">
+                        <input type="text" v-on:keyup.enter="register" v-model.trim="phone" @blur="checkPhone()" name="phone" placeholder="手机号" class="form-control" id="phone" autocomplete="off">
                         <template v-if="phoneTag === '1'">
                             <i class="fa fa-check-circle green pdr" aria-hidden="true"></i>
                         </template>
@@ -53,7 +48,7 @@
                     </div>
                     <div class="form-group">
                         <label class="sr-only" for="email">邮箱</label><strong><i style="opacity: 0">*</i></strong>
-                        <input type="email" v-model.trim="email" @blur="checkEmail()" name="email" placeholder="邮箱" class="form-control" id="email" autocomplete="off" required>
+                        <input type="email" v-on:keyup.enter="register" v-model.trim="email" @blur="checkEmail()" name="email" placeholder="邮箱" class="form-control" id="email" autocomplete="off" required>
                         <template v-if="emailTag === '1'">
                             <i class="fa fa-check-circle green pdr" aria-hidden="true"></i>
                         </template>
@@ -64,7 +59,7 @@
                     </div>
                     <div class="form-group">
                         <label class="sr-only" for="password">密码</label><strong><i>*</i></strong>
-                        <input type="password" v-model.trim="password" @blur="checkPassword()" name="password" placeholder="密码" class="form-control" id="password" autocomplete="off">
+                        <input type="password" v-on:keyup.enter="register" v-model.trim="password" @blur="checkPassword()" name="password" placeholder="密码" class="form-control" id="password" autocomplete="off">
                         <template v-if="passwordTag === '1'">
                             <i class="fa fa-check-circle green pdr" aria-hidden="true"></i>
                         </template>
@@ -75,7 +70,7 @@
                     </div>
                     <div class="form-group">
                         <label class="sr-only" for="confirm-password">确认密码</label><strong><i>*</i></strong>
-                        <input type="password" v-model.trim="confirmPassword" @blur="checkConfirmPassword()" name="confirm-password" placeholder="确认密码" class="form-control" id="confirm-password" autocomplete="off">
+                        <input type="password" v-on:keyup.enter="register" v-model.trim="confirmPassword" @blur="checkConfirmPassword()" name="confirm-password" placeholder="确认密码" class="form-control" id="confirm-password" autocomplete="off">
                         <template v-if="confirmPasswordTag === '1'">
                             <i class="fa fa-check-circle green pdr" aria-hidden="true"></i>
                         </template>
@@ -84,13 +79,16 @@
                         </template>
                         <div class="error-msg">{{msgConfirmPassword}}</div>
                     </div>
-                    <a class="btn" v-on:click="register">注册</a>
+                    <div class="hasAccount">
+                        <a href="/login" style="margin-right: 25px;">已有账号？登录</a>
+                    </div>
+                    <a class="btn main-background" v-on:click="register" >注册</a>
                 </form>
             </div>
         </div>
     </div>
     <div class="row">
-        <div class="col-sm-6 col-sm-offset-3 social-login">
+        <div class="social-login">
             <div class="h-content">
                 <p class="h-title">其他方式登录</p>
             </div>

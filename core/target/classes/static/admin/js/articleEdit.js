@@ -71,7 +71,7 @@ var app = new Vue({
                     articleSummary: this.article.articleSummary
                 },function (res) {
                     if (res.code === 10000){
-                        window.parent.location.href = "http://"+res.data;
+                        window.parent.location.href = window.location.protocol+"//"+window.location.host+res.data;
                     }
                 })
             }else {

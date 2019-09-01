@@ -3,24 +3,35 @@ use `blog`;
 
 SET FOREIGN_KEY_CHECKS=0;
 
--- ----------------------------
--- Table structure for archives
--- ----------------------------
-DROP TABLE IF EXISTS `archives`;
-CREATE TABLE `archives` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `archiveName` varchar(255) NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
--- Records of archives
+-- 用户
 -- ----------------------------
-INSERT INTO `archives` VALUES ('1', '2018年07月');
-INSERT INTO `archives` VALUES ('2', '2018年08月');
+DROP TABLE IF EXISTS `user`;
+CREATE TABLE `user` (
+  `uid` BIGINT(11) NOT NULL AUTO_INCREMENT,
+  `phone` varchar(64) DEFAULT NULL COMMENT '手机号',
+  `username` varchar(32) NOT NULL COMMENT '用户名',
+  `password` varchar(64) NOT NULL COMMENT '密码',
+  `sex` varchar(32) NOT NULL COMMENT '性别 male or female',
+  `email` varchar(100) DEFAULT NULL COMMENT '邮箱地址',
+  `avatar_img` varchar(255) NOT NULL COMMENT '头像地址',
+  `create_time` DATETIME NOT NULL COMMENT '创建时间',
+  `logged` DATETIME DEFAULT NULL COMMENT '上次登录时间',
+  PRIMARY KEY (`uid`),
+  UNIQUE KEY `name` (`username`),
+  UNIQUE KEY `phone` (`phone`),
+  UNIQUE KEY `mail` (`email`)
+) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
--- Table structure for article
+-- Records of user
+-- ----------------------------
+INSERT INTO `user` VALUES ('1', '15600000000', 'areo', 'a3caed36f0fe5a01e5f144db8927235e', 'male', '735313582@qq.com', 'https://avatars2.githubusercontent.com/u/20983152?s=460&v=4', '2018-09-19 13:52:50',null);
+
+
+-- ----------------------------
+-- 文章
 -- ----------------------------
 DROP TABLE IF EXISTS `article`;
 CREATE TABLE `article` (
@@ -65,6 +76,70 @@ INSERT INTO `article` VALUES ('8',
   '问题 斐波那契数列最基本的算法是使用递归法 (Recursion) 来求解第 n 项。 基本代码： def foo1(n):if n == 0: return 0 if n == 1: return 1 return f…',
   '3', '1', '0','2018-07-30', '2018-07-30');
 
+
+-- ----------------------------
+-- 评论
+-- ----------------------------
+DROP TABLE IF EXISTS `comment`;
+CREATE TABLE `comment` (
+  `id` bigint(11) NOT NULL AUTO_INCREMENT COMMENT '评论id',
+  `uid` bigint(11) NOT NULL COMMENT '用户id',
+  `article_id` bigint(11) NOT NULL COMMENT '文章id',
+  `answerer_id` bigint(11) NOT NULL COMMENT '回复的评论id 0为评论文章',
+  `likes` int(11) NOT NULL COMMENT '点赞数量',
+  `content` text NOT NULL COMMENT '评论内容',
+  `create_time` DATETIME NOT NULL,
+  `update_time` DATETIME NOT NULL,
+  PRIMARY KEY (`id`),
+  INDEX article (article_id)
+) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8;
+
+
+-- ----------------------------
+-- category
+-- ----------------------------
+DROP TABLE IF EXISTS `category`;
+CREATE TABLE `category` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `category_name` varchar(255) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of categories
+-- ----------------------------
+INSERT INTO `category` VALUES ('1', '我的故事');
+INSERT INTO `category` VALUES ('2', 'SpringBoot');
+
+
+
+
+
+
+
+
+
+
+
+-- ---------------------------------------------------------------------------
+-- ----------------------------
+-- Table structure for archives
+-- ----------------------------
+DROP TABLE IF EXISTS `archives`;
+CREATE TABLE `archives` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `archiveName` varchar(255) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of archives
+-- ----------------------------
+INSERT INTO `archives` VALUES ('1', '2018年07月');
+INSERT INTO `archives` VALUES ('2', '2018年08月');
+
+
+
 -- ----------------------------
 -- Table structure for article_likes_record
 -- ----------------------------
@@ -84,21 +159,7 @@ CREATE TABLE `article_likes_record` (
 INSERT INTO `article_likes_record` VALUES ('1', '1532884460', '1', '2018-07-31 20:00');
 INSERT INTO `article_likes_record` VALUES ('2', '1533196734', '1', '2018-08-02 21:24');
 
--- ----------------------------
--- Table structure for category
--- ----------------------------
-DROP TABLE IF EXISTS `category`;
-CREATE TABLE `category` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `category_name` varchar(255) NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8;
 
--- ----------------------------
--- Records of categories
--- ----------------------------
-INSERT INTO `category` VALUES ('1', '我的故事');
-INSERT INTO `category` VALUES ('2', 'SpringBoot');
 
 -- ----------------------------
 -- Table structure for comment_likes_record
@@ -117,27 +178,7 @@ CREATE TABLE `comment_likes_record` (
 -- Records of comment_likes_record
 -- ----------------------------
 
--- ----------------------------
--- Table structure for comment_record
--- ----------------------------
-DROP TABLE IF EXISTS `comment_record`;
-CREATE TABLE `comment_record` (
-  `id` bigint(11) NOT NULL AUTO_INCREMENT,
-  `pId` bigint(20) NOT NULL,
-  `articleId` bigint(20) NOT NULL,
-  `answererId` int(11) NOT NULL,
-  `respondentId` int(11) NOT NULL,
-  `commentDate` varchar(255) NOT NULL,
-  `likes` int(255) NOT NULL,
-  `commentContent` text NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8;
 
--- ----------------------------
--- Records of comment_record
--- ----------------------------
-INSERT INTO `comment_record` VALUES ('2', '0', '1533196734', '1', '1', '2018-08-03 00:13', '1', '测试评论功能，嘻嘻嘻');
-INSERT INTO `comment_record` VALUES ('3', '2', '1533196734', '1', '1', '2018-08-03 00:15', '0', '一切正常，哈哈哈');
 
 -- ----------------------------
 -- Table structure for feedback
@@ -234,49 +275,8 @@ INSERT INTO `role` VALUES ('1', 'ROLE_USER');
 INSERT INTO `role` VALUES ('2', 'ROLE_ADMIN');
 INSERT INTO `role` VALUES ('3', 'ROLE_SUPERADMIN');
 
--- ----------------------------
--- Table structure for tags
--- ----------------------------
-DROP TABLE IF EXISTS `tags`;
-CREATE TABLE `tags` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `tagName` varchar(255) NOT NULL,
-  `tagSize` int(11) NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=19 DEFAULT CHARSET=utf8;
 
--- ----------------------------
--- Records of tags
--- ----------------------------
-INSERT INTO `tags` VALUES ('1', '随笔感悟', '15');
-INSERT INTO `tags` VALUES ('4', 'SpringBoot', '17');
-INSERT INTO `tags` VALUES ('5', '个人博客', '18');
-INSERT INTO `tags` VALUES ('18', '原创', '20');
 
--- ----------------------------
--- Table structure for user
--- ----------------------------
-DROP TABLE IF EXISTS `user`;
-CREATE TABLE `user` (
-  `uid` int(10) NOT NULL AUTO_INCREMENT,
-  `phone` varchar(64) DEFAULT NULL COMMENT '手机号',
-  `username` varchar(32) NOT NULL COMMENT '用户名',
-  `password` varchar(64) NOT NULL COMMENT '密码',
-  `sex` varchar(32) NOT NULL COMMENT '性别 male or female',
-  `email` varchar(100) DEFAULT NULL COMMENT '邮箱地址',
-  `avatar_img` varchar(255) NOT NULL COMMENT '头像地址',
-  `create_time` DATETIME NOT NULL COMMENT '创建时间',
-  `logged` DATETIME DEFAULT NULL COMMENT '上次登录时间',
-  PRIMARY KEY (`uid`),
-  UNIQUE KEY `name` (`username`),
-  UNIQUE KEY `phone` (`phone`),
-  UNIQUE KEY `mail` (`email`)
-) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8;
-
--- ----------------------------
--- Records of user
--- ----------------------------
-INSERT INTO `user` VALUES ('1', '15600000000', 'areo', 'a3caed36f0fe5a01e5f144db8927235e', 'male', '735313582@qq.com', 'https://zhy-myblog.oss-cn-shenzhen.aliyuncs.com/public/user/avatar/张海洋/1536759681.jpeg', '2018-09-19 13:52:50',null);
 
 -- ----------------------------
 -- Table structure for user_role
@@ -311,3 +311,22 @@ INSERT INTO `visitor` VALUES ('1', '3228', 'totalVisitor');
 INSERT INTO `visitor` VALUES ('2', '1032', 'visitorVolume');
 INSERT INTO `visitor` VALUES ('3', '42', 'article/1532884460');
 INSERT INTO `visitor` VALUES ('5', '57', 'article/1533196734');
+
+-- ----------------------------
+-- tags
+-- ----------------------------
+DROP TABLE IF EXISTS `tags`;
+CREATE TABLE `tags` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `tagName` varchar(255) NOT NULL,
+  `tagSize` int(11) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=19 DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of tags
+-- ----------------------------
+INSERT INTO `tags` VALUES ('1', '随笔感悟', '15');
+INSERT INTO `tags` VALUES ('4', 'SpringBoot', '17');
+INSERT INTO `tags` VALUES ('5', '个人博客', '18');
+INSERT INTO `tags` VALUES ('18', '原创', '20');

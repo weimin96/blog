@@ -1,6 +1,7 @@
 com\wiblog\controller\BaseController.class
 com\wiblog\config\RedisConfig$1.class
 com\wiblog\utils\IPUtil.class
+com\wiblog\utils\Amr2Mp3Util.class
 com\wiblog\service\impl\ArticleServiceImpl.class
 com\wiblog\config\SwaggerConfig.class
 com\wiblog\config\RedisConfig.class
@@ -14,7 +15,9 @@ com\wiblog\interceptor\BaseInterceptor.class
 com\wiblog\utils\CheckoutUtil.class
 com\wiblog\service\impl\CategoryServiceImpl.class
 com\wiblog\config\RedisConfig$DataJedisProperties.class
+com\wiblog\utils\XunFeiUtil$1.class
 com\wiblog\controller\WebController.class
+com\wiblog\utils\XunFeiUtil.class
 com\wiblog\mapper\UserMapper.class
 com\wiblog\common\ServerResponse.class
 com\wiblog\exception\GlobalExceptionHandler.class
@@ -24,6 +27,7 @@ com\wiblog\controller\CategoryController.class
 com\wiblog\common\ResultConstant.class
 com\wiblog\aop\RequestRequire.class
 com\wiblog\entity\Article.class
+com\wiblog\controller\WordFilter.class
 com\wiblog\service\ICategoryService.class
 com\wiblog\exception\WiblogException.class
 com\wiblog\controller\ArticleController.class
