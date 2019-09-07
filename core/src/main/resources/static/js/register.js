@@ -124,12 +124,12 @@ let app = new Vue({
                         if (res.code === 10000) {
                             window.location.href = '/login';
                         } else {
-                            alert(res.msg);
+                            app.$message.error(res.msg);
                         }
                     })
                 } else {
                     event.preventDefault();
-                    console.log("错误");
+                    app.$message.error("注册失败");
                     return false;
                 }
             }

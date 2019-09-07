@@ -1,10 +1,7 @@
 package com.wiblog.vo;
 
-import com.wiblog.entity.Comment;
-
 import java.io.Serializable;
 import java.util.Date;
-import java.util.List;
 
 import lombok.Data;
 
@@ -15,7 +12,7 @@ import lombok.Data;
  * @date 2019/9/1
  */
 @Data
-public class CommentVo implements Serializable{
+public class SubCommentVo implements Serializable{
 
     private static final long serialVersionUID = -4046504102997611516L;
 
@@ -29,6 +26,11 @@ public class CommentVo implements Serializable{
      * 用户id
      */
     private Long uid;
+
+    /**
+     * 用户id
+     */
+    private Long replyedId;
 
     /**
      * 文章id
@@ -67,13 +69,22 @@ public class CommentVo implements Serializable{
     /**
      * 用户名
      */
-    private String username;
+    private String replyName;
+
+    /**
+     * 用户名
+     */
+    private String replyedName;
 
     /**
      * 用户头像
      */
-    private String avatarImg;
+    private String replyAvatarImg;
 
-    private List<SubCommentVo> subCommentVoList;
+    /**
+     * 用户头像
+     */
+    private String replyedAvatarImg;
+
 
 }

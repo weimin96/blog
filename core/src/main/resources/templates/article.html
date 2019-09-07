@@ -1,27 +1,11 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:http="http://www.w3.org/1999/xhtml"
       xmlns:v-on="http://www.w3.org/1999/xhtml">
-<head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
-    <meta name="robots" content="index,follow">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="keywords" content="Areo,博客,技术,编程">
-    <meta name="author" content="Areo"/>
-    <meta name="description" content="Wiblog | Areo的个人网站 - 作者:Areo"/>
+<head th:replace="common/head :: head(~{::title},~{::link},~{})">
 
     <title>wiblog - Areo的个人网站</title>
 
-    <!--动画-->
-    <link rel="stylesheet" th:href="@{../css/animate.css}">
-    <!--字体-->
-    <link rel="stylesheet" th:href="@{../lib/font-awesome.min.css}">
-    <link rel="stylesheet" th:href="@{../css/bootstrap.min.css}">
-    <!--多级菜单-->
-    <link rel="stylesheet" th:href="@{../css/superfish.min.css}">
-    <link rel="stylesheet" th:href="@{../css/all.css}">
-    <link rel="stylesheet" th:href="@{../css/index.css}">
-    <link rel="stylesheet" th:href="@{../css/article.css}">
+    <link rel="stylesheet" th:href="@{/css/article.css}">
 </head>
 <body>
 
@@ -75,7 +59,7 @@
                                     <textarea cols="80" name="msg" rows="5" v-on:keyup.enter="reply" v-model.trim="replyData.content"
                                           placeholder="请自觉遵守互联网相关的政策法规，严禁发布色情、暴力、反动的言论。"></textarea>
                                 </div>
-                                <button type="submit" class="comment-submit main-background" disabled="disabled" v-on:click="reply">
+                                <button type="submit" class="comment-submit main-background" v-on:click="reply">
                                     发表评论
                                 </button>
                                 <div class="comment-emoji"><i class="fa fa-smile-o"></i><span>表情</span></div>
@@ -131,8 +115,9 @@
                             </div>
 
                         </div>
-                </div>
+
                 </section>
+                </div>
             </div>
         </div>
     </div>
@@ -145,9 +130,7 @@
 <input type="hidden" id="articleId" th:value="${article.id}"/>
 
 
-<script th:src="@{../lib/jquery-3.4.0.min.js}"></script>
-<script src="https://cdn.jsdelivr.net/npm/vue"></script>
-<script th:src="@{../lib/superfish.min.js}"></script>
+<div th:replace="common/foot :: foot"></div>
 <script th:src="@{../js/all.js}"></script>
 <script th:src="@{../js/article.js}"></script>
 </body>

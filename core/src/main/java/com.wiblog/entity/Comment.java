@@ -33,9 +33,14 @@ public class Comment implements Serializable{
     private Long articleId;
 
     /**
-     * 回复的评论id 0为评论文章
+     * 父评论id 0为评论文章
      */
-    private Long answererId;
+    private Long parentId;
+
+    /**
+     * 主评论id 0为评论文章
+     */
+    private Long genId;
 
     /**
      * 点赞数量
@@ -46,6 +51,11 @@ public class Comment implements Serializable{
      * 评论内容
      */
     private String content;
+
+    /**
+     * 状态
+     */
+    private Integer state;
 
     private Date createTime;
 

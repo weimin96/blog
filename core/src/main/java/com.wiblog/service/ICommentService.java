@@ -17,4 +17,14 @@ public interface ICommentService extends IService<Comment> {
      * @return ServerResponse
      */
     ServerResponse reply(Comment comment);
+
+    /**
+     * 获取评论内容
+     * @param id 文章id
+     * @param pageNum pageNum
+     * @param pageSize pageSize
+     * @param orderBy orderBy
+     * @return ServerResponse
+     */
+    ServerResponse commentListPage(Long id,Integer pageNum,Integer pageSize,String orderBy);
 }

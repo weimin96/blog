@@ -13,13 +13,13 @@
     <title th:replace="${title}">wiblog - Areo的个人网站</title>
 
     <!--动画-->
-    <link rel="stylesheet" th:href="@{../css/animate.css}">
+    <link href="https://cdn.bootcss.com/animate.css/3.7.2/animate.min.css" rel="stylesheet">
     <!--字体-->
-    <link rel="stylesheet" th:href="@{../lib/font-awesome.min.css}">
-    <link rel="stylesheet" th:href="@{../css/bootstrap.min.css}">
-    <link rel="stylesheet" th:href="@{css/style.css}">
+    <link href="https://cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    <!--bootstrap-->
+    <link href="https://cdn.bootcss.com/twitter-bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
 
-
+    <base th:href="${#request.getContextPath()}+'/'">
 
     <!--/* Per-page placeholder for additional links */-->
     <th:block th:replace="${links}" />

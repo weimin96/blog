@@ -1,25 +1,10 @@
 <!DOCTYPE html>
-<html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:http="http://www.w3.org/1999/xhtml"
+      xmlns:v-on="http://www.w3.org/1999/xhtml" xmlns:display="http://www.w3.org/1999/xhtml">
+<head th:replace="admin/common/head :: head(~{::title},~{::link},~{})">
+    <title>wiblog - Areo的个人网站</title>
 
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="renderer" content="webkit">
-
-    <title> hAdmin- 主页</title>
-
-    <meta name="keywords" content="">
-    <meta name="description" content="">
-
-    <!--[if lt IE 9]>
-    <meta http-equiv="refresh" content="0;ie.html"/>
-    <![endif]-->
-
-    <link rel="shortcut icon" href="favicon.ico">
-    <link href="css/bootstrap.min.css" rel="stylesheet">
-    <link href="lib/font-awesome.min.css" rel="stylesheet">
-    <link href="css/animate.css" rel="stylesheet">
-    <link href="admin/css/style.css?v=4.1.0" rel="stylesheet">
+    <link th:href="@{/admin/css/style.css}" rel="stylesheet">
 </head>
 
 <body class="fixed-sidebar full-height-layout gray-bg" style="overflow:hidden">
@@ -99,14 +84,9 @@
     </div>
     <!--右侧部分结束-->
 </div>
+<div th:replace="admin/common/foot :: adminfoot"></div>
 
-<!-- 全局js -->
-<script src="lib/jquery-3.4.0.min.js"></script>
-
-<!-- 自定义js -->
-<!--<script src="admin/js/hAdmin.js?v=4.1.0"></script>-->
-<script type="text/javascript" src="admin/js/index.js"></script>
-
+<script type="text/javascript" src="/admin/js/index.js"></script>
 
 </body>
 

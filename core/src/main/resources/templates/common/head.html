@@ -9,18 +9,21 @@
     <meta name="author" content="Areo"/>
     <meta name="description" content="Wiblog | Areo的个人网站 - 作者:Areo"/>
 
-
     <title th:replace="${title}">wiblog - Areo的个人网站</title>
 
     <!--动画-->
-    <link rel="stylesheet" th:href="@{css/animate.css}">
+    <link href="https://cdn.bootcss.com/animate.css/3.7.2/animate.min.css" rel="stylesheet">
     <!--字体-->
-    <link rel="stylesheet" th:href="@{lib/font-awesome.min.css}">
-    <link rel="stylesheet" th:href="@{css/bootstrap.min.css}">
+    <link href="https://cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    <!--bootstrap-->
+    <link href="https://cdn.bootcss.com/twitter-bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
     <!--多级菜单-->
-    <link rel="stylesheet" th:href="@{css/superfish.min.css}">
-    <link rel="stylesheet" th:href="@{css/all.css}">
+    <link href="https://cdn.bootcss.com/superfish/1.7.10/css/superfish.min.css" rel="stylesheet">
+    <!--element-ui-->
+    <link href="https://cdn.bootcss.com/element-ui/2.11.1/theme-chalk/index.css" rel="stylesheet">
 
+    <base th:href="${#request.getContextPath()}+'/'">
+    <link rel="stylesheet" href="/css/all.css">
 
     <!--/* Per-page placeholder for additional links */-->
     <th:block th:replace="${links}" />
