@@ -4,10 +4,12 @@ package com.wiblog.controller;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.wiblog.aop.RequestRequire;
 import com.wiblog.common.ServerResponse;
 import com.wiblog.entity.Article;
 import com.wiblog.service.IArticleService;
-import com.wiblog.utils.PropertiesUtil;
+import com.wiblog.utils.PinYinUtil;
+import com.wiblog.utils.WordFilterUtil;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,7 +26,9 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.File;
 import java.io.IOException;
 import java.util.Date;
+import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 import lombok.extern.java.Log;
 
@@ -59,6 +63,12 @@ public class ArticleController {
     }
 
     @Autowired
+    private WordFilterUtil wordFilterUtil;
+
+    @Autowired
+    private PinYinUtil pinYinUtil;
+
+    @Autowired
     public ArticleController(IArticleService articleService){
         this.articleService = articleService;
     }
@@ -85,13 +95,21 @@ public class ArticleController {
      * @return ServerResponse
      */
     @PostMapping("/push")
-    public ServerResponse<Long> pushArticle(Article article){
+    @RequestRequire(require = "title,content,tags,articleCategories,articleSummary",parameter = Article.class)
+    public ServerResponse<String> pushArticle(Article article){
         Date date = new Date();
         article.setUpdateTime(date);
         article.setCreateTime(date);
-        // TODO
-        //String articleUrl = "/post/"+date.getTime();
-        article.setArticleUrl("--");
+        // 分词
+        List<String> titles = wordFilterUtil.getParticiple(article.getTitle());
+        String title = pinYinUtil.getStringPinYin(titles);
+        String articleUrl = "/post/"+title;
+        Article sameUrlArticle = articleService.getOne(new QueryWrapper<Article>().eq("article_url",articleUrl));
+        if (sameUrlArticle != null){
+            return ServerResponse.error("文章发表失败，已存在相同标题",30001);
+        }
+
+        article.setArticleUrl(articleUrl);
         article.setCommentsCounts(0);
         article.setHits(0);
         article.setLikes(0);
@@ -100,9 +118,8 @@ public class ArticleController {
 
         Boolean bool = articleService.save(article);
 
-        Article result = articleService.getOne(new QueryWrapper<Article>().select("id").eq("crate_time",date));
         if (bool) {
-            return ServerResponse.success(result.getId(), "文章发表成功");
+            return ServerResponse.success(articleUrl, "文章发表成功");
         }
         return ServerResponse.error("文章发表失败",30001);
     }

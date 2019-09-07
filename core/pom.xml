@@ -159,6 +159,12 @@
             <artifactId>oshi-core</artifactId>
             <version>3.4.4</version>
         </dependency>
+        <!--汉字转拼音-->
+        <dependency>
+            <groupId>com.belerweb</groupId>
+            <artifactId>pinyin4j</artifactId>
+            <version>2.5.0</version>
+        </dependency>
 
     </dependencies>
 

@@ -33,7 +33,8 @@ public class CommentServiceImpl extends ServiceImpl<CommentMapper, Comment> impl
         // 没有回复id是回复文章
         if (comment.getAnswererId() == null){
             comment.setAnswererId(0L);
-        }int count = commentMapper.insert(comment);
+        }
+        int count = commentMapper.insert(comment);
         if (count <=0){
             return ServerResponse.error("评论失败",40001);
         }

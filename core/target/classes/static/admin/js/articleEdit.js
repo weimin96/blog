@@ -72,6 +72,8 @@ var app = new Vue({
                 },function (res) {
                     if (res.code === 10000){
                         window.parent.location.href = window.location.protocol+"//"+window.location.host+res.data;
+                    }else{
+                        alert(res.msg);
                     }
                 })
             }else {

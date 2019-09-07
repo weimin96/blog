@@ -5,6 +5,7 @@ import com.wiblog.entity.Voice;
 import com.wiblog.utils.Amr2Mp3Util;
 import com.wiblog.utils.CheckoutUtil;
 import com.wiblog.utils.WeixinUtil;
+import com.wiblog.utils.WordFilterUtil;
 import com.wiblog.utils.XunFeiUtil;
 
 import org.apache.commons.lang3.StringUtils;
@@ -61,7 +62,7 @@ public class WeixinController {
     }
 
     @Autowired
-    private WordFilter wordFilter;
+    private WordFilterUtil mWordFilterUtil;
 
     @GetMapping("/weixin/wordFilter")
     @ResponseBody
@@ -69,7 +70,7 @@ public class WeixinController {
         if (StringUtils.isBlank(text)) {
             return "";
         }
-        return wordFilter.automaticSelection(text);
+        return mWordFilterUtil.automaticSelection(text);
     }
 
     @GetMapping("/weixin/test")

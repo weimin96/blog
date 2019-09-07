@@ -49,11 +49,8 @@ public class WebController {
      * 跳转文章页
      */
     @GetMapping("/post/{url}")
-    public String article(HttpServletRequest request, @PathVariable Long url){
-        Date date = new Date();
-        date.setTime(url);
-        System.out.println("url:"+date);
-        Article article = articleService.getOne(new QueryWrapper<Article>().eq("create_time",date));
+    public String article(HttpServletRequest request, @PathVariable String url){
+        Article article = articleService.getOne(new QueryWrapper<Article>().eq("article_url","/post/"+url));
         if (article == null){
             return "404";
         }

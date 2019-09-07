@@ -82,7 +82,7 @@ public class RequestRequireAspect {
             declaredField.setAccessible(true);
             Object fieldObject = declaredField.get(parameter);
             // declaredField.getGenericType().toString()
-            if (fieldObject == null) {
+            if (fieldObject == null || "".equals(fieldObject.toString())) {
                 return ServerResponse.error("参数" + fieldName + "不能为空", 10004);
             }
         }

@@ -6,6 +6,7 @@
         data:{
             tagList: '',
             time: '',
+            articleId: '',
             uid: '',
             replyData:{
                 content: ''
@@ -23,6 +24,9 @@
                 var createTime = document.getElementById("createTime").value;
                 this.time = dateFormat2(createTime);
 
+                var article_id = document.getElementById("articleId").value;
+                this.articleId = article_id;
+
                 console.log(user);
                 if (user !== null){
                     $("#reply_body").removeClass("no-login");
@@ -31,7 +35,14 @@
                 }
             },
             reply(){
-                $.post("/comment/reply",{content:app.replyData.content,uid: app.uid})
+                $.post("/comment/reply",{content:app.replyData.content,uid: app.uid,articleId:app.articleId},
+                    function (res) {
+                        if(res.code === 10000){
+                            console.log("评论成功");
+                        }else{
+
+                        }
+                    });
             }
         }
     });
