@@ -1,7 +1,8 @@
 HELP.md
-/target/
+/core/target/
+/generator/target/
 !.mvn/wrapper/maven-wrapper.jar
-/src/main/docker/*.jar
+/core/src/main/docker/*.jar
 
 ### STS ###
 .apt_generated
