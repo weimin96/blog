@@ -138,22 +138,23 @@
             <version>1.3</version>
         </dependency>
 
-        <dependency>
-            <groupId>it.sauronsoftware</groupId>
-            <artifactId>jave</artifactId>
-            <version>1.0.2</version>
-            <scope>system</scope>
-            <systemPath>${project.basedir}/src/main/resources/lib/jave-1.0.2.jar</systemPath>
-        </dependency>
+        <!--<dependency>-->
+            <!--<groupId>it.sauronsoftware</groupId>-->
+            <!--<artifactId>jave</artifactId>-->
+            <!--<version>1.0.2</version>-->
+            <!--<scope>system</scope>-->
+            <!--<systemPath>${project.basedir}/src/main/resources/lib/jave-1.0.2.jar</systemPath>-->
+        <!--</dependency>-->
 
-        <dependency>
-            <groupId>com.iflytek.cloud</groupId>
-            <artifactId>msc</artifactId>
-            <version>1.0.0</version>
-            <scope>system</scope>
-            <systemPath>${project.basedir}/src/main/resources/lib/Msc.jar</systemPath>
-        </dependency>
+        <!--<dependency>-->
+            <!--<groupId>com.iflytek.cloud</groupId>-->
+            <!--<artifactId>msc</artifactId>-->
+            <!--<version>1.0.0</version>-->
+            <!--<scope>system</scope>-->
+            <!--<systemPath>${project.basedir}/src/main/resources/lib/Msc.jar</systemPath>-->
+        <!--</dependency>-->
 
+        <!--系统内存cpu-->
         <dependency>
             <groupId>com.github.oshi</groupId>
             <artifactId>oshi-core</artifactId>

@@ -99,6 +99,12 @@ public class UserController extends BaseController {
     }
 
     @ApiOperation(value="注册", notes="用户注册")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "username", value = "用户名", required = true,paramType="form"),
+            @ApiImplicitParam(name = "password", value = "密码", required = true,paramType="form"),
+            @ApiImplicitParam(name = "email", value = "邮箱(非必填)",paramType="form"),
+            @ApiImplicitParam(name = "phone", value = "手机号(非必填)",paramType="form")
+    })
     @PostMapping("/register")
     public ServerResponse register(User user) {
         return userService.register(user);

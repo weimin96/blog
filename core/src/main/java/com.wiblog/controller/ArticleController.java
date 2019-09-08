@@ -11,6 +11,10 @@ import com.wiblog.service.IArticleService;
 import com.wiblog.utils.PinYinUtil;
 import com.wiblog.utils.WordFilterUtil;
 
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
+import io.swagger.annotations.ApiOperation;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -34,7 +38,7 @@ import lombok.extern.java.Log;
 
 
 /**
- *  控制层
+ * 控制层
  *
  * @author pwm
  * @date 2019-06-12
@@ -42,6 +46,7 @@ import lombok.extern.java.Log;
 @Log
 @RestController
 @RequestMapping("/post")
+@Api(tags = "文章中心api")
 @PropertySource(value = "classpath:/config/wiblog.properties", encoding = "utf-8")
 public class ArticleController {
 
@@ -53,12 +58,12 @@ public class ArticleController {
     private String host;
 
     @Value("${host-name}")
-    public void setHost(String host){
+    public void setHost(String host) {
         this.host = host;
     }
 
     @Value("${pic-path}")
-    public void setPicPath(String picPath){
+    public void setPicPath(String picPath) {
         this.picPath = picPath;
     }
 
@@ -69,44 +74,60 @@ public class ArticleController {
     private PinYinUtil pinYinUtil;
 
     @Autowired
-    public ArticleController(IArticleService articleService){
+    public ArticleController(IArticleService articleService) {
         this.articleService = articleService;
     }
 
     @PostMapping("/articles")
-    public ServerResponse<IPage> articlePageList(@RequestParam Map<String, Object> params){
-        Integer pageNum = Integer.valueOf((String) params.get("pageNum"));
-        Integer pageSize = Integer.valueOf((String) params.get("pageSize"));
+    @ApiOperation(value="文章列表", notes="获取文章分页列表")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "pageNum", value = "页码（默认0）",paramType="form"),
+            @ApiImplicitParam(name = "pageSize", value = "每页数量(默认10)",paramType="form")
+    })
+    public ServerResponse<IPage> articlePageList(
+            @RequestParam(value = "pageNum", defaultValue = "0") Integer pageNum,
+            @RequestParam(value = "pageSize", defaultValue = "10") Integer pageSize) {
+
         Page<Article> page = new Page<>(pageNum, pageSize);
-        IPage<Article> articleIPage = articleService.page(page,new QueryWrapper<Article>()
-                .select("id","title","tags","article_categories","url","article_url","article_summary","likes","hits","comments_counts","create_time"));
-        return ServerResponse.success(articleIPage,"查找文章列表成功");
+        IPage<Article> articleIPage = articleService.page(page, new QueryWrapper<Article>()
+                .select("id", "title", "tags", "article_categories", "url", "article_url", "article_summary", "likes", "hits", "comments_counts", "create_time"));
+        return ServerResponse.success(articleIPage, "查找文章列表成功");
     }
 
+    @ApiOperation(value="通过url的文章id获取文章详细内容")
     @GetMapping("/get/{id}")
-    public ServerResponse<Article> getArticleById(@PathVariable Integer id){
+    public ServerResponse<Article> getArticleById(@PathVariable Integer id) {
         Article article = articleService.getById(id);
-        return ServerResponse.success(article,"获取文章成功");
+        return ServerResponse.success(article, "获取文章成功");
     }
 
     /**
      * 发表文章
+     *
      * @param article article
      * @return ServerResponse
      */
     @PostMapping("/push")
-    @RequestRequire(require = "title,content,tags,articleCategories,articleSummary",parameter = Article.class)
-    public ServerResponse<String> pushArticle(Article article){
+    @ApiOperation(value="发表文章")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "title", value = "标题",required = true,paramType="form"),
+            @ApiImplicitParam(name = "content", value = "内容",required = true,paramType="form"),
+            @ApiImplicitParam(name = "tags", value = "标签",required = true,paramType="form"),
+            @ApiImplicitParam(name = "articleCategories", value = "分类",required = true,paramType="form"),
+            @ApiImplicitParam(name = "articleSummary", value = "简介",required = true,paramType="form")
+    })
+    @RequestRequire(require = "title,content,tags,articleCategories,articleSummary", parameter = Article.class)
+    public ServerResponse<String> pushArticle(Article article) {
         Date date = new Date();
         article.setUpdateTime(date);
         article.setCreateTime(date);
         // 分词
         List<String> titles = wordFilterUtil.getParticiple(article.getTitle());
         String title = pinYinUtil.getStringPinYin(titles);
-        String articleUrl = "/post/"+title;
-        Article sameUrlArticle = articleService.getOne(new QueryWrapper<Article>().eq("article_url",articleUrl));
-        if (sameUrlArticle != null){
-            return ServerResponse.error("文章发表失败，已存在相同标题",30001);
+        String articleUrl = "/post/" + title;
+        Article sameUrlArticle = articleService.getOne(new QueryWrapper<Article>().eq("article_url", articleUrl));
+        if (sameUrlArticle != null) {
+            return ServerResponse.error("文章发表失败，已存在相同标题", 30001);
         }
 
         article.setArticleUrl(articleUrl);
@@ -121,52 +142,64 @@ public class ArticleController {
         if (bool) {
             return ServerResponse.success(articleUrl, "文章发表成功");
         }
-        return ServerResponse.error("文章发表失败",30001);
+        return ServerResponse.error("文章发表失败", 30001);
     }
 
     /**
      * 修改文章
+     *
      * @param article article
      * @return ServerResponse
      */
     @PostMapping("/update")
-    public ServerResponse<String> updateArticle(Article article){
+    @ApiOperation(value="修改文章")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "title", value = "标题",required = true,paramType="form"),
+            @ApiImplicitParam(name = "id", value = "文章id",required = true,paramType="form"),
+            @ApiImplicitParam(name = "content", value = "内容",required = true,paramType="form"),
+            @ApiImplicitParam(name = "tags", value = "标签",required = true,paramType="form"),
+            @ApiImplicitParam(name = "articleCategories", value = "分类",required = true,paramType="form"),
+            @ApiImplicitParam(name = "articleSummary", value = "简介",required = true,paramType="form")
+    })
+    @RequestRequire(require = "id,title,content,tags,articleCategories,articleSummary", parameter = Article.class)
+    public ServerResponse<String> updateArticle(Article article) {
         Date date = new Date();
         article.setUpdateTime(date);
 
 
-        Boolean bool = articleService.updateById(article);
+        boolean bool = articleService.updateById(article);
         if (bool) {
-            return ServerResponse.success(null, "文章发表成功");
+            return ServerResponse.success(null, "文章修改成功");
         }
-        return ServerResponse.error("文章发表失败",30001);
+        return ServerResponse.error("文章发表失败", 30001);
     }
 
+    @ApiOperation(value="上传图片")
     @PostMapping("/upload")
-    public ServerResponse upload(MultipartFile file,String post){
-        if (file.isEmpty()){
-            return ServerResponse.error("上传失败，请选择文件",30000);
+    public ServerResponse upload(MultipartFile file, String post) {
+        if (file.isEmpty()) {
+            return ServerResponse.error("上传失败，请选择文件", 30000);
         }
         String fileName = file.getOriginalFilename();
         String postPath;
-        if (StringUtils.isBlank(post)){
+        if (StringUtils.isBlank(post)) {
             postPath = picPath;
-        }else {
+        } else {
             postPath = picPath + post;
         }
         File postFile = new File(postPath);
-        if (!postFile.exists()){
+        if (!postFile.exists()) {
             postFile.mkdirs();
         }
-        String filePath = postPath+"/"+fileName;
+        String filePath = postPath + "/" + fileName;
         File dest = new File(filePath);
-        try{
+        try {
             file.transferTo(dest);
-            return ServerResponse.success(filePath,"上传成功");
+            return ServerResponse.success(filePath, "上传成功");
         } catch (IOException e) {
             e.printStackTrace();
         }
-        return ServerResponse.error("上传失败",30001);
+        return ServerResponse.error("上传失败", 30001);
     }
 
 }

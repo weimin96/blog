@@ -7,87 +7,97 @@
     <link th:href="@{/admin/css/style.css}" rel="stylesheet">
 </head>
 
-<body class="fixed-sidebar full-height-layout gray-bg" style="overflow:hidden">
-<div id="wrapper">
-    <!--左侧导航开始-->
-    <nav class="navbar-default navbar-static-side" role="navigation">
-        <div class="nav-close"><i class="fa fa-times-circle"></i>
-        </div>
-        <div class="sidebar-collapse">
-            <ul class="nav" id="side-menu">
-                <li class="nav-header">
-                    <div class="dropdown profile-element">
-                        <a data-toggle="dropdown" class="dropdown-toggle" href="#">
-                                <span class="clear">
-                                    <span class="block m-t-xs" style="font-size:20px;">
-                                        <i class="fa fa-area-chart"></i>
-                                        <strong class="font-bold">hAdmin</strong>
-                                    </span>
-                                </span>
-                        </a>
-                    </div>
-                    <div class="logo-element">hAdmin
-                    </div>
-                </li>
-                <li class="hidden-folded padder m-t m-b-sm text-muted text-xs">
-                    <span class="ng-scope">分类</span>
-                </li>
-                <li>
-                    <a class="J_menuItem" href="admin/home">
-                        <i class="fa fa-home"></i>
-                        <span class="nav-label">主页</span>
+<body>
+<div id="pageWrapper">
+    <!--顶部导航栏-->
+    <div class="header-nav">
+        <div class="header-inner">
+            <div class="header-unit header-logo">
+                <div>
+                    <a target="_blank" class="logo-inner" href="/" title="wiblog">
+                        <span class="logo-icon">wiblog管理后台</span>
                     </a>
-                </li>
-
-                <li class="line dk"></li>
-                <li class="hidden-folded padder m-t m-b-sm text-muted text-xs">
-                    <span class="ng-scope">文章中心</span>
-                </li>
-                <li>
-                    <a href="mailbox.html"><i class="fa fa-envelope"></i>
-                        <span class="nav-label">文章</span><span class="fa arrow"></span></a>
-                    <ul class="nav nav-second-level">
-                        <li><a class="J_menuItem" href="admin/articleList">文章列表</a>
-                        </li>
-                        <li><a class="J_menuItem" href="admin/articleEdit">文章发表</a>
-                        </li>
-                    </ul>
-                </li>
-
-
-            </ul>
-        </div>
-    </nav>
-    <!--左侧导航结束-->
-    <!--右侧部分开始-->
-    <div id="page-wrapper" class="gray-bg dashbard-1">
-        <div class="row border-bottom">
-            <nav class="navbar navbar-static-top" role="navigation" style="margin-bottom: 0">
-                <div class="navbar-header"><a
-                        class="navbar-minimalize minimalize-styl-2 btn btn-info " href="#"><i
-                        class="fa fa-bars"></i> </a>
-                    <form role="search" class="navbar-form-custom" method="post"
-                          action="search_results.html">
-                        <div class="form-group">
-                            <input type="text" placeholder="请输入您需要查找的内容 …" class="form-control"
-                                   name="top-search" id="top-search">
-                        </div>
-                    </form>
                 </div>
-
-            </nav>
-        </div>
-        <div class="row J_mainContent" id="content-main">
-            <iframe id="J_iframe" width="100%" height="100%" src="/admin/home" frameborder="0"
-                    data-id="index_v1.html" seamless></iframe>
+            </div>
+            <div class="header-unit header-service">
+                <div class="nav-overview">
+                    <a class="overview-inner" href="/">
+                        <span>总览</span>
+                    </a>
+                </div>
+            </div>
         </div>
     </div>
-    <!--右侧部分结束-->
+
+    <!--左侧导航栏-->
+    <div class="web-container" style="left: 0px;">
+        <div class="aside aside-new">
+            <div class="aside-area">
+                <div class="aside-area-main">
+                    <!--标题-->
+                    <h2 class="aside-headline">
+                        <img class="aside-service-icon"
+                             src="https://imgcache.qq.com/open_proj/proj_qcloud_v2/mc_2014/server/css/img/aside-icon/cvm-logo.svg">
+                        <span>管理后台</span>
+                    </h2>
+                    <ul class="aside-list">
+                        <li>
+                            <a class="aside-level-1" data-event="nav" href="/cvm/overview" target="_self">
+                                <img class="aside-icon"
+                                     src="https://imgcache.qq.com/open_proj/proj_qcloud_v2/mc_2014/server/css/img/aside-icon/overview.svg">
+                                <img class="aside-icon aside-icon-select"
+                                     src="https://imgcache.qq.com/open_proj/proj_qcloud_v2/mc_2014/server/css/img/aside-icon/overview-hover.svg">
+                                <span>概览</span>
+                            </a>
+                        </li>
+                        <li tabindex="0" data-nav-dropdown="1" data-nav="nav_CBS_snapshorts_WHITELIST" style=""
+                            class="aside-select">
+                            <a class="aside-level-1" href="javascript:;" data-event="sidebar_accordion">
+                                <img class="aside-icon"
+                                     src="https://imgcache.qq.com/open_proj/proj_qcloud_v2/mc_2014/server/css/img/aside-icon/snapshot.svg">
+                                <img class="aside-icon aside-icon-select"
+                                     src="https://imgcache.qq.com/open_proj/proj_qcloud_v2/mc_2014/server/css/img/aside-icon/snapshot-hover.svg">
+                                <span>快照</span>
+                                <i class="aside-up-icon">开</i></a>
+                            <ul class="aside-subitem">
+                                <li data-nav="nav_CBS_SS_OverviewPage" style="">
+                                    <a class="aside-level-2" data-event="nav"
+                                       href="/cvm/snapshot/overview" target="_self">
+                                        <span>快照概览</span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a class="aside-level-2" data-event="nav" href="/cvm/snapshot"
+                                       target="_self">
+                                        <span>快照列表</span>
+                                    </a>
+                                </li>
+                                <li data-nav="nav_cbs_auto_snap" style="">
+                                    <a class="aside-level-2" data-event="nav"
+                                       href="/cvm/snapshot/asp" target="_self">
+                                        <span>定期快照策略</span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="menu-fold" data-event="toggle_sidebar" data-hot="sidebar.toggle.new"><i></i></div>
+            <div class="tc-15-bubble tc-15-bubble-bottom menu-tip J-newSidebarToggleTip" style="display: none">
+                <div class="tc-15-bubble-inner">点击收起侧导航
+                    <a href="javascript:;" data-event="hideNewSidebarToggleTip"
+                       class="menu-tip-close"></a>
+                </div>
+            </div>
+        </div>
+
+        <div class="main" id="appArea"></div>
+    </div>
 </div>
-<div th:replace="admin/common/foot :: adminfoot"></div>
-
-<script type="text/javascript" src="/admin/js/index.js"></script>
-
 </body>
-
+<script src="https://cdn.bootcss.com/jquery/3.4.1/jquery.min.js"></script>
+<script src="https://cdn.bootcss.com/vue/2.6.10/vue.min.js"></script>
+<script src="https://cdn.bootcss.com/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<script src="/admin/js/index.js"></script>
 </html>

@@ -1,5 +1,5 @@
-create database `blog` DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;
-use `blog`;
+create database `myblog` DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;
+use `myblog`;
 
 SET FOREIGN_KEY_CHECKS=0;
 

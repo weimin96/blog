@@ -26,7 +26,6 @@ public class User implements Serializable{
     /**
      * 主键id
      */
-//    @TableId
     @ApiModelProperty(value = "用户id")
     private Long uid;
 
