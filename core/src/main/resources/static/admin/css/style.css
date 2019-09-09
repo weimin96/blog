@@ -18,6 +18,27 @@ body, button, dd, dl, dt, form, h1, h2, h3, h4, h5, h6, input, legend, li, ol, p
     margin: 0;
     padding: 0;
 }
+a {
+    text-decoration: none;
+    color: #006eff;
+}
+a:active, a:hover {
+    outline-width: 0;
+}
+img {
+    border: 0;
+}
+b, em, i {
+    font-style: normal;
+    font-weight: 400;
+}
+address, cite, dfn, em, i, var {
+    font-style: normal;
+}
+
+li {
+    list-style: none;
+}
 
 /*顶部导航栏*/
 .header-nav {
@@ -43,8 +64,6 @@ body, button, dd, dl, dt, form, h1, h2, h3, h4, h5, h6, input, legend, li, ol, p
 .header-logo {
     width: 65px;
 }
-
-
 
 .logo-inner {
     display: inline-block;
@@ -110,16 +129,10 @@ body, button, dd, dl, dt, form, h1, h2, h3, h4, h5, h6, input, legend, li, ol, p
     color: #3d91ff;
 }
 
-a:active, a:hover {
-    outline-width: 0;
-}
-
+/*=========================================================================================*/
+/*左侧导航栏部分*/
 .aside {
     position: relative;
-    width: 200px;
-    height: 100%;
-}
-.aside {
     width: 199px;
     background-color: #f0f6f6;
     border-right: 1px solid #cedfea;
@@ -142,28 +155,36 @@ a:active, a:hover {
     height: 100%;
 }
 
-.aside-area-main .aside-headline {
-    font-size: 16px;
+/*标题*/
+.aside-area-main .aside-title {
     line-height: 1.2;
     display: block;
-    padding: 0 20px;
     color: #fff;
     height: 50px;
     box-sizing: border-box;
     width: 200px;
-}
-
-.aside-new .aside-area-main .aside-headline {
     padding: 0 20px 0 24px;
     font-size: 0;
     font-weight: bold;
 }
 
-aside-new .aside-list, .aside-old .aside-list {
+/*标题logo*/
+.aside-logo {
+    display: none;
+}
+/*标题文本*/
+.aside-area-main .aside-title span {
+    display: inline-block;
+    vertical-align: middle;
+    max-width: 150px;
+    font-size: 16px;
+}
+
+/*========================*/
+/*单元列表*/
+.aside-area-main .aside-list{
     padding-top: 10px;
     margin-bottom: 58px;
-}
-.aside-list {
     font-size: 12px;
     overflow: auto;
     position: absolute;
@@ -184,23 +205,13 @@ aside-new .aside-list, .aside-old .aside-list {
     text-decoration: none;
     font-size: 13px;
 }
-a {
-    text-decoration: none;
-    color: #006eff;
-}
 
-img {
-    border: 0;
-}
 
-.aside-list>li .aside-level-1 {
+
+/*级别一侧边框*/
+.aside-level-1 {
     min-height: 16px;
     display: block;
-    padding-top: 5px;
-    padding-bottom: 4px;
-}
-
-.aside-new .aside-list>li .aside-level-1 {
     padding-top: 6px;
     padding-bottom: 6px;
     color: #bbb;
@@ -208,33 +219,32 @@ img {
     font-weight: 700;
 }
 
-.aside-new .aside-icon {
+/*级别一logo*/
+.aside-level-1 img {
     width: 16px;
     height: 16px;
     display: inline-block;
     vertical-align: text-top;
     margin-left: 23px;
     margin-top: 4px;
+}
+
+/*级别一文本*/
+.aside-level-1 span {
+    margin-left: 10px;
+    vertical-align: text-top;
+    max-width: 115px;
+    font-size: 13px;
+    line-height: 17px;
+    display: inline-block;
+    padding: 4px 0;
 }
 
 .aside-hidden .aside-new .aside-child-select .aside-icon, .aside-hidden .aside-new li.aside-select.aside-child-select .aside-icon, .aside-new .aside-icon.aside-icon-select, .aside-new li a.aside-select .aside-icon {
     display: none;
 }
-.aside-new .aside-icon {
-    width: 16px;
-    height: 16px;
-    display: inline-block;
-    vertical-align: text-top;
-    margin-left: 23px;
-    margin-top: 4px;
-}
 
-.aside-new .aside-list .aside-level-1 span {
-    margin-left: 10px;
-    vertical-align: text-top;
-    max-width: 115px;
-    font-size: 13px;
-}
+
 
 .aside-up-icon {
     background-image: url(https://imgcache.qq.com/open_proj/proj_qcloud_v2/mc_2014/global/css/v1/sprite/global-201905061503.svg);
@@ -249,23 +259,9 @@ img {
     background-size: 762.5% 737.5%;
     background-repeat: no-repeat;
 }
-b, em, i {
-    font-style: normal;
-    font-weight: 400;
-}
-address, cite, dfn, em, i, var {
-    font-style: normal;
-}
 
-/*.aside-subitem {*/
-    /*display: none;*/
-/*}*/
 
-li {
-    list-style: none;
-}
-
-aside-new .aside-level-2:before, .aside-new .aside-level-2:hover:before, .aside-new .aside-list .aside-subitem a.aside-select:hover:before {
+.aside-new .aside-level-2:before, .aside-new .aside-level-2:hover:before, .aside-new .aside-list .aside-subitem a.aside-select:hover:before {
     margin-right: 17px;
     vertical-align: text-top;
     margin-top: 6px;
@@ -295,11 +291,7 @@ aside-new .aside-level-2:before, .aside-new .aside-level-2:hover:before, .aside-
     font-weight: 400;
     color: #fff;
 }
-.aside-list a {
-    color: #bbb;
-    text-decoration: none;
-    font-size: 13px;
-}
+
 .aside-level-2 {
     min-height: 16px;
     padding-top: 7px;
@@ -353,7 +345,6 @@ aside-new .aside-level-2:before, .aside-new .aside-level-2:hover:before, .aside-
     -moz-transition: all .2s ease-in-out !important;
     -webkit-transition: all .2s ease-in-out !important;
     -o-transition: all .2s ease-in-out;
-    -o-transition: all .2s ease-in-out;
 }
 .web-container {
     left: -201px;
@@ -366,23 +357,7 @@ aside-new .aside-level-2:before, .aside-new .aside-level-2:hover:before, .aside-
     overflow: hidden;
 }
 
-.aside-new .aside-area-main .aside-headline {
-    padding: 0 20px 0 24px;
-    font-size: 0;
-}
-
-.aside-area-main .aside-headline {
-    font-size: 16px;
-    line-height: 1.2;
-    display: block;
-    padding: 0 20px;
-    color: #fff;
-    height: 50px;
-    box-sizing: border-box;
-    width: 200px;
-}
-
-.aside-area-main .aside-headline:before {
+.aside-area-main .aside-title:before {
     content: '';
     width: 0;
     height: 100%;
@@ -390,16 +365,9 @@ aside-new .aside-level-2:before, .aside-new .aside-level-2:hover:before, .aside-
     vertical-align: middle;
 }
 
-.aside-service-icon {
-    display: none;
-}
 
-.aside-new .aside-area-main .aside-headline span {
-    display: inline-block;
-    vertical-align: middle;
-    max-width: 150px;
-    font-size: 16px;
-}
+
+
 
 .aside-select {
     background-color: #262626;
