@@ -30,8 +30,8 @@
     </div>
 
     <!--左侧导航栏-->
-    <div class="web-container" style="left: 0px;">
-        <div class="aside aside-new">
+    <div class="web-container aside-hidden" style="left: 0px;">
+        <div class="aside">
             <div class="aside-area">
                 <div class="aside-area-main">
                     <!--标题-->
@@ -53,7 +53,7 @@
                             </a>
                         </li>
                         <!--有下拉框-->
-                        <li class="aside-select">
+                        <li class="aside-select-li">
                             <a class="aside-level-1" href="javascript:;">
                                 <img class="aside-icon"
                                      src="https://imgcache.qq.com/open_proj/proj_qcloud_v2/mc_2014/server/css/img/aside-icon/snapshot.svg">
@@ -62,21 +62,18 @@
                                 <span>快照</span>
                                 <i class="aside-up-icon">开</i></a>
                             <ul class="aside-subitem">
-                                <li data-nav="nav_CBS_SS_OverviewPage" style="">
-                                    <a class="aside-level-2" data-event="nav"
-                                       href="/cvm/snapshot/overview" target="_self">
+                                <li>
+                                    <a class="aside-level-2" href="/cvm/snapshot/overview" target="_self">
                                         <span>快照概览</span>
                                     </a>
                                 </li>
                                 <li>
-                                    <a class="aside-level-2" data-event="nav" href="/cvm/snapshot"
-                                       target="_self">
+                                    <a class="aside-level-2" href="/cvm/snapshot" target="_self">
                                         <span>快照列表</span>
                                     </a>
                                 </li>
                                 <li data-nav="nav_cbs_auto_snap" style="">
-                                    <a class="aside-level-2" data-event="nav"
-                                       href="/cvm/snapshot/asp" target="_self">
+                                    <a class="aside-level-2" href="/cvm/snapshot/asp" target="_self">
                                         <span>定期快照策略</span>
                                     </a>
                                 </li>
@@ -85,16 +82,17 @@
                     </ul>
                 </div>
             </div>
-            <div class="menu-fold" data-event="toggle_sidebar" data-hot="sidebar.toggle.new"><i></i></div>
-            <div class="tc-15-bubble tc-15-bubble-bottom menu-tip J-newSidebarToggleTip" style="display: none">
-                <div class="tc-15-bubble-inner">点击收起侧导航
-                    <a href="javascript:;" data-event="hideNewSidebarToggleTip"
-                       class="menu-tip-close"></a>
+            <div class="menu-fold"><i></i></div>
+            <div style="display: none">
+                <div>
+                    <a href="javascript:;" class="menu-tip-close"></a>
                 </div>
             </div>
         </div>
 
-        <div class="main" id="appArea"></div>
+        <div class="main" id="appArea">
+            <iframe id="iframe" src="/admin/home"></iframe>
+        </div>
     </div>
 </div>
 </body>

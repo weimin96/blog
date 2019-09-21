@@ -7,6 +7,16 @@ $(function(){
         return false;
     });*/
 
-    $()
+    $(".aside-select-li").on("click",function(){
+        if($(this).hasClass("aside-select")){
+            $(this).removeClass("aside-select");
+        }else{
+            $(this).addClass("aside-select");
+        }
+    })
+    
+    $(".menu-fold").on("click",function () {
+        
+    })
 });
 

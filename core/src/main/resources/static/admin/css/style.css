@@ -240,7 +240,16 @@ li {
     padding: 4px 0;
 }
 
-.aside-hidden .aside-new .aside-child-select .aside-icon, .aside-hidden .aside-new li.aside-select.aside-child-select .aside-icon, .aside-new .aside-icon.aside-icon-select, .aside-new li a.aside-select .aside-icon {
+/*二级下拉框*/
+.aside-select-li .aside-subitem{
+    display: none;
+}
+
+.aside-select .aside-subitem{
+    display: block!important;
+}
+
+.aside-hidden .aside-child-select .aside-icon, .aside-hidden li.aside-select.aside-child-select .aside-icon, .aside-icon.aside-icon-select, li a.aside-select .aside-icon {
     display: none;
 }
 
@@ -261,7 +270,7 @@ li {
 }
 
 
-.aside-new .aside-level-2:before, .aside-new .aside-level-2:hover:before, .aside-new .aside-list .aside-subitem a.aside-select:hover:before {
+ .aside-level-2:before, .aside-level-2:hover:before, .aside-list .aside-subitem a.aside-select:hover:before {
     margin-right: 17px;
     vertical-align: text-top;
     margin-top: 6px;
@@ -277,7 +286,7 @@ li {
     vertical-align: middle;
 }
 
-.aside-new .aside-list .aside-subitem a {
+ .aside-list .aside-subitem a {
     font-size: 13px;
     color: #bbb;
 }
@@ -285,7 +294,7 @@ li {
     color: #888;
     font-size: 12px;
 }
-.aside-new .aside-level-2, .aside-new .aside-list .aside-subitem a.aside-select {
+.aside-level-2, .aside-list .aside-subitem a.aside-select {
     padding-left: 30px;
     font-size: 13px;
     font-weight: 400;
@@ -301,52 +310,12 @@ li {
 }
 
 /*左侧导航栏+内容*/
-.web-container .aside-new+.main {
-    left: 200px;
-    -webkit-transition: all cubic-bezier(.4,0,.2,1) .2s;
-    transition: all cubic-bezier(.4,0,.2,1) .2s;
-}
-.web-container .main {
-    left: 200px;
-}
-.main {
-    background-color: #f2f2f2;
-}
-.main, .manage-area, .manage-area-main {
-    background-color: #f2f2f2 !important;
-}
-.main {
-    position: absolute;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    left: 200px;
-    background-color: #fff;
-    overflow-y: auto;
-    overflow-x: hidden;
-}
-
 .web-container {
-    transform: none;
-    transition: none;
     height: auto;
-}
-.web-container {
-    transform: none !important;
-}
-.web-container {
     position: absolute;
-    left: -200px;
-    top: 50px;
-    right: 0;
-    bottom: 0;
-    background-color: #f2f2f2;
-    transition: all .2s ease-in-out !important;
     -moz-transition: all .2s ease-in-out !important;
     -webkit-transition: all .2s ease-in-out !important;
     -o-transition: all .2s ease-in-out;
-}
-.web-container {
     left: -201px;
     top: 48px;
     right: 0;
@@ -373,7 +342,7 @@ li {
     background-color: #262626;
 }
 
-.aside-new .aside-list .aside-subitem a {
+.aside-list .aside-subitem a {
     font-size: 13px;
     color: #bbb;
 }
@@ -381,17 +350,13 @@ li {
     color: #888;
     font-size: 12px;
 }
-.aside-new .aside-level-2, .aside-new .aside-list .aside-subitem a.aside-select {
+.aside-level-2, .aside-list .aside-subitem a.aside-select {
     padding-left: 30px;
     font-size: 13px;
     font-weight: 400;
     color: #fff;
 }
-.aside-list a {
-    color: #bbb;
-    text-decoration: none;
-    font-size: 13px;
-}
+
 .aside-level-2 {
     min-height: 16px;
     padding-top: 7px;
@@ -401,7 +366,7 @@ li {
 }
 
 /*左侧导航栏收缩按钮*/
-.aside-new .menu-fold {
+.menu-fold {
     width: 63px;
     height: 56px;
     bottom: 0;
@@ -410,43 +375,15 @@ li {
     border: 0;
     z-index: 1000;
     background-color: transparent;
-}
-
-.menu-fold {
     line-height: 100;
     position: absolute;
     overflow: hidden;
-    width: 18px;
-    height: 38px;
-    border: 1px solid #4d4d4d;
-    border-right: none;
-    z-index: 100;
-    background-color: #4d4d4d;
-    top: 4px;
     right: 0;
     border-radius: 2px 0 0 2px;
     cursor: pointer;
 }
 
-
-
 .menu-fold i {
-    background-image: url(https://imgcache.qq.com/open_proj/proj_qcloud_v2/mc_2014/global/css/v1/sprite/global-201905061503.svg);
-    width: 16px;
-    height: 16px;
-    position: absolute;
-    left: 50%;
-    top: 50%;
-    margin-top: -8px;
-    margin-left: -8px;
-    display: inline-block;
-    cursor: pointer;
-    background-position: 82.08% 53.92%;
-    background-size: 762.5% 737.5%;
-    background-repeat: no-repeat;
-}
-
-.aside-new .menu-fold i {
     border-radius: 36px;
     background-image: none;
     background-position: inherit;
@@ -455,6 +392,12 @@ li {
     height: 36px;
     left: 20px;
     top: 18px;
+    position: absolute;
+    margin-top: -8px;
+    margin-left: -8px;
+    display: inline-block;
+    cursor: pointer;
+    background-repeat: no-repeat;
 }
 
 .menu-fold i:after {
@@ -470,7 +413,25 @@ li {
     background-repeat: no-repeat;
 }
 
-.aside-new .menu-fold:hover i {
+.menu-fold:hover i {
     background-color: #404040;
+}
+
+/*******************内容**************************/
+.main {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 200px;
+    background-color: #fff;
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+
+.main iframe{
+    width: 100%;
+    height: 100%;
+    border: 0;
 }
 
