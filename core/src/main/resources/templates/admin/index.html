@@ -30,7 +30,7 @@
     </div>
 
     <!--左侧导航栏-->
-    <div class="web-container aside-hidden" style="left: 0px;">
+    <div id="container" class="web-container" style="left: 0px;">
         <div class="aside">
             <div class="aside-area">
                 <div class="aside-area-main">
@@ -44,7 +44,7 @@
                     <ul class="aside-list">
                         <!--无下拉框-->
                         <li>
-                            <a class="aside-level-1" target="_self">
+                            <a class="aside-level-1 iframe_item" href="javascript:void(0);" data-url="/admin/home" target="_self">
                                 <img class="aside-icon"
                                      src="https://imgcache.qq.com/open_proj/proj_qcloud_v2/mc_2014/server/css/img/aside-icon/overview.svg">
                                 <img class="aside-icon aside-icon-select"
@@ -59,24 +59,20 @@
                                      src="https://imgcache.qq.com/open_proj/proj_qcloud_v2/mc_2014/server/css/img/aside-icon/snapshot.svg">
                                 <img class="aside-icon aside-icon-select"
                                      src="https://imgcache.qq.com/open_proj/proj_qcloud_v2/mc_2014/server/css/img/aside-icon/snapshot-hover.svg">
-                                <span>快照</span>
+                                <span>文章管理</span>
                                 <i class="aside-up-icon">开</i></a>
                             <ul class="aside-subitem">
                                 <li>
-                                    <a class="aside-level-2" href="/cvm/snapshot/overview" target="_self">
-                                        <span>快照概览</span>
+                                    <a class="aside-level-2 iframe_item" href="javascript:void(0);" data-url="/admin/articleList" target="_self">
+                                        <span>文章列表</span>
                                     </a>
                                 </li>
                                 <li>
-                                    <a class="aside-level-2" href="/cvm/snapshot" target="_self">
-                                        <span>快照列表</span>
+                                    <a class="aside-level-2 iframe_item" href="javascript:void(0);" data-url="/admin/articleEdit" target="_self">
+                                        <span>文章编辑</span>
                                     </a>
                                 </li>
-                                <li data-nav="nav_cbs_auto_snap" style="">
-                                    <a class="aside-level-2" href="/cvm/snapshot/asp" target="_self">
-                                        <span>定期快照策略</span>
-                                    </a>
-                                </li>
+
                             </ul>
                         </li>
                     </ul>

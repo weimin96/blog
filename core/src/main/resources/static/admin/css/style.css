@@ -401,15 +401,28 @@ li {
 }
 
 .menu-fold i:after {
-    background-image: url(https://imgcache.qq.com/open_proj/proj_qcloud_v2/mc_2014/global/css/v1/sprite/global-201905061503.svg);
+    background-image: url(/img/nav_shrink.svg);
     content: '';
     width: 16px;
     height: 16px;
     left: 10px;
     top: 10px;
     position: absolute;
-    background-position: 34.910000000000004% 81.37%;
-    background-size: 762.5% 737.5%;
+    background-position: 0% 0%;
+    background-size: 100% 100%;
+    background-repeat: no-repeat;
+}
+
+.aside-hidden .menu-fold i:after {
+    background-image: url(/img/nav_expand.svg);
+    content: '';
+    width: 16px;
+    height: 16px;
+    left: 10px;
+    top: 10px;
+    position: absolute;
+    background-position: 0% 0%;
+    background-size: 100% 100%;
     background-repeat: no-repeat;
 }
 
@@ -424,7 +437,7 @@ li {
     right: 0;
     bottom: 0;
     left: 200px;
-    background-color: #fff;
+    background-color: #f2f2f2 !important;
     overflow-y: auto;
     overflow-x: hidden;
 }
@@ -433,5 +446,50 @@ li {
     width: 100%;
     height: 100%;
     border: 0;
+
+}
+
+/*收缩左侧导航栏*/
+.aside-hidden .aside,.aside-hidden .aside-area,.aside-hidden .aside-area-main{
+    width: 63px;
+}
+
+.aside-hidden .main{
+    left: 63px;
+}
+
+.aside-hidden .aside-list a {
+    font-size: 0;
+    padding-top: 6px;
+    padding-bottom: 11px;
+}
+
+.aside-hidden .aside-logo{
+    display: block;
+    position: absolute;
+    left: 15px;
+    top: 10px;
+}
+
+.aside-hidden .aside-list span,.aside-hidden .aside-title span{
+    display: none;
+}
+
+.aside-hidden .aside-list{
+    overflow-x: hidden;
+}
+
+.aside-hover .aside, .aside-hover .aside-area {
+    z-index:1000;
+    -webkit-transition:all cubic-bezier(.4, 0, .2, 1) .2s;
+    transition:all cubic-bezier(.4, 0, .2, 1) .2s;
+    overflow:hidden
+}
+
+.web-container.aside-hover .main {
+    left:63px
+}
+.web-container.aside-hover .aside-area-main {
+    width:200px
 }
 

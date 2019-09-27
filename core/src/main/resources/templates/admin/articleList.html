@@ -1,64 +1,30 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:http="http://www.w3.org/1999/xhtml"
-      xmlns:v-on="http://www.w3.org/1999/xhtml" xmlns:display="http://www.w3.org/1999/xhtml">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head th:replace="admin/common/head :: head(~{::title},~{::link},~{})">
     <title>wiblog - Areo的个人网站</title>
-    <link href="../lib/bootstrap-table.min.css" rel="stylesheet">
-
+    <link href="/admin/css/article.css" rel="stylesheet">
 </head>
 
-<body class="gray-bg">
-<div id="app" class="wrapper wrapper-content animated fadeInRight">
-    <div class="ibox float-e-margins">
-        <div class="ibox-title">
-            <h5>基本</h5>
-            <div class="ibox-tools">
-                <a class="collapse-link">
-                    <i class="fa fa-chevron-up"></i>
-                </a>
-                <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-                    <i class="fa fa-wrench"></i>
-                </a>
-                <ul class="dropdown-menu dropdown-user">
-                    <li><a href="#">选项1</a>
-                    </li>
-                    <li><a href="#">选项2</a>
-                    </li>
-                </ul>
-                <a class="close-link">
-                    <i class="fa fa-times"></i>
-                </a>
-            </div>
+<body>
+<div id="app">
+    <div class="manage-title">
+        <h2>文章管理</h2>
+    </div>
+    <div class="manage-main">
+        <div style="margin-top: 15px;">
+            <el-input placeholder="搜索标题..."  class="input-with-select">
+                <el-button slot="append" icon="el-icon-search"></el-button>
+            </el-input>
         </div>
-        <div class="ibox-content">
-            <div class="row row-lg">
-                <div class="col-sm-12">
-                    <div id="toolbar" class="btn-group">
-                        <button id="btn_add" type="button" class="btn btn-default">
-                            <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>发布文章
-                        </button>
-                    </div>
-                    <form id="formSearch" class="form-horizontal">
-                        <div class="form-group" style="margin-top:15px">
-                            <div class="col-sm-3">
-                                <input type="text" class="form-control" id="search_title" placeholder="搜索标题...">
-                            </div>
-                            <div class="col-sm-3">
-                                <button type="button" id="btn_query" class="btn btn-default">查询</button>
-                            </div>
-                        </div>
-                    </form>
-                    <table id="table" class="table table-hover"></table>
-                </div>
-            </div>
-        </div>
+        <el-button type="primary" icon="el-icon-edit">发布文章</el-button>
+
+        <table id="tableData" class="table table-hover"></table>
+
     </div>
 </div>
+
+</div>
 <div th:replace="admin/common/foot :: adminfoot"></div>
-<script src="../lib/bootstrap-table.min.js"></script>
-<script src="../lib/bootstrap-table-zh-CN.min.js"></script>
-<script src="../admin/js/article.js"></script>
-<!-- 自定义js -->
-<!--<script src="js/content.js"></script>-->
+<script src="/admin/js/article.js"></script>
 </body>
 </html>
