@@ -17,7 +17,7 @@
     </div>
     <div class="manage-main">
         <el-row>
-            <el-col :span="24" style="background: #fff;border-radius: 10px;">
+            <el-col :span="24" style="background: #fff;border-radius: 10px 0;">
                 <el-col :span="12">
                     <label>
                         <input class="title-input" v-model="article.title"
@@ -57,8 +57,8 @@
                 </el-col>
 
             </el-col>
-            <el-col :span="24" style="background: #fff;">
-                <mavon-editor v-model="article.content" :toolbars="toolbars"></mavon-editor>
+            <el-col :span="24" style="background: #fff;border-radius:0 10px;">
+                <mavon-editor v-model="article.content" :toolbars="toolbars" :externalLink="false"></mavon-editor>
             </el-col>
         </el-row>
 

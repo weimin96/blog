@@ -26,6 +26,7 @@ a {
 }
 a:active, a:hover {
     outline-width: 0;
+    color: #fff;
 }
 img {
     border: 0;
@@ -167,7 +168,7 @@ li {
     width: 200px;
     padding: 0 20px 0 24px;
     font-size: 0;
-    font-weight: bold;
+    font-weight: 500;
 }
 
 /*标题logo*/
@@ -202,23 +203,19 @@ li {
     outline: 0;
 }
 
-.aside-list a {
-    color: #bbb;
-    text-decoration: none;
-    font-size: 13px;
-}
-
-
-
 /*级别一侧边框*/
 .aside-level-1 {
     min-height: 16px;
     display: block;
     padding-top: 6px;
     padding-bottom: 6px;
-    color: #bbb;
     font-size: 0;
-    font-weight: 700;
+    font-weight: 500;
+    color: #e6e6e6;
+}
+
+.aside-level-1 :hover{
+    color: #fff;
 }
 
 /*级别一logo*/
@@ -288,12 +285,8 @@ li {
     vertical-align: middle;
 }
 
- .aside-list .aside-subitem a {
-    font-size: 13px;
-    color: #bbb;
-}
 .aside-list .aside-subitem a {
-    color: #888;
+    color: #e6e6e6;
     font-size: 12px;
 }
 .aside-level-2, .aside-list .aside-subitem a.aside-select {
@@ -301,14 +294,6 @@ li {
     font-size: 13px;
     font-weight: 400;
     color: #fff;
-}
-
-.aside-level-2 {
-    min-height: 16px;
-    padding-top: 7px;
-    padding-bottom: 7px;
-    display: block;
-    padding-left: 33px;
 }
 
 /*左侧导航栏+内容*/
@@ -337,26 +322,8 @@ li {
 }
 
 
-
-
-
 .aside-select {
     background-color: #262626;
-}
-
-.aside-list .aside-subitem a {
-    font-size: 13px;
-    color: #bbb;
-}
-.aside-list .aside-subitem a {
-    color: #888;
-    font-size: 12px;
-}
-.aside-level-2, .aside-list .aside-subitem a.aside-select {
-    padding-left: 30px;
-    font-size: 13px;
-    font-weight: 400;
-    color: #fff;
 }
 
 .aside-level-2 {
