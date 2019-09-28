@@ -85,7 +85,7 @@ public class ArticleController {
             @ApiImplicitParam(name = "pageSize", value = "每页数量(默认10)",paramType="form")
     })
     public ServerResponse<IPage> articlePageList(
-            @RequestParam(value = "pageNum", defaultValue = "0") Integer pageNum,
+            @RequestParam(value = "pageNum", defaultValue = "1") Integer pageNum,
             @RequestParam(value = "pageSize", defaultValue = "10") Integer pageSize) {
 
         Page<Article> page = new Page<>(pageNum, pageSize);

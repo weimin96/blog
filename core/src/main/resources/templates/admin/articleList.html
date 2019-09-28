@@ -1,8 +1,7 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-<head th:replace="admin/common/head :: head(~{::title},~{::link},~{})">
+<head th:replace="admin/common/head :: head(~{::title},~{},~{})">
     <title>wiblog - Areo的个人网站</title>
-    <link href="/admin/css/article.css" rel="stylesheet">
 </head>
 
 <body>
@@ -11,14 +10,44 @@
         <h2>文章管理</h2>
     </div>
     <div class="manage-main">
-        <div style="margin-top: 15px;">
-            <el-input placeholder="搜索标题..."  class="input-with-select">
-                <el-button slot="append" icon="el-icon-search"></el-button>
-            </el-input>
-        </div>
-        <el-button type="primary" icon="el-icon-edit">发布文章</el-button>
 
-        <table id="tableData" class="table table-hover"></table>
+        <el-row>
+            <el-col :span="24">
+                <template>
+                    <el-table :data="tableData" style="width: 100%" stripe>
+                        <el-table-column prop="title" label="标题"></el-table-column>
+                        <el-table-column prop="articleCategories" label="分类" width="120"></el-table-column>
+                        <el-table-column prop="tags" label="标签" width="220"></el-table-column>
+                        <el-table-column prop="info" label="统计" width="150" :formatter="formatterInfo"></el-table-column>
+                        <el-table-column prop="createTime" label="发布时间" width="120" :formatter="formatterDate"></el-table-column>
+                        <el-table-column label="操作" width="220" align="right">
+                            <template slot="header" slot-scope="scope">
+                                <el-input v-model="searchKey" size="mini" placeholder="搜索标题..."></el-input>
+                            </template>
+                            <template slot-scope="scope">
+                                <el-button size="mini" type="primary" plain @click="handleView(scope.$index, scope.row)">查看</el-button>
+                                <el-button size="mini" type="success" plain @click="handleEdit(scope.$index, scope.row)">编辑</el-button>
+                                <el-button size="mini" type="danger" plain @click="handleDelete(scope.$index, scope.row)">删除</el-button>
+                            </template>
+                        </el-table-column>
+
+                    </el-table>
+                </template>
+                <template>
+                    <div class="block" style="float: right;">
+                        <el-pagination
+                                @current-change="handlePageNum"
+                                :current-page="pageNum"
+                                :page-size="pageSize"
+                                layout="total, prev, pager, next, jumper"
+                                :total="total"
+                                :hide-on-single-page="true">
+                        </el-pagination>
+                    </div>
+                </template>
+            </el-col>
+        </el-row>
+
 
     </div>
 </div>

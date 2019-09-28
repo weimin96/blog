@@ -1,17 +1,15 @@
 package com.wiblog.service.impl;
 
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.wiblog.common.ServerResponse;
 import com.wiblog.entity.Comment;
 import com.wiblog.mapper.CommentMapper;
 import com.wiblog.service.ICommentService;
-import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.wiblog.vo.CommentVo;
 import com.wiblog.vo.SubCommentVo;
 
-import org.apdplat.word.vector.T;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

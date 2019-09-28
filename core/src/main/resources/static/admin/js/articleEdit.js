@@ -1,5 +1,7 @@
 'use strict';
 
+var mavonEditor = window['mavon-editor'];
+Vue.use(mavonEditor);
 var app = new Vue({
     el: "#app",
     data: {
@@ -16,11 +18,33 @@ var app = new Vue({
             articleSummary: '',
             tags: '',
             url: ''
-        }
+        },
+        toolbars: {
+            bold: true, // 粗体
+            italic: true, // 斜体
+            quote: true, // 引用
+            ol: true, // 有序列表
+            ul: true, // 无序列表
+            link: true, // 链接
+            imagelink: true, // 图片链接
+            code: true, // code
+            table: true, // 表格
+            undo: true, // 上一步
+            redo: true, // 下一步
+            preview: true,
+            navigation: true,// 导航目录
+            fullscreen: true, // 全屏编辑
+            readmodel: true, // 沉浸式阅读
+            htmlcode: true, // 展示html源码
+        },
+        // 抽屉
+        drawer: false,
+        direction: 'rtl',
     },
     created(){
         this.getCategory();
         this.initData();
+        mavonEditor.markdownIt.toolbars={bold:true};
     },
     methods: {
         getCategory() {
@@ -87,6 +111,21 @@ var app = new Vue({
                     articleSummary: this.article.articleSummary
                 })
             }
+        },
+        $imgAdd(pos, $file){
+            // 第一步.将图片上传到服务器.
+            var formdata = new FormData();
+            formdata.append('image', $file);
+            axios({
+                url: 'server url',
+                method: 'post',
+                data: formdata,
+                headers: { 'Content-Type': 'multipart/form-data' },
+            }).then((url) => {
+                // 第二步.将返回的url替换到文本原位置![...](0) -> ![...](url)
+                // $vm.$img2Url 详情见本页末尾
+                $vm.$img2Url(pos, url);
+            })
         }
 
     }

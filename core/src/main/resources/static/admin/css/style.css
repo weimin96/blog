@@ -444,7 +444,7 @@ li {
 
 .main iframe{
     width: 100%;
-    height: 100%;
+    height: 98%;
     border: 0;
 
 }
@@ -492,4 +492,5 @@ li {
 .web-container.aside-hover .aside-area-main {
     width:200px
 }
+
 

@@ -1,0 +1,43 @@
+.title-input{
+    width: 50%;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    padding-left: 10px;
+    font-weight: 700;
+    font-size: 20px;
+    color: #1c1f21;
+    line-height: 30px;
+    box-sizing: content-box;
+    outline: 0;
+    border: 0;
+    overflow: visible;
+    margin: 10px;
+}
+
+.v-note-panel,.v-note-op{
+    box-shadow: 0 0 0 transparent!important;
+}
+.v-note-panel{
+    height: 350px;
+}
+
+.v-note-op{
+    width: 49%!important;
+    background: #f3f5f6!important;
+    margin-left: 10px;
+    padding-left: 10px;
+    border-radius: 5px;
+}
+.v-show-content{
+    background: #fff!important;
+}
+.markdown-body{
+    margin-bottom: 10px;
+}
+
+.group-btn{
+    position: absolute;
+    right: 20px;
+    bottom: 10px;
+    z-index: 10000;
+}
