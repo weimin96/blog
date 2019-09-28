@@ -7,9 +7,10 @@ var app = new Vue({
     data: {
         categoryList: [],
         // selected: '',
-        // tag: '',
+        tagTemp: '',
         tagList: [],
-        isChangeTag: false,
+        // 是否显示标签编辑框
+        isShowTagInput: false,
         articleId: '',
         article:{
             title: '',
@@ -19,6 +20,7 @@ var app = new Vue({
             tags: '',
             url: ''
         },
+        // 富文本编辑工具栏
         toolbars: {
             bold: true, // 粗体
             italic: true, // 斜体
@@ -44,7 +46,6 @@ var app = new Vue({
     created(){
         this.getCategory();
         this.initData();
-        mavonEditor.markdownIt.toolbars={bold:true};
     },
     methods: {
         getCategory() {
@@ -126,7 +127,27 @@ var app = new Vue({
                 // $vm.$img2Url 详情见本页末尾
                 $vm.$img2Url(pos, url);
             })
-        }
+        },
+        // 点击显示标签编辑框
+        showTagInput: function () {
+            this.isShowTagInput = true;
+            this.$nextTick(_ => {
+                this.$refs.saveTagInput.$refs.input.focus();
+            });
+        },
+        // 标签输入完成
+        handleInputConfirm() {
+            let tagTemp = this.tagTemp;
+            if (tagTemp) {
+                this.tagList.push(tagTemp);
+            }
+            this.isShowTagInput = false;
+            this.tagTemp = '';
+        },
+        // 删除标签
+        handleClose(tag) {
+            this.tagList.splice(this.tagList.indexOf(tag), 1);
+        },
 
     }
 });

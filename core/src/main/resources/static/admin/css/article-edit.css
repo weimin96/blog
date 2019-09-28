@@ -1,5 +1,5 @@
 .title-input{
-    width: 50%;
+    width: 90%;
     padding-top: 10px;
     padding-bottom: 10px;
     padding-left: 10px;
@@ -35,9 +35,26 @@
     margin-bottom: 10px;
 }
 
-.group-btn{
-    position: absolute;
-    right: 20px;
-    bottom: 10px;
-    z-index: 10000;
+.input-new-tag {
+    width: 90px;
+    margin-left: 10px;
+    vertical-align: bottom;
+}
+
+.el-tag + .el-tag {
+    margin-left: 10px;
+}
+.button-new-tag {
+    margin-left: 10px;
+    height: 32px;
+    line-height: 30px;
+    padding-top: 0;
+    padding-bottom: 0;
+}
+
+.post-btn{
+    float: right;
+}
+.el-select{
+    width:120px!important;
 }
