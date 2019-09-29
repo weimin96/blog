@@ -46,8 +46,8 @@ li {
 /*顶部导航栏*/
 .header-nav {
     font-size: 0;
-    height: 50px;
-    background-color: #262626;
+    height: 70px;
+    background-color: #222831;
     box-sizing: border-box;
     width: 100%;
     font-family: Roboto,San Francisco,"Helvetica Neue",Helvetica,Arial,PingFangSC-Light,"Hiragina Sans GB","WenQuanYi Micro Hei",'microsoft yahei ui','microsoft yahei',sans-serif;
@@ -56,7 +56,7 @@ li {
 /*导航单元*/
 .header-unit {
     display: table-cell;
-    vertical-align: top;
+    vertical-align: middle;
 }
 
 .header-inner {
@@ -65,25 +65,16 @@ li {
 }
 
 .header-logo {
-    width: 65px;
+    width: 165px;
+    border-right: 1px solid #606165;
 }
 
 .logo-inner {
-    display: inline-block;
-    height: 32px;
-    padding: 0 15px;
-    margin: 9px 0;
-    border-right: 1px solid #000;
+    margin-left: 50px;
 }
 
 .logo-icon {
-    width: 32px;
-    height: 32px;
-    display: inline-block;
-    background-image: url('https://imgcache.qq.com/open_proj/proj_qcloud_v2/mc_2014/global/css/v1/nav/img/nav.import.svg');
-    background-position: -1px -1px;
-    background-repeat: no-repeat;
-    background-size: 106px 88px;
+     transform: scale(4);;
 }
 
 .header-service {
@@ -101,7 +92,7 @@ li {
     padding: 0 15px 0 20px;
     margin: 10px 0;
     font-size: 14px;
-    color: #bbb;
+    color: #fff;
     line-height: 29px;
 }
 
@@ -147,7 +138,7 @@ li {
 .aside-area {
     position: relative;
     width: 200px;
-    background-color: #333;
+    background-color: #222831;
     display: inline-block;
     height: 100%;
     vertical-align: top;
@@ -304,7 +295,7 @@ li {
     -webkit-transition: all .2s ease-in-out !important;
     -o-transition: all .2s ease-in-out;
     left: -201px;
-    top: 48px;
+    top: 70px;
     right: 0;
     bottom: 0;
     transition: left .3s;
@@ -323,7 +314,7 @@ li {
 
 
 .aside-select {
-    background-color: #262626;
+    background-color: #222831;
 }
 
 .aside-level-2 {

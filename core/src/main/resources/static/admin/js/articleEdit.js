@@ -85,6 +85,7 @@ var app = new Vue({
         },
         // 文章发表修改
         pushArticle: function () {
+            this.article.articleSummary=this.article.content.substr(0,200);
             // 发表新文章
             if (this.articleId === ''){
                 $.post('/post/push',{
@@ -140,6 +141,7 @@ var app = new Vue({
             let tagTemp = this.tagTemp;
             if (tagTemp) {
                 this.tagList.push(tagTemp);
+                this.article.tags = this.tagList.toString();
             }
             this.isShowTagInput = false;
             this.tagTemp = '';
