@@ -3,38 +3,31 @@
       xmlns:v-on="http://www.w3.org/1999/xhtml" xmlns:display="http://www.w3.org/1999/xhtml">
 <head th:replace="admin/common/head :: head(~{::title},~{::link},~{})">
     <title>wiblog - Areo的个人网站</title>
-    <!--    <link rel="stylesheet" th:href="@{../lib/bootstrap-markdown.min.css}"/>-->
-    <!--    <link rel="stylesheet" th:href="@{../lib/webuploader/webuploader.css}">-->
-    <!--    <link rel="stylesheet" th:href="@{../lib/webuploader/webuploader-demo.css}">-->
-    <link rel="stylesheet" th:href="@{../lib/mavonEditor-2.5.4/css/index.css}">
+    <link rel="stylesheet" href="/lib/editor.md/css/editormd.min.css"/>
     <link rel="stylesheet" href="/admin/css/article-edit.css">
 </head>
 
 <body>
 <div id="app">
     <div class="manage-title">
-        <h2>文章管理</h2>
+        <h2>文章编辑</h2>
     </div>
     <div class="manage-main">
         <el-row>
             <el-col :span="24" style="background: #fff;border-radius: 10px 0;">
-                <el-col :span="12">
-                    <label>
-                        <input class="title-input" v-model="article.title"
-                               placeholder="请在此输入标题..."/>
-                    </label>
+                <div class="input-title">
+                    <el-input v-model="article.title" placeholder="请在此输入标题..."></el-input>
+                </div>
 
-                </el-col>
-                <el-col :span="12" style="padding: 10px">
-                    <template>
+                <template>
+                    <div style="margin: 10px">
                         <el-select v-model="article.articleCategories" placeholder="文章分类">
                             <el-option v-for="item in categoryList" :key="item.categoryName"
                                        :label="item.categoryName"
                                        :value="item.categoryName"></el-option>
                         </el-select>
-                    </template>
 
-                    <template>
+
                         <el-tag :key="tag" v-for="tag in tagList" closable
                                 :disable-transitions="false"
                                 type="info" effect="dark" class="button-new-tag"
@@ -50,15 +43,22 @@
                                    @click="showTagInput">
                             + 添加标签
                         </el-button>
-                    </template>
+                    </div>
+                </template>
 
-                    <el-button class="post-btn" type="primary" round @click="pushArticle">发表文章
-                    </el-button>
-                </el-col>
+                <el-button class="post-btn" type="primary" round @click="pushArticle">发表文章
+                </el-button>
+
 
             </el-col>
             <el-col :span="24" style="background: #fff;border-radius:0 10px;">
-                <mavon-editor v-model="article.content" :toolbars="toolbars"></mavon-editor>
+                <template>
+                    <!--<div id="layout">-->
+                    <div id="editor">
+                        <textarea></textarea>
+                    </div>
+                    <!--</div>-->
+                </template>
             </el-col>
         </el-row>
 
@@ -68,7 +68,8 @@
 
 <!-- 全局js -->
 <div th:replace="admin/common/foot :: adminfoot"></div>
-<script type="text/javascript" src="../lib/mavonEditor-2.5.4/mavon-editor.js"></script>
+<!--<script type="text/javascript" src="../lib/mavonEditor-2.5.4/mavon-editor.js"></script>-->
+<script src="../lib/editor.md/editormd.min.js"></script>
 <script src="/admin/js/articleEdit.js"></script>
 </body>
 </html>

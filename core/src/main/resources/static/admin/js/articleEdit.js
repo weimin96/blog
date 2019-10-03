@@ -1,7 +1,5 @@
 'use strict';
 
-var mavonEditor = window['mavon-editor'];
-Vue.use(mavonEditor);
 var app = new Vue({
     el: "#app",
     data: {
@@ -12,7 +10,7 @@ var app = new Vue({
         // 是否显示标签编辑框
         isShowTagInput: false,
         articleId: '',
-        article:{
+        article: {
             title: '',
             content: '',
             articleCategories: '',
@@ -20,90 +18,87 @@ var app = new Vue({
             tags: '',
             url: ''
         },
-        // 富文本编辑工具栏
-        toolbars: {
-            bold: true, // 粗体
-            italic: true, // 斜体
-            quote: true, // 引用
-            ol: true, // 有序列表
-            ul: true, // 无序列表
-            link: true, // 链接
-            imagelink: true, // 图片链接
-            code: true, // code
-            table: true, // 表格
-            undo: true, // 上一步
-            redo: true, // 下一步
-            preview: true,
-            navigation: true,// 导航目录
-            fullscreen: true, // 全屏编辑
-            readmodel: true, // 沉浸式阅读
-            htmlcode: true, // 展示html源码
-        },
-        // 抽屉
-        drawer: false,
-        direction: 'rtl',
+        editor: {}
     },
-    created(){
-        this.getCategory();
+    created() {
         this.initData();
+        this.getCategory();
+    },
+    mounted(){
+        if( this.articleId === ''){
+            this.initEditor();
+        }
     },
     methods: {
-        getCategory() {
-            $.get("/category/getCategory",function (data) {
+        // 初始化编辑器
+        initEditor: function(md){
+            this.editor = editormd("editor", {
+                width: "100%",
+                height: "480",
+                syncScrolling: true ,
+                path: "../lib/editor.md/lib/",
+                markdown: md,
+                imageUpload: true,
+                imageFormats: ["jpg", "jpeg", "gif", "png", "bmp", "webp"],
+                imageUploadURL: "/uploadImageForEditorMd",
+                editorTheme : "neo",
+                watch:false,
+                autoHeight : true,
+                toolbarIcons: function () {
+                    return ["bold", "italic", "del", "h1", "h2", "h3", "h4", "h5", "h6", "quote", "hr", "list-ul", "list-ol", "|", "table", "code", "link", "image", "|", "undo", "redo", "search","goto-line", "watch", "preview", "fullscreen"]
+                },
+            });
+        },
+        // 初始化数据
+        initData: function () {
+            this.articleId = window.location.search.substr(4);
+            var id = this.articleId;
+            if (id === '') {
+                return;
+            }
+            $.get("/post/get/" + id, function (res) {
+                if (res.code === 10000) {
+                    app.article.title = res.data.title;
+                    app.article.content = res.data.content;
+                    app.article.articleCategories = res.data.articleCategories;
+                    app.article.articleSummary = res.data.articleSummary;
+                    app.article.tags = res.data.tags;
+                    app.tagList = app.article.tags.slice().split(/[\n\s+,，]/g);
+                    app.initEditor(app.article.content);
+                }
+            });
+        },
+        getCategory: function () {
+            $.get("/category/getCategory", function (data) {
 
-                if (data.code === 10000){
+                if (data.code === 10000) {
                     app.categoryList = data.data;
                     return app.categoryList;
                 }
             })
         },
-        submitTag: function () {
-            // console.log(app.article.tags);
-            this.tagList = this.article.tags.slice().split(/[\n\s+,，]/g);
-            this.isChangeTag = false;
-        },
-        changeTag: function () {
-            this.article.tags = this.tagList.toString();
-            this.isChangeTag = true;
-        },
-        initData: function () {
-            this.articleId = window.location.search.substr(4);
-            let id = this.articleId;
-            if (id === ''){
-                return;
-            }
-            $.get("/post/get/"+id,function (res) {
-                if (res.code === 10000){
-                    app.article.title=res.data.title;
-                    app.article.content=res.data.content;
-                    app.article.articleCategories=res.data.articleCategories;
-                    app.article.articleSummary=res.data.articleSummary;
-                    app.article.tags=res.data.tags;
-                    app.tagList = app.article.tags.slice().split(/[\n\s+,，]/g);
-                }
-            });
-        },
         // 文章发表修改
         pushArticle: function () {
-            this.article.articleSummary=this.article.content.substr(0,200);
+            this.article.content = this.editor.getMarkdown();
+            this.article.articleSummary = this.article.content.substr(0, 200);
             // 发表新文章
-            if (this.articleId === ''){
-                $.post('/post/push',{
+            if (this.articleId === '') {
+                $.post('/post/push', {
                     title: this.article.title,
                     content: this.article.content,
                     tags: this.article.tags,
                     articleCategories: this.article.articleCategories,
                     url: this.article.url,
                     articleSummary: this.article.articleSummary
-                },function (res) {
-                    if (res.code === 10000){
-                        window.parent.location.href = window.location.protocol+"//"+window.location.host+res.data;
-                    }else{
+                }, function (res) {
+                    if (res.code === 10000) {
+                        window.parent.location.href = window.location.protocol + "//" + window.location.host + res.data;
+                    } else {
                         alert(res.msg);
                     }
                 })
-            }else {
-                $.post('/post/update',{
+            } else {
+                $.post('/post/update', {
                     id: this.articleId,
                     title: this.article.title,
                     content: this.article.content,
@@ -114,21 +109,6 @@ var app = new Vue({
                 })
             }
         },
-        $imgAdd(pos, $file){
-            // 第一步.将图片上传到服务器.
-            var formdata = new FormData();
-            formdata.append('image', $file);
-            axios({
-                url: 'server url',
-                method: 'post',
-                data: formdata,
-                headers: { 'Content-Type': 'multipart/form-data' },
-            }).then((url) => {
-                // 第二步.将返回的url替换到文本原位置![...](0) -> ![...](url)
-                // $vm.$img2Url 详情见本页末尾
-                $vm.$img2Url(pos, url);
-            })
-        },
         // 点击显示标签编辑框
         showTagInput: function () {
             this.isShowTagInput = true;
@@ -137,8 +117,8 @@ var app = new Vue({
             });
         },
         // 标签输入完成
-        handleInputConfirm() {
-            let tagTemp = this.tagTemp;
+        handleInputConfirm: function () {
+            var tagTemp = this.tagTemp;
             if (tagTemp) {
                 this.tagList.push(tagTemp);
                 this.article.tags = this.tagList.toString();
@@ -147,9 +127,8 @@ var app = new Vue({
             this.tagTemp = '';
         },
         // 删除标签
-        handleClose(tag) {
+        handleClose: function (tag) {
             this.tagList.splice(this.tagList.indexOf(tag), 1);
-        },
-
+        }
     }
 });

@@ -3,13 +3,12 @@ package com.wiblog.entity;
 
 
 import com.baomidou.mybatisplus.annotation.TableId;
-
-import java.io.Serializable;
-import java.util.Date;
-
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
+
+import java.io.Serializable;
+import java.util.Date;
 
 /**
  * 
@@ -27,6 +26,7 @@ public class User implements Serializable{
      * 主键id
      */
     @ApiModelProperty(value = "用户id")
+    @TableId
     private Long uid;
 
 

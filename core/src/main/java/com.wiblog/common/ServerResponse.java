@@ -5,9 +5,6 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 
 import java.io.Serializable;
 
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
-
 /**
  * @author pwm
  * @date 2019/4/13
@@ -51,6 +48,10 @@ public class ServerResponse<T> implements Serializable {
     }
 
     public static <T> ServerResponse<T> success(T data,String msg) {
+        return new ServerResponse<>(ResultConstant.SUCCESS_CODE, msg, data);
+    }
+
+    public static <T> ServerResponse<T> success(T data) {
         return new ServerResponse<>(ResultConstant.SUCCESS_CODE, ResultConstant.SUCCESS_MSG, data);
     }
 
