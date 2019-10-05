@@ -37,6 +37,6 @@ id, uid, article_id, parent_id,gen_id,floor, likes, content, state,create_time, 
         join user as u1 on u1.uid = c1.uid and c1.gen_id = #{commentId}
         join comment as c2 on c2.id = c1.parent_id
         join user as u2 on u2.uid = c2.uid
-        ORDER BY 'create_time' desc limit 3
+        ORDER BY 'create_time' asc limit 3
     </select>
 </mapper>

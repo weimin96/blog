@@ -51,7 +51,7 @@ public class CommentController extends BaseController{
             Long articleId,
             @RequestParam(value = "pageNum", defaultValue = "0") Integer pageNum,
             @RequestParam(value = "pageSize", defaultValue = "10") Integer pageSize,
-            @RequestParam(value = "orderBy", defaultValue = "desc") String orderBy) {
+            @RequestParam(value = "orderBy", defaultValue = "asc") String orderBy) {
         if (articleId == null){
             return ServerResponse.error("参数错误",300001);
         }

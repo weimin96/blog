@@ -51,7 +51,7 @@
                                 <span>发表评论</span>
                             </div>
                             <div class="comment-avatar">
-                                <img class="pull-left" v-bind:src="reply_avatar">
+                                <img class="pull-left" v-bind:src="user_avatar">
                             </div>
                             <div class="comment-item-body reply-body no-login"
                                  v-bind:class="{nologin:nologin}">
@@ -79,8 +79,9 @@
                                 <span class="comment-title-count"
                                       th:text="${article.commentsCounts ?: 0}"></span>
                                 <div class="pull-right">
-                                    <a class="active">按时间倒序</a>
-                                    <a class="">按时间正序</a></div>
+                                    <a class="" @click="getComment('asc')" v-bind:class="{active : 'asc' === orderBy}">按时间正序</a>
+                                    <a class="" @click="getComment('desc')" v-bind:class="{active : 'desc' === orderBy}">按时间倒序</a>
+                                </div>
                             </div>
                             <div class="comment-body">
                                 <template v-if="isHasComment">
@@ -94,6 +95,7 @@
                                             <div class="comment-item-body">
                                                 <div class="item-nickname">
                                                     <a href="#">{{item.username}}</a>
+                                                    <span v-if="item.username === author">（作者）</span>
                                                 </div>
                                                 <div class="item-state">
                                                     <span>{{item.floor}}楼</span>
@@ -107,13 +109,13 @@
                                                     <button class="btn btn-white btn-xs"><i
                                                             class="fa fa-thumbs-up"></i> 赞
                                                     </button>
-                                                    <button class="btn btn-white btn-xs" @click="showReplyBtn(index)"><i
+                                                    <button class="btn btn-white btn-xs" @click="showReplyBtn(index,0)"><i
                                                             class="fa fa-comments"></i> 回复
                                                     </button>
                                                 </div>
 
                                                 <!--楼中楼-->
-                                                <div v-for="it in item.subCommentVoList" style="margin-top: 12px;">
+                                                <div v-for="(it,i) in item.subCommentVoList" :key="i" style="margin-top: 12px;">
                                                     <div class="comment-item">
                                                         <div class="comment-avatar">
                                                             <a href="" class="pull-left">
@@ -122,7 +124,14 @@
                                                         </div>
                                                         <div class="comment-item-body">
                                                             <div class="item-nickname">
-                                                                <a href="#">{{it.username}}</a>回复{{it.replyedName}}
+                                                                <a href="#">{{it.replyName}}</a>
+                                                                <span v-if="it.replyName === author">
+                                                                    （作者）
+                                                                </span>
+                                                                回复{{it.replyedName}}
+                                                                <span v-if="it.replyedName === author">
+                                                                    （作者）
+                                                                </span>
                                                             </div>
                                                             <div class="item-state">
                                                                 <time>{{ it.createTime | commentDateFormat}}</time>
@@ -135,17 +144,18 @@
                                                                 <button class="btn btn-white btn-xs"><i
                                                                         class="fa fa-thumbs-up"></i> 赞
                                                                 </button>
-                                                                <button class="btn btn-white btn-xs" @click="showReplyBtn(index)"><i
+                                                                <button class="btn btn-white btn-xs" @click="showReplyBtn(index,it.id)"><i
                                                                         class="fa fa-comments"></i> 回复
                                                                 </button>
                                                             </div>
                                                         </div>
+
                                                     </div>
                                                 </div>
                                                 <!--回复评论框-->
                                                 <div style="margin-top: 12px;" v-show="showReplyIndex===index">
                                                     <div class="comment-avatar">
-                                                        <img class="pull-left" v-bind:src="reply_avatar">
+                                                        <img class="pull-left" v-bind:src="user_avatar">
                                                     </div>
                                                     <div class="comment-item-body reply-body show-reply"
                                                          v-bind:class="{nologin:nologin}">
@@ -190,6 +200,7 @@
     <footer th:include="common/footer :: copyright"></footer>
 </div>
 <input type="hidden" id="tags" th:value="${article.tags}"/>
+<input type="hidden" id="author" th:value="${article.author}"/>
 <input type="hidden" id="createTime" th:value="${article.createTime}"/>
 <input type="hidden" id="articleId" th:value="${article.id}"/>
 

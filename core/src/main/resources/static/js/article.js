@@ -3,7 +3,7 @@
 
     Vue.component('article-comment', {
         props: {
-            "reply_avatar": String,
+            "user_avatar": String,
             "replyContent": String,
             "reply": Function,
             "nologin": Boolean
@@ -11,7 +11,7 @@
         methods: {},
         template:
             '<div class="comment-avatar">' +
-            '<img class="pull-left" v-bind:src="reply_avatar">' +
+            '<img class="pull-left" v-bind:src="user_avatar">' +
             '</div>' +
             '<div id="reply_body" class="comment-item-body reply-body" v-bind:class="{nologin:nologin,showreply:item[id] != null}">' +
             '<div class="no-reply-msg">请先<a class="btn-login main-background" href="../../login">登录</a>后发表评论 (・ω・)' +
@@ -29,6 +29,7 @@
         data: {
             nologin: true,
             tagList: '',
+            author: '',
             // 文章发表时间
             articleTime: '',
             articleId: '',
@@ -37,7 +38,9 @@
             // 评论用户文本内容
             replyUserContent: '',
             // 评论用户头像
-            reply_avatar: "/img/reply-avatar.svg",
+            user_avatar: "/img/reply-avatar.svg",
+            // 评论排序
+            orderBy: 'asc',
             commentList: [],
             // 是否有评论
             isHasComment: false,
@@ -45,7 +48,9 @@
             now: "",
             commentTime: [60 * 60 * 3 * 1000, 60 * 60 * 2 * 1000, 60 * 60 * 1000, 60 * 30 * 1000, 60 * 10 * 1000, 60 * 5 * 1000],
             commentTimeStr: ["三小时前", "两小时前", "一小时前", "半小时前", "10分钟前", "刚刚"],
-            showReplyIndex: -1
+            showReplyIndex: -1,
+            // 父评论id
+            parentId: 0
         },
         created() {
             this.initData();
@@ -62,18 +67,11 @@
                 let article_id = document.getElementById("articleId").value;
                 this.articleId = article_id;
 
+                let author = document.getElementById("author").value;
+                this.author = author;
+
                 // 获取评论
-                $.post("/comment/commentListPage", {articleId: article_id}, function (res) {
-                    if (res.code === 10000) {
-                        vm.commentList = res.data.data.records;
-                        vm.now = res.data.time;
-                        if (vm.commentList.length > 0) {
-                            vm.isHasComment = true;
-                        }
-                    } else {
-                        vm.$message.error("获取评论失败");
-                    }
-                });
+                this.getComment("asc");
 
                 // 评论框
                 if (user !== null) {
@@ -85,6 +83,22 @@
 
 
             },
+            // 评论排序
+            getComment: function(orderBy){
+                this.orderBy = orderBy;
+                var vm = this;
+                $.post("/comment/commentListPage", {articleId: this.articleId,orderBy:this.orderBy}, function (res) {
+                    if (res.code === 10000) {
+                        vm.commentList = res.data.data.records;
+                        vm.now = res.data.time;
+                        if (vm.commentList.length > 0) {
+                            vm.isHasComment = true;
+                        }
+                    } else {
+                        vm.$message.error("获取评论失败");
+                    }
+                });
+            },
             // 回复评论
             replyUser: function (commentId) {
                 var vm = this;
@@ -95,7 +109,7 @@
                 $.post("/comment/reply", {
                         content: this.replyUserContent,
                         articleId: this.articleId,
-                        parentId: commentId,
+                        parentId: vm.parentId,
                         genId: commentId
                     },
                     function (res) {
@@ -125,8 +139,10 @@
                     });
             },
             // 回复评论框显示
-            showReplyBtn: function (index) {
+            showReplyBtn: function (index,parentId) {
                 this.showReplyIndex = this.showReplyIndex === index ? -1 : index;
+                // 楼中楼回复时设置父评论id
+                this.parentId = parentId;
             }
         },
         filters: {
