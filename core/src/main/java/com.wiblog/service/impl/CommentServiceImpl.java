@@ -1,5 +1,6 @@
 package com.wiblog.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
@@ -9,12 +10,13 @@ import com.wiblog.mapper.CommentMapper;
 import com.wiblog.service.ICommentService;
 import com.wiblog.vo.CommentVo;
 import com.wiblog.vo.SubCommentVo;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 
 /**
@@ -41,6 +43,11 @@ public class CommentServiceImpl extends ServiceImpl<CommentMapper, Comment> impl
         if (comment.getParentId() == null) {
             comment.setParentId(0L);
             comment.setGenId(0L);
+            // 查找主评论数量
+            int floor = commentMapper.selectCount(new QueryWrapper<Comment>()
+                    .eq("article_id",comment.getArticleId())
+                    .eq("gen_id",0L));
+            comment.setFloor(++floor);
         }
         int count = commentMapper.insert(comment);
         if (count <= 0) {
@@ -62,6 +69,9 @@ public class CommentServiceImpl extends ServiceImpl<CommentMapper, Comment> impl
             List<SubCommentVo> subComment = commentMapper.selectSubCommentLimit(item.getId());
             item.setSubCommentVoList(subComment);
         }
-        return ServerResponse.success(commentIPage,"获取评论成功");
+        Map<String,Object> result = new HashMap<>(16);
+        result.put("data",commentIPage);
+        result.put("time",System.currentTimeMillis());
+        return ServerResponse.success(result,"获取评论成功");
     }
 }

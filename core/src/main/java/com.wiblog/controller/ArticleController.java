@@ -10,31 +10,18 @@ import com.wiblog.entity.Article;
 import com.wiblog.service.IArticleService;
 import com.wiblog.utils.PinYinUtil;
 import com.wiblog.utils.WordFilterUtil;
-
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
-import org.apache.commons.lang3.StringUtils;
+import lombok.extern.java.Log;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.bind.annotation.*;
 
-import java.io.File;
-import java.io.IOException;
 import java.util.Date;
 import java.util.List;
-import java.util.Map;
-import java.util.UUID;
-
-import lombok.extern.java.Log;
 
 
 /**
@@ -172,34 +159,6 @@ public class ArticleController {
             return ServerResponse.success(null, "文章修改成功");
         }
         return ServerResponse.error("文章发表失败", 30001);
-    }
-
-    @ApiOperation(value="上传图片")
-    @PostMapping("/upload")
-    public ServerResponse upload(MultipartFile file, String post) {
-        if (file.isEmpty()) {
-            return ServerResponse.error("上传失败，请选择文件", 30000);
-        }
-        String fileName = file.getOriginalFilename();
-        String postPath;
-        if (StringUtils.isBlank(post)) {
-            postPath = picPath;
-        } else {
-            postPath = picPath + post;
-        }
-        File postFile = new File(postPath);
-        if (!postFile.exists()) {
-            postFile.mkdirs();
-        }
-        String filePath = postPath + "/" + fileName;
-        File dest = new File(filePath);
-        try {
-            file.transferTo(dest);
-            return ServerResponse.success(filePath, "上传成功");
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return ServerResponse.error("上传失败", 30001);
     }
 
 }

@@ -80,3 +80,5 @@ function dateFormat2(d) {
 
     return year+"."+month+"."+day+" "+hour+":"+minute;
 }
+
+

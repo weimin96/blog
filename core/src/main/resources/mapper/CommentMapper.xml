@@ -11,6 +11,7 @@
             <result column="gen_id" property="genId"/>
             <result column="parent_id" property="parentId"/>
             <result column="likes" property="likes"/>
+            <result column="floor" property="floor"/>
             <result column="content" property="content"/>
             <result column="state" property="state"/>
             <result column="create_time" property="createTime"/>
@@ -19,7 +20,7 @@
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
-id, uid, article_id, parent_id,gen_id, likes, content, state,create_time, update_time
+id, uid, article_id, parent_id,gen_id,floor, likes, content, state,create_time, update_time
     </sql>
     
     <select id="selectCommentPage" resultType="com.wiblog.vo.CommentVo">

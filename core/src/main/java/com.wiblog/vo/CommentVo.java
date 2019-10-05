@@ -1,12 +1,10 @@
 package com.wiblog.vo;
 
-import com.wiblog.entity.Comment;
+import lombok.Data;
 
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
-
-import lombok.Data;
 
 /**
  * TODO 描述
@@ -49,6 +47,11 @@ public class CommentVo implements Serializable{
      * 点赞数量
      */
     private Integer likes;
+
+    /**
+     * 楼层
+     */
+    private Integer floor;
 
     /**
      * 评论内容

@@ -164,7 +164,7 @@
 .no-reply-msg{
     display: none;
 }
-.no-login .no-reply-msg{
+.nologin .no-reply-msg{
     display: block;
     position: absolute;
     z-index: 102;
@@ -180,25 +180,25 @@
     border: 1px solid #e5e9ef;
 }
 
-.no-login .btn-login{
+.nologin .btn-login{
     padding: 4px 9px;
     margin: 0 3px;
     color: #fff;
     border-radius: 4px;
 }
 
-.no-login .no-reply-msg a{
+.nologin .no-reply-msg a{
     outline: none;
     text-decoration: none;
     cursor: pointer;
 }
 
-.no-login .no-reply-msg a :hover{
+.nologin .no-reply-msg a :hover{
     color: #fff;
     background: #337ab7;
 }
 
-.no-login .comment-submit{
+.nologin .comment-submit{
     cursor: default;
     background-color: #e5e9ef;
     border-color: #e5e9ef!important;
@@ -218,11 +218,17 @@
     cursor: pointer;
 }
 
-.no-login .comment-emoji{
+.nologin .comment-emoji{
     background-color: #e5e9ef;
 }
 
 .comment-emoji span{
     padding-left: 2px;
+}
+
+.show-reply{
+    border: 0;
+    margin-bottom: 0;
+    padding-bottom: 0;
 }
 

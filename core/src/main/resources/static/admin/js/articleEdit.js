@@ -34,7 +34,7 @@ var app = new Vue({
         initEditor: function(md){
             this.editor = editormd("editor", {
                 width: "100%",
-                height: "480",
+                height: "420",
                 syncScrolling: true ,
                 path: "../lib/editor.md/lib/",
                 markdown: md,
@@ -43,7 +43,6 @@ var app = new Vue({
                 imageUploadURL: "/uploadImageForEditorMd",
                 editorTheme : "neo",
                 watch:false,
-                autoHeight : true,
                 toolbarIcons: function () {
                     return ["bold", "italic", "del", "h1", "h2", "h3", "h4", "h5", "h6", "quote", "hr", "list-ul", "list-ol", "|", "table", "code", "link", "image", "|", "undo", "redo", "search","goto-line", "watch", "preview", "fullscreen"]
                 },

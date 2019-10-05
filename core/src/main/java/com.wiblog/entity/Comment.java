@@ -1,9 +1,9 @@
 package com.wiblog.entity;
 
+import lombok.Data;
+
 import java.io.Serializable;
 import java.util.Date;
-
-import lombok.Data;
 
 /**
  * 
@@ -46,6 +46,11 @@ public class Comment implements Serializable{
      * 点赞数量
      */
     private Integer likes;
+
+    /**
+     * 楼层
+     */
+    private Integer floor;
 
     /**
      * 评论内容

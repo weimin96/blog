@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:http="http://www.w3.org/1999/xhtml"
-      xmlns:v-on="http://www.w3.org/1999/xhtml">
+      xmlns:v-on="http://www.w3.org/1999/xhtml" xmlns:v-bind="http://www.w3.org/1999/xhtml">
 <head th:replace="common/head :: head(~{::title},~{::link},~{})">
 
     <title>wiblog - Areo的个人网站</title>
@@ -20,22 +20,24 @@
                 <div id="app" class="row">
                     <section id="main" class="col-md-8">
                         <div class="card" id="article">
-                            <div class="article-header">
-                                <div class="title text-left" th:text="${article.title}"></div>
-                                <div class="article-data text-left">
+                            <template>
+                                <div class="article-header">
+                                    <div class="title text-left" th:text="${article.title}"></div>
+                                    <div class="article-data text-left">
                                     <span class="fa fa-tag tags" v-for="item in tagList">
                                         <span class="tag-text">{{item}}</span>
                                     </span>
-                                    <span>
-                                        <i class="fa fa-calendar"> {{time}}</i>
+                                        <span>
+                                        <i class="fa fa-calendar"> {{articleTime}}</i>
                                         <i class="fa fa-commenting-o"
                                            th:text="' 评论 '+${article.commentsCounts ?: 0}"></i>
                                         <i class="fa fa-eye" th:text="' 阅读 '+${article.hits}"></i>
                                         <i class="fa fa-thumbs-o-up"
                                            th:text="' 喜欢 '+${article.likes}"></i>
                                     </span>
+                                    </div>
                                 </div>
-                            </div>
+                            </template>
                             <br>
                             <div class="article-content">
                                 <th:block th:utext="${commons.article(article.content)}"/>
@@ -44,29 +46,32 @@
 
                         </div>
                         <!--评论框-->
-                        <div id="reply" class="card article-comment">
+                        <div class="card article-comment">
                             <div class="comment-title">
                                 <span>发表评论</span>
                             </div>
                             <div class="comment-avatar">
-                                <img id="reply_avatar" class="pull-left"
-                                     src="//static.hdslb.com/images/member/noface.gif">
+                                <img class="pull-left" v-bind:src="reply_avatar">
                             </div>
-                            <div id="reply_body" class="comment-item-body reply-body no-login">
-                                <div class="no-reply-msg">请先<a class="btn-login main-background" href="../../login">登录</a>后发表评论 (・ω・)</div>
+                            <div class="comment-item-body reply-body no-login"
+                                 v-bind:class="{nologin:nologin}">
+                                <div class="no-reply-msg">请先<a class="btn-login main-background"
+                                                               href="../../login">登录</a>后发表评论 (・ω・)
+                                </div>
 
                                 <div class="reply-textarea">
-                                    <textarea cols="80" name="msg" rows="5" v-on:keyup.enter="reply" v-model.trim="replyData.content"
-                                          placeholder="请自觉遵守互联网相关的政策法规，严禁发布色情、暴力、反动的言论。"></textarea>
+                                    <textarea cols="80" name="msg" rows="5" v-on:keyup.enter="replyArticle"
+                                              v-model.trim="replyContent"
+                                              placeholder="请自觉遵守互联网相关的政策法规，严禁发布色情、暴力、反动的言论。"></textarea>
                                 </div>
-                                <button type="submit" class="comment-submit main-background" v-on:click="reply">
+                                <button type="submit" class="comment-submit main-background" @click="replyArticle">
                                     发表评论
                                 </button>
                                 <div class="comment-emoji"><i class="fa fa-smile-o"></i><span>表情</span></div>
                             </div>
-
-
                         </div>
+
+
                         <!--评论-->
                         <div id="comments" class="card article-comment">
                             <div class="comment-title">
@@ -78,52 +83,111 @@
                                     <a class="">按时间正序</a></div>
                             </div>
                             <div class="comment-body">
-                                <div class="no-comments" style="display: none">
-                                    暂无评论
-                                </div>
+                                <template v-if="isHasComment">
+                                    <div v-for="(item,index) in commentList" :key="index">
+                                        <div class="comment-item">
+                                            <div class="comment-avatar">
+                                                <a href="" class="pull-left">
+                                                    <img alt="image" v-bind:src="item.avatarImg">
+                                                </a>
+                                            </div>
+                                            <div class="comment-item-body">
+                                                <div class="item-nickname">
+                                                    <a href="#">{{item.username}}</a>
+                                                </div>
+                                                <div class="item-state">
+                                                    <span>{{item.floor}}楼</span>
+                                                    <time>{{ item.createTime | commentDateFormat}}</time>
+                                                </div>
+                                                <div class="item-content">
+                                                    {{item.content}}
+                                                </div>
 
-                                <div class="comment-item">
-                                    <div class="comment-avatar">
-                                        <a href="" class="pull-left">
-                                            <img alt="image"
-                                                 src="https://avatars2.githubusercontent.com/u/20983152?s=460&v=4">
-                                        </a>
-                                    </div>
-                                    <div class="comment-item-body">
-                                        <div class="item-nickname">
-                                            <a href="#">尤小右</a>
-                                        </div>
-                                        <div class="item-state">
-                                            <span>1楼</span>
-                                            <time>08.31 12:00</time>
-                                        </div>
-                                        <div class="item-content">
-                                            内容
-                                        </div>
+                                                <div class="item-btn-group">
+                                                    <button class="btn btn-white btn-xs"><i
+                                                            class="fa fa-thumbs-up"></i> 赞
+                                                    </button>
+                                                    <button class="btn btn-white btn-xs" @click="showReplyBtn(index)"><i
+                                                            class="fa fa-comments"></i> 回复
+                                                    </button>
+                                                </div>
 
-                                        <div class="item-btn-group">
-                                            <button class="btn btn-white btn-xs"><i
-                                                    class="fa fa-thumbs-up"></i> 赞
-                                            </button>
-                                            <button class="btn btn-white btn-xs"><i
-                                                    class="fa fa-comments"></i> 回复
-                                            </button>
+                                                <!--楼中楼-->
+                                                <div v-for="it in item.subCommentVoList" style="margin-top: 12px;">
+                                                    <div class="comment-item">
+                                                        <div class="comment-avatar">
+                                                            <a href="" class="pull-left">
+                                                                <img alt="image" v-bind:src="it.replyAvatarImg">
+                                                            </a>
+                                                        </div>
+                                                        <div class="comment-item-body">
+                                                            <div class="item-nickname">
+                                                                <a href="#">{{it.username}}</a>回复{{it.replyedName}}
+                                                            </div>
+                                                            <div class="item-state">
+                                                                <time>{{ it.createTime | commentDateFormat}}</time>
+                                                            </div>
+                                                            <div class="item-content">
+                                                                {{it.content}}
+                                                            </div>
+
+                                                            <div class="item-btn-group">
+                                                                <button class="btn btn-white btn-xs"><i
+                                                                        class="fa fa-thumbs-up"></i> 赞
+                                                                </button>
+                                                                <button class="btn btn-white btn-xs" @click="showReplyBtn(index)"><i
+                                                                        class="fa fa-comments"></i> 回复
+                                                                </button>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <!--回复评论框-->
+                                                <div style="margin-top: 12px;" v-show="showReplyIndex===index">
+                                                    <div class="comment-avatar">
+                                                        <img class="pull-left" v-bind:src="reply_avatar">
+                                                    </div>
+                                                    <div class="comment-item-body reply-body show-reply"
+                                                         v-bind:class="{nologin:nologin}">
+                                                        <div class="no-reply-msg">请先<a class="btn-login main-background"
+                                                                                       href="../../login">登录</a>后发表评论
+                                                            (・ω・)
+                                                        </div>
+
+                                                        <div class="reply-textarea">
+                                                        <textarea cols="80" name="msg" rows="5" v-on:keyup.enter="replyUser"
+                                                                  v-model.trim="replyUserContent"
+                                                                  placeholder="请自觉遵守互联网相关的政策法规，严禁发布色情、暴力、反动的言论。"></textarea>
+                                                        </div>
+                                                        <button type="submit" class="comment-submit main-background"
+                                                                @click="replyUser(item.id)">
+                                                            发表评论
+                                                        </button>
+                                                        <div class="comment-emoji"><i
+                                                                class="fa fa-smile-o"></i><span>表情</span></div>
+                                                    </div>
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
+                                </template>
+                                <template v-else>
+                                    <div class="no-comments">
+                                        暂无评论
+                                    </div>
+                                </template>
 
                             </div>
 
                         </div>
 
-                </section>
+                    </section>
                 </div>
             </div>
         </div>
     </div>
 
     <footer th:include="common/footer :: copyright"></footer>
-</div>
 </div>
 <input type="hidden" id="tags" th:value="${article.tags}"/>
 <input type="hidden" id="createTime" th:value="${article.createTime}"/>

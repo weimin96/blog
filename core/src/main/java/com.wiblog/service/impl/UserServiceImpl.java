@@ -11,15 +11,13 @@ import com.wiblog.mapper.UserMapper;
 import com.wiblog.service.IUserService;
 import com.wiblog.utils.Md5Util;
 import com.wiblog.utils.WiblogUtil;
-
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 
-import java.util.Date;
-
 import javax.servlet.http.HttpServletRequest;
+import java.util.Date;
 
 /**
  *  服务实现类
@@ -84,7 +82,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
         }
         user.setPassword(Md5Util.MD5(user.getPassword()));
 
-        user.setAvatarImg("");
+        user.setAvatarImg("http://blog.wiblog.cn/img/reply-avatar.svg");
         user.setSex("male");
         user.setCreateTime(new Date());
         int count = userMapper.insert(user);
