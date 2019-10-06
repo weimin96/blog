@@ -110,6 +110,12 @@
 
 .item-btn-group button{
     margin-right: 10px;
+    background-color: #fff;
+
+}
+
+.item-btn-group button:focus{
+    outline-color: #fff!important;
 }
 
 /*评论框*/
@@ -141,7 +147,7 @@
     border-color: #00a1d6;
 }
 
-.article-comment .comment-submit{
+.comment-submit{
     width: 70px;
     height: 64px;
     position: absolute;
@@ -159,6 +165,11 @@
     transition: .1s;
     user-select: none;
     outline: none;
+}
+/*查看更多评论*/
+.more-comment{
+    margin-left: 50px;
+    color: #409eff;
 }
 /*请先登录后发表评论*/
 .no-reply-msg{

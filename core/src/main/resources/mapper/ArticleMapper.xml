@@ -25,4 +25,8 @@
     <sql id="Base_Column_List">
 id, author, title, content, tags, article_categories, url, article_url, article_summary, likes, hits, comments_counts, create_time, update_time
     </sql>
+
+    <update id="updateCommentCount">
+        update article set comments_counts = comments_counts+1 where id = #{articleId}
+    </update>
 </mapper>

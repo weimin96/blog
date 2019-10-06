@@ -29,6 +29,7 @@ id, uid, article_id, parent_id,gen_id,floor, likes, content, state,create_time, 
         where c.article_id = #{articleId} and c.gen_id = 0
     </select>
 
+    <!--不设数量限制-->
     <select id="selectSubCommentLimit" resultType="com.wiblog.vo.SubCommentVo">
         select c1.*,
         u1.username as replyName,u1.avatar_img as replyAvatarImg,
@@ -37,6 +38,6 @@ id, uid, article_id, parent_id,gen_id,floor, likes, content, state,create_time, 
         join user as u1 on u1.uid = c1.uid and c1.gen_id = #{commentId}
         join comment as c2 on c2.id = c1.parent_id
         join user as u2 on u2.uid = c2.uid
-        ORDER BY 'create_time' asc limit 3
+        ORDER BY 'create_time'
     </select>
 </mapper>

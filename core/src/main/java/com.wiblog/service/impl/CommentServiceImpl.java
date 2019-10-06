@@ -6,6 +6,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.wiblog.common.ServerResponse;
 import com.wiblog.entity.Comment;
+import com.wiblog.mapper.ArticleMapper;
 import com.wiblog.mapper.CommentMapper;
 import com.wiblog.service.ICommentService;
 import com.wiblog.vo.CommentVo;
@@ -31,6 +32,9 @@ public class CommentServiceImpl extends ServiceImpl<CommentMapper, Comment> impl
     @Autowired
     private CommentMapper commentMapper;
 
+    @Autowired
+    private ArticleMapper articleMapper;
+
     @Override
     public ServerResponse reply(Comment comment) {
         Date date = new Date();
@@ -53,6 +57,7 @@ public class CommentServiceImpl extends ServiceImpl<CommentMapper, Comment> impl
         if (count <= 0) {
             return ServerResponse.error("评论失败", 40001);
         }
+        articleMapper.updateCommentCount(comment.getArticleId());
         return ServerResponse.success(null, "评论成功");
     }
 
