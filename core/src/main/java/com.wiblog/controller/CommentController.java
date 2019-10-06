@@ -47,6 +47,14 @@ public class CommentController extends BaseController{
         return commentService.reply(comment);
     }
 
+    /**
+     * 获取文章评论
+     * @param articleId 文章id
+     * @param pageNum pageNum
+     * @param pageSize pageSize
+     * @param orderBy orderBy
+     * @return ServerResponse
+     */
     @PostMapping("/commentListPage")
     public ServerResponse commentListPage(
             Long articleId,
@@ -58,4 +66,30 @@ public class CommentController extends BaseController{
         }
         return commentService.commentListPage(articleId, pageNum, pageSize,orderBy);
     }
+
+    /**
+     * 获取评论管理列表
+     *
+     * @param articleId 文章id
+     * @param title 文章标题模糊查询
+     * @param state 评论状态
+     * @param username 用户名模糊查询
+     * @param pageNum pageNum
+     * @param pageSize pageSize
+     * @param orderBy orderBy
+     * @return ServerResponse
+     */
+    @PostMapping("/commentManageListPage")
+    public ServerResponse commentManageListPage(
+            @RequestParam(value = "articleId", required = false) Long articleId,
+            @RequestParam(value = "title", required = false) String title,
+            @RequestParam(value = "state", required = false) Integer state,
+            @RequestParam(value = "username", required = false) String username,
+            @RequestParam(value = "pageNum", defaultValue = "0") Integer pageNum,
+            @RequestParam(value = "pageSize", defaultValue = "10") Integer pageSize,
+            @RequestParam(value = "orderBy", defaultValue = "asc") String orderBy) {
+        return commentService.commentManageListPage(articleId,title,state,username,pageNum, pageSize,orderBy);
+    }
+
+
 }

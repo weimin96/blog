@@ -12,6 +12,10 @@
             // 文章发表时间
             articleTime: '',
             articleId: '',
+            // 评论分页
+            pageSize: 10,
+            pageNum: 1,
+            total: 0,
             //评论文章文本内容
             replyContent: '',
             // 评论用户文本内容
@@ -74,10 +78,11 @@
             // 评论排序
             getComment: function(orderBy){
                 this.orderBy = orderBy;
-                $.post("/comment/commentListPage", {articleId: this.articleId,orderBy:this.orderBy}, function (res) {
+                $.post("/comment/commentListPage", {pageSize: this.pageSize, pageNum: this.pageNum,articleId: this.articleId,orderBy:this.orderBy}, function (res) {
                     if (res.code === 10000) {
                         that.commentList = res.data.data.records;
                         that.now = res.data.time;
+                        that.total = res.data.data.total;
                         if (that.commentList.length > 0) {
                             that.isHasComment = true;
                             that.commentItem=that.commentList[that.showIndex];
@@ -93,6 +98,10 @@
                         that.$message.error("获取评论失败");
                     }
                 });
+            },
+            handlePageNum: function (val) {
+                this.pageNum=val;
+                this.getComment(this.orderBy);
             },
             // 回复评论
             replyUser: function (commentId) {

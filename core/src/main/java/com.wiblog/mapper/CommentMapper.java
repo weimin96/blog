@@ -1,12 +1,12 @@
 package com.wiblog.mapper;
 
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.wiblog.entity.Comment;
-import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.wiblog.vo.CommentManageVo;
 import com.wiblog.vo.CommentVo;
 import com.wiblog.vo.SubCommentVo;
-
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
@@ -29,8 +29,23 @@ public interface CommentMapper extends BaseMapper<Comment> {
     /**
      * 查找子评论
      * @param commentId commentId
+     * @param orderBy orderBy
      * @return IPage
      */
-    List<SubCommentVo> selectSubCommentLimit(@Param("commentId") Long commentId);
+    List<SubCommentVo> selectSubCommentLimit(@Param("commentId") Long commentId,@Param("orderBy") String orderBy);
 
+    /**
+     * 分页查找所有文章评论
+     * @param page page
+     * @param articleId 文章id
+     * @param state 评论状态
+     * @param title 标题
+     * @param username 用户名
+     * @return IPage
+     */
+    IPage<CommentManageVo> selectCommentManagePage(Page<CommentVo> page,
+                                                   @Param("articleId") Long articleId,
+                                                   @Param("state") Integer state,
+                                                   @Param("title") String title,
+                                                   @Param("username") String username);
 }

@@ -197,6 +197,17 @@
                                 </template>
 
                             </div>
+                            <div style="text-align: right;">
+                                <el-pagination
+                                        small
+                                        @current-change="handlePageNum"
+                                        :current-page="pageNum"
+                                        :page-size="pageSize"
+                                        layout="prev, pager, next"
+                                        :total="total"
+                                        :hide-on-single-page="true">
+                                </el-pagination>
+                            </div>
 
                         </div>
 

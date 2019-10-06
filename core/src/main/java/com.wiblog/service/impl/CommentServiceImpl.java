@@ -9,6 +9,7 @@ import com.wiblog.entity.Comment;
 import com.wiblog.mapper.ArticleMapper;
 import com.wiblog.mapper.CommentMapper;
 import com.wiblog.service.ICommentService;
+import com.wiblog.vo.CommentManageVo;
 import com.wiblog.vo.CommentVo;
 import com.wiblog.vo.SubCommentVo;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -71,12 +72,24 @@ public class CommentServiceImpl extends ServiceImpl<CommentMapper, Comment> impl
         }
         IPage<CommentVo> commentIPage = commentMapper.selectCommentPage(page,id);
         for (CommentVo item:commentIPage.getRecords()){
-            List<SubCommentVo> subComment = commentMapper.selectSubCommentLimit(item.getId());
+            List<SubCommentVo> subComment = commentMapper.selectSubCommentLimit(item.getId(),orderBy);
             item.setSubCommentVoList(subComment);
         }
         Map<String,Object> result = new HashMap<>(16);
         result.put("data",commentIPage);
         result.put("time",System.currentTimeMillis());
         return ServerResponse.success(result,"获取评论成功");
+    }
+
+    @Override
+    public ServerResponse commentManageListPage(Long articleId, String title, Integer state, String username, Integer pageNum, Integer pageSize, String orderBy) {
+        Page<CommentVo> page = new Page<>(pageNum,pageSize);
+        if("asc".equals(orderBy)){
+            page.setAsc("create_time");
+        }else{
+            page.setDesc("create_time");
+        }
+        IPage<CommentManageVo> commentIPage = commentMapper.selectCommentManagePage(page,articleId,state,title,username);
+        return ServerResponse.success(commentIPage,"获取评论成功");
     }
 }
