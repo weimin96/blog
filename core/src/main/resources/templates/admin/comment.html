@@ -14,21 +14,43 @@
         <el-row>
             <el-col :span="24">
                 <template>
-                    <el-table :data="tableData" style="width: 100%" stripe>
+                    <el-col :span="8">
+                        <el-autocomplete
+                                class="inline-input"
+                                v-model="title"
+                                :fetch-suggestions="queryTitleSearch"
+                                placeholder="按文章标题查找"
+                                @select="selectTitle">
+                            <i class="el-icon-search el-input__icon"
+                               slot="suffix"
+                               @click="titleIconClick">
+                            </i>
+                        </el-autocomplete>
+                    </el-col>
+
+                    <el-table :data="tableData" style="width: 100%" stripe @sort-change="sortChange">
                         <!---->
-                        <el-table-column prop="title" label="标题"></el-table-column>
-                        <el-table-column prop="articleCategories" label="分类" width="120"></el-table-column>
-                        <el-table-column prop="tags" label="标签" width="220"></el-table-column>
-                        <el-table-column prop="info" label="统计" width="150" :formatter="formatterInfo"></el-table-column>
-                        <el-table-column prop="createTime" label="发布时间" width="120" :formatter="formatterDate"></el-table-column>
+                        <el-table-column prop="title" label="所属文章" width="150"></el-table-column>
+                        <el-table-column prop="username" label="用户名" width="150"></el-table-column>
+                        <el-table-column prop="content" label="评论内容"></el-table-column>
+                        <el-table-column prop="likes" label="点赞数" width="100"></el-table-column>
+                        <el-table-column prop="replyNum" label="回复数" width="100"></el-table-column>
+                        <el-table-column prop="createTime" label="发布时间" width="150" sortable="custom"
+                                         :formatter="formatterDate"></el-table-column>
                         <el-table-column label="操作" width="220" align="right">
                             <template slot="header" slot-scope="scope">
                                 <el-input v-model="searchKey" size="mini" placeholder="搜索标题..."></el-input>
                             </template>
                             <template slot-scope="scope">
-                                <el-button size="mini" type="primary" plain @click="handleView(scope.$index, scope.row)">查看</el-button>
-                                <el-button size="mini" type="success" plain @click="handleEdit(scope.$index, scope.row)">编辑</el-button>
-                                <el-button size="mini" type="danger" plain @click="handleDelete(scope.$index, scope.row)">删除</el-button>
+                                <el-button size="mini" type="primary" plain
+                                           @click="handleView(scope.$index, scope.row)">查看
+                                </el-button>
+                                <el-button size="mini" type="success" plain
+                                           @click="handleEdit(scope.$index, scope.row)">编辑
+                                </el-button>
+                                <el-button size="mini" type="danger" plain
+                                           @click="handleDelete(scope.$index, scope.row)">删除
+                                </el-button>
                             </template>
                         </el-table-column>
 

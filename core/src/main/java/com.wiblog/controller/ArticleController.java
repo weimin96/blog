@@ -16,7 +16,6 @@ import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.java.Log;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.web.bind.annotation.*;
 
@@ -38,21 +37,6 @@ import java.util.List;
 public class ArticleController {
 
     private IArticleService articleService;
-
-
-    private String picPath;
-
-    private String host;
-
-    @Value("${host-name}")
-    public void setHost(String host) {
-        this.host = host;
-    }
-
-    @Value("${pic-path}")
-    public void setPicPath(String picPath) {
-        this.picPath = picPath;
-    }
 
     @Autowired
     private WordFilterUtil wordFilterUtil;
@@ -79,6 +63,12 @@ public class ArticleController {
         IPage<Article> articleIPage = articleService.page(page, new QueryWrapper<Article>()
                 .select("id", "title", "tags", "article_categories", "url", "article_url", "article_summary", "likes", "hits", "comments_counts", "create_time"));
         return ServerResponse.success(articleIPage, "查找文章列表成功");
+    }
+
+    @PostMapping("/allArticles")
+    @ApiOperation(value="所有文章标题列表", notes="获取文章列表")
+    public ServerResponse articlePageList() {
+        return articleService.getAllArticle();
     }
 
     @ApiOperation(value="通过url的文章id获取文章详细内容")

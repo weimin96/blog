@@ -50,24 +50,24 @@ id, uid, article_id, parent_id,gen_id,floor, likes, content, state,create_time, 
     </select>
     
     <select id="selectCommentManagePage" resultType="com.wiblog.vo.CommentManageVo">
-        select u.username,c.id,c.likes,c.content,c.state,c.article_id,c.create_time,count(c1.id) as reply_num from comment as c
-        join user as u on c.uid = u.uid
-        join article as a on c.article_id = a.id
-        join comment as c1 on c1.parent_id = c.id
+        select a.title,u.username,c.id,c.likes,c.content,c.state,c.article_id,c.create_time,count(c1.id) as reply_num from comment as c
+        left join user as u on c.uid = u.uid
+        left join article as a on c.article_id = a.id
+        left join comment as c1 on c1.parent_id = c.id
         <where>
-            <if test="article_id != null">
+            <if test="articleId != null and articleId != '' ">
                 and c.article_id = #{articleId}
             </if>
-            <if test="state != null">
+            <if test="state != null and state != ''">
                 and c.state = #{state}
             </if>
-            <if test="username != null">
-                and u.username like "%"#{username}"%"
+            <if test="username != null and username != ''">
+                and u.username like concat('%',#{username},'%')
             </if>
-            <if test="title != null">
-                and a.title like "%"#{title}"%"
+            <if test="title != null and title != ''">
+                and a.title like concat('%',#{title},'%')
             </if>
         </where>
-        group by c1.id
+        group by c.id
     </select>
 </mapper>

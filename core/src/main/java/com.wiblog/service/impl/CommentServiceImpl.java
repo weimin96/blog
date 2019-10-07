@@ -83,7 +83,7 @@ public class CommentServiceImpl extends ServiceImpl<CommentMapper, Comment> impl
 
     @Override
     public ServerResponse commentManageListPage(Long articleId, String title, Integer state, String username, Integer pageNum, Integer pageSize, String orderBy) {
-        Page<CommentVo> page = new Page<>(pageNum,pageSize);
+        Page<CommentManageVo> page = new Page<>(pageNum,pageSize);
         if("asc".equals(orderBy)){
             page.setAsc("create_time");
         }else{

@@ -43,7 +43,7 @@ public interface CommentMapper extends BaseMapper<Comment> {
      * @param username 用户名
      * @return IPage
      */
-    IPage<CommentManageVo> selectCommentManagePage(Page<CommentVo> page,
+    IPage<CommentManageVo> selectCommentManagePage(Page<CommentManageVo> page,
                                                    @Param("articleId") Long articleId,
                                                    @Param("state") Integer state,
                                                    @Param("title") String title,
