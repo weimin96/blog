@@ -49,9 +49,9 @@ var app = new Vue({
                 if (res.code === 10000) {
                     vm.tableData = res.data.records;
                     vm.total = res.data.total;
-                    $.each(vm.tableData,function (index,item) {
+                    /*$.each(vm.tableData,function (index,item) {
                         item.state = vm.opsFormatter(item);
-                    });
+                    });*/
                 }
             });
         },
@@ -59,13 +59,7 @@ var app = new Vue({
             var state = row.state;
             return state === 1?"正常":"删除";
         },
-        opsFormatter: function(row){
-            if(row.state === 1){
-                return '<button type="button" class="el-button el-button--danger el-button--mini is-plain" @click="handleDelete(row)"><span>删除</span></button>';
-            }else{
-                return '<button type="button" class="el-button el-button--danger el-button--mini is-plain" @click="handleDelete(row)"><span>恢复</span></button>';
-            }
-        },
+
         dateFormatter: function (row, column) {
             let date = new Date(row.createTime);
             let year = date.getFullYear();
@@ -123,7 +117,7 @@ var app = new Vue({
         },
         // 更改查找状态
         changeState: function(value){
-            console.log(this.stateList);
+            this.pageNum = 1;
             if(this.stateList.length === 2){
                 this.state = null;
             }else if (this.stateList[0] === "正常"){
@@ -133,18 +127,18 @@ var app = new Vue({
             }
             this.initCommentList();
         },
-        // 删除评论
-        handleDelete: function (row) {
-            $.post("/comment/deleteComment",{id:row.id},function (res) {
-               if(res.code === 10000){
-                   vm.$message({message:res.msg,type: 'success'});
-                   this.initCommentList();
-               }
-            });
-
-        },
-        handleRestore: function(){
-
+        // 修改评论状态
+        handleUpdateState: function (row) {
+            if(row.state === 1){
+                $.post("/comment/deleteComment",{id:row.id},function (res) {
+                    if(res.code === 10000){
+                        vm.$message({message:res.msg,type: 'success'});
+                        vm.initCommentList();
+                    }
+                });
+            }else{
+                vm.$message({message:"恢复成功",type: 'success'});
+            }
         },
         handlePageNum: function (val) {
             this.pageNum=val;
@@ -160,5 +154,10 @@ var app = new Vue({
             this.initCommentList();
         }
 
+    },
+    filters:{
+        opsFormatter: function (state) {
+            return state === 1 ? "删除":"恢复";
+        }
     }
 });
