@@ -55,4 +55,10 @@ public interface IUserService extends IService<User> {
      * @return user
      */
     User loginUser(HttpServletRequest request);
+
+    /**
+     * 获取所有用户名
+     * @return ServerResponse
+     */
+    ServerResponse getAllUsername();
 }

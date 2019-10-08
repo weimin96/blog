@@ -18,6 +18,8 @@ import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.Date;
+import java.util.List;
+import java.util.Map;
 
 /**
  *  服务实现类
@@ -160,5 +162,11 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
             }
         }
         return null;
+    }
+
+    @Override
+    public ServerResponse getAllUsername() {
+        List<Map<String,String>> list = userMapper.selectUsername();
+        return ServerResponse.success(list);
     }
 }

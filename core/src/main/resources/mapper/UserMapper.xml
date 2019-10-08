@@ -56,4 +56,8 @@ uid, phone, username, password, sex, email, avatar_img, create_time, logged
         FROM user
         WHERE email=#{email}
     </select>
+
+    <select id="selectUsername" resultType="map">
+        select username as value from user
+    </select>
 </mapper>

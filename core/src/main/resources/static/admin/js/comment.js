@@ -10,9 +10,13 @@ var app = new Vue({
         total: 0,
         title: "",
         username: "",
-        state: "",
+        state: 1,
         // 所有文章标题
-        titleArray:[]
+        titleArray:[],
+        // 所有用户名
+        nameArray:[],
+        // 状态复选框
+        stateList:["正常"]
     },
     beforeCreate(){
        vm = this;
@@ -28,17 +32,41 @@ var app = new Vue({
                     vm.titleArray = res.data;
                 }
             });
-        },
-        //评论列表
-        initCommentList:function(){
-            $.post("/comment/commentManageListPage", {title:this.title,pageSize: this.pageSize, pageNum: this.pageNum,orderBy:this.orderBy}, function (res) {
+            $.get("/u/getAllUsername",function (res) {
                 if (res.code === 10000) {
-                    vm.tableData = res.data.records;
-                    vm.total = res.data.total;
+                    vm.nameArray = res.data;
                 }
             });
         },
-        formatterDate: function (row, column) {
+        //评论列表
+        initCommentList:function(){
+            $.post("/comment/commentManageListPage", {title:this.title,
+                username:this.username,
+                state: this.state,
+                pageSize: this.pageSize,
+                pageNum: this.pageNum,
+                orderBy:this.orderBy}, function (res) {
+                if (res.code === 10000) {
+                    vm.tableData = res.data.records;
+                    vm.total = res.data.total;
+                    $.each(vm.tableData,function (index,item) {
+                        item.state = vm.opsFormatter(item);
+                    });
+                }
+            });
+        },
+        stateFormatter: function(row,column){
+            var state = row.state;
+            return state === 1?"正常":"删除";
+        },
+        opsFormatter: function(row){
+            if(row.state === 1){
+                return '<button type="button" class="el-button el-button--danger el-button--mini is-plain" @click="handleDelete(row)"><span>删除</span></button>';
+            }else{
+                return '<button type="button" class="el-button el-button--danger el-button--mini is-plain" @click="handleDelete(row)"><span>恢复</span></button>';
+            }
+        },
+        dateFormatter: function (row, column) {
             let date = new Date(row.createTime);
             let year = date.getFullYear();
             let month = change(date.getMonth());
@@ -62,9 +90,17 @@ var app = new Vue({
             // 调用 callback 返回建议列表的数据
             cb(results);
         },
+        // 按用户名查找
+        queryNameSearch: function(queryString, cb) {
+            var nameArray = this.nameArray;
+            var results = queryString ? nameArray.filter(this.createFilter(queryString)) : nameArray;
+            // 调用 callback 返回建议列表的数据
+            cb(results);
+        },
+        // 过滤器
         createFilter(queryString) {
-            return (titleArray) => {
-                return (titleArray.value.toLowerCase().indexOf(queryString.toLowerCase()) === 0);
+            return (array) => {
+                return (array.value.toLowerCase().indexOf(queryString.toLowerCase()) === 0);
             };
         },
         // 选择文章标题
@@ -76,14 +112,39 @@ var app = new Vue({
             this.pageNum = 1;
             this.initCommentList();
         },
-        handleView: function (index,row) {
-            top.location.href=row.articleUrl;
+        // 选择用户名
+        selectName(item) {
+            this.pageNum = 1;
+            this.initCommentList();
         },
-        handleEdit: function (index,row) {
-            window.location.href="/admin/articleEdit?id="+row.id;
+        nameIconClick(ev){
+            this.pageNum = 1;
+            this.initCommentList();
         },
-        handleDelete: function (index,row) {
-            this.$message({message:"删除成功",type: 'success'});
+        // 更改查找状态
+        changeState: function(value){
+            console.log(this.stateList);
+            if(this.stateList.length === 2){
+                this.state = null;
+            }else if (this.stateList[0] === "正常"){
+                this.state = 1;
+            }else{
+                this.state = 0;
+            }
+            this.initCommentList();
+        },
+        // 删除评论
+        handleDelete: function (row) {
+            $.post("/comment/deleteComment",{id:row.id},function (res) {
+               if(res.code === 10000){
+                   vm.$message({message:res.msg,type: 'success'});
+                   this.initCommentList();
+               }
+            });
+
+        },
+        handleRestore: function(){
+
         },
         handlePageNum: function (val) {
             this.pageNum=val;

@@ -3,6 +3,7 @@ package com.wiblog.mapper;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.wiblog.common.ServerResponse;
 import com.wiblog.entity.Comment;
 import com.wiblog.vo.CommentManageVo;
 import com.wiblog.vo.CommentVo;
@@ -48,4 +49,11 @@ public interface CommentMapper extends BaseMapper<Comment> {
                                                    @Param("state") Integer state,
                                                    @Param("title") String title,
                                                    @Param("username") String username);
+
+    /**
+     * 修改评论状态
+     * @param id id
+     * @return Integer
+     */
+    Integer updateStateById(Integer id);
 }

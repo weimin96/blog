@@ -92,4 +92,10 @@ public class CommentServiceImpl extends ServiceImpl<CommentMapper, Comment> impl
         IPage<CommentManageVo> commentIPage = commentMapper.selectCommentManagePage(page,articleId,state,title,username);
         return ServerResponse.success(commentIPage,"获取评论成功");
     }
+
+    @Override
+    public ServerResponse deleteComment(Integer id) {
+        int count = commentMapper.updateStateById(id);
+        return ServerResponse.success(count,"删除评论成功");
+    }
 }

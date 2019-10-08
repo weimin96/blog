@@ -91,5 +91,8 @@ public class CommentController extends BaseController{
         return commentService.commentManageListPage(articleId,title,state,username,pageNum, pageSize,orderBy);
     }
 
-
+    @PostMapping("/deleteComment")
+    public ServerResponse deleteComment(Integer id){
+        return commentService.deleteComment(id);
+    }
 }

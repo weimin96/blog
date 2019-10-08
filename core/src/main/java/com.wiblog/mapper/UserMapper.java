@@ -3,6 +3,9 @@ package com.wiblog.mapper;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.wiblog.entity.User;
 
+import java.util.List;
+import java.util.Map;
+
 /**
  *  Mapper 接口
  *
@@ -17,4 +20,10 @@ public interface UserMapper extends BaseMapper<User> {
     int checkEmail(String email);
 
     int checkPhone(String phone);
+
+    /**
+     * 获取所有用户名
+     * @return List
+     */
+    List<Map<String, String>> selectUsername();
 }

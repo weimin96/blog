@@ -40,4 +40,11 @@ public interface ICommentService extends IService<Comment> {
      * @return ServerResponse
      **/
     ServerResponse commentManageListPage(Long articleId, String title, Integer state, String username, Integer pageNum, Integer pageSize, String orderBy);
+
+    /**
+     * 删除评论
+     * @param id id
+     * @return ServerResponse
+     */
+    ServerResponse deleteComment(Integer id);
 }

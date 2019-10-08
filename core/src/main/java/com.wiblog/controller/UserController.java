@@ -128,5 +128,8 @@ public class UserController extends BaseController {
         return userService.checkEmail(value);
     }
 
-
+    @GetMapping("/getAllUsername")
+    public ServerResponse getAllUsername(){
+        return userService.getAllUsername();
+    }
 }
