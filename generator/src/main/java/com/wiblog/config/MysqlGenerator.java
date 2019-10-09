@@ -64,10 +64,10 @@ public class MysqlGenerator {
 
         // 数据源配置
         DataSourceConfig dsc = new DataSourceConfig();
-        dsc.setUrl("jdbc:mysql://127.0.0.1:3306/myblog?useUnicode=true&useSSL=false&characterEncoding=utf8&serverTimezone=UTC");
+        dsc.setUrl("jdbc:mysql://118.24.95.165:3306/myblog?useUnicode=true&useSSL=false&characterEncoding=utf8&serverTimezone=UTC");
         dsc.setDriverName("com.mysql.cj.jdbc.Driver");
         dsc.setUsername("root");
-        dsc.setPassword("123456");
+        dsc.setPassword("k93j)4jPH");
         mpg.setDataSource(dsc);
 
         // 包配置

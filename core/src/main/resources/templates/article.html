@@ -95,15 +95,18 @@
                                             </div>
                                             <div class="comment-item-body">
                                                 <div class="item-nickname">
-                                                    <a href="#">{{item.username}}</a>
+                                                    <a href="javascript:void(0);">{{item.username}}</a>
                                                     <span v-if="item.username === author">（作者）</span>
                                                 </div>
                                                 <div class="item-state">
                                                     <span>{{item.floor}}楼</span>
                                                     <time>{{ item.createTime | commentDateFormat}}</time>
                                                 </div>
-                                                <div class="item-content">
+                                                <div class="item-content" v-if="item.state === 1">
                                                     {{item.content}}
+                                                </div>
+                                                <div class="remove-comment" v-else>
+                                                    该评论已删除
                                                 </div>
 
                                                 <div class="item-btn-group">
@@ -126,7 +129,7 @@
                                                         </div>
                                                         <div class="comment-item-body">
                                                             <div class="item-nickname">
-                                                                <a href="#">{{it.replyName}}</a>
+                                                                <a href="javascript:void(0);">{{it.replyName}}</a>
                                                                 <span v-if="it.replyName === author">
                                                                     （作者）
                                                                 </span>
@@ -138,8 +141,11 @@
                                                             <div class="item-state">
                                                                 <time>{{ it.createTime | commentDateFormat}}</time>
                                                             </div>
-                                                            <div class="item-content">
+                                                            <div class="item-content" v-if="it.state === 1">
                                                                 {{it.content}}
+                                                            </div>
+                                                            <div class="remove-comment" v-else>
+                                                                该评论已删除
                                                             </div>
 
                                                             <div class="item-btn-group">
@@ -158,7 +164,7 @@
                                                     </div>
                                                 </div>
                                                 <div class="more-comment" v-if="item.subCommentVoList.length > 3">
-                                                    <a href="#" @click="showMoreComment(index)">查看全部{{item.subCommentVoList.length}}条回复</a>
+                                                    <a href="javascript:void(0);" @click="showMoreComment(index)">查看全部{{item.subCommentVoList.length}}条回复</a>
                                                 </div>
                                                 <!--回复评论框-->
                                                 <div style="margin-top: 12px;" v-show="showReplyIndex===index">
@@ -223,15 +229,18 @@
                                 </div>
                                 <div class="comment-item-body show-reply">
                                     <div class="item-nickname">
-                                        <a href="#">{{commentItem.username}}</a>
+                                        <a href="javascript:void(0);">{{commentItem.username}}</a>
                                         <span v-if="commentItem.username === author">（作者）</span>
                                     </div>
                                     <div class="item-state">
                                         <span>{{commentItem.floor}}楼</span>
                                         <time>{{ commentItem.createTime | commentDateFormat}}</time>
                                     </div>
-                                    <div class="item-content">
+                                    <div class="item-content" v-if="commentItem.state === 1">
                                         {{commentItem.content}}
+                                    </div>
+                                    <div class="remove-comment" v-else>
+                                        该评论已删除
                                     </div>
 
                                     <div class="item-btn-group">
@@ -281,7 +290,7 @@
                                             </div>
                                             <div class="comment-item-body">
                                                 <div class="item-nickname">
-                                                    <a href="#">{{it.replyName}}</a>
+                                                    <a href="javascript:void(0);">{{it.replyName}}</a>
                                                     <span v-if="it.replyName === author">
                                                                     （作者）
                                                                 </span>
@@ -293,8 +302,11 @@
                                                 <div class="item-state">
                                                     <time>{{ it.createTime | commentDateFormat}}</time>
                                                 </div>
-                                                <div class="item-content">
+                                                <div class="item-content" v-if="it.state === 1">
                                                     {{it.content}}
+                                                </div>
+                                                <div class="remove-comment" v-else>
+                                                    该评论已删除
                                                 </div>
 
                                                 <div class="item-btn-group">

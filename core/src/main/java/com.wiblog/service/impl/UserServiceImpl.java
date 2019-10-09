@@ -1,6 +1,8 @@
 package com.wiblog.service.impl;
 
 import com.alibaba.fastjson.JSON;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.wiblog.common.Constant;
 import com.wiblog.common.ResultConstant;
@@ -11,6 +13,8 @@ import com.wiblog.mapper.UserMapper;
 import com.wiblog.service.IUserService;
 import com.wiblog.utils.Md5Util;
 import com.wiblog.utils.WiblogUtil;
+import com.wiblog.vo.CommentManageVo;
+
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
@@ -168,5 +172,17 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
     public ServerResponse getAllUsername() {
         List<Map<String,String>> list = userMapper.selectUsername();
         return ServerResponse.success(list);
+    }
+
+    @Override
+    public ServerResponse userManageListPage(Integer state, String username, Integer pageNum, Integer pageSize, String orderBy) {
+        Page<User> page = new Page<>(pageNum,pageSize);
+        if("asc".equals(orderBy)){
+            page.setAsc("create_time");
+        }else{
+            page.setDesc("create_time");
+        }
+        IPage<User> iPage = userMapper.selectUserManagePage(page,state,username);
+        return ServerResponse.success(iPage,"获取用户列表成功");
     }
 }

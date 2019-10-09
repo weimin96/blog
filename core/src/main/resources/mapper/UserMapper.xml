@@ -60,4 +60,18 @@ uid, phone, username, password, sex, email, avatar_img, create_time, logged
     <select id="selectUsername" resultType="map">
         select username as value from user
     </select>
+
+    <select id="selectUserManagePage" resultType="com.wiblog.entity.User">
+        select
+        <include refid="Base_Column_List"/>
+        from user
+        <where>
+            <if test="state != null">
+                and state = #{state}
+            </if>
+            <if test="username != null and username != ''">
+                and username like concat('%',#{username},'%')
+            </if>
+        </where>
+    </select>
 </mapper>

@@ -16,6 +16,7 @@ CREATE TABLE `user` (
   `sex` varchar(32) NOT NULL COMMENT '性别 male or female',
   `email` varchar(100) DEFAULT NULL COMMENT '邮箱地址',
   `avatar_img` varchar(255) NOT NULL COMMENT '头像地址',
+  `state` tinyint(1) NOT NULL default 1 COMMENT '状态 0删除',
   `create_time` DATETIME NOT NULL COMMENT '创建时间',
   `logged` DATETIME DEFAULT NULL COMMENT '上次登录时间',
   PRIMARY KEY (`uid`),
@@ -27,7 +28,46 @@ CREATE TABLE `user` (
 -- ----------------------------
 -- Records of user
 -- ----------------------------
-INSERT INTO `user` VALUES ('1', '15600000000', 'admin', '74A11FB87D6A947022D1658D06E0D7AB', 'male', '735313582@qq.com', 'https://avatars2.githubusercontent.com/u/20983152?s=460&v=4', '2018-09-19 13:52:50',null);
+INSERT INTO `user` (`uid`, `phone`, `username`, `password`, `sex`, `email`, `avatar_img`, `create_time`, `logged`) VALUES ('16', NULL, 'admin', '74A11FB87D6A947022D1658D06E0D7AB', 'male', NULL, 'https://avatars2.githubusercontent.com/u/20983152?s=460&v=4', '2019-10-04 05:11:31', NULL);
+INSERT INTO `user` (`uid`, `phone`, `username`, `password`, `sex`, `email`, `avatar_img`, `create_time`, `logged`) VALUES ('17', NULL, 'user', '74A11FB87D6A947022D1658D06E0D7AB', 'male', NULL, 'http://blog.wiblog.cn/img/reply-avatar.svg', '2019-10-05 07:41:30', NULL);
+INSERT INTO `user` (`uid`, `phone`, `username`, `password`, `sex`, `email`, `avatar_img`, `create_time`, `logged`) VALUES ('18', NULL, 'user2', '74A11FB87D6A947022D1658D06E0D7AB', 'male', NULL, 'http://blog.wiblog.cn/img/reply-avatar.svg', '2019-10-05 07:57:55', NULL);
+
+
+-- ----------------------------
+-- 角色表
+-- ----------------------------
+DROP TABLE IF EXISTS `role`;
+CREATE TABLE `role` (
+    `id` BIGINT(11) NOT NULL AUTO_INCREMENT,
+    `name` varchar(255) NOT NULL COMMENT '角色名',
+    PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of role
+-- ----------------------------
+INSERT INTO `role` VALUES ('1', 'super-admin');
+INSERT INTO `role` VALUES ('2', 'admin');
+INSERT INTO `role` VALUES ('3', 'user');
+INSERT INTO `role` VALUES ('4', 'ban');
+
+
+-- ----------------------------
+-- 用户角色关系表
+-- ----------------------------
+DROP TABLE IF EXISTS `user_role`;
+CREATE TABLE `user_role` (
+    `id` BIGINT(11) NOT NULL AUTO_INCREMENT,
+    `uid` BIGINT(11) NOT NULL COMMENT '用户id',
+    `role_id` BIGINT(11) NOT NULL COMMENT '角色id',
+    PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of user_role
+-- ----------------------------
+INSERT INTO `user_role` VALUES ('1','16', '1');
+
 
 
 -- ----------------------------
@@ -71,7 +111,7 @@ CREATE TABLE `comment` (
   `likes` int(11) NOT NULL COMMENT '点赞数量',
   `floor` int(5) COMMENT '楼层',
   `content` text NOT NULL COMMENT '评论内容',
-  `state` int(1) NOT NULL COMMENT '状态 0删除',
+  `state` tinyint(1) NOT NULL default 1 COMMENT '状态 0删除',
   `create_time` DATETIME NOT NULL,
   `update_time` DATETIME NOT NULL,
   PRIMARY KEY (`id`),
@@ -242,40 +282,7 @@ CREATE TABLE `privateword` (
 -- ----------------------------
 INSERT INTO `privateword` VALUES ('8', '悄悄话测试', '1', '0', null, '2018-09-19 14:13:32');
 
--- ----------------------------
--- Table structure for role
--- ----------------------------
-DROP TABLE IF EXISTS `role`;
-CREATE TABLE `role` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `name` varchar(255) NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
 
--- ----------------------------
--- Records of role
--- ----------------------------
-INSERT INTO `role` VALUES ('1', 'ROLE_USER');
-INSERT INTO `role` VALUES ('2', 'ROLE_ADMIN');
-INSERT INTO `role` VALUES ('3', 'ROLE_SUPERADMIN');
-
-
-
-
--- ----------------------------
--- Table structure for user_role
--- ----------------------------
-DROP TABLE IF EXISTS `user_role`;
-CREATE TABLE `user_role` (
-  `User_id` int(11) NOT NULL,
-  `Role_id` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
--- ----------------------------
--- Records of user_role
--- ----------------------------
-INSERT INTO `user_role` VALUES ('1', '1');
-INSERT INTO `user_role` VALUES ('1', '3');
 
 -- ----------------------------
 -- Table structure for visitor

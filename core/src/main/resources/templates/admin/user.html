@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:v-on="http://www.w3.org/1999/xhtml"
+      xmlns:v-bind="http://www.w3.org/1999/xhtml">
+<head th:replace="admin/common/head :: head(~{::title},~{},~{})">
+    <title>wiblog - Areo的个人网站</title>
+</head>
+
+<body>
+<div id="app">
+    <div class="manage-title">
+        <h2>用户管理</h2>
+    </div>
+    <div class="manage-main">
+
+        <el-row>
+            <el-col :span="24">
+                <template>
+
+                    <el-col :span="5" style="margin-bottom: 10px">
+                        <el-autocomplete class="inline-input" v-model="username"
+                                         :fetch-suggestions="queryNameSearch"
+                                         placeholder="按用户名查找" @select="selectName">
+                            <i class="el-icon-search el-input__icon" slot="suffix"
+                               @click="nameIconClick"></i>
+                        </el-autocomplete>
+                    </el-col>
+
+                    <el-table :data="tableData" style="width: 100%" stripe
+                              @sort-change="sortChange">
+                        <el-table-column prop="username" label="用户名" width="150"></el-table-column>
+                        <el-table-column prop="content" label="评论内容"></el-table-column>
+                        <el-table-column prop="likes" label="点赞数" width="100"></el-table-column>
+                        <el-table-column prop="replyNum" label="回复数" width="100"></el-table-column>
+                        <el-table-column prop="createTime" label="发布时间" width="150"
+                                         sortable="custom"
+                                         :formatter="dateFormatter"></el-table-column>
+                        <el-table-column label="操作" width="130">
+                        </el-table-column>
+
+                    </el-table>
+                </template>
+                <template>
+                    <div class="block" style="float: right;">
+                        <el-pagination
+                                @current-change="handlePageNum"
+                                :current-page="pageNum"
+                                :page-size="pageSize"
+                                layout="total, prev, pager, next, jumper"
+                                :total="total"
+                                :hide-on-single-page="true">
+                        </el-pagination>
+                    </div>
+                </template>
+            </el-col>
+        </el-row>
+
+
+    </div>
+</div>
+
+<div th:replace="admin/common/foot :: adminfoot"></div>
+<script src="/admin/js/user.js"></script>
+</body>
+</html>

@@ -56,4 +56,11 @@ public interface CommentMapper extends BaseMapper<Comment> {
      * @return Integer
      */
     Integer updateStateById(Integer id);
+
+    /**
+     * 修改评论状态
+     * @param id id
+     * @return Integer
+     */
+    Integer restoreStateById(Integer id);
 }

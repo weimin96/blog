@@ -74,4 +74,8 @@ id, uid, article_id, parent_id,gen_id,floor, likes, content, state,create_time, 
     <update id="updateStateById">
         update comment set state = 0 where id = #{id}
     </update>
+
+    <update id="restoreStateById">
+        update comment set state = 1 where id = #{id}
+    </update>
 </mapper>

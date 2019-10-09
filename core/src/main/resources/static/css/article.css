@@ -46,6 +46,11 @@
     padding-left: 10px;
 }
 
+/*已删除评论*/
+.remove-comment{
+    color: #999;
+}
+
 .comment-title-count{
     font-size: 14px;
 }

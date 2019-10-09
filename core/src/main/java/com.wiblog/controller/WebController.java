@@ -96,11 +96,19 @@ public class WebController {
     }
 
     /**
-     * 后台文评论管理
+     * 后台文章评论管理
      */
     @GetMapping("/admin/comment")
     public String comment(){
         return "admin/comment";
+    }
+
+    /**
+     * 后台用户管理
+     */
+    @GetMapping("/admin/user")
+    public String user(){
+        return "admin/user";
     }
 
 

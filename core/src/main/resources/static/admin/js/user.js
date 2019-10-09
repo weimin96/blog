@@ -27,11 +27,6 @@ var app = new Vue({
     },
     methods: {
         init: function () {
-            $.post("/post/allArticles",function (res) {
-                if (res.code === 10000) {
-                    vm.titleArray = res.data;
-                }
-            });
             $.get("/u/getAllUsername",function (res) {
                 if (res.code === 10000) {
                     vm.nameArray = res.data;
@@ -40,7 +35,7 @@ var app = new Vue({
         },
         //评论列表
         initCommentList:function(){
-            $.post("/comment/commentManageListPage", {title:this.title,
+            $.post("/u/userManageListPage", {
                 username:this.username,
                 state: this.state,
                 pageSize: this.pageSize,
@@ -49,17 +44,9 @@ var app = new Vue({
                 if (res.code === 10000) {
                     vm.tableData = res.data.records;
                     vm.total = res.data.total;
-                    /*$.each(vm.tableData,function (index,item) {
-                        item.state = vm.opsFormatter(item);
-                    });*/
                 }
             });
         },
-        stateFormatter: function(row,column){
-            var state = row.state;
-            return state === 1?"正常":"删除";
-        },
-
         dateFormatter: function (row, column) {
             let date = new Date(row.createTime);
             let year = date.getFullYear();
@@ -77,13 +64,6 @@ var app = new Vue({
             }
             return year + "/" + month + "/" + day+" "+hour+":"+minute;
         },
-        // 按文章标题查找
-        queryTitleSearch: function(queryString, cb) {
-            var titleArray = this.titleArray;
-            var results = queryString ? titleArray.filter(this.createFilter(queryString)) : titleArray;
-            // 调用 callback 返回建议列表的数据
-            cb(results);
-        },
         // 按用户名查找
         queryNameSearch: function(queryString, cb) {
             var nameArray = this.nameArray;
@@ -97,15 +77,6 @@ var app = new Vue({
                 return (array.value.toLowerCase().indexOf(queryString.toLowerCase()) === 0);
             };
         },
-        // 选择文章标题
-        selectTitle(item) {
-            this.pageNum = 1;
-            this.initCommentList();
-        },
-        titleIconClick(ev){
-            this.pageNum = 1;
-            this.initCommentList();
-        },
         // 选择用户名
         selectName(item) {
             this.pageNum = 1;
@@ -114,36 +85,6 @@ var app = new Vue({
         nameIconClick(ev){
             this.pageNum = 1;
             this.initCommentList();
-        },
-        // 更改查找状态
-        changeState: function(value){
-            this.pageNum = 1;
-            if(this.stateList.length === 2){
-                this.state = null;
-            }else if (this.stateList[0] === "正常"){
-                this.state = 1;
-            }else{
-                this.state = 0;
-            }
-            this.initCommentList();
-        },
-        // 修改评论状态
-        handleUpdateState: function (row) {
-            if(row.state === 1){
-                $.post("/comment/deleteComment",{id:row.id},function (res) {
-                    if(res.code === 10000){
-                        vm.$message({message:res.msg,type: 'success'});
-                        vm.initCommentList();
-                    }
-                });
-            }else{
-                $.post("/comment/restoreComment",{id:row.id},function (res) {
-                    if(res.code === 10000){
-                        vm.$message({message:"恢复成功",type: 'success'});
-                        vm.initCommentList();
-                    }
-                });
-            }
         },
         handlePageNum: function (val) {
             this.pageNum=val;

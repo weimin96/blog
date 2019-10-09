@@ -17,6 +17,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.concurrent.TimeUnit;
@@ -131,5 +132,25 @@ public class UserController extends BaseController {
     @GetMapping("/getAllUsername")
     public ServerResponse getAllUsername(){
         return userService.getAllUsername();
+    }
+
+    /**
+     * 获取用户管理列表
+     *
+     * @param state 用户状态
+     * @param username 用户名模糊查询
+     * @param pageNum pageNum
+     * @param pageSize pageSize
+     * @param orderBy orderBy
+     * @return ServerResponse
+     */
+    @PostMapping("/userManageListPage")
+    public ServerResponse userManageListPage(
+            @RequestParam(value = "state", required = false) Integer state,
+            @RequestParam(value = "username", required = false) String username,
+            @RequestParam(value = "pageNum", defaultValue = "0") Integer pageNum,
+            @RequestParam(value = "pageSize", defaultValue = "10") Integer pageSize,
+            @RequestParam(value = "orderBy", defaultValue = "asc") String orderBy) {
+        return userService.userManageListPage(state,username,pageNum, pageSize,orderBy);
     }
 }

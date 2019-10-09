@@ -95,4 +95,14 @@ public class CommentController extends BaseController{
     public ServerResponse deleteComment(Integer id){
         return commentService.deleteComment(id);
     }
+
+    /**
+     * 恢复删除
+     * @param id id
+     * @return ServerResponse
+     */
+    @PostMapping("/restoreComment")
+    public ServerResponse restoreComment(Integer id){
+        return commentService.restoreComment(id);
+    }
 }

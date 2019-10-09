@@ -47,4 +47,11 @@ public interface ICommentService extends IService<Comment> {
      * @return ServerResponse
      */
     ServerResponse deleteComment(Integer id);
+
+    /**
+     * 恢复删除评论
+     * @param id id
+     * @return ServerResponse
+     */
+    ServerResponse restoreComment(Integer id);
 }

@@ -1,6 +1,8 @@
 package com.wiblog.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.wiblog.entity.User;
 
 import java.util.List;
@@ -26,4 +28,13 @@ public interface UserMapper extends BaseMapper<User> {
      * @return List
      */
     List<Map<String, String>> selectUsername();
+
+    /**
+     * 获取所有用户信息
+     * @param page page
+     * @param state state
+     * @param username username
+     * @return IPage
+     */
+    IPage<User> selectUserManagePage(Page<User> page, Integer state, String username);
 }

@@ -41,7 +41,6 @@ public class CommentServiceImpl extends ServiceImpl<CommentMapper, Comment> impl
         Date date = new Date();
         comment.setId(null);
         comment.setLikes(0);
-        comment.setState(1);
         comment.setCreateTime(date);
         comment.setUpdateTime(date);
         // 没有回复id是回复文章
@@ -97,5 +96,11 @@ public class CommentServiceImpl extends ServiceImpl<CommentMapper, Comment> impl
     public ServerResponse deleteComment(Integer id) {
         int count = commentMapper.updateStateById(id);
         return ServerResponse.success(count,"删除评论成功");
+    }
+
+    @Override
+    public ServerResponse restoreComment(Integer id) {
+        int count = commentMapper.restoreStateById(id);
+        return ServerResponse.success(count,"恢复删除评论成功");
     }
 }

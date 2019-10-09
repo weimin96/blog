@@ -61,4 +61,15 @@ public interface IUserService extends IService<User> {
      * @return ServerResponse
      */
     ServerResponse getAllUsername();
+
+    /**
+     * 获取用户管理列表
+     * @param state 用户状态
+     * @param username 用户名模糊查询
+     * @param pageNum pageNum
+     * @param pageSize pageSize
+     * @param orderBy orderBy
+     * @return ServerResponse
+     */
+    ServerResponse userManageListPage(Integer state, String username, Integer pageNum, Integer pageSize, String orderBy);
 }
