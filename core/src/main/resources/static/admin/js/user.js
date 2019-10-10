@@ -19,12 +19,12 @@ var app = new Vue({
         stateList:["正常"],
         // 用户授权对话框
         roleDialogVisible: false,
-        // 已有权限
-        hadRoleListObj: [],
-        hadRoleList: [],
-        // 未有权限
-        noHadRoleListObj: [],
-        noHadRoleList: []
+        // 权限列表
+        roleList: [],
+        // 被授权用户id
+        roleUid: '',
+        // 被授权用户角色id
+        userRoleId: ''
     },
     beforeCreate(){
        vm = this;
@@ -101,20 +101,28 @@ var app = new Vue({
         // 用户授权
         handleEdit: function(index,row){
             this.roleDialogVisible = true;
-            $.post("/role/getUserRole",{uid:row.uid},function (res) {
-               if (res.code === 10000){
-                   //vm.hadRoleListObj = res.data;
-               }
-            });
+            this.roleUid = row.uid;
             $.post("/role/getAllRole",function (res) {
                 if (res.code === 10000){
-                    vm.noHadRoleListObj = res.data;
-                    $.each(vm.noHadRoleListObj,function(index,item){
-                       vm.noHadRoleList.push({
-                           key:item.roleId,
-                           label:item.name
-                       });
-                    });
+                    vm.roleList = res.data;
+                }
+            });
+            $.post("/role/getUserRole",{uid:row.uid},function (res) {
+                if (res.code === 10000){
+                    if(res.data!==undefined){
+                        vm.userRoleId = res.data.roleId;
+                    }
+                }
+            });
+        },
+        // 确认授权
+        roleDialogEnter: function(){
+            $.post("/role/assignPermission",{uid:this.roleUid,roleId:this.userRoleId},function (res) {
+                if (res.code === 10000){
+                    vm.$message({message:"分配权限成功",type: 'success'});
+                    this.roleDialogVisible = true;
+                }else {
+                    vm.error(res.msg);
                 }
             });
         },

@@ -1,6 +1,5 @@
 package com.wiblog.service.impl;
 
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.wiblog.common.ServerResponse;
 import com.wiblog.entity.User;
@@ -8,7 +7,6 @@ import com.wiblog.entity.UserRole;
 import com.wiblog.mapper.UserRoleMapper;
 import com.wiblog.service.IUserRoleService;
 import com.wiblog.vo.RoleVo;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -40,8 +38,8 @@ public class UserRoleServiceImpl extends ServiceImpl<UserRoleMapper, UserRole> i
 
     @Override
     public ServerResponse getUserRole(Long uid) {
-        List<RoleVo> list = userRoleMapper.selectRoleByUid(uid);
-        return ServerResponse.success(list);
+        RoleVo role = userRoleMapper.selectRoleByUid(uid);
+        return ServerResponse.success(role);
     }
 
     @Override
