@@ -18,7 +18,13 @@ var app = new Vue({
         // 状态复选框
         stateList:["正常"],
         // 用户授权对话框
-        dialogVisible: false
+        roleDialogVisible: false,
+        // 已有权限
+        hadRoleListObj: [],
+        hadRoleList: [],
+        // 未有权限
+        noHadRoleListObj: [],
+        noHadRoleList: []
     },
     beforeCreate(){
        vm = this;
@@ -94,7 +100,23 @@ var app = new Vue({
         },
         // 用户授权
         handleEdit: function(index,row){
-
+            this.roleDialogVisible = true;
+            $.post("/role/getUserRole",{uid:row.uid},function (res) {
+               if (res.code === 10000){
+                   //vm.hadRoleListObj = res.data;
+               }
+            });
+            $.post("/role/getAllRole",function (res) {
+                if (res.code === 10000){
+                    vm.noHadRoleListObj = res.data;
+                    $.each(vm.noHadRoleListObj,function(index,item){
+                       vm.noHadRoleList.push({
+                           key:item.roleId,
+                           label:item.name
+                       });
+                    });
+                }
+            });
         },
         // 用户注销
         handleDelete: function(index,row){

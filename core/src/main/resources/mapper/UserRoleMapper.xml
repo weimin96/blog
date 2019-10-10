@@ -14,4 +14,14 @@
     <sql id="Base_Column_List">
     id,uid, role_id
     </sql>
+
+    <select id="selectRoleByUid" resultType="com.wiblog.vo.RoleVo">
+        select role_id,name from role
+        join user_role ur on role.id = ur.Role_id
+        where ur.uid = #{uid}
+    </select>
+
+    <select id="selectRole" resultType="com.wiblog.vo.RoleVo">
+        select id as roleId,name from role;
+    </select>
 </mapper>

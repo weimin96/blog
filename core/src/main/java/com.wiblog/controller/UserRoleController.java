@@ -7,6 +7,7 @@ import com.wiblog.entity.UserRole;
 import com.wiblog.service.IUserRoleService;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -20,7 +21,7 @@ import javax.servlet.http.HttpServletRequest;
  * @date 2019-10-09
  */
 @RestController
-@RequestMapping("/user-role")
+@RequestMapping("/role")
 public class UserRoleController extends BaseController{
 
     private IUserRoleService userRoleService;
@@ -37,6 +38,7 @@ public class UserRoleController extends BaseController{
      * @param roleId 角色id
      * @return ServerResponse
      */
+    @PostMapping("/assignPermission")
     public ServerResponse assignPermission(HttpServletRequest request,Long uid,Long roleId){
         // 是否超级管理员
         if(!isSupAdmin(request)){
@@ -52,11 +54,26 @@ public class UserRoleController extends BaseController{
      * @param uid uid
      * @return ServerResponse
      */
+    @PostMapping("/getUserRole")
     public ServerResponse getUserRole(HttpServletRequest request,Long uid){
         // 是否超级管理员
         if(!isSupAdmin(request)){
             return ServerResponse.error("没有权限",90002);
         }
         return userRoleService.getUserRole(uid);
+    }
+
+    /**
+     * 获取权限类别
+     * @param request request
+     * @return ServerResponse
+     */
+    @PostMapping("/getAllRole")
+    public ServerResponse getAllRole(HttpServletRequest request){
+        // 是否超级管理员
+        if(!isSupAdmin(request)){
+            return ServerResponse.error("没有权限",90002);
+        }
+        return userRoleService.getRole();
     }
 }

@@ -28,4 +28,10 @@ public interface IUserRoleService extends IService<UserRole> {
      * @return ServerResponse
      */
     ServerResponse getUserRole(Long uid);
+
+    /**
+     * 获取权限类别
+     * @return ServerResponse
+     */
+    ServerResponse getRole();
 }

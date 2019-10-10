@@ -14,5 +14,16 @@ import java.util.List;
  */
 public interface UserRoleMapper extends BaseMapper<UserRole> {
 
+    /**
+     * 查找用户角色
+     * @param uid uid
+     * @return List
+     */
     List<RoleVo> selectRoleByUid(Long uid);
+
+    /**
+     * 查找权限类别
+     * @return List
+     */
+    List<RoleVo> selectRole();
 }

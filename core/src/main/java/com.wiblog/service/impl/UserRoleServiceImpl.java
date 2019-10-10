@@ -41,6 +41,12 @@ public class UserRoleServiceImpl extends ServiceImpl<UserRoleMapper, UserRole> i
     @Override
     public ServerResponse getUserRole(Long uid) {
         List<RoleVo> list = userRoleMapper.selectRoleByUid(uid);
-        return null;
+        return ServerResponse.success(list);
+    }
+
+    @Override
+    public ServerResponse getRole() {
+        List<RoleVo> list = userRoleMapper.selectRole();
+        return ServerResponse.success(list);
     }
 }
