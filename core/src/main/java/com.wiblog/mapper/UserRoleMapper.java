@@ -2,6 +2,9 @@ package com.wiblog.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.wiblog.entity.UserRole;
+import com.wiblog.vo.RoleVo;
+
+import java.util.List;
 
 /**
  *  Mapper 接口
@@ -11,4 +14,5 @@ import com.wiblog.entity.UserRole;
  */
 public interface UserRoleMapper extends BaseMapper<UserRole> {
 
+    List<RoleVo> selectRoleByUid(Long uid);
 }

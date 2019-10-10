@@ -16,7 +16,9 @@ var app = new Vue({
         // 所有用户名
         nameArray:[],
         // 状态复选框
-        stateList:["正常"]
+        stateList:["正常"],
+        // 用户授权对话框
+        dialogVisible: false
     },
     beforeCreate(){
        vm = this;
@@ -86,11 +88,23 @@ var app = new Vue({
             this.pageNum = 1;
             this.initCommentList();
         },
+        // 查看用户
+        handleView: function(index,row){
+
+        },
+        // 用户授权
+        handleEdit: function(index,row){
+
+        },
+        // 用户注销
+        handleDelete: function(index,row){
+
+        },
         handlePageNum: function (val) {
             this.pageNum=val;
             this.initCommentList();
         },
-        // 排序
+        // 时间排序
         sortChange: function (column) {
             if(column.order === "ascending"){
                 this.orderBy = "asc";
@@ -100,10 +114,5 @@ var app = new Vue({
             this.initCommentList();
         }
 
-    },
-    filters:{
-        opsFormatter: function (state) {
-            return state === 1 ? "删除":"恢复";
-        }
     }
 });

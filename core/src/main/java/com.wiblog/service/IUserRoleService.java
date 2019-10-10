@@ -21,4 +21,11 @@ public interface IUserRoleService extends IService<UserRole> {
      * @return ServerResponse
      */
     ServerResponse assignPermission(User user, Long uid, Long id);
+
+    /**
+     * 获取某个用户权限
+     * @param uid uid
+     * @return ServerResponse
+     */
+    ServerResponse getUserRole(Long uid);
 }

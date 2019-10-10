@@ -93,12 +93,6 @@ CREATE TABLE `article` (
 ) ENGINE=InnoDB AUTO_INCREMENT=20 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
--- Records of article
--- ----------------------------
-
-
-
--- ----------------------------
 -- 评论
 -- ----------------------------
 DROP TABLE IF EXISTS `comment`;

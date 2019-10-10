@@ -38,8 +38,25 @@ public class UserRoleController extends BaseController{
      * @return ServerResponse
      */
     public ServerResponse assignPermission(HttpServletRequest request,Long uid,Long roleId){
+        // 是否超级管理员
+        if(!isSupAdmin(request)){
+            return ServerResponse.error("没有权限",90002);
+        }
         User user = getLoginUser(request);
-
         return userRoleService.assignPermission(user,uid,roleId);
+    }
+
+    /**
+     * 获取某个用户权限
+     * @param request request
+     * @param uid uid
+     * @return ServerResponse
+     */
+    public ServerResponse getUserRole(HttpServletRequest request,Long uid){
+        // 是否超级管理员
+        if(!isSupAdmin(request)){
+            return ServerResponse.error("没有权限",90002);
+        }
+        return userRoleService.getUserRole(uid);
     }
 }
