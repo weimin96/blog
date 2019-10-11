@@ -100,13 +100,16 @@ var app = new Vue({
         },
         // 用户授权
         handleEdit: function(index,row){
-            this.roleDialogVisible = true;
             this.roleUid = row.uid;
             $.post("/role/getAllRole",function (res) {
                 if (res.code === 10000){
                     vm.roleList = res.data;
+                    vm.roleDialogVisible = true;
+                }else{
+                    vm.$message.error(res.msg);
                 }
             });
+            vm.userRoleId = '';
             $.post("/role/getUserRole",{uid:row.uid},function (res) {
                 if (res.code === 10000){
                     if(res.data!==undefined){
@@ -120,9 +123,9 @@ var app = new Vue({
             $.post("/role/assignPermission",{uid:this.roleUid,roleId:this.userRoleId},function (res) {
                 if (res.code === 10000){
                     vm.$message({message:"分配权限成功",type: 'success'});
-                    this.roleDialogVisible = true;
+                    vm.roleDialogVisible = false;
                 }else {
-                    vm.error(res.msg);
+                    vm.$message.error(res.msg);
                 }
             });
         },

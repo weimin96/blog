@@ -34,6 +34,14 @@ public class WebController {
     }
 
     /**
+     * 跳转首页
+     */
+    @GetMapping("/index")
+    public String index2(){
+        return "index";
+    }
+
+    /**
      * 跳转登录页
      */
     @GetMapping("/login")

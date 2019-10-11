@@ -79,7 +79,7 @@
         <el-dialog title="用户授权" :visible.sync="roleDialogVisible" width="50%">
             <template>
                 <el-radio-group v-model="userRoleId" v-for="item in roleList">
-                    <el-radio style="" :label="item.roleId" border>{{item.name}}</el-radio>
+                    <el-radio style="" :label="item.roleId">{{item.name}}</el-radio>
                 </el-radio-group>
                 <span slot="footer" class="dialog-footer">
                     <el-button @click="roleDialogVisible = false">取 消</el-button>

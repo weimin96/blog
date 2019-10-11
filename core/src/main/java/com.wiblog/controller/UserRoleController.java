@@ -1,6 +1,7 @@
 package com.wiblog.controller;
 
 
+import com.wiblog.aop.AuthorizeCheck;
 import com.wiblog.common.ServerResponse;
 import com.wiblog.entity.User;
 import com.wiblog.entity.UserRole;
@@ -38,12 +39,10 @@ public class UserRoleController extends BaseController{
      * @param roleId 角色id
      * @return ServerResponse
      */
+    @AuthorizeCheck(grade = "1")
     @PostMapping("/assignPermission")
     public ServerResponse assignPermission(HttpServletRequest request,Long uid,Long roleId){
         // 是否超级管理员
-        if(!isSupAdmin(request)){
-            return ServerResponse.error("没有权限",90002);
-        }
         User user = getLoginUser(request);
         return userRoleService.assignPermission(user,uid,roleId);
     }
@@ -54,12 +53,9 @@ public class UserRoleController extends BaseController{
      * @param uid uid
      * @return ServerResponse
      */
+    @AuthorizeCheck(grade = "1")
     @PostMapping("/getUserRole")
     public ServerResponse getUserRole(HttpServletRequest request,Long uid){
-        // 是否超级管理员
-        if(!isSupAdmin(request)){
-            return ServerResponse.error("没有权限",90002);
-        }
         return userRoleService.getUserRole(uid);
     }
 
@@ -68,12 +64,9 @@ public class UserRoleController extends BaseController{
      * @param request request
      * @return ServerResponse
      */
+    @AuthorizeCheck(grade = "1")
     @PostMapping("/getAllRole")
     public ServerResponse getAllRole(HttpServletRequest request){
-        // 是否超级管理员
-        if(!isSupAdmin(request)){
-            return ServerResponse.error("没有权限",90002);
-        }
         return userRoleService.getRole();
     }
 }

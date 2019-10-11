@@ -46,6 +46,6 @@ html,body,.manage-main,#app,.el-row{
     margin-top: 15px;
 }
 
-.el-checkbox{
-    display: block;
+.el-radio-group{
+    margin-right: 10px;
 }

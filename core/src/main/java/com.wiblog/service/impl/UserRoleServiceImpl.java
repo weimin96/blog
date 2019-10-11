@@ -29,7 +29,7 @@ public class UserRoleServiceImpl extends ServiceImpl<UserRoleMapper, UserRole> i
         UserRole userRole = new UserRole();
         userRole.setUid(uid);
         userRole.setRoleId(id);
-        int count = userRoleMapper.insert(userRole);
+        int count = userRoleMapper.insertOrUpdate(userRole);
         if (count <=0){
             return ServerResponse.error("权限分配失败",90003);
         }
@@ -46,5 +46,18 @@ public class UserRoleServiceImpl extends ServiceImpl<UserRoleMapper, UserRole> i
     public ServerResponse getRole() {
         List<RoleVo> list = userRoleMapper.selectRole();
         return ServerResponse.success(list);
+    }
+
+    @Override
+    public ServerResponse checkAuthorize(User user,int grade) {
+        if (user == null){
+            return ServerResponse.error("用户未登录",40000);
+        }
+        RoleVo roleVo = userRoleMapper.selectRoleByUid(user.getUid());
+        // 没有权限
+        if(roleVo.getRoleId()>grade){
+            return ServerResponse.error("没有权限",40000);
+        }
+        return ServerResponse.success(null,"权限校验成功");
     }
 }

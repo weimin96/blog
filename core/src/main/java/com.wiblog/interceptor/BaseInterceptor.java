@@ -1,7 +1,9 @@
 package com.wiblog.interceptor;
 
 import com.wiblog.common.Constant;
+import com.wiblog.common.ServerResponse;
 import com.wiblog.entity.User;
+import com.wiblog.service.IUserRoleService;
 import com.wiblog.service.IUserService;
 import com.wiblog.utils.Commons;
 import com.wiblog.utils.IPUtil;
@@ -38,19 +40,20 @@ public class BaseInterceptor implements HandlerInterceptor {
     @Autowired
     private IUserService userService;
 
+    @Autowired
+    private IUserRoleService userRoleService;
+
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object o) throws Exception {
         String uri = request.getRequestURI();
-
-        //log.info("UserAgent:" + request.getHeader(USER_AGENT));
-        log.info("用户访问地址:{}, 来路地址: {}" ,uri, IPUtil.getIpAddr(request));
-
+        log.info("用户访问地址:{}, 来路地址: {}", uri, IPUtil.getIpAddr(request));
 
         //请求拦截处理
         User user = userService.loginUser(request);
-        // 未登录不允许访问admin
-        if (uri.startsWith("/admin") && null == user) {
-            response.sendRedirect(request.getContextPath() + "/login");
+        // 没有管理员权限不允许访问admin
+        if (uri.startsWith("/admin") && !userRoleService.checkAuthorize(user, 2).isSuccess()) {
+            response.sendRedirect(request.getContextPath() + "/");
+            log.info("没有权限访问admin,来路地址: {}",IPUtil.getIpAddr(request));
             return false;
         }
         if (user != null) {

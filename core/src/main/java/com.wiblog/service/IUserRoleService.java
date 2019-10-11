@@ -34,4 +34,12 @@ public interface IUserRoleService extends IService<UserRole> {
      * @return ServerResponse
      */
     ServerResponse getRole();
+
+    /**
+     * 校验权限级别
+     * @param user user
+     * @param grade grade
+     * @return ServerResponse
+     */
+    ServerResponse checkAuthorize(User user,int grade);
 }

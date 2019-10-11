@@ -8,7 +8,7 @@ import java.lang.annotation.Target;
 /**
  * 非空判断注解
  *
- * @author 积雨云科技 pwm
+ * @author pwm
  * @date 2019/6/3
  */
 @Retention(RetentionPolicy.RUNTIME)

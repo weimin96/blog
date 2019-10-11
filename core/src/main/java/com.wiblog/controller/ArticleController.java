@@ -4,9 +4,11 @@ package com.wiblog.controller;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.wiblog.aop.AuthorizeCheck;
 import com.wiblog.aop.RequestRequire;
 import com.wiblog.common.ServerResponse;
 import com.wiblog.entity.Article;
+import com.wiblog.entity.User;
 import com.wiblog.service.IArticleService;
 import com.wiblog.utils.PinYinUtil;
 import com.wiblog.utils.WordFilterUtil;
@@ -22,6 +24,8 @@ import org.springframework.web.bind.annotation.*;
 import java.util.Date;
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+
 
 /**
  * 控制层
@@ -33,8 +37,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/post")
 @Api(tags = "文章中心api")
-@PropertySource(value = "classpath:/config/wiblog.properties", encoding = "utf-8")
-public class ArticleController {
+public class ArticleController extends BaseController{
 
     private IArticleService articleService;
 
@@ -65,7 +68,12 @@ public class ArticleController {
         return ServerResponse.success(articleIPage, "查找文章列表成功");
     }
 
+    /**
+     * 获取所有文章列表 管理员权限
+     * @return ServerResponse
+     */
     @PostMapping("/allArticles")
+    @AuthorizeCheck(grade = "2")
     @ApiOperation(value="所有文章标题列表", notes="获取文章列表")
     public ServerResponse articlePageList() {
         return articleService.getAllArticle();
@@ -79,12 +87,11 @@ public class ArticleController {
     }
 
     /**
-     * 发表文章
+     * 发表文章 管理员权限
      *
      * @param article article
      * @return ServerResponse
      */
-    @PostMapping("/push")
     @ApiOperation(value="发表文章")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "title", value = "标题",required = true,paramType="form"),
@@ -93,8 +100,10 @@ public class ArticleController {
             @ApiImplicitParam(name = "articleCategories", value = "分类",required = true,paramType="form"),
             @ApiImplicitParam(name = "articleSummary", value = "简介",required = true,paramType="form")
     })
+    @PostMapping("/push")
+    @AuthorizeCheck(grade = "2")
     @RequestRequire(require = "title,content,tags,articleCategories,articleSummary", parameter = Article.class)
-    public ServerResponse<String> pushArticle(Article article) {
+    public ServerResponse<String> pushArticle(HttpServletRequest request,Article article) {
         Date date = new Date();
         article.setUpdateTime(date);
         article.setCreateTime(date);
@@ -111,9 +120,8 @@ public class ArticleController {
         article.setCommentsCounts(0);
         article.setHits(0);
         article.setLikes(0);
-        // TODO
-        article.setAuthor("areo");
-
+        User user = getLoginUser(request);
+        article.setAuthor(user.getUsername());
         Boolean bool = articleService.save(article);
 
         if (bool) {
@@ -123,12 +131,13 @@ public class ArticleController {
     }
 
     /**
-     * 修改文章
+     * 修改文章 管理员权限
      *
      * @param article article
      * @return ServerResponse
      */
     @PostMapping("/update")
+    @AuthorizeCheck(grade = "2")
     @ApiOperation(value="修改文章")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "title", value = "标题",required = true,paramType="form"),
@@ -142,8 +151,6 @@ public class ArticleController {
     public ServerResponse<String> updateArticle(Article article) {
         Date date = new Date();
         article.setUpdateTime(date);
-
-
         boolean bool = articleService.updateById(article);
         if (bool) {
             return ServerResponse.success(null, "文章修改成功");

@@ -26,4 +26,11 @@ public interface UserRoleMapper extends BaseMapper<UserRole> {
      * @return List
      */
     List<RoleVo> selectRole();
+
+    /**
+     * 插入或更新用户权限
+     * @param role role
+     * @return Integer
+     */
+    Integer insertOrUpdate(UserRole role);
 }

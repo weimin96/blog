@@ -1,5 +1,6 @@
 package com.wiblog.controller;
 
+import com.wiblog.aop.AuthorizeCheck;
 import com.wiblog.common.ServerResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,8 +30,8 @@ public class AdminController {
     @Autowired
     private SystemInfo si;
 
-    @GetMapping
-    @RequestMapping("/systemStatus")
+    @AuthorizeCheck(grade = "2")
+    @GetMapping("/systemStatus")
     public ServerResponse systemStatus(HttpServletRequest request, Map<String,Object> model){
 
         HardwareAbstractionLayer hal = si.getHardware();

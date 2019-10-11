@@ -2,6 +2,7 @@ package com.wiblog.controller;
 
 
 import com.alibaba.fastjson.JSON;
+import com.wiblog.aop.AuthorizeCheck;
 import com.wiblog.common.Constant;
 import com.wiblog.common.ServerResponse;
 import com.wiblog.entity.User;
@@ -144,6 +145,7 @@ public class UserController extends BaseController {
      * @param orderBy orderBy
      * @return ServerResponse
      */
+    @AuthorizeCheck(grade = "2")
     @PostMapping("/userManageListPage")
     public ServerResponse userManageListPage(
             @RequestParam(value = "state", required = false) Integer state,

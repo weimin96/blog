@@ -46,10 +46,9 @@ CREATE TABLE `role` (
 -- ----------------------------
 -- Records of role
 -- ----------------------------
-INSERT INTO `role` VALUES ('1', 'super-admin');
-INSERT INTO `role` VALUES ('2', 'admin');
-INSERT INTO `role` VALUES ('3', 'user');
-INSERT INTO `role` VALUES ('4', 'ban');
+INSERT INTO `role` VALUES ('1', '超级管理员');
+INSERT INTO `role` VALUES ('2', '管理员');
+INSERT INTO `role` VALUES ('3', '用户');
 
 
 -- ----------------------------
@@ -60,7 +59,8 @@ CREATE TABLE `user_role` (
     `id` BIGINT(11) NOT NULL AUTO_INCREMENT,
     `uid` BIGINT(11) NOT NULL COMMENT '用户id',
     `role_id` BIGINT(11) NOT NULL COMMENT '角色id',
-    PRIMARY KEY (`id`)
+    PRIMARY KEY (`id`),
+    UNIQUE key `uid` (`uid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------

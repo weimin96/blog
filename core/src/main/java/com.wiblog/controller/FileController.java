@@ -1,5 +1,6 @@
 package com.wiblog.controller;
 
+import com.wiblog.aop.AuthorizeCheck;
 import com.wiblog.common.ServerResponse;
 import com.wiblog.service.IFileService;
 import lombok.extern.java.Log;
@@ -28,6 +29,7 @@ public class FileController {
     }
 
     @PostMapping("/uploadImageForEditorMd")
+    @AuthorizeCheck(grade = "2")
     public Map<String,Object> uploadImageForEditorMd(@RequestParam(value = "editormd-image-file", required = true)MultipartFile file){
         return fileService.uploadImageForEditorMd(file);
     }

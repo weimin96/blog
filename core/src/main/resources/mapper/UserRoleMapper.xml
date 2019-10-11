@@ -24,4 +24,12 @@
     <select id="selectRole" resultType="com.wiblog.vo.RoleVo">
         select id as roleId,name from role;
     </select>
+    
+    <insert id="insertOrUpdate" parameterType="com.wiblog.vo.RoleVo">
+        insert into user_role (uid,role_id)
+        values(#{uid},#{roleId})
+        ON DUPLICATE KEY UPDATE
+        role_id = #{roleId},
+        uid = #{uid}
+    </insert>
 </mapper>
