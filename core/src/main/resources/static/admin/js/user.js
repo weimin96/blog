@@ -96,7 +96,8 @@ var app = new Vue({
         },
         // 查看用户
         handleView: function(index,row){
-
+            var d = new Date(row.createTime);
+            window.parent.location.href = "/user/"+(d.getTime()*3);
         },
         // 用户授权
         handleEdit: function(index,row){

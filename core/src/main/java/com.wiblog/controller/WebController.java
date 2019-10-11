@@ -2,12 +2,16 @@ package com.wiblog.controller;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.wiblog.entity.Article;
+import com.wiblog.entity.User;
 import com.wiblog.service.IArticleService;
+import com.wiblog.service.IUserService;
 import com.wiblog.utils.Commons;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+
+import java.util.Date;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
@@ -21,6 +25,9 @@ public class WebController {
 
     @Autowired
     private IArticleService articleService;
+
+    @Autowired
+    private IUserService userService;
 
     @Resource
     private Commons commons;
@@ -61,6 +68,20 @@ public class WebController {
         request.setAttribute("article",article);
         request.setAttribute("commons", commons);
         return "article";
+    }
+
+    /**
+     * 跳转用户中心
+     */
+    @GetMapping("/user/{url}")
+    public String userCenter(HttpServletRequest request, @PathVariable String url){
+        long time = Long.parseLong(url)/3;
+        Date date = new Date(time);
+        User user = userService.getOne(new QueryWrapper<User>().eq("create_time",date));
+        if (user == null){
+            return "404";
+        }
+        return "user";
     }
 
     /**
