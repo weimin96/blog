@@ -15,17 +15,17 @@
     <div class="manage-main">
         <el-row>
             <el-col :span="24" style="background: #fff;border-radius: 10px 10px 0 0;">
+
+
                 <div class="input-title">
                     <el-input v-model="article.title" placeholder="请在此输入标题..."></el-input>
                 </div>
 
                 <template>
                     <div style="margin: 10px">
-                        <el-select v-model="article.articleCategories" placeholder="文章分类">
-                            <el-option v-for="item in categoryList" :key="item.categoryName"
-                                       :label="item.categoryName"
-                                       :value="item.categoryName"></el-option>
-                        </el-select>
+                        <el-cascader :options="categoryList" @change="changeCategory"
+                                     :props="{ expandTrigger: 'hover' }"
+                                     placeholder="文章分类"></el-cascader>
 
 
                         <el-tag :key="tag" v-for="tag in tagList" closable
@@ -43,6 +43,35 @@
                                    @click="showTagInput">
                             + 添加标签
                         </el-button>
+                    </div>
+                </template>
+
+                <template>
+                    <div class="switch-group">
+                        <span v-if="article.privately === '1'">开放阅读</span><span v-else>关闭阅读</span>
+                        <el-switch
+                                v-model="article.privately"
+                                active-color="#ff4949"
+                                inactive-color="#13ce66"
+                                active-value="0"
+                                inactive-value="1">
+                        </el-switch>
+                        <span v-if="article.comment === '1'">开放评论</span><span v-else>关闭评论</span>
+                        <el-switch
+                                v-model="article.comment"
+                                active-color="#ff4949"
+                                inactive-color="#13ce66"
+                                active-value="0"
+                                inactive-value="1">
+                        </el-switch>
+                        <span v-if="article.reward === '1'">开放赞赏</span><span v-else>关闭赞赏</span>
+                        <el-switch
+                                v-model="article.reward"
+                                active-color="#ff4949"
+                                inactive-color="#13ce66"
+                                active-value="0"
+                                inactive-value="1">
+                        </el-switch>
                     </div>
                 </template>
 

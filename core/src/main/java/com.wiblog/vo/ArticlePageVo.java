@@ -1,7 +1,6 @@
-package com.wiblog.entity;
+package com.wiblog.vo;
 
 import java.io.Serializable;
-import java.time.LocalDateTime;
 import java.util.Date;
 
 import io.swagger.annotations.ApiModel;
@@ -15,70 +14,64 @@ import lombok.Data;
  * @date 2019-06-12
  */
 @Data
-@ApiModel(description= "文章信息")
-public class Article implements Serializable{
+public class ArticlePageVo implements Serializable{
 
 	private static final long serialVersionUID = 1L;
 
     /**
      * 主键id
      */
-    @ApiModelProperty(value = "文章id")
     private Long id;
 
 
     /**
      * 作者名
      */
-    @ApiModelProperty(value = "作者名")
     private String author;
 
     /**
      * 标题
      */
-    @ApiModelProperty(value = "标题")
     private String title;
 
     /**
-     * 内容
+     * 简介
      */
-    @ApiModelProperty(value = "内容")
-    private String content;
+    private String articleSummary;;
 
     /**
      * 标签
      */
-    @ApiModelProperty(value = "标签")
     private String tags;
 
     /**
-     * 分类id
+     * 分类url
      */
-    @ApiModelProperty(value = "分类id")
-    private Long categoryId;
+    private String categoryUrl;
+
+    /**
+     * 分类
+     */
+    private String categoryName;
 
     /**
      * 文章封面
      */
-    @ApiModelProperty(value = "文章封面图片url")
     private String imgUrl;
 
     /**
      * 文章地址
      */
-    @ApiModelProperty(value = "文章url地址")
     private String articleUrl;
 
     /**
-     * 简介
+     * 喜欢
      */
-    @ApiModelProperty(value = "简介")
-    private String articleSummary;
+    private Integer likes;
 
     /**
      * 点击量
      */
-    @ApiModelProperty(value = "点击量")
     private Integer hits;
 
     /**
@@ -96,10 +89,11 @@ public class Article implements Serializable{
      */
     private Boolean comment;
 
-    @ApiModelProperty(value = "创建时间")
-    private Date createTime;
+    /**
+     * 评论数
+     */
+    private Integer commentsCounts;
 
-    @ApiModelProperty(value = "更新时间")
-    private Date updateTime;
+    private Date createTime;
 
 }

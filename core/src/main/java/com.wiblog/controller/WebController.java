@@ -85,6 +85,20 @@ public class WebController {
     }
 
     /**
+     * 跳转分类页
+     */
+    @GetMapping("/category/{url}")
+    public String category(HttpServletRequest request, @PathVariable String url){
+        long time = Long.parseLong(url)/3;
+        Date date = new Date(time);
+        User user = userService.getOne(new QueryWrapper<User>().eq("create_time",date));
+        if (user == null){
+            return "404";
+        }
+        return "category";
+    }
+
+    /**
      * 跳转注册页
      */
     @GetMapping("/register")

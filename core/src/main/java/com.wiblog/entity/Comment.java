@@ -58,9 +58,9 @@ public class Comment implements Serializable{
     private String content;
 
     /**
-     * 状态
+     * 状态 0删除
      */
-    private Integer state;
+    private Boolean state;
 
     private Date createTime;
 

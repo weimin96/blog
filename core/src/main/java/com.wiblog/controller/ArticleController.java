@@ -61,29 +61,24 @@ public class ArticleController extends BaseController{
     public ServerResponse<IPage> articlePageList(
             @RequestParam(value = "pageNum", defaultValue = "1") Integer pageNum,
             @RequestParam(value = "pageSize", defaultValue = "10") Integer pageSize) {
-
-        Page<Article> page = new Page<>(pageNum, pageSize);
-        IPage<Article> articleIPage = articleService.page(page, new QueryWrapper<Article>()
-                .select("id", "title", "tags", "article_categories", "url", "article_url", "article_summary", "likes", "hits", "comments_counts", "create_time"));
-        return ServerResponse.success(articleIPage, "查找文章列表成功");
+        return articleService.articlePageList(pageNum,pageSize);
     }
 
     /**
-     * 获取所有文章列表 管理员权限
+     * 获取所有文章标题列表 管理员权限
      * @return ServerResponse
      */
     @PostMapping("/allArticles")
     @AuthorizeCheck(grade = "2")
-    @ApiOperation(value="所有文章标题列表", notes="获取文章列表")
+    @ApiOperation(value="所有文章标题列表", notes="获取文章标题列表")
     public ServerResponse articlePageList() {
         return articleService.getAllArticle();
     }
 
     @ApiOperation(value="通过url的文章id获取文章详细内容")
     @GetMapping("/get/{id}")
-    public ServerResponse<Article> getArticleById(@PathVariable Integer id) {
-        Article article = articleService.getById(id);
-        return ServerResponse.success(article, "获取文章成功");
+    public ServerResponse<Article> getArticleById(@PathVariable Long id) {
+        return articleService.getArticleById(id);
     }
 
     /**
@@ -97,12 +92,12 @@ public class ArticleController extends BaseController{
             @ApiImplicitParam(name = "title", value = "标题",required = true,paramType="form"),
             @ApiImplicitParam(name = "content", value = "内容",required = true,paramType="form"),
             @ApiImplicitParam(name = "tags", value = "标签",required = true,paramType="form"),
-            @ApiImplicitParam(name = "articleCategories", value = "分类",required = true,paramType="form"),
+            @ApiImplicitParam(name = "categoryId", value = "分类",required = true,paramType="form"),
             @ApiImplicitParam(name = "articleSummary", value = "简介",required = true,paramType="form")
     })
     @PostMapping("/push")
     @AuthorizeCheck(grade = "2")
-    @RequestRequire(require = "title,content,tags,articleCategories,articleSummary", parameter = Article.class)
+    @RequestRequire(require = "title,content,tags,articleSummary,categoryId,imgUrl", parameter = Article.class)
     public ServerResponse<String> pushArticle(HttpServletRequest request,Article article) {
         Date date = new Date();
         article.setUpdateTime(date);
@@ -117,12 +112,10 @@ public class ArticleController extends BaseController{
         }
 
         article.setArticleUrl(articleUrl);
-        article.setCommentsCounts(0);
         article.setHits(0);
-        article.setLikes(0);
         User user = getLoginUser(request);
         article.setAuthor(user.getUsername());
-        Boolean bool = articleService.save(article);
+        boolean bool = articleService.save(article);
 
         if (bool) {
             return ServerResponse.success(articleUrl, "文章发表成功");

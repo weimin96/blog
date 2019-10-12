@@ -6,11 +6,13 @@
     <!-- 通用查询映射结果 -->
     <resultMap id="BaseResultMap" type="com.wiblog.entity.Category">
             <id column="id" property="id"/>
-            <result column="category_name" property="categoryName"/>
+            <result column="parent_id" property="parentId"/>
+            <result column="name" property="name"/>
+            <result column="url" property="url"/>
     </resultMap>
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
-id, category_name
+id, parent_id,name,url
     </sql>
 </mapper>

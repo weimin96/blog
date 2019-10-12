@@ -49,3 +49,12 @@ html,body,.manage-main,#app,.el-row{
 .el-radio-group{
     margin-right: 10px;
 }
+
+.switch-group{
+    margin: 20px 10px 10px;
+}
+
+.switch-group span{
+    margin-left: 5px;
+}
+

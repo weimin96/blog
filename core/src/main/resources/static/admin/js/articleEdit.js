@@ -1,9 +1,12 @@
 'use strict';
 
+var vm;
 var app = new Vue({
     el: "#app",
     data: {
+        // 分类列表
         categoryList: [],
+        categoryIds: [],
         // selected: '',
         tagTemp: '',
         tagList: [],
@@ -13,38 +16,45 @@ var app = new Vue({
         article: {
             title: '',
             content: '',
-            articleCategories: '',
+            categoryId: '',
+            category: '',
             articleSummary: '',
             tags: '',
-            url: ''
+            imgUrl: '',
+            privately: '1',
+            reward: '0',
+            comment: '1'
         },
         editor: {}
+    },
+    beforeCreate() {
+        vm = this;
     },
     created() {
         this.initData();
         this.getCategory();
     },
-    mounted(){
-        if( this.articleId === ''){
+    mounted() {
+        if (this.articleId === '') {
             this.initEditor();
         }
     },
     methods: {
         // 初始化编辑器
-        initEditor: function(md){
+        initEditor: function (md) {
             this.editor = editormd("editor", {
                 width: "100%",
                 height: "420",
-                syncScrolling: true ,
+                syncScrolling: true,
                 path: "../lib/editor.md/lib/",
                 markdown: md,
                 imageUpload: true,
                 imageFormats: ["jpg", "jpeg", "gif", "png", "bmp", "webp"],
                 imageUploadURL: "/uploadImageForEditorMd",
-                editorTheme : "neo",
-                watch:false,
+                editorTheme: "neo",
+                watch: false,
                 toolbarIcons: function () {
-                    return ["bold", "italic", "del", "h1", "h2", "h3", "h4", "h5", "h6", "quote", "hr", "list-ul", "list-ol", "|", "table", "code", "link", "image", "|", "undo", "redo", "search","goto-line", "watch", "preview", "fullscreen"]
+                    return ["bold", "italic", "del", "h1", "h2", "h3", "h4", "h5", "h6", "quote", "hr", "list-ul", "list-ol", "|", "table", "code", "link", "image", "|", "undo", "redo", "search", "goto-line", "watch", "preview", "fullscreen"]
                 },
             });
         },
@@ -67,17 +77,33 @@ var app = new Vue({
                 }
             });
         },
+        // 获取分类列表
         getCategory: function () {
             $.get("/category/getCategory", function (data) {
-
                 if (data.code === 10000) {
-                    app.categoryList = data.data;
-                    return app.categoryList;
+                    vm.categoryList = vm.setCategoryTree(data.data,0);
                 }
-            })
+            });
+        },
+        // 构造分类级联列表
+        setCategoryTree: function(data,pid){
+            let tree = [];
+            for (let i = 0; i < data.length; i++) {
+                if(data[i].parentId === pid){
+                    data[i].value=data[i].id;
+                    data[i].label=data[i].name;
+                    data[i].children=vm.setCategoryTree(data,data[i].id);
+                    tree.push(data[i]);
+                }
+            }
+            if (tree.length === 0){
+                return null;
+            }
+            return tree;
         },
         // 文章发表修改
         pushArticle: function () {
+            this.article.imgUrl = "/a.png";
             this.article.content = this.editor.getMarkdown();
             this.article.articleSummary = this.article.content.substr(0, 200);
             // 发表新文章
@@ -86,14 +112,17 @@ var app = new Vue({
                     title: this.article.title,
                     content: this.article.content,
                     tags: this.article.tags,
-                    articleCategories: this.article.articleCategories,
-                    url: this.article.url,
-                    articleSummary: this.article.articleSummary
+                    categoryId: this.article.categoryId,
+                    imgUrl: this.article.imgUrl,
+                    articleSummary: this.article.articleSummary,
+                    privately: this.article.privately,
+                    reward: this.article.reward,
+                    comment: this.article.comment,
                 }, function (res) {
                     if (res.code === 10000) {
                         window.parent.location.href = window.location.protocol + "//" + window.location.host + res.data;
                     } else {
-                        alert(res.msg);
+                        vm.$message.error(res.msg);
                     }
                 })
             } else {
@@ -128,6 +157,9 @@ var app = new Vue({
         // 删除标签
         handleClose: function (tag) {
             this.tagList.splice(this.tagList.indexOf(tag), 1);
+        },
+        changeCategory: function (value) {
+            this.article.categoryId=value[value.length-1]
         }
     }
 });

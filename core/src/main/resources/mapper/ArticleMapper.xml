@@ -10,27 +10,44 @@
             <result column="title" property="title"/>
             <result column="content" property="content"/>
             <result column="tags" property="tags"/>
-            <result column="article_categories" property="articleCategories"/>
-            <result column="url" property="url"/>
+            <result column="category_id" property="categoryId"/>
+            <result column="img_url" property="imgUrl"/>
             <result column="article_url" property="articleUrl"/>
             <result column="article_summary" property="articleSummary"/>
-            <result column="likes" property="likes"/>
             <result column="hits" property="hits"/>
-            <result column="comments_counts" property="commentsCounts"/>
+            <result column="private" property="privately"/>
+            <result column="reward" property="reward"/>
+            <result column="comment" property="comment"/>
             <result column="create_time" property="createTime"/>
             <result column="update_time" property="updateTime"/>
     </resultMap>
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
-id, author, title, content, tags, article_categories, url, article_url, article_summary, likes, hits, comments_counts, create_time, update_time
+id, author, title, content, tags, category_id, img_url, article_url, article_summary, hits, private, reward, comment, create_time, update_time
     </sql>
-
-    <update id="updateCommentCount">
-        update article set comments_counts = comments_counts+1 where id = #{articleId}
-    </update>
 
     <select id="selectAllArticle" resultType="map">
         select title as value from article
+    </select>
+
+    <select id="selectPageList" resultType="com.wiblog.vo.ArticlePageVo">
+        select a.id,a.title,a.author,a.article_summary,a.tags,a.img_url,a.hits,count(al.id) as likes,count(c2.id) as comments_counts,c.name,c.url as categoryUrl,a.create_time
+        from article as a
+        left join category as c on a.category_id = c.id
+        left join article_likes as al on al.article_id = a.id
+        left join comment c2 on c2.article_id = a.id
+        where a.privately != 1
+        group by al.article_id,c2.article_id
+    </select>
+
+    <select id="selectArticleById" resultType="com.wiblog.vo.ArticleVo">
+        select a.id,a.title,a.author,a.tags,a.img_url,a.hits,count(al.id) as likes,count(c2.id) as comments_counts,c.name,c.url as categoryUrl,a.create_time
+        from article as a
+        left join category as c on a.category_id = c.id
+        left join article_likes as al on al.article_id = a.id
+        left join comment c2 on c2.article_id = a.id
+        where a.privately != 1
+        group by al.article_id,c2.article_id
     </select>
 </mapper>

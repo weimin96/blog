@@ -20,7 +20,19 @@ public class Category implements Serializable{
      */
     private Long id;
 
+    /**
+     * 上级id
+     */
+    private Long parentId;
 
-    private String categoryName;
+    /**
+     * 名称
+     */
+    private String name;
+
+    /**
+     * 链接地址
+     */
+    private String url;
 
 }
