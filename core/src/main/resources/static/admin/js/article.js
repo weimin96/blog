@@ -1,3 +1,4 @@
+var vm;
 var app = new Vue({
     el: "#app",
     data: {
@@ -7,6 +8,9 @@ var app = new Vue({
         pageSize: 10,
         total: 0
     },
+    beforeCreate(){
+      vm = this;
+    },
     created() {
         this.init();
     },
@@ -14,8 +18,8 @@ var app = new Vue({
         init: function () {
             $.post("/post/articles", {pageSize: this.pageSize, pageNum: this.pageNum}, function (res) {
                 if (res.code === 10000) {
-                    app.tableData = res.data.records;
-                    app.total = res.data.total;
+                    vm.tableData = res.data.records;
+                    vm.total = res.data.total;
                 }
             });
 
@@ -50,6 +54,10 @@ var app = new Vue({
         handlePageNum: function (val) {
             this.pageNum=val;
             this.init();
+        },
+        // 跳转到分类页面
+        gotoCategoryPage: function (url) {
+            top.location.href="/"+url;
         }
     }
 });
