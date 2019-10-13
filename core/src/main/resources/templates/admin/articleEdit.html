@@ -16,6 +16,15 @@
         <el-row>
             <el-col :span="24" style="background: #fff;border-radius: 10px 10px 0 0;">
 
+                <el-upload
+                        class="img-uploader"
+                        action="/uploadImage"
+                        :show-file-list="false"
+                        :on-success="uploadImgSuccess"
+                        accept=".jpg,.png,.jpeg">
+                    <img v-if="article.imgUrl" :src="article.imgUrl" class="article-img">
+                    <i v-else class="el-icon-plus img-uploader-icon">上传题图</i>
+                </el-upload>
 
                 <div class="input-title">
                     <el-input v-model="article.title" placeholder="请在此输入标题..."></el-input>
@@ -48,6 +57,7 @@
 
                 <template>
                     <div class="switch-group">
+
                         <span v-if="article.privately === '1'">开放阅读</span><span v-else>关闭阅读</span>
                         <el-switch
                                 v-model="article.privately"
@@ -72,6 +82,8 @@
                                 active-value="0"
                                 inactive-value="1">
                         </el-switch>
+
+
                     </div>
                 </template>
 

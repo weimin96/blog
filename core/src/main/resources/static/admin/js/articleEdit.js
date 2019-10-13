@@ -25,7 +25,7 @@ var app = new Vue({
             reward: '0',
             comment: '1'
         },
-        editor: {}
+        editor: {},
     },
     beforeCreate() {
         vm = this;
@@ -67,13 +67,13 @@ var app = new Vue({
             }
             $.get("/post/get/" + id, function (res) {
                 if (res.code === 10000) {
-                    app.article.title = res.data.title;
-                    app.article.content = res.data.content;
-                    app.article.articleCategories = res.data.articleCategories;
-                    app.article.articleSummary = res.data.articleSummary;
-                    app.article.tags = res.data.tags;
-                    app.tagList = app.article.tags.slice().split(/[\n\s+,，]/g);
-                    app.initEditor(app.article.content);
+                    vm.article.title = res.data.title;
+                    vm.article.content = res.data.content;
+                    vm.article.articleCategories = res.data.articleCategories;
+                    vm.article.articleSummary = res.data.articleSummary;
+                    vm.article.tags = res.data.tags;
+                    vm.tagList = vm.article.tags.slice().split(/[\n\s+,，]/g);
+                    vm.initEditor(vm.article.content);
                 }
             });
         },
@@ -158,8 +158,13 @@ var app = new Vue({
         handleClose: function (tag) {
             this.tagList.splice(this.tagList.indexOf(tag), 1);
         },
+        // 设置文章分类
         changeCategory: function (value) {
             this.article.categoryId=value[value.length-1]
+        },
+        // 上传图片成功
+        uploadImgSuccess(res, file) {
+            this.article.imgUrl = res.data;
         }
     }
 });
