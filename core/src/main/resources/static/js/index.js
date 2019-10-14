@@ -21,13 +21,14 @@
                     var commentsCounts=obj['commentsCounts'];
                     var hits=obj['hits'];
                     var likes=obj['likes'];
-                    var articleCategories=obj['articleCategories'];
+                    var imgUrl = obj['imgUrl'];
+                    var articleCategories=obj['categoryName'];
                     var articleSummary=obj['articleSummary'];
                     var $center= $('<article class="post-card clearfix">'+
                         '<div class="clearfix">'+
                         '<div class="post-list-pic">'+
                         '<a href="'+articleUrl+'">'+
-                        '<img src="'+obj['url']+'">'+
+                        '<img src="'+imgUrl+'">'+
                         '</a>'+
                         '</div>'+
                         '<div class="post-list-inner">'+

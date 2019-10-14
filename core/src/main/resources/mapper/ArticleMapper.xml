@@ -42,12 +42,8 @@ id, author, title, content, tags, category_id, img_url, article_url, article_sum
     </select>
 
     <select id="selectArticleById" resultType="com.wiblog.vo.ArticleVo">
-        select a.id,a.title,a.author,a.tags,a.img_url,a.hits,count(al.id) as likes,count(c2.id) as comments_counts,c.name,c.url as categoryUrl,a.create_time
+        select a.id,a.title,a.author,a.content,a.tags,a.img_url,a.privately,a.reward,a.comment,
+        a.category_id,a.create_time
         from article as a
-        left join category as c on a.category_id = c.id
-        left join article_likes as al on al.article_id = a.id
-        left join comment c2 on c2.article_id = a.id
-        where a.privately != 1
-        group by al.article_id,c2.article_id
     </select>
 </mapper>

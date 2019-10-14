@@ -137,10 +137,10 @@ public class ArticleController extends BaseController{
             @ApiImplicitParam(name = "id", value = "文章id",required = true,paramType="form"),
             @ApiImplicitParam(name = "content", value = "内容",required = true,paramType="form"),
             @ApiImplicitParam(name = "tags", value = "标签",required = true,paramType="form"),
-            @ApiImplicitParam(name = "articleCategories", value = "分类",required = true,paramType="form"),
+            @ApiImplicitParam(name = "categoryId", value = "分类",required = true,paramType="form"),
             @ApiImplicitParam(name = "articleSummary", value = "简介",required = true,paramType="form")
     })
-    @RequestRequire(require = "id,title,content,tags,articleCategories,articleSummary", parameter = Article.class)
+    @RequestRequire(require = "id,title,content,tags,categoryId,articleSummary", parameter = Article.class)
     public ServerResponse<String> updateArticle(Article article) {
         Date date = new Date();
         article.setUpdateTime(date);

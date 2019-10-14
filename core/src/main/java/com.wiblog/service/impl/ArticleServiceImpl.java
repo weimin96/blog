@@ -43,7 +43,7 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
 
     @Override
     public ServerResponse getArticleById(Long id) {
-        ArticleVo articleVo = articleMapper.selectArticleById(id);
-        return ServerResponse.success(articleVo,"获取文章成功");
+        Article article = articleMapper.selectById(id);
+        return ServerResponse.success(article,"获取文章成功");
     }
 }

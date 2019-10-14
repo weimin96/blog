@@ -21,9 +21,10 @@ var app = new Vue({
             articleSummary: '',
             tags: '',
             imgUrl: '',
-            privately: '1',
-            reward: '0',
-            comment: '1'
+            articleUrl:'',
+            privately: true,
+            reward: false,
+            comment: true
         },
         editor: {},
     },
@@ -31,7 +32,6 @@ var app = new Vue({
         vm = this;
     },
     created() {
-        this.initData();
         this.getCategory();
     },
     mounted() {
@@ -59,7 +59,7 @@ var app = new Vue({
             });
         },
         // 初始化数据
-        initData: function () {
+        initData: function (categoryData) {
             this.articleId = window.location.search.substr(4);
             var id = this.articleId;
             if (id === '') {
@@ -69,10 +69,17 @@ var app = new Vue({
                 if (res.code === 10000) {
                     vm.article.title = res.data.title;
                     vm.article.content = res.data.content;
-                    vm.article.articleCategories = res.data.articleCategories;
-                    vm.article.articleSummary = res.data.articleSummary;
+                    vm.article.categoryId = res.data.categoryId;
                     vm.article.tags = res.data.tags;
+                    vm.article.imgUrl = res.data.imgUrl;
+                    vm.article.privately = res.data.privately;
+                    vm.article.reward = res.data.reward;
+                    vm.article.comment = res.data.comment;
+                    vm.article.content = res.data.content;
+                    vm.article.articleUrl = res.data.articleUrl;
                     vm.tagList = vm.article.tags.slice().split(/[\n\s+,，]/g);
+                    vm.categoryIds=[];
+                    vm.setCategoryIds(categoryData,vm.article.categoryId);
                     vm.initEditor(vm.article.content);
                 }
             });
@@ -82,6 +89,7 @@ var app = new Vue({
             $.get("/category/getCategory", function (data) {
                 if (data.code === 10000) {
                     vm.categoryList = vm.setCategoryTree(data.data,0);
+                    vm.initData(data.data);
                 }
             });
         },
@@ -101,13 +109,27 @@ var app = new Vue({
             }
             return tree;
         },
+        // 获取已有的分类id列表
+        setCategoryIds: function(data,id){
+            for (let i = 0; i <data.length ; i++) {
+                if(data[i].id === id){
+                    if (data[i].parentId !== 0){
+                        vm.setCategoryIds(data,data[i].parentId);
+                        vm.categoryIds.push(id);
+                        return;
+                    }else{
+                        vm.categoryIds.push(id);
+                        return;
+                    }
+                }
+            }
+        },
         // 文章发表修改
         pushArticle: function () {
-            this.article.imgUrl = "/a.png";
             this.article.content = this.editor.getMarkdown();
             this.article.articleSummary = this.article.content.substr(0, 200);
             // 发表新文章
-            if (this.articleId === '') {
+            if (this.articleId === '' || this.articleId === null) {
                 $.post('/post/push', {
                     title: this.article.title,
                     content: this.article.content,
@@ -131,9 +153,18 @@ var app = new Vue({
                     title: this.article.title,
                     content: this.article.content,
                     tags: this.article.tags,
-                    articleCategories: this.article.articleCategories,
-                    url: this.article.url,
-                    articleSummary: this.article.articleSummary
+                    categoryId: this.article.categoryId,
+                    imgUrl: this.article.imgUrl,
+                    articleSummary: this.article.articleSummary,
+                    privately: this.article.privately,
+                    reward: this.article.reward,
+                    comment: this.article.comment,
+                }, function (res) {
+                    if (res.code === 10000) {
+                        window.parent.location.href = window.location.protocol + "//" + window.location.host + vm.article.articleUrl;
+                    } else {
+                        vm.$message.error(res.msg);
+                    }
                 })
             }
         },
