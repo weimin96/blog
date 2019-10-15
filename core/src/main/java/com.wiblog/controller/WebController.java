@@ -1,9 +1,11 @@
 package com.wiblog.controller;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.wiblog.common.ServerResponse;
 import com.wiblog.entity.Article;
 import com.wiblog.entity.User;
 import com.wiblog.service.IArticleService;
+import com.wiblog.service.IUserRoleService;
 import com.wiblog.service.IUserService;
 import com.wiblog.utils.Commons;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,13 +23,16 @@ import javax.servlet.http.HttpServletRequest;
  * @date 2019/4/12
  */
 @Controller
-public class WebController {
+public class WebController extends BaseController{
 
     @Autowired
     private IArticleService articleService;
 
     @Autowired
     private IUserService userService;
+
+    @Autowired
+    private IUserRoleService userRoleService;
 
     @Resource
     private Commons commons;
@@ -61,12 +66,14 @@ public class WebController {
      */
     @GetMapping("/post/{url}")
     public String article(HttpServletRequest request, @PathVariable String url){
-        Article article = articleService.getOne(new QueryWrapper<Article>().eq("article_url","/post/"+url));
+        Article article = articleService.getOne(new QueryWrapper<Article>().select("privately").eq("article_url","/post/"+url));
         if (article == null){
             return "404";
         }
-        request.setAttribute("article",article);
-        request.setAttribute("commons", commons);
+        User user = getLoginUser(request);
+        if (article.getPrivately() && !userRoleService.checkAuthorize(user,2).isSuccess()){
+            return "404";
+        }
         return "article";
     }
 

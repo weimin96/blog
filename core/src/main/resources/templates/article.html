@@ -23,31 +23,28 @@
                         <div class="card" id="article">
                             <template>
                                 <div class="article-header">
-                                    <div class="title text-left" th:text="${article.title}"></div>
+                                    <div class="title text-left">{{article.title}}</div>
                                     <div class="article-data text-left">
                                     <span class="fa fa-tag tags" v-for="item in tagList">
                                         <span class="tag-text">{{item}}</span>
                                     </span>
                                         <span>
-                                        <i class="fa fa-calendar"> {{articleTime}}</i>
-                                        <i class="fa fa-commenting-o"
-                                           th:text="' 评论 '+${article.commentsCounts ?: 0}"></i>
-                                        <i class="fa fa-eye" th:text="' 阅读 '+${article.hits}"></i>
-                                        <i class="fa fa-thumbs-o-up"
-                                           th:text="' 喜欢 '+${article.likes}"></i>
+                                        <i class="fa fa-calendar"> {{article.articleTime}}</i>
+                                        <i class="fa fa-commenting-o">评论{{article.commentsCounts}}</i>
+                                        <i class="fa fa-eye">阅读{{article.hits}}</i>
+                                        <i class="fa fa-thumbs-o-up">喜欢{{article.likes}}</i>
                                     </span>
                                     </div>
                                 </div>
-                            </template>
+
                             <br>
-                            <div class="article-content">
-                                <th:block th:utext="${commons.article(article.content)}"/>
-                            </div>
+                            <div class="article-content" v-html="article.content"></div>
+                            </template>
 
 
                         </div>
                         <!--评论框-->
-                        <div class="card article-comment">
+                        <div class="card article-comment" v-show="article.comment">
                             <div class="comment-title">
                                 <span>发表评论</span>
                             </div>
@@ -73,11 +70,10 @@
                         </div>
 
                         <!--评论-->
-                        <div id="comments" class="card article-comment">
+                        <div id="comments" class="card article-comment" v-show="article.comment">
                             <div class="comment-title">
                                 <span>全部评论</span>
-                                <span class="comment-title-count"
-                                      th:text="${article.commentsCounts ?: 0}"></span>
+                                <span class="comment-title-count">{{article.commentsCounts}}</span>
                                 <div class="pull-right">
                                     <a class="" @click="getComment('asc')" v-bind:class="{active : 'asc' === orderBy}">按时间正序</a>
                                     <a class="" @click="getComment('desc')"
@@ -365,10 +361,7 @@
 
     <footer th:include="common/footer :: copyright"></footer>
 </div>
-<input type="hidden" id="tags" th:value="${article.tags}"/>
-<input type="hidden" id="author" th:value="${article.author}"/>
-<input type="hidden" id="createTime" th:value="${article.createTime}"/>
-<input type="hidden" id="articleId" th:value="${article.id}"/>
+
 
 
 <div th:replace="common/foot :: foot"></div>

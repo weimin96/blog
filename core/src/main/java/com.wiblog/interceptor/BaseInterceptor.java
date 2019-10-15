@@ -32,8 +32,8 @@ import lombok.extern.slf4j.Slf4j;
 @Component
 @Slf4j
 public class BaseInterceptor implements HandlerInterceptor {
-    @Resource
-    private Commons commons;
+//    @Resource
+//    private Commons commons;
 
     private static final String USER_AGENT = "user-agent";
 
@@ -63,10 +63,10 @@ public class BaseInterceptor implements HandlerInterceptor {
         return true;
     }
 
-    @Override
+    /*@Override
     public void postHandle(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, Object o, ModelAndView modelAndView) throws Exception {
         // 一些工具类和公共方法
         log.info("拦截");
         httpServletRequest.setAttribute("commons", commons);
-    }
+    }*/
 }

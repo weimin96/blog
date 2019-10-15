@@ -4,6 +4,8 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.wiblog.common.ServerResponse;
 import com.wiblog.entity.Article;
+import com.wiblog.entity.User;
+import com.wiblog.vo.ArticleDetailVo;
 
 /**
  *   服务类
@@ -20,7 +22,7 @@ public interface IArticleService extends IService<Article> {
     ServerResponse getAllArticle();
 
     /**
-     * 获取文章分类列表
+     * 获取文章列表
      * @param pageNum pageNum
      * @param pageSize pageSize
      * @return ServerResponse
@@ -33,4 +35,20 @@ public interface IArticleService extends IService<Article> {
      * @return ServerResponse
      */
     ServerResponse getArticleById(Long id);
+
+    /**
+     * 通过url获取文章信息
+     * @param url url
+     * @param user user
+     * @return ServerResponse
+     */
+    ServerResponse<ArticleDetailVo> getArticle(String url, User user);
+
+    /**
+     * 获取文章管理列表
+     * @param num num
+     * @param size size
+     * @return ServerResponse
+     */
+    ServerResponse<IPage> articlesManage(Integer num, Integer size);
 }

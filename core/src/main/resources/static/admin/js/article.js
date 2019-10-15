@@ -16,7 +16,7 @@ var app = new Vue({
     },
     methods: {
         init: function () {
-            $.post("/post/articles", {pageSize: this.pageSize, pageNum: this.pageNum}, function (res) {
+            $.post("/post/articlesManage", {pageSize: this.pageSize, pageNum: this.pageNum}, function (res) {
                 if (res.code === 10000) {
                     vm.tableData = res.data.records;
                     vm.total = res.data.total;

@@ -64,6 +64,19 @@ public class ArticleController extends BaseController{
         return articleService.articlePageList(pageNum,pageSize);
     }
 
+    @PostMapping("/articlesManage")
+    @ApiOperation(value="文章列表", notes="获取文章管理列表")
+    @AuthorizeCheck(grade = "2")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "pageNum", value = "页码（默认0）",paramType="form"),
+            @ApiImplicitParam(name = "pageSize", value = "每页数量(默认10)",paramType="form")
+    })
+    public ServerResponse<IPage> articlesManage(
+            @RequestParam(value = "pageNum", defaultValue = "1") Integer pageNum,
+            @RequestParam(value = "pageSize", defaultValue = "10") Integer pageSize) {
+        return articleService.articlesManage(pageNum,pageSize);
+    }
+
     /**
      * 获取所有文章标题列表 管理员权限
      * @return ServerResponse
@@ -77,8 +90,15 @@ public class ArticleController extends BaseController{
 
     @ApiOperation(value="通过url的文章id获取文章详细内容")
     @GetMapping("/get/{id}")
-    public ServerResponse<Article> getArticleById(@PathVariable Long id) {
+    public ServerResponse getArticleById(@PathVariable Long id) {
         return articleService.getArticleById(id);
+    }
+
+    @ApiOperation(value="通过url获取文章详细内容")
+    @GetMapping("/getArticle")
+    public ServerResponse getArticle(HttpServletRequest request,String url) {
+        User user = getLoginUser(request);
+        return articleService.getArticle(url,user);
     }
 
     /**

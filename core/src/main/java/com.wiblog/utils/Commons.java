@@ -31,19 +31,6 @@ public final class Commons {
         return EmojiParser.parseToUnicode(value);
     }
 
-    /**
-     * 显示文章内容，转换markdown为html
-     *
-     * @param value
-     * @return
-     */
-    public static String article(String value) {
-        if (StringUtils.isNotBlank(value)) {
-//            value = value.replace("<!--more-->", "\r\n");
-            return WiblogUtil.mdToHtml(value);
-        }
-        return "";
-    }
 
     public static String dateFormat(Date date){
         DateFormat df = DateFormat.getDateInstance();

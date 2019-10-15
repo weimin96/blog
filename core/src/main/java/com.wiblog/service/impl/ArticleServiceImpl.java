@@ -5,8 +5,12 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.wiblog.common.ServerResponse;
 import com.wiblog.entity.Article;
+import com.wiblog.entity.User;
 import com.wiblog.mapper.ArticleMapper;
 import com.wiblog.service.IArticleService;
+import com.wiblog.service.IUserRoleService;
+import com.wiblog.utils.WiblogUtil;
+import com.wiblog.vo.ArticleDetailVo;
 import com.wiblog.vo.ArticlePageVo;
 import com.wiblog.vo.ArticleVo;
 
@@ -28,6 +32,9 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
     @Autowired
     private ArticleMapper articleMapper;
 
+    @Autowired
+    private IUserRoleService userRoleService;
+
     @Override
     public ServerResponse getAllArticle() {
         List<Map<String,String>> list =  articleMapper.selectAllArticle();
@@ -37,7 +44,14 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
     @Override
     public ServerResponse<IPage> articlePageList(Integer pageNum, Integer pageSize) {
         Page<Article> page = new Page<>(pageNum, pageSize);
-        IPage<ArticlePageVo> iPage = articleMapper.selectPageList(page);
+        IPage<ArticlePageVo> iPage = articleMapper.selectPageList(page,1);
+        return ServerResponse.success(iPage,"获取文章列表成功");
+    }
+
+    @Override
+    public ServerResponse<IPage> articlesManage(Integer pageNum, Integer pageSize) {
+        Page<Article> page = new Page<>(pageNum, pageSize);
+        IPage<ArticlePageVo> iPage = articleMapper.selectPageList(page,null);
         return ServerResponse.success(iPage,"获取文章列表成功");
     }
 
@@ -45,5 +59,18 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
     public ServerResponse getArticleById(Long id) {
         Article article = articleMapper.selectById(id);
         return ServerResponse.success(article,"获取文章成功");
+    }
+
+    @Override
+    public ServerResponse<ArticleDetailVo> getArticle(String url, User user) {
+        ArticleDetailVo detailVo = articleMapper.selectArticleByUrl(url);
+        if (detailVo == null){
+            return ServerResponse.error("获取文章失败",20001);
+        }
+        detailVo.setContent(WiblogUtil.mdToHtml(detailVo.getContent()));
+        if (detailVo.getPrivately() && !userRoleService.checkAuthorize(user,2).isSuccess()){
+            return ServerResponse.error("获取文章失败",20001);
+        }
+        return ServerResponse.success(detailVo,"获取文章成功");
     }
 }

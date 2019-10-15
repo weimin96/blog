@@ -7,11 +7,19 @@
         el: "#app",
         data: {
             nologin: true,
-            tagList: '',
             author: '',
-            // 文章发表时间
-            articleTime: '',
-            articleId: '',
+            tagList: '',
+            article: {
+                title: '',
+                content: '',
+                articleTime: '',
+                id: '',
+                commentsCounts: 0,
+                hits: 0,
+                likes: 0,
+                reward: false,
+                comment: false
+            },
             // 评论分页
             pageSize: 10,
             pageNum: 1,
@@ -50,20 +58,24 @@
         },
         methods: {
             initData: function () {
-                let tags = document.getElementById("tags").value;
-                this.tagList = tags.slice().split(/[\n\s+,，]/g);
+                new Promise((resolve, reject) => {
+                    $.get("/post/getArticle",{url:window.location.pathname},function (res) {
+                        if (res.code === 10000){
+                            that.article=res.data;
+                            that.author = res.data.author;
+                            that.tagList = res.data.tags.slice().split(/[\n\s+,，]/g);
+                            resolve(that.article.comment);
+                        }
+                    });
+                }).then(function (value) {
+                    if (value){
+                        // 获取评论
+                        that.getComment("asc");
+                    }
+                });
 
-                let createTime = document.getElementById("createTime").value;
-                this.articleTime = dateFormat2(createTime);
 
-                let article_id = document.getElementById("articleId").value;
-                this.articleId = article_id;
 
-                let author = document.getElementById("author").value;
-                this.author = author;
-
-                // 获取评论
-                this.getComment("asc");
 
                 // 评论框
                 if (user !== null) {
@@ -78,7 +90,7 @@
             // 评论排序
             getComment: function(orderBy){
                 this.orderBy = orderBy;
-                $.post("/comment/commentListPage", {pageSize: this.pageSize, pageNum: this.pageNum,articleId: this.articleId,orderBy:this.orderBy}, function (res) {
+                $.post("/comment/commentListPage", {pageSize: this.pageSize, pageNum: this.pageNum,articleId: that.article.id,orderBy:this.orderBy}, function (res) {
                     if (res.code === 10000) {
                         that.commentList = res.data.data.records;
                         that.now = res.data.time;
