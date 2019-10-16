@@ -246,16 +246,16 @@ li {
 
 
 .aside-up-icon {
-    background-image: url(https://imgcache.qq.com/open_proj/proj_qcloud_v2/mc_2014/global/css/v1/sprite/global-201905061503.svg);
+    background-image: url(/img/down.svg);
     position: absolute;
     left: 160px;
     top: 10px;
     overflow: hidden;
-    width: 16px;
-    height: 16px;
     font-size: 0;
-    background-position: 17.919999999999998% 46.08%;
-    background-size: 762.5% 737.5%;
+    width: 11px;
+    height: 11px;
+    background-position: 0% 0%;
+    background-size: 100% 100%;
     background-repeat: no-repeat;
 }
 

@@ -3,8 +3,10 @@ package com.wiblog.controller;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.wiblog.common.ServerResponse;
 import com.wiblog.entity.Article;
+import com.wiblog.entity.Category;
 import com.wiblog.entity.User;
 import com.wiblog.service.IArticleService;
+import com.wiblog.service.ICategoryService;
 import com.wiblog.service.IUserRoleService;
 import com.wiblog.service.IUserService;
 import com.wiblog.utils.Commons;
@@ -33,6 +35,9 @@ public class WebController extends BaseController{
 
     @Autowired
     private IUserRoleService userRoleService;
+
+    @Autowired
+    private ICategoryService categoryService;
 
     @Resource
     private Commons commons;
@@ -96,10 +101,8 @@ public class WebController extends BaseController{
      */
     @GetMapping("/category/{url}")
     public String category(HttpServletRequest request, @PathVariable String url){
-        long time = Long.parseLong(url)/3;
-        Date date = new Date(time);
-        User user = userService.getOne(new QueryWrapper<User>().eq("create_time",date));
-        if (user == null){
+        Category category = categoryService.getOne(new QueryWrapper<Category>().eq("url",url));
+        if (category == null){
             return "404";
         }
         return "category";
@@ -161,6 +164,11 @@ public class WebController extends BaseController{
         return "admin/user";
     }
 
-
-
+    /**
+     * 后台图片管理
+     */
+    @GetMapping("/admin/pic")
+    public String pic(){
+        return "admin/picture";
+    }
 }

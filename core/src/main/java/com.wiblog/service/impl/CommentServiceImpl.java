@@ -57,7 +57,6 @@ public class CommentServiceImpl extends ServiceImpl<CommentMapper, Comment> impl
         if (count <= 0) {
             return ServerResponse.error("评论失败", 40001);
         }
-        articleMapper.updateCommentCount(comment.getArticleId());
         return ServerResponse.success(null, "评论成功");
     }
 

@@ -169,10 +169,10 @@ VALUES ('1', '0', 'java', 'java');
 DROP TABLE IF EXISTS `article_likes`;
 CREATE TABLE `article_likes`
 (
-    `id`          bigint(11)      NOT NULL AUTO_INCREMENT,
-    `article_id`  bigint(11)   NOT NULL COMMENT '文章id',
-    `uid`    bigint(11)      NOT NULL COMMENT '用户id',
-    `create_time` DATETIME NOT NULL COMMENT '创建时间',
+    `id`          bigint(11) NOT NULL AUTO_INCREMENT,
+    `article_id`  bigint(11) NOT NULL COMMENT '文章id',
+    `uid`         bigint(11) NOT NULL COMMENT '用户id',
+    `create_time` DATETIME   NOT NULL COMMENT '创建时间',
     PRIMARY KEY (`id`),
     INDEX article (article_id)
 ) ENGINE = InnoDB
@@ -180,6 +180,20 @@ CREATE TABLE `article_likes`
   DEFAULT CHARSET = utf8;
 
 
+DROP TABLE IF EXISTS `picture`;
+CREATE TABLE `picture`
+(
+    `id`          bigint(11)   NOT NULL AUTO_INCREMENT,
+    `name`        varchar(255) NOT NULL COMMENT '文件名',
+    `type`        varchar(255) NOT NULL COMMENT '文件类型',
+    `url`         varchar(255) NOT NULL COMMENT '文件链接',
+    `extra`       varchar(255) NOT NULL COMMENT '额外字段',
+    `create_time` DATETIME     NOT NULL,
+    `update_time` DATETIME     NOT NULL,
+    PRIMARY KEY (`id`)
+) ENGINE = InnoDB
+  AUTO_INCREMENT = 29
+  DEFAULT CHARSET = utf8;
 
 -- ---------------------------------------------------------------------------
 -- ----------------------------

@@ -1,9 +1,12 @@
 package com.wiblog.service.impl;
 
 import com.wiblog.common.ServerResponse;
+import com.wiblog.entity.Picture;
+import com.wiblog.mapper.PictureMapper;
 import com.wiblog.service.IFileService;
 import com.wiblog.thirdparty.CosApi;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Service;
@@ -22,6 +25,9 @@ import java.util.Map;
 @Service
 @PropertySource(value = "classpath:/config/wiblog.properties", encoding = "utf-8")
 public class FileServiceImpl implements IFileService {
+
+    @Autowired
+    private PictureMapper pictureMapper;
 
     @Value("${qcloud-oss-secret-id}")
     private String secretId;
@@ -47,11 +53,19 @@ public class FileServiceImpl implements IFileService {
         // 生成文件名
         Date date = new Date();
         SimpleDateFormat sf = new SimpleDateFormat("yyyyMMddHHmmss-");
-        String folder = sf.format(date)+file.getOriginalFilename();
+        String fileName = sf.format(date)+file.getOriginalFilename();
         try {
-            String eTag = cosApi.uploadFile(file.getInputStream(),folder,bucketName);
+            String eTag = cosApi.uploadFile(file.getInputStream(),fileName,bucketName);
             if(eTag != null){
-                return ServerResponse.success(path+folder,"图片上传成功");
+                Picture picture = new Picture();
+                picture.setName(fileName);
+                picture.setType("img");
+                picture.setUrl(path+fileName);
+                picture.setCreateTime(date);
+                picture.setUpdateTime(date);
+                picture.setExtra("题图");
+                pictureMapper.insert(picture);
+                return ServerResponse.success(path+fileName,"图片上传成功");
             }
         } catch (IOException e) {
             e.printStackTrace();
@@ -68,13 +82,21 @@ public class FileServiceImpl implements IFileService {
             // 生成文件名
             Date date = new Date();
             SimpleDateFormat sf = new SimpleDateFormat("yyyyMMddHHmmss-");
-            String folder = sf.format(date)+file.getOriginalFilename();
+            String fileName = sf.format(date)+file.getOriginalFilename();
             try {
-                String eTag = cosApi.uploadFile(file.getInputStream(),folder,bucketName);
+                String eTag = cosApi.uploadFile(file.getInputStream(),fileName,bucketName);
                 if(eTag != null){
                     result.put("success", 1);
                     result.put("message", "图片上传成功");
-                    result.put("url", path+folder);
+                    result.put("url", path+fileName);
+                    Picture picture = new Picture();
+                    picture.setName(fileName);
+                    picture.setType("img");
+                    picture.setUrl(path+fileName);
+                    picture.setCreateTime(date);
+                    picture.setUpdateTime(date);
+                    picture.setExtra("内容");
+                    pictureMapper.insert(picture);
                     return result;
                 }
             } catch (IOException e) {
@@ -87,4 +109,5 @@ public class FileServiceImpl implements IFileService {
         result.put("url", "");
         return result;
     }
+
 }

@@ -70,18 +70,15 @@
                 }).then(function (value) {
                     if (value){
                         // 获取评论
-                        that.getComment("asc");
+                        that.getComment(that.orderBy);
                     }
                 });
-
-
-
 
                 // 评论框
                 if (user !== null) {
                     this.nologin = false;
                     if(user.avatarImg !== ""){
-                        this.reply_avatar = user.avatarImg;
+                        this.user_avatar = user.avatarImg;
                     }
                 }
 
@@ -90,6 +87,7 @@
             // 评论排序
             getComment: function(orderBy){
                 this.orderBy = orderBy;
+                this.showReplyIndex=-1;
                 $.post("/comment/commentListPage", {pageSize: this.pageSize, pageNum: this.pageNum,articleId: that.article.id,orderBy:this.orderBy}, function (res) {
                     if (res.code === 10000) {
                         that.commentList = res.data.data.records;
@@ -123,7 +121,7 @@
                 }
                 $.post("/comment/reply", {
                         content: this.replyUserContent,
-                        articleId: this.articleId,
+                        articleId: this.article.id,
                         parentId: this.parentId,
                         genId: commentId
                     },
@@ -131,7 +129,8 @@
                         if (res.code === 10000) {
                             that.$message({message: "评论成功", type: "success"});
                             that.replyUserContent="";
-                            that.getComment("asc");
+                            that.initData();
+                            that.showReplyIndex=-1;
                         } else {
                             that.$message.error(res.msg);
                         }
@@ -143,12 +142,13 @@
                     this.$message.error("请输入评论内容");
                     return;
                 }
-                $.post("/comment/reply", {content: this.replyContent, articleId: this.articleId},
+                $.post("/comment/reply", {content: this.replyContent, articleId: this.article.id},
                     function (res) {
                         if (res.code === 10000) {
                             that.$message({message: "评论成功", type: "success"});
-                            that.replyUserContent="";
-                            that.getComment("asc");
+                            that.replyContent="";
+                            that.initData();
+                            that.showReplyIndex=-1;
                         } else {
                             that.$message.error(res.msg);
                         }
@@ -171,7 +171,6 @@
                 this.moreCommentVisible=true;
                 this.showIndex = index;
                 this.commentItem=this.commentList[index];
-
             }
         },
         filters: {

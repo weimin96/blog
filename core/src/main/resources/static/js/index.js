@@ -24,6 +24,7 @@
                     var imgUrl = obj['imgUrl'];
                     var articleCategories=obj['categoryName'];
                     var articleSummary=obj['articleSummary'];
+                    var categoryUrl = "/category/"+obj['categoryUrl'];
                     var $center= $('<article class="post-card clearfix">'+
                         '<div class="clearfix">'+
                         '<div class="post-list-pic">'+
@@ -33,7 +34,7 @@
                         '</div>'+
                         '<div class="post-list-inner">'+
                         '<header class="post-list-inner-header">'+
-                        '<a class="label" href="https://ylws.me/category/tech">'+articleCategories+
+                        '<a class="label" href="'+categoryUrl+'">'+articleCategories+
                         '<i class="label-arrow"></i></a>'+
                         '<h2 class="post-list-inner-title">'+
                         '<a href="'+articleUrl+'">'+obj['title']+'</a></h2>'+
