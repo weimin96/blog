@@ -24,4 +24,6 @@ public interface IFileService {
      * @return ServerResponse
      */
     Map<String, Object> uploadImageForEditorMd(MultipartFile file);
+
+    ServerResponse getImageList(Integer pageNum, Integer pageSize);
 }

@@ -171,4 +171,12 @@ public class WebController extends BaseController{
     public String pic(){
         return "admin/picture";
     }
+
+    /**
+     * 后台分类管理
+     */
+    @GetMapping("/admin/category")
+    public String category(){
+        return "admin/category";
+    }
 }

@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:v-on="http://www.w3.org/1999/xhtml"
+      xmlns:v-bind="http://www.w3.org/1999/xhtml">
+<head th:replace="admin/common/head :: head(~{::title},~{},~{})">
+    <title>wiblog - Areo的个人网站</title>
+</head>
+
+<body>
+<div id="app">
+    <div class="manage-title">
+        <h2>分类管理</h2>
+    </div>
+    <div class="manage-main">
+        <template>
+            <el-table
+                    :data="categoryList"
+                    style="width: 100%;margin-bottom: 20px;"
+                    row-key="id"
+                    border
+                    default-expand-all
+                    :tree-props="{children: 'children', hasChildren: 'hasChildren'}">
+                <el-table-column
+                        prop="name"
+                        label="名称"
+                        sortable
+                        width="180">
+                </el-table-column>
+                <el-table-column
+                        prop="level"
+                        label="级别"
+                        sortable
+                        width="180">
+                </el-table-column>
+                <el-table-column
+                        prop="url"
+                        label="地址">
+                </el-table-column>
+            </el-table>
+        </template>
+    </div>
+</div>
+
+<div th:replace="admin/common/foot :: adminfoot"></div>
+<script src="/admin/js/category.js"></script>
+</body>
+</html>

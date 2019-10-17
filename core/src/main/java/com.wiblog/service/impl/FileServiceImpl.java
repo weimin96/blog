@@ -1,5 +1,8 @@
 package com.wiblog.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.wiblog.common.ServerResponse;
 import com.wiblog.entity.Picture;
 import com.wiblog.mapper.PictureMapper;
@@ -110,4 +113,10 @@ public class FileServiceImpl implements IFileService {
         return result;
     }
 
+    @Override
+    public ServerResponse getImageList(Integer pageNum,Integer pageSize){
+        Page<Picture> page = new Page<>(pageNum,pageSize);
+        IPage<Picture> iPage = pictureMapper.selectPage(page,new QueryWrapper<>());
+        return ServerResponse.success(iPage,"获取图片列表成功");
+    }
 }
