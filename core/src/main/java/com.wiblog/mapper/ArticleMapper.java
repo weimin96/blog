@@ -48,4 +48,11 @@ public interface ArticleMapper extends BaseMapper<Article> {
      * @return ArticleDetailVo
      */
     ArticleDetailVo selectArticleByUrl(String url);
+
+    /**
+     * 修改文章分类为未分类
+     * @param id id
+     * @return int
+     */
+    int updateByCategoryId(Long id);
 }

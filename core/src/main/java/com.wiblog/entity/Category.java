@@ -35,4 +35,9 @@ public class Category implements Serializable{
      */
     private String url;
 
+    /**
+     * 同级排序
+     */
+    private Integer rank;
+
 }

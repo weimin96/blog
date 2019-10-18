@@ -12,4 +12,10 @@ import com.wiblog.entity.Category;
  */
 public interface ICategoryService extends IService<Category> {
 
+    /**
+     * 删除分类
+     * @param id id
+     * @return ServerResponse
+     */
+    ServerResponse delCategory(Long id);
 }

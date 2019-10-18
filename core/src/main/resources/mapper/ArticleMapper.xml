@@ -18,17 +18,18 @@
             <result column="privately" property="privately"/>
             <result column="reward" property="reward"/>
             <result column="comment" property="comment"/>
+            <result column="state" property="state"/>
             <result column="create_time" property="createTime"/>
             <result column="update_time" property="updateTime"/>
     </resultMap>
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
-id, author, title, content, tags, category_id, img_url, article_url, article_summary, hits, privately, reward, comment, create_time, update_time
+id, author, title, content, tags, category_id, img_url, article_url, article_summary, hits, privately, reward, comment, state,create_time, update_time
     </sql>
 
     <select id="selectAllArticle" resultType="map">
-        select title as value from article
+        select title as value from article where state = 1
     </select>
 
     <select id="selectPageList" resultType="com.wiblog.vo.ArticlePageVo">
@@ -39,8 +40,9 @@ id, author, title, content, tags, category_id, img_url, article_url, article_sum
         left join article_likes as al on al.article_id = a.id
         left join comment c2 on c2.article_id = a.id
         <where>
+            a.state = 1
             <if test="state != null">
-                a.privately  = #{state}
+                and a.privately  = #{state}
             </if>
         </where>
         group by a.id
@@ -50,6 +52,7 @@ id, author, title, content, tags, category_id, img_url, article_url, article_sum
         select a.id,a.title,a.author,a.content,a.tags,a.img_url,a.privately,a.reward,a.comment,
         a.category_id,a.create_time
         from article as a
+        where a.state = 1
     </select>
 
     <select id="selectArticleByUrl" resultType="com.wiblog.vo.ArticleDetailVo">
@@ -59,7 +62,11 @@ id, author, title, content, tags, category_id, img_url, article_url, article_sum
         left join category as c on a.category_id = c.id
         left join article_likes as al on al.article_id = a.id
         left join comment c2 on c2.article_id = a.id
-        where a.article_url = #{url}
+        where a.article_url = #{url} and a.state = 1
         group by a.id
     </select>
+
+    <update id="updateByCategoryId">
+        update article set category_id = -1 where category_id = #{id}
+    </update>
 </mapper>

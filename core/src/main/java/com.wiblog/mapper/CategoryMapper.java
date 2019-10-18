@@ -11,4 +11,10 @@ import com.wiblog.entity.Category;
  */
 public interface CategoryMapper extends BaseMapper<Category> {
 
+    /**
+     * 将该分类的子节点移到上一层
+     * @param id
+     * @return
+     */
+    int updateSubCategory(Long id);
 }

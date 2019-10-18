@@ -5,14 +5,22 @@
 
     <!-- 通用查询映射结果 -->
     <resultMap id="BaseResultMap" type="com.wiblog.entity.Category">
-            <id column="id" property="id"/>
-            <result column="parent_id" property="parentId"/>
-            <result column="name" property="name"/>
-            <result column="url" property="url"/>
+        <id column="id" property="id"/>
+        <result column="parent_id" property="parentId"/>
+        <result column="name" property="name"/>
+        <result column="url" property="url"/>
+        <result column="rank" property="rank"/>
     </resultMap>
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
-id, parent_id,name,url
+id, parent_id,name,url,rank
     </sql>
+
+    <update id="updateSubCategory">
+        update category as ca
+        INNER JOIN category as cb on cb.id = #{id}
+        set ca.parent_id = cb.parent_id
+        where ca.parent_id = #{id}
+    </update>
 </mapper>

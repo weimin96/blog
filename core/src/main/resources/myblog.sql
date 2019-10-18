@@ -107,9 +107,10 @@ CREATE TABLE `article`
     `article_url`     varchar(255) NOT NULL COMMENT '文章地址',
     `article_summary` text         NOT NULL COMMENT '简介',
     `hits`            int(11)      NOT NULL COMMENT '点击量',
-    `privately`       tinyint(1)   NOT NULL default 0 COMMENT '是否设为私密 1私密',
+    `privately`       tinyint(1)   NOT NULL default 0 COMMENT '是否设为私密 1开放',
     `reward`          tinyint(1)   NOT NULL default 0 COMMENT '是否开放打赏 1开启',
     `comment`         tinyint(1)   NOT NULL default 0 COMMENT '是否开放评论 1开放',
+    `state`           tinyint(1)   NOT NULL default 1 COMMENT '是否删除 0删除',
     `create_time`     DATETIME     NOT NULL,
     `update_time`     DATETIME     NOT NULL,
     PRIMARY KEY (`id`)
@@ -151,6 +152,7 @@ CREATE TABLE `category`
     `parent_id` bigint(11)   NOT NULL COMMENT '上级分类id 0为最上级',
     `name`      varchar(255) NOT NULL COMMENT '分类名',
     `url`       varchar(255) NOT NULL COMMENT '链接地址',
+    `rank`      int(11)      NOT NULL COMMENT '同级排序',
     PRIMARY KEY (`id`)
 ) ENGINE = InnoDB
   AUTO_INCREMENT = 8
@@ -160,7 +162,13 @@ CREATE TABLE `category`
 -- Records of categories
 -- ----------------------------
 INSERT INTO `category`
-VALUES ('1', '0', 'java', 'java');
+VALUES ('-1', '0', '不分类', 'not-classified', '0');
+INSERT INTO `category`
+VALUES ('1', '0', 'java', 'java', '1');
+INSERT INTO `category`
+VALUES ('2', '0', 'web', 'web', '2');
+INSERT INTO `category`
+VALUES ('3', '1', 'spring', 'spring', '1');
 
 
 -- ----------------------------
@@ -194,6 +202,8 @@ CREATE TABLE `picture`
 ) ENGINE = InnoDB
   AUTO_INCREMENT = 29
   DEFAULT CHARSET = utf8;
+
+
 
 -- ---------------------------------------------------------------------------
 -- ----------------------------

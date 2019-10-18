@@ -96,6 +96,11 @@ public class Article implements Serializable{
      */
     private Boolean comment;
 
+    /**
+     * 是否删除 0删除
+     */
+    private Boolean state;
+
     @ApiModelProperty(value = "创建时间")
     private Date createTime;
 
