@@ -35,6 +35,9 @@ var app = new Vue({
         setCategoryTree: function (data, pid, level) {
             let tree = [];
             for (let i = 0; i < data.length; i++) {
+                if(data[i].id === -1){
+                    continue;
+                }
                 if (data[i].parentId === pid) {
                     data[i].children = vm.setCategoryTree(data, data[i].id, level + 1);
                     data[i].fullUrl = "/category/"+data[i].url;
