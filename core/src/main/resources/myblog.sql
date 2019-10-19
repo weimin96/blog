@@ -107,7 +107,7 @@ CREATE TABLE `article`
     `article_url`     varchar(255) NOT NULL COMMENT '文章地址',
     `article_summary` text         NOT NULL COMMENT '简介',
     `hits`            int(11)      NOT NULL COMMENT '点击量',
-    `privately`       tinyint(1)   NOT NULL default 0 COMMENT '是否设为私密 1开放',
+    `privately`       tinyint(1)   NOT NULL default 0 COMMENT '是否设为私密 1私密',
     `reward`          tinyint(1)   NOT NULL default 0 COMMENT '是否开放打赏 1开启',
     `comment`         tinyint(1)   NOT NULL default 0 COMMENT '是否开放评论 1开放',
     `state`           tinyint(1)   NOT NULL default 1 COMMENT '是否删除 0删除',

@@ -22,7 +22,7 @@ var app = new Vue({
             tags: '',
             imgUrl: '',
             articleUrl:'',
-            privately: true,
+            privately: false,
             reward: false,
             comment: true
         },
