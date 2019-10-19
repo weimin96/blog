@@ -58,9 +58,9 @@ figure {
     background: #00a2ff
 }
 
-::selection {
+p::selection {
     background: #262a30;
-    color: #fcfcfc
+    color: #f1f1f1
 }
 
 blockquote {

@@ -417,6 +417,10 @@ li {
     left: 63px;
 }
 
+.aside-list li:hover{
+    background-color: #111;
+}
+
 .aside-hidden .aside-list a {
     font-size: 0;
     padding-top: 6px;
