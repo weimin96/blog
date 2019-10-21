@@ -116,7 +116,7 @@ public class FileServiceImpl implements IFileService {
     @Override
     public ServerResponse getImageList(Integer pageNum,Integer pageSize){
         Page<Picture> page = new Page<>(pageNum,pageSize);
-        IPage<Picture> iPage = pictureMapper.selectPage(page,new QueryWrapper<>());
+        IPage<Picture> iPage = pictureMapper.selectPageList(page);
         return ServerResponse.success(iPage,"获取图片列表成功");
     }
 }

@@ -10,20 +10,35 @@
     <div class="manage-title">
         <h2>图片管理</h2>
     </div>
-    <div class="manage-main">
-        <div class="infinite-list" v-infinite-scroll="load"
-             infinite-scroll-disabled="disabled" style="overflow: auto">
+    <div class="manage-main ">
+        <el-upload
+                class="upload-demo"
+                action="uploadImage"
+                :on-success="uploadSuccess">
+            <el-button type="primary" style="margin-bottom: 10px">上传图片<i
+                    class="el-icon-upload el-icon--right"></i></el-button>
+        </el-upload>
+
+
+        <div class="infinite-list">
             <el-row :gutter="20">
-                <el-col :md="6" :sm="8" :xs="12" v-for="record in records" class="infinite-list-item">
-                    <el-image :src="record.url" fit="cover" style="height: 118px;" :id="record.id">
-                        <div slot="placeholder" class="image-slot">
-                            加载中<span class="dot">...</span>
+                <el-col class="infinite-list-item">
+                    <template v-for="(record,index) in records">
+                        <div style="font-size: 16px;font-weight: 500;"
+                             v-if="index === 0 || records[index-1].createTime !== record.createTime">
+                            {{record.createTime | dateFormatter}}
                         </div>
-                    </el-image>
+
+                        <el-image :src="record.url" fit="cover" style="height: 145px;width: 240px"
+                                  :id="record.id">
+                            <div slot="placeholder" class="image-slot">
+                                加载中<span class="dot">...</span>
+                            </div>
+
+                        </el-image>
+                    </template>
                 </el-col>
             </el-row>
-            <p v-if="loading">加载中...</p>
-            <p v-if="noMore">没有更多了</p>
         </div>
     </div>
 </div>
