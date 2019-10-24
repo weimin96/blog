@@ -82,3 +82,39 @@ function dateFormat2(d) {
 }
 
 
+let vue = new Vue({
+    el: "#index-header",
+    data: {
+        categoryList: []
+    },
+    mounted() {
+        this.getCategory();
+    },
+    methods: {
+        getCategory: function () {
+            $.get("/category/getCategory", function (data) {
+                if (data.code === 10000) {
+                    vue.categoryList = vue.setCategoryTree(data.data, 0);
+                }
+            });
+        },
+        // 构造分类级联列表
+        setCategoryTree: function (data, pid) {
+            let tree = [];
+            for (let i = 0; i < data.length; i++) {
+                if (data[i].parentId === pid) {
+                    data[i].value = data[i].id;
+                    data[i].label = data[i].name;
+                    data[i].children = this.setCategoryTree(data, data[i].id);
+                    tree.push(data[i]);
+                }
+            }
+            if (tree.length === 0) {
+                return null;
+            }
+            return tree;
+        },
+    }
+});
+
+

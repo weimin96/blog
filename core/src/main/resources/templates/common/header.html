@@ -6,18 +6,37 @@
             <div class="container">
                 <div class="nav-header">
                     <a href="#" class="js-nav-toggle nav-toggle"><i></i></a>
-                    <h1 id="header-logo"><a href="http://www.wiblog.cn">wiblog | areo的个人网站</a>
-                    </h1>
+                    <h1 id="header-logo"><a href="http://www.wiblog.cn">wiblog </a></h1>
                     <nav id="header-menu-wrap">
-                        <ul class="sf-menu"
-                            style="touch-action: pan-y;">
-                            <li><a href="/" aria-current="page">主页</a></li>
-                            <li><a href="http://www.wiblog.cn/category/tech">技术类</a></li>
-                            <li><a href="http://www.wiblog.cn/category/life">生活</a></li>
-                            <li><a href="http://www.wiblog.cn/category/non-category">不分类</a></li>
-                            <li><a href="http://www.wiblog.cn/category/about">关于</a></li>
-                            <li><a href="http://www.wiblog.cn/links">友情链接</a></li>
+                        <ul role="menubar" class="el-menu-demo el-menu--horizontal el-menu">
+                            <li role="menuitem" tabindex="0" class="el-menu-item is-active" style="">首页</li>
+                            <li role="menuitem" aria-haspopup="true" class="el-submenu">
+                                <div class="el-submenu__title" style="border-bottom-color: transparent;">不分类
+                                    <i class="el-submenu__icon-arrow el-icon-arrow-down"></i>
+                                </div>
+                            </li>
                         </ul>
+                        <el-menu :default-active="1" class="el-menu-demo" mode="horizontal" >
+                            <el-menu-item index="1">首页</el-menu-item>
+                            <el-submenu :index="index" v-for="(item,index) in categoryList">
+                                <template slot="title">{{item.name}}</template>
+
+                                <el-menu-item v-if="item.children !== null" v-for="(it,i) in item.children">{{it.name}}</el-menu-item>
+                            </el-submenu>
+
+                        </el-menu>
+                        <!-- <ul class="sf-menu"
+                             style="touch-action: pan-y;">
+                             <li><a href="/" aria-current="page">主页</a></li>
+                             <li>
+                                 &lt;!&ndash;<a href="http://www.wiblog.cn/category/tech">技术类<i
+                                         class="el-icon-arrow-down el-icon&#45;&#45;right"></i></a>&ndash;&gt;
+                             </li>
+                             <li><a href="http://www.wiblog.cn/category/life">生活</a></li>
+                             <li><a href="http://www.wiblog.cn/category/non-category">不分类</a></li>
+                             <li><a href="http://www.wiblog.cn/category/about">关于</a></li>
+                             <li><a href="http://www.wiblog.cn/links">友情链接</a></li>
+                         </ul>-->
                     </nav>
                 </div>
             </div>
@@ -27,6 +46,7 @@
 
     <script th:inline="javascript">
         var user = [[${user}]];
+
     </script>
 </div>
 

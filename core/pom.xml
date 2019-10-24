@@ -155,11 +155,11 @@
         <!--</dependency>-->
 
         <!--系统内存cpu-->
-        <dependency>
+        <!--<dependency>
             <groupId>com.github.oshi</groupId>
             <artifactId>oshi-core</artifactId>
             <version>3.4.4</version>
-        </dependency>
+        </dependency>-->
         <!--汉字转拼音-->
         <dependency>
             <groupId>com.belerweb</groupId>
@@ -171,6 +171,13 @@
             <groupId>com.qcloud</groupId>
             <artifactId>cos_api</artifactId>
             <version>5.6.8</version>
+        </dependency>
+
+        <!--腾讯云sdk-->
+        <dependency>
+            <groupId>com.tencentcloudapi</groupId>
+            <artifactId>tencentcloud-sdk-java</artifactId>
+            <version>3.0.98</version>
         </dependency>
 
     </dependencies>

@@ -204,29 +204,24 @@ CREATE TABLE `picture`
   DEFAULT CHARSET = utf8;
 
 
-
--- ---------------------------------------------------------------------------
 -- ----------------------------
--- Table structure for archives
+-- 管理员操作日志
 -- ----------------------------
-DROP TABLE IF EXISTS `archives`;
-CREATE TABLE `archives`
+DROP TABLE IF EXISTS `ops`;
+CREATE TABLE `ops`
 (
-    `id`          int(11)      NOT NULL AUTO_INCREMENT,
-    `archiveName` varchar(255) NOT NULL,
+    `id`          bigint(11)   NOT NULL AUTO_INCREMENT,
+    `username`    varchar(255) NOT NULL COMMENT '用户名',
+    `msg`         varchar(255) NOT NULL COMMENT '详情',
+    `create_time` DATETIME     NOT NULL,
+    `update_time` DATETIME     NOT NULL,
     PRIMARY KEY (`id`)
 ) ENGINE = InnoDB
   AUTO_INCREMENT = 4
   DEFAULT CHARSET = utf8;
 
--- ----------------------------
--- Records of archives
--- ----------------------------
-INSERT INTO `archives`
-VALUES ('1', '2018年07月');
-INSERT INTO `archives`
-VALUES ('2', '2018年08月');
 
+-- ---------------------------------------------------------------------------
 
 
 -- ----------------------------
