@@ -56,6 +56,13 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
     }
 
     @Override
+    public ServerResponse delArticle(Long id) {
+        int count = articleMapper.updateState(id);
+        ArticleVo article = articleMapper.selectArticleById(id);
+        return ServerResponse.success(null,"删除成功",article.getTitle());
+    }
+
+    @Override
     public ServerResponse getArticleById(Long id) {
         Article article = articleMapper.selectById(id);
         return ServerResponse.success(article,"获取文章成功");

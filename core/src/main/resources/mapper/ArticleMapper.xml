@@ -69,4 +69,8 @@ id, author, title, content, tags, category_id, img_url, article_url, article_sum
     <update id="updateByCategoryId">
         update article set category_id = -1 where category_id = #{id}
     </update>
+
+    <update id="updateState" parameterType="java.lang.Long">
+        update article set state = 0 where id = #{id}
+    </update>
 </mapper>

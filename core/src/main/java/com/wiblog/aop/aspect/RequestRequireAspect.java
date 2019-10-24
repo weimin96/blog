@@ -1,5 +1,6 @@
 package com.wiblog.aop.aspect;
 
+import com.alibaba.fastjson.JSON;
 import com.wiblog.aop.RequestRequire;
 import com.wiblog.common.ServerResponse;
 
@@ -14,6 +15,8 @@ import org.springframework.stereotype.Component;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 
+import lombok.extern.slf4j.Slf4j;
+
 /**
  * aop拦截 参数校验
  *
@@ -22,6 +25,7 @@ import java.lang.reflect.Method;
  */
 @Component
 @Aspect
+@Slf4j
 public class RequestRequireAspect {
 
     private static final String SPLIT = ",";

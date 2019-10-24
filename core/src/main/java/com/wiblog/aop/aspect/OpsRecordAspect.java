@@ -20,6 +20,7 @@ import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
 import java.lang.reflect.Method;
+import java.text.MessageFormat;
 import java.util.Date;
 
 import javax.servlet.http.HttpServletRequest;
@@ -70,23 +71,22 @@ public class OpsRecordAspect {
         MethodSignature signature = (MethodSignature) mjp.getSignature();
         Method method = signature.getMethod();
 
-
-        OpsRecord opsRecord = method.getAnnotation(OpsRecord.class);
-        String msg = opsRecord.msg();
-
-        User user = userService.loginUser(request);
-        // 插入记录
-        Ops ops = new Ops();
-        ops.setUsername(user.getUsername());
-        ops.setMsg(msg);
-        Date date = new Date();
-        ops.setCreateTime(date);
-        ops.setUpdateTime(date);
-        boolean result = opsService.save(ops);
-        if (!result) {
-            return ServerResponse.error("插入操作日志失败", 30001);
+        ServerResponse result = (ServerResponse) pjp.proceed();
+        if (result.isSuccess()){
+            OpsRecord opsRecord = method.getAnnotation(OpsRecord.class);
+            String msg = opsRecord.msg();
+            msg = MessageFormat.format(msg,result.getExtra());
+            User user = userService.loginUser(request);
+            // 插入记录
+            Ops ops = new Ops();
+            ops.setUsername(user.getUsername());
+            ops.setMsg(msg);
+            Date date = new Date();
+            ops.setCreateTime(date);
+            ops.setUpdateTime(date);
+            opsService.save(ops);
         }
         // 如果没有报错，放行
-        return pjp.proceed();
+        return result;
     }
 }

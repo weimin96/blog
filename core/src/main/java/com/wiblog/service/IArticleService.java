@@ -51,4 +51,11 @@ public interface IArticleService extends IService<Article> {
      * @return ServerResponse
      */
     ServerResponse<IPage> articlesManage(Integer num, Integer size);
+
+    /**
+     * 删除文章
+     * @param id id
+     * @return ServerResponse
+     */
+    ServerResponse delArticle(Long id);
 }

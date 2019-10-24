@@ -2,6 +2,7 @@ package com.wiblog.controller;
 
 
 import com.wiblog.aop.AuthorizeCheck;
+import com.wiblog.aop.OpsRecord;
 import com.wiblog.common.ServerResponse;
 import com.wiblog.entity.Category;
 import com.wiblog.service.ICategoryService;
@@ -47,6 +48,7 @@ public class CategoryController {
      */
     @AuthorizeCheck(grade = "2")
     @PostMapping("/addCategory")
+    @OpsRecord(msg = "添加了分类<<{0}>>")
     public ServerResponse addCategory(String name,String url,Long parentId){
         Category category = new Category();
         category.setName(name);
@@ -61,7 +63,7 @@ public class CategoryController {
         if (!result){
             return ServerResponse.error("新增分类失败",50002);
         }
-        return ServerResponse.success(null,"新增分类成功");
+        return ServerResponse.success(null,"新增分类成功",name);
     }
 
     /**
@@ -71,6 +73,7 @@ public class CategoryController {
      */
     @AuthorizeCheck(grade = "2")
     @PostMapping("/updateCategory")
+    @OpsRecord(msg = "更新了分类<<{0}>>")
     public ServerResponse updateCategory(Category category){
         boolean tag = categoryService.updateById(category);
         if (!tag){

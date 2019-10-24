@@ -55,4 +55,11 @@ public interface ArticleMapper extends BaseMapper<Article> {
      * @return int
      */
     int updateByCategoryId(Long id);
+
+    /**
+     * 修改文章状态为0
+     * @param id id
+     * @return int
+     */
+    int updateState(Long id);
 }

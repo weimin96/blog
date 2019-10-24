@@ -49,7 +49,16 @@ var app = new Vue({
             window.location.href="/admin/articleEdit?id="+row.id;
         },
         handleDelete: function (index,row) {
-            this.$message({message:"删除成功",type: 'success'});
+            this.$confirm('是否删除该文章', '警告', {
+                confirmButtonText: '确定',
+                cancelButtonText: '取消',
+                type: 'warning'
+            }).then(() => {
+                $.post("/post/del",{id:row.id},function (res) {
+                    vm.$message({message:"删除成功",type: 'success'});
+                });
+            });
+
         },
         handlePageNum: function (val) {
             this.pageNum=val;

@@ -118,7 +118,7 @@ public class ArticleController extends BaseController{
     })
     @PostMapping("/push")
     @AuthorizeCheck(grade = "2")
-    @OpsRecord(msg = "发表了一篇文章")
+    @OpsRecord(msg = "发表了文章<<{0}>>")
     @RequestRequire(require = "title,content,tags,articleSummary,categoryId,imgUrl", parameter = Article.class)
     public ServerResponse<String> pushArticle(HttpServletRequest request,Article article) {
         Date date = new Date();
@@ -140,7 +140,7 @@ public class ArticleController extends BaseController{
         boolean bool = articleService.save(article);
 
         if (bool) {
-            return ServerResponse.success(articleUrl, "文章发表成功");
+            return ServerResponse.success(articleUrl, "文章发表成功",title);
         }
         return ServerResponse.error("文章发表失败", 30001);
     }
@@ -162,6 +162,7 @@ public class ArticleController extends BaseController{
             @ApiImplicitParam(name = "categoryId", value = "分类",required = true,paramType="form"),
             @ApiImplicitParam(name = "articleSummary", value = "简介",required = true,paramType="form")
     })
+    @OpsRecord(msg = "修改了文章<<{0}>>")
     @RequestRequire(require = "id,title,content,tags,categoryId,articleSummary", parameter = Article.class)
     public ServerResponse<String> updateArticle(Article article) {
         Date date = new Date();
@@ -171,6 +172,13 @@ public class ArticleController extends BaseController{
             return ServerResponse.success(null, "文章修改成功");
         }
         return ServerResponse.error("文章发表失败", 30001);
+    }
+
+    @PostMapping("/del")
+    @AuthorizeCheck(grade = "2")
+    @OpsRecord(msg = "删除了文章<<{0}>>")
+    public ServerResponse delArticle(Long id){
+        return articleService.delArticle(id);
     }
 
 }
