@@ -3,6 +3,10 @@ ul{
     font-size: 0;
 }
 
+.card{
+    margin: 20px 0;
+}
+
 .card .card-title{
     font-weight: 600;
     color: #333;
@@ -13,6 +17,7 @@ ul{
 .card .card-body{
     background: #fff;
     border-radius: 4px;
+    margin-top: 10px;
 }
 
 .card .stat-list li{
@@ -44,5 +49,21 @@ ul{
 .card .stat-list li div:last-child{
     color: #8f9194;
     padding: 6px 0 10px 0;
+}
+
+/*按钮组*/
+.group-button{
+    margin-top: 10px;
+}
+.group-button button{
+    background: #fff;
+    border: 0;
+    padding: 5px 15px;
+    font-size: 12px;
+    color: #909399;
+}
+
+.active{
+    color: #333!important;
 }
 

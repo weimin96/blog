@@ -2,53 +2,43 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:http="http://www.w3.org/1999/xhtml">
 <div th:fragment="header">
     <div id="index-header">
-        <header id="header-section">
-            <div class="container">
-                <div class="nav-header">
-                    <a href="#" class="js-nav-toggle nav-toggle"><i></i></a>
-                    <h1 id="header-logo"><a href="http://www.wiblog.cn">wiblog </a></h1>
-                    <nav id="header-menu-wrap">
-                        <ul role="menubar" class="el-menu-demo el-menu--horizontal el-menu">
-                            <li role="menuitem" tabindex="0" class="el-menu-item is-active" style="">首页</li>
-                            <li role="menuitem" aria-haspopup="true" class="el-submenu">
-                                <div class="el-submenu__title" style="border-bottom-color: transparent;">不分类
-                                    <i class="el-submenu__icon-arrow el-icon-arrow-down"></i>
-                                </div>
-                            </li>
-                        </ul>
-                        <el-menu :default-active="1" class="el-menu-demo" mode="horizontal" >
-                            <el-menu-item index="1">首页</el-menu-item>
-                            <el-submenu :index="index" v-for="(item,index) in categoryList">
-                                <template slot="title">{{item.name}}</template>
+        <el-container>
+            <el-header>
+                    <div class="header-logo">
+                        <a href="http://www.wiblog.cn">wiblog </a>
+                    </div>
 
-                                <el-menu-item v-if="item.children !== null" v-for="(it,i) in item.children">{{it.name}}</el-menu-item>
-                            </el-submenu>
+                <div class="user-center user-center-unlogin">
 
-                        </el-menu>
-                        <!-- <ul class="sf-menu"
-                             style="touch-action: pan-y;">
-                             <li><a href="/" aria-current="page">主页</a></li>
-                             <li>
-                                 &lt;!&ndash;<a href="http://www.wiblog.cn/category/tech">技术类<i
-                                         class="el-icon-arrow-down el-icon&#45;&#45;right"></i></a>&ndash;&gt;
-                             </li>
-                             <li><a href="http://www.wiblog.cn/category/life">生活</a></li>
-                             <li><a href="http://www.wiblog.cn/category/non-category">不分类</a></li>
-                             <li><a href="http://www.wiblog.cn/category/about">关于</a></li>
-                             <li><a href="http://www.wiblog.cn/links">友情链接</a></li>
-                         </ul>-->
-                    </nav>
+                    <ul class="unlogin">
+                        <li>
+                            <a href="javascript:;" class="nav-unlogin">登录<i></i></a>
+                            <a href="">注册</a>
+                        </li>
+                    </ul>
                 </div>
-            </div>
-        </header>
+
+                <div class="nav-search">
+                    <i></i>
+                </div>
+
+                <div class="menu-group">
+                    <ul id="super-menu" class="sf-menu">
+                        <li><a href="/" class="current">首页</a></li>
+                        <menu-tree v-for="item in category" v-bind:value="item"></menu-tree>
+                    </ul>
+                </div>
+
+            </el-header>
+        </el-container>
     </div>
-    <div class="header-background"></div>
 
-    <script th:inline="javascript">
-        var user = [[${user}]];
-
-    </script>
 </div>
+
+<script th:inline="javascript">
+    var user = [[${user}]];
+
+</script>
 
 
 </html>

@@ -130,222 +130,169 @@ table,table tbody tr th {
     transition: .5s
 }
 
-
-
-
-#header-menu{
-    height: 413px;
-    position: absolute;
-    top: 0;
-    bottom: 0;
-    z-index: 99;
-    background: #222;
-    right: -240px;
-    width: 240px;
-    padding: 20px;
+.sf-menu ul{
+    background: #fff;
+    border-radius: 2px;
+    box-shadow: 0 1px 12px 0 rgba(0,0,0,.2);
+    min-width: 8em;
 }
 
-#offcanvas-menu {
-    height: 413px;
-    position: absolute;
-    top: 0;
-    bottom: 0;
-    z-index: 99;
-    background: #222;
-    right: -240px;
-    width: 240px;
-    padding: 20px;
-    overflow-y: scroll
+.sf-menu .sfHover a{
+    color: #333;
 }
 
-#offcanvas-menu ul {
-    padding: 0;
-    margin: 0
+.sf-with-ul:after{
+    border-left-color: #606266!important;
 }
 
-#offcanvas-menu ul li {
-    padding: 0;
-    margin: 0 0 10px 0;
-    list-style: none
+.sfHover li:hover{
+    background: #222831!important;
+}
+.sf-menu li.sfHover{
+    background: #222831;
 }
 
-#offcanvas-menu ul li a {
-    font-size: 16px;
-    color: rgba(255,255,255,.4)
+.sf-menu a,.sf-menu a:focus {
+    color: #fff;
 }
 
-#offcanvas-menu ul li a:hover {
-    color: #00a2ff
-}
-
-#offcanvas-menu ul li>.sub-menu {
-    margin-top: 9px;
-    padding-left: 20px
-}
-
-#offcanvas-menu ul li.current-menu-item>a {
-    color: #00a2ff
-}
-
-#offcanvas-menu ul .sub-menu {
-    display: block!important
-}
-
-/*滚动条*/
-.offcanvas {
-    overflow: hidden
-}
-
-.offcanvas #index-page {
-    -moz-transform: translateX(-240px);
-    -webkit-transform: translateX(-240px);
-    -ms-transform: translateX(-240px);
-    -o-transform: translateX(-240px);
-    transform: translateX(-240px)
-}
-
-
-/*头部*/
-#index-header {
-    position: relative;
-    margin-bottom: 0;
-    z-index: 5
-}
-#header-section{
-    padding: 0;
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    z-index: 2
-}
-
-/*头部logo*/
-#header-logo {
-    position: relative;
-    z-index: 2;
-    font-size: 28px;
-    text-transform: none;
-    margin-top: 37px;
-    font-weight: 300;
-    float: left
-}
-
-@media screen and (max-width:768px) {
-    #header-logo {
-        width: 100%;
-        float: none;
-        text-align: center
-    }
-}
-
-#header-logo a {
-    color: #fff
-}
-
-#header-logo a:focus,#header-logo a:hover {
+.sfHover a:hover{
     color: #fff!important;
-    text-decoration: none
 }
 
-/*头部菜单*/
-#header-menu-wrap {
-    position: relative;
-    z-index: 2;
-    display: block;
+/*导航一级菜单*/
+.sf-menu > li > a{
+    color: #fff!important;
+}
+.sf-menu > li{
+    background: #222831!important;
+}
+
+.sf-menu > li > a:after{
+    border-left-color: rgba(0, 0, 0, 0)!important;
+}
+
+/*==============================================================*/
+/*头部*/
+#index-header{
+    background: #222831;
+}
+
+header{
+    margin: 0 30px;
+}
+
+/*logo*/
+header .header-logo{
+    display: inline-block;
+    float: left;
+}
+header .header-logo a{
+    color: #fff;
+    font-weight: 300;
+    font-size: 28px;
+    margin-left: 32px;
+    line-height: 60px;
+}
+
+/*菜单*/
+header .menu-group{
+    display: inline-block;
     float: right;
-    margin-top: 22px
+    height: 60px;
 }
 
-@media screen and (max-width: 768px) {
-    #header-menu-wrap {
-        display: none;
-    }
+/*搜索*/
+header .nav-search{
+    display: inline-block;
+    float: right;
+    margin-left: 20px;
+    height: 60px;
+    width: 60px;
+    text-align: center;
+}
+
+header .nav-search:hover{
+    background: #fff;
+}
+
+.nav-search i{
+    display: inline-block;
+    background: url(/img/nav-search.svg) no-repeat;
+    width: 20px;
+    height: 20px;
+    margin-top: 20px;
+}
+
+.nav-search:hover i{
+    background: url(/img/nav-search-hover.svg) no-repeat;
+}
+
+.user-center{
+    display: inline-block;
+    float: right;
+}
+
+.user-center .unlogin{
+    line-height: 60px;
+    padding-inline-start: 30px;
+}
+
+.user-center .unlogin li{
+    list-style: none;
+}
+
+.user-center .unlogin a{
+    color: #fff;
+    margin-left: 20px;
+}
+
+.user-center .unlogin i {
+    display: inline-block;
+    width: 1px;
+    height: 10px;
+    background: #fff;
+    margin-left: 20px;
 }
 
 /*分类菜单*/
 .sf-menu a {
-    padding: .75em 1em!important;
-    font-weight: 400;
+    font-weight: 300;
     border-left: none;
     border-top: none;
     text-decoration: none;
     zoom: 1;
-    font-size: 17px;
+    font-size: 16px;
     border-bottom: none!important
 }
 
-.sf-menu a,.sf-menu a:focus,.sf-menu a:hover {
-    color: #fff!important
-}
+
 
 .sf-menu li,.sf-menu li:hover,.sf-menu ul li,.sf-menu ul ul li {
     background: 0 0
 }
 
-/*头部背景*/
-.header-background {
-    background:#222831;
-    position: relative;
-    height: 100px
+.sf-menu> li{
+    padding-top: 6px;
+    height: 60px;
+    width: 82px;
+    text-align: center;
+}
+.sf-menu> li >a:after{
+    border-top-color: #fff!important;
+}
+.sf-menu> li:hover{
+    background: #fff!important;
 }
 
-/*菜单按钮*/
-.nav-toggle {
-    position: absolute;
-    top: 0;
-    right: 0;
-    z-index: 9999;
-    margin: 0 auto;
-    display: none;
-    cursor: pointer
+.sf-menu> li:hover > a{
+    color: #222831!important;
 }
 
-@media screen and (max-width:768px) {
-    .nav-toggle {
-        display: block;
-        margin-top: 2em;
-        margin-right: 20px;
-    }
+.sf-menu> li:hover  > a:after{
+    border-top-color: #222831!important;
 }
 
-.nav-toggle:focus,.nav-toggle:hover {
-    outline: 0;
-    border-bottom: none!important
-}
-
-.nav-toggle i {
-    position: relative;
-    display: inline-block;
-    width: 30px;
-    height: 2.5px;
-    color: #fff;
-    background: #fff;
-}
-
-.nav-toggle i::after,.nav-toggle i::before {
-    content: '';
-    width: 30px;
-    height: 2.5px;
-    background: #fff;
-    position: absolute;
-}
-
-.nav-toggle i::before {
-    top: -7px
-}
-
-.nav-toggle i::after {
-    bottom: -7px
-}
-
-.nav-toggle:hover i::before {
-    top: -10px
-}
-
-.nav-toggle:hover i::after {
-    bottom: -10px
-}
 
 /*分页*/
 .pagination {
@@ -440,5 +387,7 @@ table,table tbody tr th {
     text-decoration: none;
     color: #5a5a5a
 }
+
+
 
 
