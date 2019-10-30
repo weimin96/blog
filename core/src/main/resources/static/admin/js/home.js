@@ -3,11 +3,14 @@ $(function () {
     let app = new Vue({
         el: "#app",
         data: {
-            articleCount:10,
-            commentCount: 33,
-            hitCount: 1411,
-            userCount: 5,
-            profitCount: 0,
+            // 统计信息
+            staticData:{
+                articleCount:10,
+                commentCount: 33,
+                hitCount: 1411,
+                userCount: 5,
+                profitCount: 0,
+            },
             // 结束日期
             endTime: new Date(),
             // 开始日期
@@ -24,10 +27,19 @@ $(function () {
             vm = this;
         },
         mounted() {
+            this.getStaticData();
             this.initSysChart();
             this.chooseType(this.type);
         },
         methods: {
+            // 获取统计信息
+            getStaticData(){
+              $.get("/getStaticData",function (res) {
+                  if (res.code === 10000){
+                      vm.staticData = res.data;
+                  }
+              })
+            },
             // 获取系统信息
             getMonitorData() {
                 new Promise((resolve, reject) => {

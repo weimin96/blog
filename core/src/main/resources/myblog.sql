@@ -31,18 +31,11 @@ CREATE TABLE `user`
 -- ----------------------------
 -- Records of user
 -- ----------------------------
-INSERT INTO `user` (`uid`, `phone`, `username`, `password`, `sex`, `email`, `avatar_img`,
-                    `create_time`, `logged`)
-VALUES ('16', NULL, 'admin', '74A11FB87D6A947022D1658D06E0D7AB', 'male', NULL,
-        'https://avatars2.githubusercontent.com/u/20983152?s=460&v=4', '2019-10-04 05:11:31', NULL);
-INSERT INTO `user` (`uid`, `phone`, `username`, `password`, `sex`, `email`, `avatar_img`,
-                    `create_time`, `logged`)
-VALUES ('17', NULL, 'user', '74A11FB87D6A947022D1658D06E0D7AB', 'male', NULL,
-        'http://blog.wiblog.cn/img/reply-avatar.svg', '2019-10-05 07:41:30', NULL);
-INSERT INTO `user` (`uid`, `phone`, `username`, `password`, `sex`, `email`, `avatar_img`,
-                    `create_time`, `logged`)
-VALUES ('18', NULL, 'user2', '74A11FB87D6A947022D1658D06E0D7AB', 'male', NULL,
-        'http://blog.wiblog.cn/img/reply-avatar.svg', '2019-10-05 07:57:55', NULL);
+INSERT INTO `myblog`.`user` (`uid`, `phone`, `username`, `password`, `sex`, `email`, `avatar_img`, `state`, `create_time`, `logged`) VALUES ('16', NULL, 'admin', '74A11FB87D6A947022D1658D06E0D7AB', 'male', NULL, 'https://avatars2.githubusercontent.com/u/20983152?s=460&v=4', '1', '2019-10-04 05:11:31', NULL);
+INSERT INTO `myblog`.`user` (`uid`, `phone`, `username`, `password`, `sex`, `email`, `avatar_img`, `state`, `create_time`, `logged`) VALUES ('17', NULL, 'user', '74A11FB87D6A947022D1658D06E0D7AB', 'male', NULL, 'http://blog.wiblog.cn/img/reply-avatar.svg', '1', '2019-10-05 07:41:30', NULL);
+INSERT INTO `myblog`.`user` (`uid`, `phone`, `username`, `password`, `sex`, `email`, `avatar_img`, `state`, `create_time`, `logged`) VALUES ('18', NULL, 'user2', '74A11FB87D6A947022D1658D06E0D7AB', 'male', NULL, 'http://blog.wiblog.cn/img/reply-avatar.svg', '1', '2019-10-05 07:57:55', NULL);
+INSERT INTO `myblog`.`user` (`uid`, `phone`, `username`, `password`, `sex`, `email`, `avatar_img`, `state`, `create_time`, `logged`) VALUES ('19', NULL, 'ionluo', '74A11FB87D6A947022D1658D06E0D7AB', 'male', NULL, 'http://blog.wiblog.cn/img/reply-avatar.svg', '1', '2019-10-19 17:06:54', NULL);
+
 
 
 -- ----------------------------

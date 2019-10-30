@@ -47,4 +47,12 @@ public class Picture implements Serializable{
 
     private Date updateTime;
 
+    public Picture(String name, String type, String url, String extra, Date createTime, Date updateTime) {
+        this.name = name;
+        this.type = type;
+        this.url = url;
+        this.extra = extra;
+        this.createTime = createTime;
+        this.updateTime = updateTime;
+    }
 }

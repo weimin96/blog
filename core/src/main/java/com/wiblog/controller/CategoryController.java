@@ -1,6 +1,7 @@
 package com.wiblog.controller;
 
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.wiblog.aop.AuthorizeCheck;
 import com.wiblog.aop.OpsRecord;
 import com.wiblog.common.ServerResponse;
@@ -36,7 +37,7 @@ public class CategoryController {
 
     @GetMapping("/getCategory")
     public ServerResponse getCategory(){
-        List<Category> list = categoryService.list();
+        List<Category> list = categoryService.list(new QueryWrapper<Category>().orderByDesc("rank"));
         return ServerResponse.success(list,"获取分类列表成功");
     }
 
@@ -79,7 +80,7 @@ public class CategoryController {
         if (!tag){
             return ServerResponse.error("更新分类失败",30001);
         }
-        return ServerResponse.success(null,"更新分类成功");
+        return ServerResponse.success(null,"更新分类成功",category.getName());
     }
 
     /**
@@ -88,6 +89,7 @@ public class CategoryController {
      * @return ServerResponse
      */
     @AuthorizeCheck(grade = "2")
+    @OpsRecord(msg = "删除了分类<<{0}>>")
     @PostMapping("/delCategory")
     public ServerResponse delCategory(Long id){
         return categoryService.delCategory(id);

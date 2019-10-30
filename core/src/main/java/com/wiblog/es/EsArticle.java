@@ -6,6 +6,7 @@ import org.springframework.data.elasticsearch.annotations.Field;
 import org.springframework.data.elasticsearch.annotations.FieldType;
 
 import java.io.Serializable;
+import java.util.Date;
 
 import lombok.Data;
 import lombok.Getter;
@@ -18,6 +19,9 @@ import lombok.Setter;
  * @author pwm
  * @date 2019/10/25
  */
+@Getter
+@Setter
+@NoArgsConstructor
 @Document(indexName = "article",type = "article")
 public class EsArticle  implements Serializable {
     private static final long serialVersionUID = -7577471814974481136L;
@@ -28,50 +32,27 @@ public class EsArticle  implements Serializable {
     @Id
     private String id;
 
+    private Long articleId;
+
     private String title;
 
     private String content;
 
+    @Field(type = FieldType.Long)
+    private Long categoryId;
+
+    @Field(type = FieldType.Date)
+    private Date createTime;
+
+    @Field(type = FieldType.Text)
     private String url;
 
-    public EsArticle() {
-    }
-
-    public EsArticle(String title, String content, String url) {
+    public EsArticle(Long articleId, String title, String content, Long categoryId, Date createTime, String url) {
+        this.articleId = articleId;
         this.title = title;
         this.content = content;
-        this.url = url;
-    }
-
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-    public String getContent() {
-        return content;
-    }
-
-    public void setContent(String content) {
-        this.content = content;
-    }
-
-    public String getUrl() {
-        return url;
-    }
-
-    public void setUrl(String url) {
+        this.categoryId = categoryId;
+        this.createTime = createTime;
         this.url = url;
     }
 }

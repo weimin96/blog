@@ -16,7 +16,7 @@ var app = new Vue({
         article: {
             title: '',
             content: '',
-            categoryId: '',
+            categoryId: -1,
             category: '',
             articleSummary: '',
             tags: '',
@@ -67,16 +67,7 @@ var app = new Vue({
             }
             $.get("/post/get/" + id, function (res) {
                 if (res.code === 10000) {
-                    vm.article.title = res.data.title;
-                    vm.article.content = res.data.content;
-                    vm.article.categoryId = res.data.categoryId;
-                    vm.article.tags = res.data.tags;
-                    vm.article.imgUrl = res.data.imgUrl;
-                    vm.article.privately = res.data.privately;
-                    vm.article.reward = res.data.reward;
-                    vm.article.comment = res.data.comment;
-                    vm.article.content = res.data.content;
-                    vm.article.articleUrl = res.data.articleUrl;
+                    vm.article = res.data;
                     vm.tagList = vm.article.tags.slice().split(/[\n\s+,，]/g);
                     vm.categoryIds=[];
                     vm.setCategoryIds(categoryData,vm.article.categoryId);
@@ -136,7 +127,6 @@ var app = new Vue({
                     tags: this.article.tags,
                     categoryId: this.article.categoryId,
                     imgUrl: this.article.imgUrl,
-                    articleSummary: this.article.articleSummary,
                     privately: this.article.privately,
                     reward: this.article.reward,
                     comment: this.article.comment,
@@ -155,7 +145,6 @@ var app = new Vue({
                     tags: this.article.tags,
                     categoryId: this.article.categoryId,
                     imgUrl: this.article.imgUrl,
-                    articleSummary: this.article.articleSummary,
                     privately: this.article.privately,
                     reward: this.article.reward,
                     comment: this.article.comment,

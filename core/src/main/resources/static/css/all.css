@@ -188,7 +188,7 @@ header .header-logo{
     float: left;
 }
 header .header-logo a{
-    color: #fff;
+    color: #fff!important;
     font-weight: 300;
     font-size: 28px;
     margin-left: 32px;
@@ -200,6 +200,59 @@ header .menu-group{
     display: inline-block;
     float: right;
     height: 60px;
+}
+
+/*通知*/
+header .nav-message i{
+    display: inline-block;
+    background: url(/img/nav-message.svg) no-repeat;
+    width: 20px;
+    height: 20px;
+}
+
+.message-box-user,.message-box{
+    background: #fff;
+    position: absolute;
+    box-shadow: 0 1px 12px 0 rgba(0,0,0,.2);
+    border-radius: 2px;
+    width: 120px;
+    padding-top: 10px;
+}
+
+.message-box-user{
+    right: 45px;
+    top: 43px;
+}
+
+.message-box{
+    right: 90px;
+    top: 43px;
+}
+
+.message-box-user ul,.message-box ul{
+    list-style: none;
+    padding-inline-start: 0;
+}
+
+.message-box-user ul li,.message-box ul li{
+    padding-left: 15px;
+    padding-top: 5px;
+}
+.message-box-user ul i{
+    margin-right: 10px;
+}
+
+.message-box-user li:first-child{
+    font-weight: 400;
+    padding-bottom: 5px;
+    border-bottom: 1px solid #ccc;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.message-box li:nth-child{
+    border-top: 1px solid #ccc;
+    margin-top: 10px;
 }
 
 /*搜索*/
@@ -228,6 +281,45 @@ header .nav-search:hover{
     background: url(/img/nav-search-hover.svg) no-repeat;
 }
 
+.show-search{
+    float: right;
+}
+
+.menu-search{
+    display: inline-block;
+    float: left;
+    height: 60px;
+    margin-left: 100px;
+}
+
+.menu-search input{
+    height: 60px;
+    background: 0 0;
+    border: 0;
+    width: 500px;
+    padding-left: 10px;
+}
+
+.menu-search input:focus{
+    outline: 0;
+}
+
+.search-ipt{
+    display: inline-block;
+    background: url(/img/nav-search.svg) no-repeat;
+    width: 20px;
+    height: 20px;
+    margin-top: 20px;
+}
+
+.search-cancel{
+    display: inline-block;
+    background: url(/img/guanbihover.svg) no-repeat;
+    width: 14px;
+    height: 14px;
+}
+
+/*登录注册*/
 .user-center{
     display: inline-block;
     float: right;

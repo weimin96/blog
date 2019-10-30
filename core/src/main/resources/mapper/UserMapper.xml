@@ -12,13 +12,14 @@
             <result column="sex" property="sex"/>
             <result column="email" property="email"/>
             <result column="avatar_img" property="avatarImg"/>
+            <result column="state" property="state"/>
             <result column="create_time" property="createTime"/>
             <result column="logged" property="logged"/>
     </resultMap>
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
-uid, phone, username, password, sex, email, avatar_img, create_time, logged
+uid, phone, username, password, sex, email, avatar_img,state, create_time, logged
     </sql>
 
     <select id="login" parameterType="com.wiblog.entity.User" resultMap="BaseResultMap">
@@ -36,6 +37,7 @@ uid, phone, username, password, sex, email, avatar_img, create_time, logged
                 email = #{email}
             </if>
             and password = #{password}
+            and state = 1
         </where>
     </select>
     <select id="checkUsername" parameterType="string" resultType="java.lang.Integer">
@@ -43,22 +45,25 @@ uid, phone, username, password, sex, email, avatar_img, create_time, logged
         COUNT(*)
         FROM user
         WHERE username=#{username}
+        and state = 1
     </select>
     <select id="checkPhone" parameterType="string" resultType="java.lang.Integer">
         SELECT
         COUNT(*)
         FROM user
         WHERE phone=#{phone}
+        and state = 1
     </select>
     <select id="checkEmail" parameterType="string" resultType="java.lang.Integer">
         SELECT
         COUNT(*)
         FROM user
         WHERE email=#{email}
+        and state = 1
     </select>
 
     <select id="selectUsername" resultType="map">
-        select username as value from user
+        select username as value from user where state = 1
     </select>
 
     <select id="selectUserManagePage" resultType="com.wiblog.entity.User">

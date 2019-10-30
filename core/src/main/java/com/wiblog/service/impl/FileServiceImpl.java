@@ -60,13 +60,7 @@ public class FileServiceImpl implements IFileService {
         try {
             String eTag = cosApi.uploadFile(file.getInputStream(),fileName,bucketName);
             if(eTag != null){
-                Picture picture = new Picture();
-                picture.setName(fileName);
-                picture.setType("img");
-                picture.setUrl(path+fileName);
-                picture.setCreateTime(date);
-                picture.setUpdateTime(date);
-                picture.setExtra("题图");
+                Picture picture = new Picture(fileName,"img",path+fileName,"",date,date);
                 pictureMapper.insert(picture);
                 return ServerResponse.success(path+fileName,"图片上传成功");
             }
@@ -92,13 +86,7 @@ public class FileServiceImpl implements IFileService {
                     result.put("success", 1);
                     result.put("message", "图片上传成功");
                     result.put("url", path+fileName);
-                    Picture picture = new Picture();
-                    picture.setName(fileName);
-                    picture.setType("img");
-                    picture.setUrl(path+fileName);
-                    picture.setCreateTime(date);
-                    picture.setUpdateTime(date);
-                    picture.setExtra("内容");
+                    Picture picture = new Picture(fileName,"img",path+fileName,"",date,date);
                     pictureMapper.insert(picture);
                     return result;
                 }
@@ -118,5 +106,19 @@ public class FileServiceImpl implements IFileService {
         Page<Picture> page = new Page<>(pageNum,pageSize);
         IPage<Picture> iPage = pictureMapper.selectPageList(page);
         return ServerResponse.success(iPage,"获取图片列表成功");
+    }
+
+    @Override
+    public ServerResponse delImage(Long id) {
+        Picture picture = pictureMapper.selectById(id);
+        CosApi cosApi = new CosApi(secretId,secretkey,bucketSite);
+        boolean tag = cosApi.removeFile(bucketName,picture.getName());
+        if (tag){
+            int count = pictureMapper.deleteById(id);
+            if (count>0){
+                return ServerResponse.success("删除成功");
+            }
+        }
+        return ServerResponse.error("删除失败",30001);
     }
 }

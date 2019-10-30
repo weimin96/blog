@@ -1,4 +1,4 @@
-package com.wiblog.utils;
+package com.wiblog.weixin;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;

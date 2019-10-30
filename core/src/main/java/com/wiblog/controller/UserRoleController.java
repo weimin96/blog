@@ -41,7 +41,6 @@ public class UserRoleController extends BaseController{
      * @return ServerResponse
      */
     @AuthorizeCheck(grade = "1")
-    @OpsRecord(msg = "")
     @PostMapping("/assignPermission")
     public ServerResponse assignPermission(HttpServletRequest request,Long uid,Long roleId){
         // 是否超级管理员

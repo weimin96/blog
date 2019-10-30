@@ -67,6 +67,11 @@ public class User implements Serializable{
     private String avatarImg;
 
     /**
+     * 是否删除 0删除
+     */
+    private Boolean state;
+
+    /**
      * 创建时间
      */
     @ApiModelProperty(value = "注册时间")

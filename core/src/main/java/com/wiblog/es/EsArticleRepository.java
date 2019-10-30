@@ -2,6 +2,8 @@ package com.wiblog.es;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.elasticsearch.core.SearchResultMapper;
+import org.springframework.data.elasticsearch.core.query.SearchQuery;
 import org.springframework.data.elasticsearch.repository.ElasticsearchRepository;
 import org.springframework.stereotype.Component;
 
@@ -15,10 +17,16 @@ public interface EsArticleRepository extends ElasticsearchRepository<EsArticle,S
 
     /**
      * 分页 查询
-     * @param title title
-     * @param content content
-     * @param pageable pageable
+     * @param query query
+     * @param aClass aClass
+     * @param mapper mapper
      * @return Page
      */
-    Page<EsArticle> findByTitleContainingOrContentContaining(String title, String content, Pageable pageable);
+//    Page<EsArticle> queryForPage(SearchQuery query, Class<EsArticle> aClass, SearchResultMapper mapper);
+
+    /**
+     * 删除
+     * @param articleId articleId
+     */
+    void deleteByArticleId(Long articleId);
 }

@@ -40,7 +40,7 @@ public class CosApi {
      * 上传文件
      * 如创建一个对象键为 xxx/yyy/zzz.txt的文件，只用把 key 设置为xxx/yyy/zzz.txt即可
      *
-     * @param file       file
+     * @param in       in
      * @param folder     存放路径
      * @param bucketName 存储桶名称
      */
@@ -116,16 +116,16 @@ public class CosApi {
      * @param bucketName 存储桶名称
      * @param folder 存放路径
      */
-    public void removeFile(String bucketName,String folder){
+    public boolean removeFile(String bucketName,String folder){
         try {
             this.client.deleteObject(bucketName, folder);
-        } catch (CosServiceException serverException) {
+        } catch (CosClientException serverException) {
             serverException.printStackTrace();
-        } catch (CosClientException clientException) {
-            clientException.printStackTrace();
-        }finally {
+            return false;
+        } finally {
             this.client.shutdown();
         }
+        return true;
     }
 
 }

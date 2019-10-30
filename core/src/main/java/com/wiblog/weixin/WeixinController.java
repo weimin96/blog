@@ -1,8 +1,6 @@
 package com.wiblog.weixin;
 
-import com.wiblog.utils.CheckoutUtil;
-import com.wiblog.utils.WeixinUtil;
-
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -22,6 +20,9 @@ import javax.servlet.http.HttpServletResponse;
  */
 @Controller
 public class WeixinController {
+
+    @Autowired
+    private WeixinUtil weixinUtil;
 
     @GetMapping("/tokenCheck")
     @ResponseBody
@@ -46,10 +47,16 @@ public class WeixinController {
         }
     }
 
+    @GetMapping("/weixin/getAccessToken")
+    @ResponseBody
+    public String getAccessToken() {
+        return weixinUtil.getAccessToken();
+    }
+
     @GetMapping("/weixin/sign")
     @ResponseBody
     public Map<String, String> sign(String url) {
-        return WeixinUtil.sign(url);
+        return weixinUtil.sign(url);
     }
 
     @GetMapping("/weixin/test")

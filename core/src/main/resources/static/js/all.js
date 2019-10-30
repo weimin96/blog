@@ -66,10 +66,21 @@ function dateFormat(d) {
 let vue = new Vue({
     el: "#index-header",
     data: {
-        category: []
+        category: [],
+        showSearch: false,
+        isLogin: false,
+        avatarImg:"",
+        username: "",
+        showUserMessage: false,
+        showMessage: false
     },
     mounted() {
         this.getCategory();
+        if (user != null){
+            this.isLogin = true;
+            this.avatarImg=user.avatarImg;
+            this.username = user.username;
+        }
     },
     methods: {
         getCategory: function () {
@@ -98,6 +109,13 @@ let vue = new Vue({
             }
             return tree;
         },
+        showSearchBtn(e){
+            this.showSearch = true;
+            this.$nextTick(function (e) {
+                $("#searchInput").focus();
+            });
+
+        }
     }
 });
 

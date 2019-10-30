@@ -1,45 +1,93 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:http="http://www.w3.org/1999/xhtml">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:http="http://www.w3.org/1999/xhtml"
+      xmlns:v-bind="http://www.w3.org/1999/xhtml">
 <div th:fragment="header">
     <div id="index-header">
-        <el-container>
-            <el-header>
+        <template>
+            <el-container>
+                <el-header>
                     <div class="header-logo">
                         <a href="http://www.wiblog.cn">wiblog </a>
                     </div>
 
-                <div class="user-center user-center-unlogin">
+                    <div class="user-center">
+                        <ul class="unlogin" v-show="!isLogin">
+                            <li>
+                                <a href="javascript:;" class="nav-unlogin">登录<i></i></a>
+                                <a href="javascript:;">注册</a>
+                            </li>
+                        </ul>
+                    </div>
 
-                    <ul class="unlogin">
-                        <li>
-                            <a href="javascript:;" class="nav-unlogin">登录<i></i></a>
-                            <a href="">注册</a>
-                        </li>
-                    </ul>
-                </div>
+                    <div class="user-center" v-show="isLogin"
+                         style="margin-left: 23px;margin-top: 12px;"
+                         @mouseover="showUserMessage = true"
+                         @mouseout="showUserMessage = false">
+                        <el-avatar :size="30" :src="avatarImg"
+                                   ></el-avatar>
+                        <div class="message-box-user" v-show="showUserMessage"
+                             >
+                            <ul>
+                                <li>{{username}}</li>
+                                <li><i class="fa fa-user"></i>个人中心</li>
+                                <li><i class="fa fa-power-off"></i>退出</li>
+                            </ul>
+                        </div>
+                    </div>
 
-                <div class="nav-search">
-                    <i></i>
-                </div>
+                    <div class="user-center" v-show="isLogin"
+                         style="margin-left: 40px;margin-top: 20px;"
+                         @mouseover="showMessage = true"
+                         @mouseout="showMessage = false">
+                        <el-badge :value="12" class="item">
+                            <div class="nav-message">
+                                <i></i>
+                            </div>
+                        </el-badge>
 
-                <div class="menu-group">
-                    <ul id="super-menu" class="sf-menu">
-                        <li><a href="/" class="current">首页</a></li>
-                        <menu-tree v-for="item in category" v-bind:value="item"></menu-tree>
-                    </ul>
-                </div>
+                        <div class="message-box" v-show="showMessage">
+                            <ul>
+                                <li>公告</li>
+                                <li>评论</li>
+                                <li>点赞</li>
+                                <li>系统通知</li>
+                                <li>消息设置</li>
+                            </ul>
+                        </div>
+                    </div>
 
-            </el-header>
-        </el-container>
+                    <div class="nav-search" v-show="!showSearch" @click="showSearchBtn">
+                        <i></i>
+                    </div>
+
+                    <div class="menu-search" v-show="showSearch">
+                        <span class="search-cancel" @click="showSearch = false"></span>
+                        <label>
+                            <input id="searchInput" autocomplete="false">
+                        </label>
+                        <span class="search-ipt"></span>
+
+                    </div>
+
+                    <div class="show-search" v-show="!showSearch">
+                        <ul id="super-menu" class="sf-menu">
+                            <li><a href="/" class="current">首页</a></li>
+                            <menu-tree v-for="item in category" v-bind:value="item"></menu-tree>
+                        </ul>
+                    </div>
+
+                </el-header>
+            </el-container>
+        </template>
+
     </div>
 
+
+    <script th:inline="javascript">
+        var user = [[${user}]];
+        console.log(user);
+    </script>
+
 </div>
-
-<script th:inline="javascript">
-    var user = [[${user}]];
-
-</script>
-
-
 </html>
 

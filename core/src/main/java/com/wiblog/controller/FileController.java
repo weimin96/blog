@@ -42,4 +42,10 @@ public class FileController {
                                        @RequestParam(value = "pageSize", defaultValue = "10") Integer pageSize){
         return fileService.getImageList(pageNum,pageSize);
     }
+
+    @GetMapping("/delImage")
+    @AuthorizeCheck(grade = "2")
+    public ServerResponse delImage(Long id){
+        return fileService.delImage(id);
+    }
 }

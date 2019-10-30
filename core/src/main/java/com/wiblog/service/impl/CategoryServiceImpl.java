@@ -28,11 +28,12 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryMapper, Category> i
     @Override
     @Transactional(rollbackFor = Exception.class)
     public ServerResponse delCategory(Long id) {
+        Category category = categoryMapper.selectById(id);
         // 改变文章的分类
         articleMapper.updateByCategoryId(id);
         // 将该分类的子节点移到上一层
         categoryMapper.updateSubCategory(id);
         categoryMapper.deleteById(id);
-        return ServerResponse.success(null,"删除分类成功");
+        return ServerResponse.success(null,"删除分类成功",category.getName());
     }
 }

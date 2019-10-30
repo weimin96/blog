@@ -25,5 +25,18 @@ public interface IFileService {
      */
     Map<String, Object> uploadImageForEditorMd(MultipartFile file);
 
+    /**
+     * 分页获取图片
+     * @param pageNum pageNum
+     * @param pageSize pageSize
+     * @return ServerResponse
+     */
     ServerResponse getImageList(Integer pageNum, Integer pageSize);
+
+    /**
+     * 删除图片
+     * @param id id
+     * @return ServerResponse
+     */
+    ServerResponse delImage(Long id);
 }
