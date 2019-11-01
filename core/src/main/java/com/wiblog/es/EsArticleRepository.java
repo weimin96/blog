@@ -14,16 +14,6 @@ import org.springframework.stereotype.Component;
  * @date 2019/10/25
  */
 public interface EsArticleRepository extends ElasticsearchRepository<EsArticle,String> {
-
-    /**
-     * 分页 查询
-     * @param query query
-     * @param aClass aClass
-     * @param mapper mapper
-     * @return Page
-     */
-//    Page<EsArticle> queryForPage(SearchQuery query, Class<EsArticle> aClass, SearchResultMapper mapper);
-
     /**
      * 删除
      * @param articleId articleId

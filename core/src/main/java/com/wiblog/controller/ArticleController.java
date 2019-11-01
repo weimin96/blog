@@ -17,7 +17,6 @@ import com.wiblog.utils.WiblogUtil;
 import com.wiblog.utils.WordFilterUtil;
 
 import org.elasticsearch.action.search.SearchResponse;
-import org.elasticsearch.index.query.BoolQueryBuilder;
 import org.elasticsearch.index.query.QueryBuilder;
 import org.elasticsearch.index.query.QueryBuilders;
 import org.elasticsearch.search.SearchHit;
@@ -25,7 +24,6 @@ import org.elasticsearch.search.SearchHits;
 import org.elasticsearch.search.fetch.subphase.highlight.HighlightBuilder;
 import org.elasticsearch.search.fetch.subphase.highlight.HighlightField;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -80,7 +78,6 @@ public class ArticleController extends BaseController {
     private PinYinUtil pinYinUtil;
 
     @Autowired
-    @Qualifier("esArticleRepository")
     private EsArticleRepository articleRepository;
 
     @Autowired

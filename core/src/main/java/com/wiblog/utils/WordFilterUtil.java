@@ -1,14 +1,17 @@
 package com.wiblog.utils;
 
-import com.alibaba.fastjson.JSON;
-
-import org.apdplat.word.WordSegmenter;
-import org.apdplat.word.segmentation.SegmentationAlgorithm;
-import org.apdplat.word.segmentation.Word;
-import org.apdplat.word.tagging.PartOfSpeechTagging;
+import org.ansj.app.keyword.KeyWordComputer;
+import org.ansj.app.keyword.Keyword;
+import org.ansj.domain.Result;
+import org.ansj.domain.Term;
+import org.ansj.recognition.impl.StopRecognition;
+import org.ansj.splitWord.analysis.ToAnalysis;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -20,33 +23,26 @@ import java.util.List;
 @Component
 public class WordFilterUtil {
 
-    public String automaticSelection(String title) {
-        //停用词
-        List<Word> lists = WordSegmenter.seg(title, SegmentationAlgorithm.BidirectionalMaximumMatching);
-        PartOfSpeechTagging.process(lists);
-        System.out.println(JSON.toJSONString(lists));
-        StringBuilder place = new StringBuilder();
-        for (Word word : lists) {
-            String des = word.getPartOfSpeech().getDes();
-            if (!"动词".equals(des)){
-                System.out.println("==" + des + "==" + word.getText());
-                place.append(word.getText());
-            }
-        }
-        return place.toString();
+    private StopRecognition filter;
+
+    public WordFilterUtil(){
+        filter = new StopRecognition();
+        filter.insertStopNatures("w");
     }
 
     /**
      * 分词 去除停用词
      * @param text text
-     * @return
+     * @return List
      */
     public List<String> getParticiple(String text){
-        List<Word> lists = WordSegmenter.seg(text, SegmentationAlgorithm.BidirectionalMaximumMatching);
-        PartOfSpeechTagging.process(lists);
         List<String> result = new ArrayList<>();
-        for (Word word : lists) {
-            result.add(word.getText());
+        List<Term> list = ToAnalysis.parse(text).recognition(filter).getTerms();
+        for (Term item:list) {
+            if (StringUtils.isNotBlank(item.getName())){
+                result.add(item.getName());
+                System.out.println(item.getName());
+            }
         }
         return result;
     }
