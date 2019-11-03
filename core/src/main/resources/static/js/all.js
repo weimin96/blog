@@ -72,7 +72,8 @@ let vue = new Vue({
         avatarImg:"",
         username: "",
         showUserMessage: false,
-        showMessage: false
+        showMessage: false,
+        userUrl:"",
     },
     mounted() {
         this.getCategory();
@@ -80,6 +81,7 @@ let vue = new Vue({
             this.isLogin = true;
             this.avatarImg=user.avatarImg;
             this.username = user.username;
+            this.userUrl = (+new Date(user.createTime))*3;
         }
     },
     methods: {
@@ -115,6 +117,10 @@ let vue = new Vue({
                 $("#searchInput").focus();
             });
 
+        },
+        // 个人中心
+        gotoUserCenter(){
+            window.parent.location.href = "/user/"+this.userUrl;
         }
     }
 });

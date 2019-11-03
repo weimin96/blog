@@ -237,7 +237,9 @@ header .nav-message i{
 .message-box-user ul li,.message-box ul li{
     padding-left: 15px;
     padding-top: 5px;
+    cursor:default
 }
+
 .message-box-user ul i{
     margin-right: 10px;
 }

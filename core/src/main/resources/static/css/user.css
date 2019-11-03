@@ -1,0 +1,93 @@
+.user-header{
+    width: 100%;
+    background: #333;
+    padding: 30px 0;
+    color: #fff;
+    height: 155px;
+}
+
+/*头像*/
+.user-header .user-pic{
+    float: left;
+    margin-right: 20px;
+}
+
+.user-header .user-info{
+    float: right;
+    width: 95%;
+}
+
+.user-header .user-data{
+    float: left;
+    margin-top: 20px;
+}
+
+/*用户名*/
+.user-header .name{
+    font-size: 27px;
+    font-weight: 600;
+}
+
+.user-header .information{
+    display: inline;
+}
+
+.user-header .information span{
+    padding-right: 10px;
+}
+
+/*更多信息*/
+.user-header .more-info{
+    display: inline;
+    border-left: 2px solid rgba(255,255,255,.4);
+    padding-left: 16px;
+    color: rgba(255,255,255,.6);
+    font-size: 12px;
+}
+
+.user-header .more-info a{
+    color: rgba(255,255,255,.6);
+    padding-left: 5px;
+    cursor: pointer;
+}
+
+/*统计*/
+.user-header .user-statistic{
+    float: right;
+    width: 40%;
+    margin-top: 20px;
+}
+
+.user-header .user-statistic .item{
+    float: left;
+    margin-right: 30px;
+    text-align: center;
+}
+
+.user-statistic .item span{
+    font-weight: 700;
+    font-size: 24px;
+}
+
+.user-statistic .item div{
+    font-size: 14px;
+}
+
+.user-statistic .user-setting{
+    border: 1px solid #c0c4cc;
+    padding: 5px 20px;
+    border-radius: 22px;
+    margin: 12px;
+}
+
+.user-statistic .user-setting a{
+    color: #FFF;
+    cursor: pointer;
+}
+
+/*内容*/
+.user-content{
+    width: 95%;
+    height: 500px;
+    padding: 0 15px;
+}

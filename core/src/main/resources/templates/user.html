@@ -5,7 +5,7 @@
 
     <title>wiblog - Areo的个人网站</title>
 
-    <link rel="stylesheet" th:href="@{/css/article.css}">
+    <link rel="stylesheet" th:href="@{/css/user.css}">
 </head>
 <body>
 
@@ -13,7 +13,69 @@
     <div id="index-page">
         <!--header-->
         <div th:include="common/header :: header"></div>
+        <!--body-->
+        <div id="app">
+            <!--头部-->
+            <div class="user-header">
+                <div class="user-info">
 
+
+
+                    <div class="user-pic">
+                        <el-avatar :size="148" src="https://wiblog-1251822424.cos.ap-guangzhou.myqcloud.com/20191016220053-111.jpg"></el-avatar>
+                    </div>
+
+                    <div class="user-data">
+                        <!--用户名-->
+                        <div class="name">奥利奥</div>
+                        <!--信息-->
+                        <div class="information"><span>男</span><span>广东</span><span>广州市</span></div>
+                        <div class="more-info"><i class="el-icon-arrow-down"></i><a>更多信息</a></div>
+                    </div>
+
+
+                    <!--统计-->
+                    <div class="user-statistic">
+                        <div class="item">
+                            <span>0</span>
+                            <div>评论</div>
+                        </div>
+                        <div class="item">
+                            <span>0</span>
+                            <div>获赞</div>
+                        </div>
+                        <div class="item">
+                            <span>0</span>
+                            <div>赞赏</div>
+                        </div>
+                        <div class="item user-setting">
+                            <i class="el-icon-s-tools"></i>
+                            <a>个人设置</a>
+                        </div>
+                    </div>
+
+                </div>
+
+
+
+            </div>
+            <!--内容-->
+            <div class="user-body">
+                <!--内容-->
+                <div class="user-content">
+                    <el-row :gutter="20">
+                        <el-col :span="12" :offset="6">
+                            <template>
+                                <el-tabs v-model="activeName" >
+                                    <el-tab-pane label="我的回复" name="first">我的回复</el-tab-pane>
+                                    <el-tab-pane label="回复我的" name="second">回复我的</el-tab-pane>
+                                </el-tabs>
+                            </template>
+                        </el-col>
+                    </el-row>
+                </div>
+            </div>
+        </div>
     </div>
 
 
@@ -23,7 +85,6 @@
 
 
 <div th:replace="common/foot :: foot"></div>
-<script th:src="@{../js/all.js}"></script>
 <script th:src="@{../js/user.js}"></script>
 </body>
 </html>
