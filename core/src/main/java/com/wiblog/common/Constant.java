@@ -24,4 +24,12 @@ public class Constant {
     public static final String LOGIN_REDIS_KEY = "user_login_";
 
     public static final String COOKIES_KEY = "uToken";
+
+    /**
+     * redis key 前缀 邮箱
+     */
+    public static final String CHECK_EMAIL_KEY = "check_email_";
+
+    public static final String VERIFY_CODE_SESSION_KEY = "verify_code";
 }
+

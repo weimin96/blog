@@ -25,7 +25,7 @@ CodeMirror.defineMode("nginx", function(config) {
     );
 
   var keywords_block = words(
-    /* ngxDirectiveBlock */ "http mail events server types location upstream charset_map limit_except if geo map"
+    /* ngxDirectiveBlock */ "http mail.vm events server types location upstream charset_map limit_except if geo map"
     );
 
   var keywords_important = words(

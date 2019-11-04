@@ -1996,7 +1996,7 @@
                 emoji                : settings.emoji,
                 tex                  : settings.tex,
                 atLink               : settings.atLink,           // for @link
-                emailLink            : settings.emailLink,        // for mail address auto link
+                emailLink            : settings.emailLink,        // for mail.vm address auto link
                 flowChart            : settings.flowChart,
                 sequenceDiagram      : settings.sequenceDiagram,
                 previewCodeHighlight : settings.previewCodeHighlight,
@@ -3390,7 +3390,7 @@
             tocStartLevel        : 1,              // Said from H1 to create ToC  
             pageBreak            : true,
             atLink               : true,           // for @link
-            emailLink            : true,           // for mail address auto link
+            emailLink            : true,           // for mail.vm address auto link
             taskList             : false,          // Enable Github Flavored Markdown task lists
             emoji                : false,          // :emoji: , Support Twemoji, fontAwesome, Editor.md logo emojis.
             tex                  : false,          // TeX(LaTeX), based on KaTeX
@@ -3907,7 +3907,7 @@
             autoLoadKaTeX        : true,
             pageBreak            : true,
             atLink               : true,    // for @link
-            emailLink            : true,    // for mail address auto link
+            emailLink            : true,    // for mail.vm address auto link
             tex                  : false,
             taskList             : false,   // Github Flavored Markdown task lists
             emoji                : false,
@@ -3940,7 +3940,7 @@
             tex                  : settings.tex,
             pageBreak            : settings.pageBreak,
             atLink               : settings.atLink,           // for @link
-            emailLink            : settings.emailLink,        // for mail address auto link
+            emailLink            : settings.emailLink,        // for mail.vm address auto link
             flowChart            : settings.flowChart,
             sequenceDiagram      : settings.sequenceDiagram,
             previewCodeHighlight : settings.previewCodeHighlight,
