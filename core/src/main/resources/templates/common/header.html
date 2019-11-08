@@ -25,8 +25,7 @@
                          @mouseout="showUserMessage = false">
                         <el-avatar :size="30" :src="avatarImg"
                                    ></el-avatar>
-                        <div class="message-box-user" v-show="showUserMessage"
-                             >
+                        <div class="message-box-user" v-show="showUserMessage">
                             <ul>
                                 <li>{{username}}</li>
                                 <li @click="gotoUserCenter"><i class="fa fa-user"></i>个人中心</li>
@@ -39,18 +38,23 @@
                          style="margin-left: 40px;margin-top: 20px;"
                          @mouseover="showMessage = true"
                          @mouseout="showMessage = false">
-                        <el-badge :value="12" class="item">
+                        <el-badge v-if="messageCount !==0 " :value="messageCount" class="item">
                             <div class="nav-message">
                                 <i></i>
                             </div>
                         </el-badge>
+                        <div v-else>
+                            <div class="nav-message">
+                                <i></i>
+                            </div>
+                        </div>
 
                         <div class="message-box" v-show="showMessage">
                             <ul>
-                                <li>公告</li>
-                                <li>评论</li>
-                                <li>点赞</li>
-                                <li>系统通知</li>
+                                <li>公告<span v-if="typeList[1] !== 0">{{typeList[1]}}</span></li>
+                                <li>评论<span v-if="typeList[2] !== 0">{{typeList[2]}}</span></li>
+                                <li>点赞<span v-if="typeList[3] !== 0">{{typeList[3]}}</span></li>
+                                <li>系统通知<span v-if="typeList[4] !== 0">{{typeList[4]}}</span></li>
                                 <li>消息设置</li>
                             </ul>
                         </div>

@@ -8,6 +8,7 @@ import com.wiblog.common.ServerResponse;
 import com.wiblog.entity.User;
 import com.wiblog.exception.WiblogException;
 import com.wiblog.service.IUserService;
+import com.wiblog.thirdparty.GithubProvider;
 import com.wiblog.utils.Md5Util;
 import com.wiblog.utils.WiblogUtil;
 
@@ -21,6 +22,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.io.IOException;
+import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 import javax.servlet.http.HttpServletRequest;
@@ -41,7 +44,6 @@ import lombok.extern.slf4j.Slf4j;
  */
 @RestController
 @RequestMapping("/u")
-@Transactional(rollbackFor = WiblogException.class)
 @Slf4j
 @Api(tags = "用户中心api")
 public class UserController extends BaseController {
@@ -53,14 +55,17 @@ public class UserController extends BaseController {
     private IUserService userService;
 
     @Autowired
+    private GithubProvider githubProvider;
+
+    @Autowired
     public UserController(IUserService userService) {
         this.userService = userService;
     }
 
-    @ApiOperation(value="登录", notes="根据账号密码登录，账号可以为手机号、用户名、邮箱")
+    @ApiOperation(value = "登录", notes = "根据账号密码登录，账号可以为手机号、用户名、邮箱")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "account", value = "账号", required = true,paramType="form"),
-            @ApiImplicitParam(name = "password", value = "密码", required = true,paramType="form")
+            @ApiImplicitParam(name = "account", value = "账号", required = true, paramType = "form"),
+            @ApiImplicitParam(name = "password", value = "密码", required = true, paramType = "form")
     })
     @PostMapping("/login")
     public ServerResponse login(String account, String password, HttpServletRequest request, HttpServletResponse response) {
@@ -73,10 +78,9 @@ public class UserController extends BaseController {
             User user = (User) serverResponse.getData();
             // redis缓存
             String token = Md5Util.MD5(request.getSession().getId() + user.getUid().toString());
-            redisTemplate.opsForValue().set(Constant.LOGIN_REDIS_KEY + token, JSON.toJSONString(user));
-            redisTemplate.expire(Constant.LOGIN_REDIS_KEY + token, 7, TimeUnit.DAYS);
+            redisTemplate.opsForValue().set(Constant.LOGIN_REDIS_KEY + token, JSON.toJSONString(user),7,TimeUnit.DAYS);
             // cookies
-            WiblogUtil.setCookie(response,token);
+            WiblogUtil.setCookie(response, token);
             // TODO 登录日志
 
         } catch (Exception e) {
@@ -93,56 +97,85 @@ public class UserController extends BaseController {
             if (e instanceof WiblogException) {
                 msg = e.getMessage();
             } else {
-                log.error(msg, e);
+                log.warn(msg, e);
             }
             return ServerResponse.error(msg, 10004);
         }
         return serverResponse;
     }
 
-    @ApiOperation(value="注册", notes="用户注册")
+    @ApiOperation(value = "注册", notes = "用户注册")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "username", value = "用户名", required = true,paramType="form"),
-            @ApiImplicitParam(name = "password", value = "密码", required = true,paramType="form"),
-            @ApiImplicitParam(name = "email", value = "邮箱(非必填)",paramType="form"),
-            @ApiImplicitParam(name = "phone", value = "手机号(非必填)",paramType="form")
+            @ApiImplicitParam(name = "username", value = "用户名", required = true, paramType = "form"),
+            @ApiImplicitParam(name = "password", value = "密码", required = true, paramType = "form"),
+            @ApiImplicitParam(name = "email", value = "邮箱(非必填)", paramType = "form"),
+            @ApiImplicitParam(name = "phone", value = "手机号(非必填)", paramType = "form")
     })
     @PostMapping("/register")
-    public ServerResponse register(User user) {
-        return userService.register(user);
+    public ServerResponse register(String username, String phone, String email, String password) {
+        try {
+            userService.register(username, phone, email, password);
+        } catch (Exception e) {
+            String msg = "注册失败";
+            if (e instanceof WiblogException) {
+                msg = e.getMessage();
+            } else {
+                log.warn(msg, e);
+            }
+            return ServerResponse.error(msg, 30001);
+        }
+        return ServerResponse.success(null);
     }
 
-    @ApiOperation(value="检查用户名")
+    @ApiOperation(value = "检查用户名")
     @PostMapping("/checkUsername")
     public ServerResponse checkUsername(String value) {
-        return userService.checkUsername(value);
+        try {
+            userService.checkUsername(value);
+        } catch (WiblogException e) {
+            log.warn(e.getMessage(), e);
+            return ServerResponse.error(e.getMessage(), 30001);
+        }
+        return ServerResponse.success("用户名校验成功");
     }
 
-    @ApiOperation(value="检查手机号")
+    @ApiOperation(value = "检查手机号")
     @PostMapping("/checkPhone")
     public ServerResponse checkPhone(String value) {
-        return userService.checkPhone(value);
+        try {
+            userService.checkPhone(value);
+        } catch (WiblogException e) {
+            log.warn(e.getMessage(), e);
+            return ServerResponse.error(e.getMessage(), 30001);
+        }
+        return ServerResponse.success("手机号校验成功");
     }
 
-    @ApiOperation(value="检查邮箱")
+    @ApiOperation(value = "检查邮箱")
     @PostMapping("/checkEmail")
     public ServerResponse checkEmail(String value) {
-        return userService.checkEmail(value);
+        try {
+            userService.checkEmail(value);
+        } catch (WiblogException e) {
+            log.warn(e.getMessage(), e);
+            return ServerResponse.error(e.getMessage(), 30001);
+        }
+        return ServerResponse.success("手机号校验成功");
     }
 
     @GetMapping("/getAllUsername")
-    public ServerResponse getAllUsername(){
+    public ServerResponse getAllUsername() {
         return userService.getAllUsername();
     }
 
     /**
      * 获取用户管理列表
      *
-     * @param state 用户状态
+     * @param state    用户状态
      * @param username 用户名模糊查询
-     * @param pageNum pageNum
+     * @param pageNum  pageNum
      * @param pageSize pageSize
-     * @param orderBy orderBy
+     * @param orderBy  orderBy
      * @return ServerResponse
      */
     @AuthorizeCheck(grade = "2")
@@ -153,8 +186,25 @@ public class UserController extends BaseController {
             @RequestParam(value = "pageNum", defaultValue = "0") Integer pageNum,
             @RequestParam(value = "pageSize", defaultValue = "10") Integer pageSize,
             @RequestParam(value = "orderBy", defaultValue = "asc") String orderBy) {
-        return userService.userManageListPage(state,username,pageNum, pageSize,orderBy);
+        return userService.userManageListPage(state, username, pageNum, pageSize, orderBy);
     }
 
-
+    /**
+     * github 登录回调
+     * @param request request
+     * @param response response
+     * @param code code
+     */
+    @GetMapping("/github/callback")
+    public void githubLogin(HttpServletRequest request, HttpServletResponse response, String code) throws IOException {
+        String accessToken = githubProvider.getAccessToken(code);
+        Map githubUser = githubProvider.getUser(accessToken);
+        User user = githubProvider.registerGithub(githubUser,accessToken);
+        // redis缓存
+        String token = Md5Util.MD5(request.getSession().getId() + user.getUid().toString());
+        redisTemplate.opsForValue().set(Constant.LOGIN_REDIS_KEY + token, JSON.toJSONString(user),7, TimeUnit.DAYS);
+        // cookies
+        WiblogUtil.setCookie(response, token);
+        response.sendRedirect(request.getContextPath() + "/");
+    }
 }

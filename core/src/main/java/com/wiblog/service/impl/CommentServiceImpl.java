@@ -12,6 +12,8 @@ import com.wiblog.service.ICommentService;
 import com.wiblog.vo.CommentManageVo;
 import com.wiblog.vo.CommentVo;
 import com.wiblog.vo.SubCommentVo;
+import com.wiblog.vo.UserCommentVo;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -101,5 +103,17 @@ public class CommentServiceImpl extends ServiceImpl<CommentMapper, Comment> impl
     public ServerResponse restoreComment(Integer id) {
         int count = commentMapper.restoreStateById(id);
         return ServerResponse.success(count,"恢复删除评论成功");
+    }
+
+    @Override
+    public ServerResponse getUserComment(Long uid) {
+        List<UserCommentVo> list = commentMapper.selectCommentByUid(uid);
+        return ServerResponse.success(list);
+    }
+
+    @Override
+    public ServerResponse getUserReply(Long uid) {
+        List<UserCommentVo> list = commentMapper.selectUserReplyByUid(uid);
+        return ServerResponse.success(list);
     }
 }

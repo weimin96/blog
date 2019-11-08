@@ -5,36 +5,41 @@ SET FOREIGN_KEY_CHECKS = 0;
 
 
 -- ----------------------------
--- 用户
+-- 用户基础信息表
 -- ----------------------------
 DROP TABLE IF EXISTS `user`;
 CREATE TABLE `user`
 (
     `uid`         BIGINT(11)   NOT NULL AUTO_INCREMENT,
-    `phone`       varchar(64)           DEFAULT NULL COMMENT '手机号',
     `username`    varchar(32)  NOT NULL COMMENT '用户名',
-    `password`    varchar(64)  NOT NULL COMMENT '密码',
-    `sex`         varchar(32)  NOT NULL COMMENT '性别 male or female',
-    `email`       varchar(100)          DEFAULT NULL COMMENT '邮箱地址',
+    `sex`         varchar(32)  NOT NULL default 'male' COMMENT '性别 male or female',
     `avatar_img`  varchar(255) NOT NULL COMMENT '头像地址',
     `state`       tinyint(1)   NOT NULL default 1 COMMENT '状态 0删除',
     `create_time` DATETIME     NOT NULL COMMENT '创建时间',
-    `logged`      DATETIME              DEFAULT NULL COMMENT '上次登录时间',
-    PRIMARY KEY (`uid`),
-    UNIQUE KEY `name` (`username`),
-    UNIQUE KEY `phone` (`phone`),
-    UNIQUE KEY `mail` (`email`)
+    PRIMARY KEY (`uid`)
 ) ENGINE = InnoDB
   AUTO_INCREMENT = 16
   DEFAULT CHARSET = utf8;
 
+
 -- ----------------------------
--- Records of user
+-- 用户授权信息表
 -- ----------------------------
-INSERT INTO `myblog`.`user` (`uid`, `phone`, `username`, `password`, `sex`, `email`, `avatar_img`, `state`, `create_time`, `logged`) VALUES ('16', NULL, 'admin', '74A11FB87D6A947022D1658D06E0D7AB', 'male', NULL, 'https://avatars2.githubusercontent.com/u/20983152?s=460&v=4', '1', '2019-10-04 05:11:31', NULL);
-INSERT INTO `myblog`.`user` (`uid`, `phone`, `username`, `password`, `sex`, `email`, `avatar_img`, `state`, `create_time`, `logged`) VALUES ('17', NULL, 'user', '74A11FB87D6A947022D1658D06E0D7AB', 'male', NULL, 'http://blog.wiblog.cn/img/reply-avatar.svg', '1', '2019-10-05 07:41:30', NULL);
-INSERT INTO `myblog`.`user` (`uid`, `phone`, `username`, `password`, `sex`, `email`, `avatar_img`, `state`, `create_time`, `logged`) VALUES ('18', NULL, 'user2', '74A11FB87D6A947022D1658D06E0D7AB', 'male', NULL, 'http://blog.wiblog.cn/img/reply-avatar.svg', '1', '2019-10-05 07:57:55', NULL);
-INSERT INTO `myblog`.`user` (`uid`, `phone`, `username`, `password`, `sex`, `email`, `avatar_img`, `state`, `create_time`, `logged`) VALUES ('19', NULL, 'ionluo', '74A11FB87D6A947022D1658D06E0D7AB', 'male', NULL, 'http://blog.wiblog.cn/img/reply-avatar.svg', '1', '2019-10-19 17:06:54', NULL);
+DROP TABLE IF EXISTS `user_auth`;
+CREATE TABLE `user_auth`
+(
+    `id`            BIGINT(11) NOT NULL AUTO_INCREMENT,
+    `uid`           BIGINT(11) NOT NULL,
+    `identity_type` varchar(64)         DEFAULT NULL COMMENT '登录类型 phone|email|username|github',
+    `identifier`    varchar(64)         DEFAULT NULL COMMENT '标识（手机号|邮箱|用户名|第三方唯一标识）',
+    `password`      varchar(64) COMMENT '密码|token',
+    `state`         tinyint(1) NOT NULL default 1 COMMENT '状态 0删除',
+    `create_time`   DATETIME   NOT NULL COMMENT '创建时间',
+    `logged`        DATETIME            DEFAULT NULL COMMENT '上次登录时间',
+    PRIMARY KEY (`id`)
+) ENGINE = InnoDB
+  AUTO_INCREMENT = 16
+  DEFAULT CHARSET = utf8;
 
 
 
@@ -213,6 +218,27 @@ CREATE TABLE `ops`
   AUTO_INCREMENT = 4
   DEFAULT CHARSET = utf8;
 
+
+-- ----------------------------
+-- 消息通知
+-- ----------------------------
+DROP TABLE IF EXISTS `message`;
+CREATE TABLE `message`
+(
+    `id`          bigint(11)   NOT NULL AUTO_INCREMENT,
+    `uid`         bigint(11)   NOT NULL COMMENT '用户id',
+    `type`        smallint(11) NOT NULL COMMENT '通知分类id 1公告 2评论 3点赞 4系统通知',
+    `content`     varchar(255) NOT NULL COMMENT '内容',
+    `title`       varchar(255) NOT NULL COMMENT '标题',
+    `state`       tinyint(1)   NOT NULL default 1 COMMENT '状态 0已读 1未读',
+    `create_time` DATETIME     NOT NULL,
+    `update_time` DATETIME     NOT NULL,
+    PRIMARY KEY (`id`),
+    INDEX state (state),
+    INDEX uid (uid)
+) ENGINE = InnoDB
+  AUTO_INCREMENT = 4
+  DEFAULT CHARSET = utf8;
 
 -- ---------------------------------------------------------------------------
 

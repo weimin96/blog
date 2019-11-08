@@ -1,84 +1,66 @@
-(function () {
+'use strict';
 
-    'use strict';
+let vm;
+let app = new Vue({
+    el: "#post-list",
+    data: {
+        articleList: [],
+    },
+    beforeCreate: function () {
+        vm = this;
+    },
+    mounted() {
+        this.initData(1);
+    },
+    methods: {
+        initData(currentPage) {
+            $.ajax({
+                type: 'POST',
+                url: '/post/articles',
+                dataType: 'json',
+                data: {
+                    pageNum: currentPage,
+                    pageSize: "5"
+                },
+                success: function (data) {
+                    vm.articleList = data.data.records;
+                    $("#pagination").paging({
+                        pageNum: data.data['current'],//当前所在页码
+                        pages: data.data['pages'],//总页数
+                        callback: function (currentPage) {
+                            vm.initData(currentPage);
+                        }
+                    });
+                }
+            });
+        }
+    },
+    filters: {
+        dateFormat: function (d) {
+            var date = new Date(d);
+            var year = date.getFullYear();
+            var month = switchNum(date.getMonth());
+            var day = change(date.getDate());
 
-    //文章列表
-    var articleList = function (currentPage) {
-        $.ajax({
-            type: 'POST',
-            url: '/post/articles',
-            dataType: 'json',
-            data: {
-                pageNum: currentPage,
-                pageSize: "5"
-            },
-            success: function (data) {
-                var $article = $('#article');
-                $article.empty();
-                $.each(data.data.records,function (index,obj) {
-                    var createTime=dateFormat(obj['createTime']);
-                    var articleUrl=obj['articleUrl'];
-                    var commentsCounts=obj['commentsCounts'];
-                    var hits=obj['hits'];
-                    var likes=obj['likes'];
-                    var imgUrl = obj['imgUrl'];
-                    var articleCategories=obj['categoryName'];
-                    var articleSummary=obj['articleSummary'];
-                    var categoryUrl = "/category/"+obj['categoryUrl'];
-                    var $center= $('<article class="post-card clearfix">'+
-                        '<div class="clearfix">'+
-                        '<div class="post-list-pic">'+
-                        '<a href="'+articleUrl+'">'+
-                        '<img src="'+imgUrl+'">'+
-                        '</a>'+
-                        '</div>'+
-                        '<div class="post-list-inner">'+
-                        '<header class="post-list-inner-header">'+
-                        '<a class="label" href="'+categoryUrl+'">'+articleCategories+
-                        '<i class="label-arrow"></i></a>'+
-                        '<h2 class="post-list-inner-title">'+
-                        '<a href="'+articleUrl+'">'+obj['title']+'</a></h2>'+
-                        '</header>'+
-                        '<div class="post-list-inner-content">'+
-                        '<p>'+articleSummary+'</p>'+
-                        '</div>'+
-                        '</div>'+
-                        '<div class="post-list-meta">'+
-                        '<span class="visible-lg visible-md visible-sm pull-left">'+
-                        '<a href="'+articleUrl+'">'+
-                        '<i class="fa fa-calendar"></i>'+createTime+'</a>'+
-                        '<a href="'+articleUrl+'#respond">'+
-                        '<i class="fa fa-commenting-o"></i>'+commentsCounts+' 条评论</a>'+
-                        '</span>'+
-                        '<span class="pull-left">'+
-                        '<a href="'+articleUrl+'">'+
-                        '<i class="fa fa-eye"></i>'+hits+' 次阅读</a>'+
-                        '<a href="'+articleUrl+'">'+
-                        '<i class="fa fa-thumbs-o-up"></i>'+ likes+' 人点赞</a>'+
-                        '</span>'+
-                        '<span class="pull-right">'+
-                        '<a class="read-more" href="'+articleUrl+'" title="阅读全文">阅读全文+'+
-                        '<i class="fa fa-chevron-circle-right"></i>'+
-                        '</a>'+
-                        '</span>'+
-                        '</div>'+
-                        '</div>'+
-                        '</article>');
-                    $article.append($center);
-                });
-                //分页
-                $("#pagination").paging({
-                    pageNum:data.data['current'],//当前所在页码
-                    pages:data.data['pages'],//总页数
-                    callback:function(currentPage){
-                        articleList(currentPage);
-                    }
-                });
+            function change(t) {
+                if (t < 10) {
+                    return "0" + t;
+                } else {
+                    return t;
+                }
             }
-        })
-    };
 
-    $(function () {
-        articleList(1);
-    });
-}());
+            function switchNum(month) {
+                var arry = ["一", "二", "三", "四", "五", "六", "七", "八", "九", "十", "十一", "十二"];
+                return arry[Number(month)];
+            }
+
+            return month + "月" + day + ", " + year;
+        }
+    }
+});
+
+
+
+
+

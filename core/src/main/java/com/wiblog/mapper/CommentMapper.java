@@ -8,6 +8,8 @@ import com.wiblog.entity.Comment;
 import com.wiblog.vo.CommentManageVo;
 import com.wiblog.vo.CommentVo;
 import com.wiblog.vo.SubCommentVo;
+import com.wiblog.vo.UserCommentVo;
+
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
@@ -63,4 +65,18 @@ public interface CommentMapper extends BaseMapper<Comment> {
      * @return Integer
      */
     Integer restoreStateById(Integer id);
+
+    /**
+     * 查询用户评论
+     * @param uid uid
+     * @return List
+     */
+    List<UserCommentVo> selectCommentByUid(Long uid);
+
+    /**
+     * 查询用户被评论回复
+     * @param uid uid
+     * @return List
+     */
+    List<UserCommentVo> selectUserReplyByUid(Long uid);
 }

@@ -23,31 +23,30 @@ public interface IUserService extends IService<User> {
 
     /**
      * 注册
-     * @param user user
-     * @return ServerResponse<User>
+     * @param username username
+     * @param phone phone
+     * @param email email
+     * @param password password
      */
-    ServerResponse register(User user);
+    void register(String username,String phone,String email,String password);
 
     /**
      * 校验用户名
      * @param username username
-     * @return ServerResponse
      */
-    ServerResponse checkUsername(String username);
+    void checkUsername(String username);
 
     /**
      * 校验手机号
      * @param phone phone
-     * @return ServerResponse
      */
-    ServerResponse checkPhone(String phone);
+    void checkPhone(String phone);
 
     /**
      * 校验邮箱
      * @param email email
-     * @return ServerResponse
      */
-    ServerResponse checkEmail(String email);
+    void checkEmail(String email);
 
     /**
      * 获取当前登录用户

@@ -1,16 +1,22 @@
 package com.wiblog.controller;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.wiblog.aop.RequestRequire;
 import com.wiblog.common.ServerResponse;
 import com.wiblog.entity.Comment;
 import com.wiblog.entity.User;
 import com.wiblog.service.ICommentService;
+import com.wiblog.vo.UserCommentVo;
+
 import lombok.extern.java.Log;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -104,5 +110,33 @@ public class CommentController extends BaseController{
     @PostMapping("/restoreComment")
     public ServerResponse restoreComment(Integer id){
         return commentService.restoreComment(id);
+    }
+
+    /**
+     * 获取用户评论
+     * @return ServerResponse
+     */
+    @GetMapping("/getUserComment")
+    public ServerResponse getUserComment(HttpServletRequest request){
+        User user = getLoginUser(request);
+        if (user !=null){
+            return commentService.getUserComment(user.getUid());
+        }
+        return ServerResponse.error("用户未登录",30001);
+
+    }
+
+    /**
+     * 获取用户被回复的评论
+     * @return ServerResponse
+     */
+    @GetMapping("/getUserReply")
+    public ServerResponse getUserReply(HttpServletRequest request){
+        User user = getLoginUser(request);
+        if (user !=null){
+            return commentService.getUserReply(user.getUid());
+        }
+        return ServerResponse.error("用户未登录",30001);
+
     }
 }

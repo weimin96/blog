@@ -229,6 +229,11 @@ header .nav-message i{
     top: 43px;
 }
 
+.message-box span{
+    color: #e11414;
+    padding-left: 5px;
+}
+
 .message-box-user ul,.message-box ul{
     list-style: none;
     padding-inline-start: 0;

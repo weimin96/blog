@@ -41,7 +41,7 @@ $(function () {
 });*/
 
 
-function dateFormat(d) {
+/*function dateFormat(d) {
     var date = new Date(d);
     var year = date.getFullYear();
     var month = switchNum(date.getMonth());
@@ -61,7 +61,7 @@ function dateFormat(d) {
     }
 
     return month + "月" + day + ", " + year;
-}
+}*/
 
 let vue = new Vue({
     el: "#index-header",
@@ -74,6 +74,8 @@ let vue = new Vue({
         showUserMessage: false,
         showMessage: false,
         userUrl:"",
+        messageCount:0,
+        typeList:[0,0,0,0,0],
     },
     mounted() {
         this.getCategory();
@@ -82,9 +84,20 @@ let vue = new Vue({
             this.avatarImg=user.avatarImg;
             this.username = user.username;
             this.userUrl = (+new Date(user.createTime))*3;
+            this.getMessage();
         }
     },
     methods: {
+        getMessage(){
+            $.get("/getMessageCount", function (data) {
+                if (data.code === 10000) {
+                    $.each(data.data,function (index,item) {
+                        vue.typeList[item.type]=item.count;
+                        vue.messageCount +=item.count;
+                    });
+                }
+            });
+        },
         getCategory: function () {
             $.get("/category/getCategory", function (data) {
                 if (data.code === 10000) {

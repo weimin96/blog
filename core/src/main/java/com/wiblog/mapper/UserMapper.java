@@ -4,6 +4,9 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.wiblog.entity.User;
+import com.wiblog.entity.UserAuth;
+
+import org.apache.ibatis.annotations.Options;
 
 import java.util.List;
 import java.util.Map;
@@ -15,13 +18,16 @@ import java.util.Map;
  * @since 2019-06-01
  */
 public interface UserMapper extends BaseMapper<User> {
-    User login(User user);
 
-    int checkUsername(String username);
+    /**
+     * 插入用户表 返回id
+     * @param user user
+     * @return id
+     */
+    @Options(useGeneratedKeys = true,keyProperty = "uid",keyColumn = "uid")
+    int insertReturnId(User user);
 
-    int checkEmail(String email);
 
-    int checkPhone(String phone);
 
     /**
      * 获取所有用户名

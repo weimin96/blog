@@ -3,6 +3,9 @@ package com.wiblog.service;
 import com.wiblog.common.ServerResponse;
 import com.wiblog.entity.Comment;
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.wiblog.vo.UserCommentVo;
+
+import java.util.List;
 
 /**
  *   服务类
@@ -54,4 +57,18 @@ public interface ICommentService extends IService<Comment> {
      * @return ServerResponse
      */
     ServerResponse restoreComment(Integer id);
+
+    /**
+     * 获取用户评论
+     * @param uid uid
+     * @return ServerResponse
+     */
+    ServerResponse getUserComment(Long uid);
+
+    /**
+     * 获取用户被回复的评论
+     * @param uid uid
+     * @return ServerResponse
+     */
+    ServerResponse getUserReply(Long uid);
 }

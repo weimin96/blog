@@ -1,6 +1,7 @@
 package com.wiblog.thirdparty;
 
 import com.wiblog.common.ServerResponse;
+import com.wiblog.service.IUserService;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -19,12 +20,10 @@ import javax.servlet.http.HttpServletRequest;
 @RestController
 public class LoginController {
 
-    @Autowired
-    private GithubProvider githubProvider;
 
-    @GetMapping("/github/callback")
-    public ServerResponse githubLogin(String code, String state, String client_id, HttpServletRequest request){
-        String token = githubProvider.getAccessToken(code);
-        return ServerResponse.success(token);
-    }
+
+    @Autowired
+    private IUserService userService;
+
+
 }
