@@ -17,47 +17,47 @@
         <div id="app">
             <!--头部-->
             <div class="user-header">
-                <div class="user-info">
+                <template>
+                    <div class="user-info">
 
 
+                        <div class="user-pic">
+                            <el-avatar :size="148"
+                                       :src="user.avatarImg"></el-avatar>
+                        </div>
 
-                    <div class="user-pic">
-                        <el-avatar :size="148" src="https://wiblog-1251822424.cos.ap-guangzhou.myqcloud.com/20191016220053-111.jpg"></el-avatar>
+                        <div class="user-data">
+                            <!--用户名-->
+                            <div class="name">{{user.username}}</div>
+                            <!--信息-->
+                            <div class="information"><span v-if="user.sex === 'male'">男</span><span
+                                    v-else>女</span><span>广东</span><span>广州市</span></div>
+                            <div class="more-info"><i class="el-icon-arrow-down"></i><a>更多信息</a></div>
+                        </div>
+
+
+                        <!--统计-->
+                        <div class="user-statistic">
+                            <div class="item">
+                                <span>0</span>
+                                <div>评论</div>
+                            </div>
+                            <div class="item">
+                                <span>0</span>
+                                <div>获赞</div>
+                            </div>
+                            <div class="item">
+                                <span>0</span>
+                                <div>赞赏</div>
+                            </div>
+                            <div class="item user-setting">
+                                <i class="el-icon-s-tools"></i>
+                                <a>个人设置</a>
+                            </div>
+                        </div>
+
                     </div>
-
-                    <div class="user-data">
-                        <!--用户名-->
-                        <div class="name">奥利奥</div>
-                        <!--信息-->
-                        <div class="information"><span>男</span><span>广东</span><span>广州市</span></div>
-                        <div class="more-info"><i class="el-icon-arrow-down"></i><a>更多信息</a></div>
-                    </div>
-
-
-                    <!--统计-->
-                    <div class="user-statistic">
-                        <div class="item">
-                            <span>0</span>
-                            <div>评论</div>
-                        </div>
-                        <div class="item">
-                            <span>0</span>
-                            <div>获赞</div>
-                        </div>
-                        <div class="item">
-                            <span>0</span>
-                            <div>赞赏</div>
-                        </div>
-                        <div class="item user-setting">
-                            <i class="el-icon-s-tools"></i>
-                            <a>个人设置</a>
-                        </div>
-                    </div>
-
-                </div>
-
-
-
+                </template>
             </div>
             <!--内容-->
             <div class="user-body">
@@ -66,9 +66,26 @@
                     <el-row :gutter="20">
                         <el-col :span="12" :offset="6">
                             <template>
-                                <el-tabs v-model="activeName" >
+                                <el-tabs v-model="activeName">
                                     <el-tab-pane label="我的回复" name="first">
-
+                                        <div class="comment-card" v-for="item in userComment">
+                                            <div class="comment-top">
+                                                <div class="comment-top-left">
+                                                    <span>{{user.username}}</span>
+                                                    <span>回复：</span>
+                                                </div>
+                                                <div class="comment-top-right">{{item.createTime | commentDateFormat}}</div>
+                                            </div>
+                                            <div class="comment-content">{{item.content}}</div>
+                                            <div class="comment-parent" v-if="item.username !== undefined">
+                                                <div>
+                                                    <span>{{item.username}}：</span>
+                                                    <span v-if="item.state === 1">{{item.parentContent}}</span>
+                                                    <span style="text-decoration: line-through;" v-else>该评论已经删除</span>
+                                                </div>
+                                            </div>
+                                            <div><span>来自：</span><a :href="item.articleUrl">{{item.title}}</a></div>
+                                        </div>
                                     </el-tab-pane>
                                     <el-tab-pane label="回复我的" name="second">回复我的</el-tab-pane>
                                 </el-tabs>
@@ -79,7 +96,6 @@
             </div>
         </div>
     </div>
-
 
 
     <footer th:include="common/footer :: copyright"></footer>

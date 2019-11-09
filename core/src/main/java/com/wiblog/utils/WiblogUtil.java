@@ -1,9 +1,7 @@
 package com.wiblog.utils;
 
-import com.alibaba.fastjson.JSON;
 import com.wiblog.common.Constant;
-import com.wiblog.entity.User;
-
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.commonmark.node.Node;
 import org.commonmark.parser.Parser;
@@ -19,6 +17,7 @@ import javax.servlet.http.HttpServletResponse;
  * @author pwm
  * @date 2019/7/1
  */
+@Slf4j
 public class WiblogUtil {
 
     /**
@@ -47,7 +46,7 @@ public class WiblogUtil {
         Cookie cookie = new Cookie(Constant.COOKIES_KEY, token);
         cookie.setDomain("");
         cookie.setPath("/");
-        cookie.setMaxAge(60 * 60 * 24 * 30);
+        cookie.setMaxAge(60 * 60 * 24 * 7);
         response.addCookie(cookie);
     }
 
@@ -65,6 +64,24 @@ public class WiblogUtil {
                 }
             }
             return null;
+        }
+    }
+
+    public static void delCookie(HttpServletRequest request, HttpServletResponse response){
+        Cookie[] cookies = request.getCookies();
+        if (cookies == null) {
+            return;
+        }
+        for (Cookie c:cookies){
+            if (Constant.COOKIES_KEY.equals(c.getName())){
+                log.info("删除cookie",c.getName());
+                c.setMaxAge(0);
+                c.setValue(null);
+                c.setDomain("");
+                c.setPath("/");
+                response.addCookie(c);
+                break;
+            }
         }
     }
 }

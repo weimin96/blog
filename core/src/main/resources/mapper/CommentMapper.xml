@@ -84,9 +84,9 @@ id, uid, article_id, parent_id,gen_id,floor, likes, content, state,create_time, 
         c2.content as parent_content,c2.state,
         u2.username,
         a.article_url,a.title from `comment` as c1
-        join `comment` as c2 on c1.parent_id = c2.id
-        join article as a on c1.article_id = a.id
-        join `user` as u2 on c2.uid = u2.uid
+        left join `comment` as c2 on c1.parent_id = c2.id
+        left join article as a on c1.article_id = a.id
+        left join `user` as u2 on c2.uid = u2.uid
         where c1.uid = #{uid} and c1.state = 1
         ORDER BY c1.create_time desc
     </select>
@@ -96,9 +96,9 @@ id, uid, article_id, parent_id,gen_id,floor, likes, content, state,create_time, 
         c2.content as parent_content,c2.state,
         u1.username,
         a.article_url,a.title from `comment` as c1
-        join `comment` as c2 on c1.parent_id = c2.id
-        join article as a on c1.article_id = a.id
-        join `user` as u1 on c1.uid = u1.uid
+        left join `comment` as c2 on c1.parent_id = c2.id
+        left join article as a on c1.article_id = a.id
+        left join `user` as u1 on c1.uid = u1.uid
         where c2.uid = #{uid} and c1.state = 1
         ORDER BY c1.create_time desc
     </select>

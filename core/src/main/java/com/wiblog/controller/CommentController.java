@@ -1,22 +1,13 @@
 package com.wiblog.controller;
 
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.wiblog.aop.RequestRequire;
 import com.wiblog.common.ServerResponse;
 import com.wiblog.entity.Comment;
 import com.wiblog.entity.User;
 import com.wiblog.service.ICommentService;
-import com.wiblog.vo.UserCommentVo;
-
 import lombok.extern.java.Log;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
-
-import java.util.List;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -117,10 +108,13 @@ public class CommentController extends BaseController{
      * @return ServerResponse
      */
     @GetMapping("/getUserComment")
-    public ServerResponse getUserComment(HttpServletRequest request){
+    public ServerResponse getUserComment(HttpServletRequest request,
+                                         @RequestParam(value = "pageNum", defaultValue = "1") Integer pageNum,
+                                         @RequestParam(value = "pageSize", defaultValue = "10") Integer pageSize,
+                                         @RequestParam(value = "orderBy", defaultValue = "desc") String orderBy){
         User user = getLoginUser(request);
         if (user !=null){
-            return commentService.getUserComment(user.getUid());
+            return commentService.getUserComment(user.getUid(),pageNum,pageSize,orderBy);
         }
         return ServerResponse.error("用户未登录",30001);
 

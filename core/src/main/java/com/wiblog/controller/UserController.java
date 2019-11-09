@@ -11,29 +11,21 @@ import com.wiblog.service.IUserService;
 import com.wiblog.thirdparty.GithubProvider;
 import com.wiblog.utils.Md5Util;
 import com.wiblog.utils.WiblogUtil;
-
-import org.apache.commons.lang3.StringUtils;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.redis.core.RedisTemplate;
-import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
-
-import java.io.IOException;
-import java.util.Map;
-import java.util.concurrent.TimeUnit;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.web.bind.annotation.*;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
 
 /**
@@ -102,6 +94,18 @@ public class UserController extends BaseController {
             return ServerResponse.error(msg, 10004);
         }
         return serverResponse;
+    }
+
+    @GetMapping("/logout")
+    public ServerResponse logout(HttpServletRequest request,HttpServletResponse response){
+        String token = WiblogUtil.getCookie(request,Constant.COOKIES_KEY);
+        if (StringUtils.isNotBlank(token)){
+            WiblogUtil.delCookie(request,response);
+            Boolean bool = redisTemplate.delete(Constant.LOGIN_REDIS_KEY + token);
+            log.info("退出登录{}",bool);
+        }
+
+        return ServerResponse.success(null,"退出成功");
     }
 
     @ApiOperation(value = "注册", notes = "用户注册")

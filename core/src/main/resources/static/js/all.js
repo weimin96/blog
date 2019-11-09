@@ -134,6 +134,13 @@ let vue = new Vue({
         // 个人中心
         gotoUserCenter(){
             window.parent.location.href = "/user/"+this.userUrl;
+        },
+        logout(){
+            $.get("/u/logout",function (res) {
+                if (res.code === 10000){
+                    window.location.reload();
+                }
+            })
         }
     }
 });

@@ -1,11 +1,8 @@
 package com.wiblog.service;
 
+import com.baomidou.mybatisplus.extension.service.IService;
 import com.wiblog.common.ServerResponse;
 import com.wiblog.entity.Comment;
-import com.baomidou.mybatisplus.extension.service.IService;
-import com.wiblog.vo.UserCommentVo;
-
-import java.util.List;
 
 /**
  *   服务类
@@ -61,9 +58,12 @@ public interface ICommentService extends IService<Comment> {
     /**
      * 获取用户评论
      * @param uid uid
+     * @param pageNum pageNum
+     * @param pageSize pageSize
+     * @param orderBy orderBy
      * @return ServerResponse
      */
-    ServerResponse getUserComment(Long uid);
+    ServerResponse getUserComment(Long uid,Integer pageNum,Integer pageSize,String orderBy);
 
     /**
      * 获取用户被回复的评论

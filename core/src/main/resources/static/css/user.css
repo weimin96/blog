@@ -91,3 +91,65 @@
     height: 500px;
     padding: 0 15px;
 }
+
+.comment-card{
+    border-radius: 5px;
+    padding: 10px;
+    background: #fff;
+    margin-bottom: 5px;
+}
+
+
+
+.comment-card .comment-top{
+    display: inline-block;
+    width: 100%;
+    color: #333;
+}
+
+.comment-card .comment-top-left{
+    float: left;
+    font-weight: 600;
+}
+
+.comment-card .comment-top-left span:first-child{
+
+}
+
+.comment-card .comment-top-left span:last-child{
+    margin-left: 5px;
+}
+
+.comment-card .comment-top-right{
+     float: right;
+     color: #909399;
+ }
+
+.comment-card .comment-content{
+    color: #333;
+    overflow: hidden;
+    -webkit-line-clamp: 4;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    margin-bottom: 10px;
+    cursor: default;
+}
+
+.comment-card .comment-content:hover{
+    color: #409eff;
+}
+
+.comment-card .comment-parent{
+    background: #eee;
+    padding: 5px;
+    margin: 5px 0;
+    overflow: hidden;
+    -webkit-line-clamp: 4;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    cursor: default;
+}
+
+.comment-card .comment-parent:hover{
+    color: #409eff;
+}
