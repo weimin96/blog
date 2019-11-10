@@ -118,8 +118,14 @@ public class CommentServiceImpl extends ServiceImpl<CommentMapper, Comment> impl
     }
 
     @Override
-    public ServerResponse getUserReply(Long uid) {
-        List<UserCommentVo> list = commentMapper.selectUserReplyByUid(uid);
+    public ServerResponse getUserReply(Long uid,Integer pageNum,Integer pageSize,String orderBy) {
+        Page<UserCommentVo> page = new Page<>(pageNum,pageSize);
+        if("asc".equals(orderBy)){
+            page.setAsc("create_time");
+        }else{
+            page.setDesc("create_time");
+        }
+        IPage<UserCommentVo> list = commentMapper.selectUserReplyByUid(page,uid);
         return ServerResponse.success(list);
     }
 }

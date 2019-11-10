@@ -125,10 +125,13 @@ public class CommentController extends BaseController{
      * @return ServerResponse
      */
     @GetMapping("/getUserReply")
-    public ServerResponse getUserReply(HttpServletRequest request){
+    public ServerResponse getUserReply(HttpServletRequest request,
+                                       @RequestParam(value = "pageNum", defaultValue = "1") Integer pageNum,
+                                       @RequestParam(value = "pageSize", defaultValue = "10") Integer pageSize,
+                                       @RequestParam(value = "orderBy", defaultValue = "desc") String orderBy){
         User user = getLoginUser(request);
         if (user !=null){
-            return commentService.getUserReply(user.getUid());
+            return commentService.getUserReply(user.getUid(),pageNum,pageSize,orderBy);
         }
         return ServerResponse.error("用户未登录",30001);
 

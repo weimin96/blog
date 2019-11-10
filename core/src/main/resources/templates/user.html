@@ -68,6 +68,14 @@
                             <template>
                                 <el-tabs v-model="activeName">
                                     <el-tab-pane label="我的回复" name="first">
+                                        <div class="order">
+                                        <div class="pull-right">
+                                            <a class="" @click="getUserComment('asc')"
+                                               v-bind:class="{active : 'asc' === userCommentOrderBy}">按时间正序</a>
+                                            <a class="" @click="getUserComment('desc')"
+                                               v-bind:class="{active : 'desc' === userCommentOrderBy}">按时间倒序</a>
+                                        </div>
+                                        </div>
                                         <div class="comment-card" v-for="item in userComment">
                                             <div class="comment-top">
                                                 <div class="comment-top-left">
@@ -85,9 +93,60 @@
                                                 </div>
                                             </div>
                                             <div><span>来自：</span><a :href="item.articleUrl">{{item.title}}</a></div>
+
+                                        </div>
+                                        <div style="text-align: right;">
+                                            <el-pagination
+                                                    small
+                                                    @current-change="userCommentHandlePageNum"
+                                                    :current-page="userCommentPageNum"
+                                                    :page-size="userCommentPageSize"
+                                                    layout="prev, pager, next"
+                                                    :total="userCommentTotal"
+                                                    :hide-on-single-page="true">
+                                            </el-pagination>
                                         </div>
                                     </el-tab-pane>
-                                    <el-tab-pane label="回复我的" name="second">回复我的</el-tab-pane>
+                                    <el-tab-pane label="回复我的" name="second">
+                                        <div class="order">
+                                            <div class="pull-right">
+                                                <a class="" @click="getUserReply('asc')"
+                                                   v-bind:class="{active : 'asc' === userReplyOrderBy}">按时间正序</a>
+                                                <a class="" @click="getUserReply('desc')"
+                                                   v-bind:class="{active : 'desc' === userReplyOrderBy}">按时间倒序</a>
+                                            </div>
+                                        </div>
+                                        <div class="comment-card" v-for="item in userReply">
+                                            <div class="comment-top">
+                                                <div class="comment-top-left">
+                                                    <span>{{item.username}}</span>
+                                                    <span>回复：</span>
+                                                </div>
+                                                <div class="comment-top-right">{{item.createTime | commentDateFormat}}</div>
+                                            </div>
+                                            <div class="comment-content">{{item.content}}</div>
+                                            <div class="comment-parent" v-if="item.username !== undefined">
+                                                <div>
+                                                    <span>{{user.username}}：</span>
+                                                    <span v-if="item.state === 1">{{item.parentContent}}</span>
+                                                    <span style="text-decoration: line-through;" v-else>该评论已经删除</span>
+                                                </div>
+                                            </div>
+                                            <div><span>来自：</span><a :href="item.articleUrl">{{item.title}}</a></div>
+
+                                        </div>
+                                        <div style="text-align: right;">
+                                            <el-pagination
+                                                    small
+                                                    @current-change="userCommentHandlePageNum"
+                                                    :current-page="userReplyPageNum"
+                                                    :page-size="userReplyPageSize"
+                                                    layout="prev, pager, next"
+                                                    :total="userReplyTotal"
+                                                    :hide-on-single-page="true">
+                                            </el-pagination>
+                                        </div>
+                                    </el-tab-pane>
                                 </el-tabs>
                             </template>
                         </el-col>

@@ -68,7 +68,10 @@ public interface ICommentService extends IService<Comment> {
     /**
      * 获取用户被回复的评论
      * @param uid uid
+     * @param pageNum pageNum
+     * @param pageSize pageSize
+     * @param orderBy orderBy
      * @return ServerResponse
      */
-    ServerResponse getUserReply(Long uid);
+    ServerResponse getUserReply(Long uid,Integer pageNum,Integer pageSize,String orderBy);
 }
