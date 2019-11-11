@@ -3,7 +3,6 @@ package com.wiblog.mapper;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.wiblog.entity.User;
 import com.wiblog.entity.UserAuth;
-
 import org.apache.ibatis.annotations.Param;
 
 /**
@@ -30,4 +29,5 @@ public interface UserAuthMapper extends BaseMapper<UserAuth> {
      * @return User
      */
     User login(UserAuth userAuth);
+
 }

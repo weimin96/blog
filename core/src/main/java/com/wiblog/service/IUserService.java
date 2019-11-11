@@ -71,4 +71,11 @@ public interface IUserService extends IService<User> {
      * @return ServerResponse
      */
     ServerResponse userManageListPage(Integer state, String username, Integer pageNum, Integer pageSize, String orderBy);
+
+    /**
+     * 获取用户所有信息
+     * @param uid uid
+     * @return ServerResponse
+     */
+    ServerResponse getBindingList(Long uid);
 }

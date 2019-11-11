@@ -40,4 +40,5 @@ id, uid, identity_type, identifier, password, state, create_time, logged
         and ua.state = 1
     </select>
 
+
 </mapper>

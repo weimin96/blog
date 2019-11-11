@@ -3,7 +3,10 @@ let app = new Vue({
     el: "#app",
     data: {
         user: {},
-        activeName: "second",
+        activeName: "first",
+        userActiveName:"first",
+        // 侧边栏
+        sidebarActive:"message",
         // 我的回复
         userComment: [],
         userCommentPageNum:1,
@@ -16,6 +19,8 @@ let app = new Vue({
         userReplyPageSize:10,
         userReplyTotal:0,
         userReplyOrderBy:"desc",
+        // 绑定列表
+        bindList:{}
     },
     beforeCreate() {
         vm = this;
@@ -24,6 +29,7 @@ let app = new Vue({
         this.user = user;
         this.getUserComment(this.userCommentOrderBy);
         this.getUserReply(this.userReplyOrderBy);
+        this.getBinding();
     },
     methods: {
         getUserComment(orderBy) {
@@ -53,6 +59,17 @@ let app = new Vue({
         userReplyHandlePageNum(pageNum){
             this.userReplyPageNum=pageNum;
             this.getUserReply(this.userReplyOrderBy);
+        },
+        // 绑定状态
+        getBinding(){
+            $.get("/u/getBindingList",function (res) {
+                if (res.code === 10000){
+                    $.each(res.data,function (index,item) {
+                       vm.bindList[item.identityType]=true;
+                    });
+                    console.log(vm.bindList);
+                }
+            })
         }
     },
     filters: {

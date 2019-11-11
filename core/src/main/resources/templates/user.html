@@ -71,13 +71,13 @@
                                 <!--侧边栏-->
                                 <div class="sidebar">
                                     <ul>
-                                        <li class="sidebar-active"><i class="fa fa-commenting-o"></i>我的消息</li>
-                                        <li><i class="fa fa-user"></i>我的帐户</li>
+                                        <li :class="{sidebarActive:sidebarActive === 'message'} " @click="sidebarActive = 'message'"><i class="fa fa-commenting-o"></i>我的消息</li>
+                                        <li :class="{sidebarActive:sidebarActive === 'user'}" @click="sidebarActive = 'user'"><i class="fa fa-user" ></i>我的帐户</li>
                                     </ul>
                                 </div>
                             </el-col>
                             <el-col :span="16">
-                                <template>
+                                <template v-if="sidebarActive === 'message'">
                                     <el-tabs v-model="activeName">
                                         <el-tab-pane label="我的回复" name="first">
                                             <div class="order">
@@ -168,6 +168,40 @@
                                                         :hide-on-single-page="true">
                                                 </el-pagination>
                                             </div>
+                                        </el-tab-pane>
+                                    </el-tabs>
+                                </template>
+                                <template v-if="sidebarActive === 'user'">
+                                    <el-tabs v-model="userActiveName">
+                                        <el-tab-pane label="绑定账号" name="first">
+                                            <p>{{bindList}}</p>
+                                            <ul class="binding">
+
+                                                <li v-if="bindList.phone === true">
+                                                    <img src="/img/phone_blue.svg"><span>手机</span><a><i class="fa fa-plus"></i>绑定</a>
+                                                </li>
+                                                <li v-else="">
+                                                    <img src="/img/phone_gray.svg"><span>手机</span><a><i class="fa fa-plus"></i>绑定</a>
+                                                </li>
+                                                <li v-if="bindList.email === true">
+                                                    <img src="/img/email_pink.svg"><span>邮箱</span><a><i class="fa fa-plus"></i>绑定</a>
+                                                </li>
+                                                <li v-else>
+                                                    <img src="/img/email_gray.svg"><span>邮箱</span><a><i class="fa fa-plus"></i>绑定</a>
+                                                </li>
+                                                <li v-if="bindList.weibo === true">
+                                                    <img src="/img/weibo_red.svg"><span>微博</span><a><i class="fa fa-plus"></i>绑定</a>
+                                                </li>
+                                                <li v-else>
+                                                    <img src="/img/weibo_gray.svg"><span>微博</span><a><i class="fa fa-plus"></i>绑定</a>
+                                                </li>
+                                                <li v-if="bindList.github === true">
+                                                    <img src="/img/github_black.svg"><span>github</span><a><i class="fa fa-plus"></i>绑定</a>
+                                                </li>
+                                                <li v-else="">
+                                                    <img src="/img/github_gray.svg"><span>github</span><a><i class="fa fa-plus"></i>绑定</a>
+                                                </li>
+                                            </ul>
                                         </el-tab-pane>
                                     </el-tabs>
                                 </template>

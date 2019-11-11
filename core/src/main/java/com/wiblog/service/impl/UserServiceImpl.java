@@ -1,6 +1,7 @@
 package com.wiblog.service.impl;
 
 import com.alibaba.fastjson.JSON;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
@@ -15,9 +16,8 @@ import com.wiblog.mapper.UserMapper;
 import com.wiblog.service.IUserService;
 import com.wiblog.utils.Md5Util;
 import com.wiblog.utils.WiblogUtil;
-import com.wiblog.vo.CommentManageVo;
 import com.wiblog.vo.UserVo;
-
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
@@ -25,12 +25,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.servlet.http.HttpServletRequest;
-
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
-
-import lombok.extern.slf4j.Slf4j;
 
 /**
  * 服务实现类
@@ -214,5 +211,11 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
         }
         IPage<UserVo> iPage = userMapper.selectUserManagePage(page, state, username);
         return ServerResponse.success(iPage, "获取用户列表成功");
+    }
+
+    @Override
+    public ServerResponse getBindingList(Long uid) {
+        List<UserAuth> list = userAuthMapper.selectList(new QueryWrapper<UserAuth>().eq("uid",uid).eq("state",1));
+        return ServerResponse.success(list);
     }
 }

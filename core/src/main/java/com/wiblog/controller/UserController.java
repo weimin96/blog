@@ -211,4 +211,13 @@ public class UserController extends BaseController {
         WiblogUtil.setCookie(response, token);
         response.sendRedirect(request.getContextPath() + "/");
     }
+
+    @GetMapping("/getBindingList")
+    public ServerResponse getBindingList(HttpServletRequest request){
+        User user = getLoginUser(request);
+        if (user != null){
+            return userService.getBindingList(user.getUid());
+        }
+        return ServerResponse.error("用户未登录",30001);
+    }
 }
