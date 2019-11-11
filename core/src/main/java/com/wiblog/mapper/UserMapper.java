@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.wiblog.entity.User;
 import com.wiblog.entity.UserAuth;
+import com.wiblog.vo.UserVo;
 
 import org.apache.ibatis.annotations.Options;
 
@@ -42,5 +43,5 @@ public interface UserMapper extends BaseMapper<User> {
      * @param username username
      * @return IPage
      */
-    IPage<User> selectUserManagePage(Page<User> page, Integer state, String username);
+    IPage<UserVo> selectUserManagePage(Page<UserVo> page, Integer state, String username);
 }

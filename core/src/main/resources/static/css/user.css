@@ -171,3 +171,52 @@
 .comment-card .comment-parent:hover{
     color: #409eff;
 }
+
+/*侧边栏*/
+.sidebar{
+
+}
+
+.sidebar ul{
+    list-style:none;
+    padding-inline-start: 0;
+}
+
+.sidebar li:first-child{
+    margin-top: 40px;
+}
+
+.sidebar .sidebar-active{
+    color: #fff;
+    background: rgba(240,20,20,.8);
+    border-radius: 8px 0 0 8px;
+}
+
+.sidebar .sidebar-active:after{
+    display: block;
+    content: "";
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    width: 0;
+    height: 0;
+    border-top: 24px solid #f5f5f5;
+    border-bottom: 24px solid #f5f5f5;
+    border-left: 15px solid transparent;
+}
+
+.sidebar li{
+    height: 48px;
+    margin: 0 auto 8px;
+    position: relative;
+    display: block;
+    font-size: 16px;
+    line-height: 48px;
+    text-align: center;
+    color: #787d82;
+}
+
+.sidebar li i{
+    padding-right: 10px;
+}
+

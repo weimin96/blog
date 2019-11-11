@@ -16,6 +16,7 @@ import com.wiblog.service.IUserService;
 import com.wiblog.utils.Md5Util;
 import com.wiblog.utils.WiblogUtil;
 import com.wiblog.vo.CommentManageVo;
+import com.wiblog.vo.UserVo;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -205,13 +206,13 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
 
     @Override
     public ServerResponse userManageListPage(Integer state, String username, Integer pageNum, Integer pageSize, String orderBy) {
-        Page<User> page = new Page<>(pageNum, pageSize);
+        Page<UserVo> page = new Page<>(pageNum, pageSize);
         if ("asc".equals(orderBy)) {
             page.setAsc("create_time");
         } else {
             page.setDesc("create_time");
         }
-        IPage<User> iPage = userMapper.selectUserManagePage(page, state, username);
+        IPage<UserVo> iPage = userMapper.selectUserManagePage(page, state, username);
         return ServerResponse.success(iPage, "获取用户列表成功");
     }
 }

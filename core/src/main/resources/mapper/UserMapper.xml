@@ -28,9 +28,9 @@ uid, username, sex, avatar_img,state, create_time
         select username as value from user where state = 1
     </select>
 
-    <select id="selectUserManagePage" resultType="com.wiblog.entity.User">
+    <select id="selectUserManagePage" resultType="com.wiblog.vo.UserVo">
         select
-        <include refid="Base_Column_List"/>
+        uid, username, sex, avatar_img,state, create_time
         from user
         <where>
             <if test="state != null">
