@@ -30,4 +30,10 @@ public interface UserAuthMapper extends BaseMapper<UserAuth> {
      */
     User login(UserAuth userAuth);
 
+    /**
+     * 更新状态为0
+     * @param uid uid
+     * @return int
+     */
+    int updateStateToZero(Long uid);
 }

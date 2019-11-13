@@ -31,7 +31,7 @@ public class MailServiceImpl {
     @Autowired
     private RedisTemplate<String,Object> redisTemplate;
 
-    public void sendSimpleMail(String to,String title,String content){
+    public void sendHtmlMail(String to,String title,String content){
         MimeMessage message=mailSender.createMimeMessage();
         MimeMessageHelper helper = null;
         try {
@@ -44,7 +44,6 @@ public class MailServiceImpl {
         } catch (MessagingException e) {
             e.printStackTrace();
         }
-
     }
 
 

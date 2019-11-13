@@ -1,5 +1,7 @@
 package com.wiblog.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import java.io.Serializable;
 import java.util.Date;
 
@@ -32,11 +34,13 @@ public class UserAuth implements Serializable{
     /**
      * 标识（手机号|邮箱|用户名|第三方唯一标识）
      */
+    @JsonIgnore
     private String identifier;
 
     /**
      * 密码|token
      */
+    @JsonIgnore
     private String password;
 
     /**

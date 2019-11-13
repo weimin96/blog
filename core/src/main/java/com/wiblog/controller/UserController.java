@@ -193,6 +193,15 @@ public class UserController extends BaseController {
         return userService.userManageListPage(state, username, pageNum, pageSize, orderBy);
     }
 
+    @PostMapping("/deleteUser")
+    public ServerResponse deleteUser(HttpServletRequest request){
+        User user = getLoginUser(request);
+        if (user == null){
+            return ServerResponse.error("用户未登录",30001);
+        }
+        return userService.deleteUser(user.getUid());
+    }
+
     /**
      * github 登录回调
      * @param request request
@@ -200,23 +209,51 @@ public class UserController extends BaseController {
      * @param code code
      */
     @GetMapping("/github/callback")
-    public void githubLogin(HttpServletRequest request, HttpServletResponse response, String code) throws IOException {
+    public ServerResponse githubLogin(HttpServletRequest request, HttpServletResponse response, String code,String type) throws IOException {
         String accessToken = githubProvider.getAccessToken(code);
         Map githubUser = githubProvider.getUser(accessToken);
-        User user = githubProvider.registerGithub(githubUser,accessToken);
-        // redis缓存
-        String token = Md5Util.MD5(request.getSession().getId() + user.getUid().toString());
-        redisTemplate.opsForValue().set(Constant.LOGIN_REDIS_KEY + token, JSON.toJSONString(user),7, TimeUnit.DAYS);
-        // cookies
-        WiblogUtil.setCookie(response, token);
-        response.sendRedirect(request.getContextPath() + "/");
+        if ("login".equals(type)){
+            User user = githubProvider.registerGithub(githubUser,accessToken);
+            // redis缓存
+            String token = Md5Util.MD5(request.getSession().getId() + user.getUid().toString());
+            redisTemplate.opsForValue().set(Constant.LOGIN_REDIS_KEY + token, JSON.toJSONString(user),7, TimeUnit.DAYS);
+            // cookies
+            WiblogUtil.setCookie(response, token);
+            // TODO 跳转历史页面
+            response.sendRedirect(request.getContextPath() + "/");
+            return null;
+        }else {
+            User user = getLoginUser(request);
+            if (user != null){
+                return githubProvider.bingGithub(user.getUid(),githubUser,accessToken);
+            }
+            return ServerResponse.error("用户未登录",30001);
+        }
     }
+
 
     @GetMapping("/getBindingList")
     public ServerResponse getBindingList(HttpServletRequest request){
         User user = getLoginUser(request);
         if (user != null){
             return userService.getBindingList(user.getUid());
+        }
+        return ServerResponse.error("用户未登录",30001);
+    }
+
+    /**
+     * 绑定手机号或邮箱
+     * @param request request
+     * @param type type
+     * @param val val
+     * @param code code
+     * @return ServerResponse
+     */
+    @PostMapping("/binding")
+    public ServerResponse binding(HttpServletRequest request,String type,String val,String code){
+        User user = getLoginUser(request);
+        if (user != null){
+            return userService.binding(user.getUid(),type,val,code);
         }
         return ServerResponse.error("用户未登录",30001);
     }

@@ -41,4 +41,10 @@ uid, username, sex, avatar_img,state, create_time
             </if>
         </where>
     </select>
+
+    <update id="updateStateToZero">
+        update user
+        set state = 0
+        where uid = #{uid}
+    </update>
 </mapper>

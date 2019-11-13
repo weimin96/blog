@@ -44,7 +44,7 @@ let app = new Vue({
             })
         },
         githubLogin(){
-            window.location.href = "https://github.com/login/oauth/authorize?client_id=9d543dc4501558c6759f&redirect_uri=https://127.0.0.1/u/github/callback&response_type=code&state=sjafop iwj4o5u4";
+            window.location.href = "https://github.com/login/oauth/authorize?client_id=9d543dc4501558c6759f&redirect_uri=https://127.0.0.1/u/github/callback&response_type=code&state=sjafopiwj4o5u4&type=login";
         }
     }
 });

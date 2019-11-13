@@ -48,12 +48,22 @@ public class MailController {
     @Autowired
     private RedisTemplate<String, Object> redisTemplate;
 
-    @GetMapping("/getCheckCode")
-    public ServerResponse getCheckCode() {
-        String to = "15602332711@163.com";
+    @GetMapping("/getEmailCheckCode")
+    public ServerResponse getEmailCheckCode(String email) {
+        // 5分钟内只允许发3条
+        Integer count = (Integer) redisTemplate.opsForValue().get(Constant.EMAIL_COUNT+email);
+        if (count == null){
+            count = 1;
+        }else if (count <3){
+            count++;
+        }else{
+            return ServerResponse.error("请等5分钟后重试",30001);
+        }
+        redisTemplate.opsForValue().set(Constant.EMAIL_COUNT+email,count,5,TimeUnit.MINUTES);
+
         int checkCode = new Random().nextInt(9000) + 1000;
         // 有效期1天
-        redisTemplate.opsForValue().set(Constant.CHECK_EMAIL_KEY + to, checkCode, 1, TimeUnit.DAYS);
+        redisTemplate.opsForValue().set(Constant.CHECK_EMAIL_KEY + email, checkCode, 1, TimeUnit.DAYS);
         StringBuilder sb = new StringBuilder();
         try (Reader reader = new InputStreamReader(new FileInputStream(ResourceUtils.getFile("classpath:mail.vm")))){
             int s = 0;
@@ -65,39 +75,11 @@ public class MailController {
             e.printStackTrace();
         }
         String message = sb.toString();
-        message=message.replace("[0]",to);
+        message=message.replace("[0]",email);
         message=message.replace("[1]",checkCode+"");
-        mailService.sendSimpleMail(to, "请激活你的邮箱账号", message);
+        mailService.sendHtmlMail(email, "请激活你的邮箱账号", message);
         return ServerResponse.success(null);
     }
 
-    /**
-     * 生成验证码
-     */
-    @RequestMapping(value = "/getVerify")
-    public void getVerify(HttpServletRequest request, HttpServletResponse response) {
-        try {
-            //设置相应类型,告诉浏览器输出的内容为图片
-            response.setContentType("image/jpeg");
-            //设置响应头信息，告诉浏览器不要缓存此内容
-            response.setHeader("Pragma", "No-cache");
-            response.setHeader("Cache-Control", "no-cache");
-            response.setDateHeader("Expire", 0);
-            VerifyCodeUtils.getRandomCode(request, response);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
 
-    /**
-     * 校验验证码
-     */
-    @PostMapping("/checkVerify")
-    public boolean checkVerify(String code, HttpSession session) {
-        if (StringUtils.isNotBlank(code)) {
-            String check = (String) session.getAttribute(Constant.VERIFY_CODE_SESSION_KEY);
-            return code.equals(check);
-        }
-        return false;
-    }
 }

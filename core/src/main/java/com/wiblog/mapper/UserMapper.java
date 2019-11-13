@@ -44,4 +44,11 @@ public interface UserMapper extends BaseMapper<User> {
      * @return IPage
      */
     IPage<UserVo> selectUserManagePage(Page<UserVo> page, Integer state, String username);
+
+    /**
+     * 更新用户状态为0
+     * @param uid uid
+     * @return int
+     */
+    int updateStateToZero(Long uid);
 }

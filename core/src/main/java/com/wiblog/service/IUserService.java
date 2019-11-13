@@ -78,4 +78,21 @@ public interface IUserService extends IService<User> {
      * @return ServerResponse
      */
     ServerResponse getBindingList(Long uid);
+
+    /**
+     * 绑定账号
+     * @param uid uid
+     * @param type type
+     * @param val val
+     * @param code code
+     * @return ServerResponse
+     */
+    ServerResponse binding(Long uid, String type, String val, String code);
+
+    /**
+     * 用户注销
+     * @param uid uid
+     * @return ServerResponse
+     */
+    ServerResponse deleteUser(Long uid);
 }

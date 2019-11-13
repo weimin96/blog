@@ -218,4 +218,44 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
         List<UserAuth> list = userAuthMapper.selectList(new QueryWrapper<UserAuth>().eq("uid",uid).eq("state",1));
         return ServerResponse.success(list);
     }
+
+    @Override
+    public ServerResponse binding(Long uid, String type, String val, String code) {
+
+
+        if ("email".equals(type)){
+            // 校验 验证码
+            String checkCode = (String) redisTemplate.opsForValue().get(Constant.CHECK_EMAIL_KEY + val);
+            if (StringUtils.isBlank(val) || !val.equals(checkCode)){
+                return ServerResponse.error("验证码错误",30001);
+            }
+        }else if("phone".equals(type)){
+            return null;
+        }else{
+            return ServerResponse.error("类型错误",30001);
+        }
+
+        // 已经绑定过
+        List<UserAuth> userAuthList = userAuthMapper.selectList(new QueryWrapper<UserAuth>().eq("uid",uid).eq("state",1));
+        for (UserAuth item:userAuthList){
+            if (type.equals(item.getIdentityType())){
+                return ServerResponse.error("已经绑定过了",30001);
+            }
+        }
+        // 插入
+        UserAuth userAuth = userAuthList.get(0);
+        userAuth.setCreateTime(new Date());
+        userAuth.setIdentifier(val);
+        userAuth.setIdentityType(type);
+        userAuthMapper.insert(userAuth);
+        return ServerResponse.success(null,"绑定成功");
+    }
+
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public ServerResponse deleteUser(Long uid) {
+        userMapper.updateStateToZero(uid);
+        userAuthMapper.updateStateToZero(uid);
+        return ServerResponse.success(null,"注销成功");
+    }
 }

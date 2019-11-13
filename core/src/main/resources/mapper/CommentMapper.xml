@@ -100,4 +100,11 @@ id, uid, article_id, parent_id,gen_id,floor, likes, content, state,create_time, 
         left join `user` as u1 on c1.uid = u1.uid
         where c2.uid = #{uid} and c1.state = 1
     </select>
+
+    <update id="updateUid">
+        update comment
+        set uid = #{newUid}
+        where uid = #{oldUid}
+    </update>
+
 </mapper>

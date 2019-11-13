@@ -40,5 +40,11 @@ id, uid, identity_type, identifier, password, state, create_time, logged
         and ua.state = 1
     </select>
 
+    <update id="updateStateToZero">
+        update user_auth
+        set state = 0
+        where uid = #{uid}
+    </update>
+
 
 </mapper>

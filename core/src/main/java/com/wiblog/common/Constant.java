@@ -26,10 +26,15 @@ public class Constant {
     public static final String COOKIES_KEY = "uToken";
 
     /**
-     * redis key 前缀 邮箱
+     * redis key 前缀 邮箱验证码
      */
     public static final String CHECK_EMAIL_KEY = "check_email_";
 
     public static final String VERIFY_CODE_SESSION_KEY = "verify_code";
+
+    /**
+     * 邮箱发送次数
+     */
+    public static final String EMAIL_COUNT = "email_count_";
 }
 
