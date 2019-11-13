@@ -34,7 +34,6 @@ public class UserAuth implements Serializable{
     /**
      * 标识（手机号|邮箱|用户名|第三方唯一标识）
      */
-    @JsonIgnore
     private String identifier;
 
     /**

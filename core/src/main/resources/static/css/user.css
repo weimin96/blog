@@ -254,3 +254,22 @@
 .binding a i{
     padding-right: 5px;
 }
+
+/*对话框*/
+.dialog-lay .dialog-label{
+    width: 44px;
+    display: inline-block;
+}
+
+.dialog-input{
+    width: 170px;
+    margin: 0 10px;
+    padding-top: 5px;
+}
+
+.error-msg{
+    color: #ef1212;
+    margin: 0 0 0 60px;
+    font-size: 13px;
+    height: 20px;
+}

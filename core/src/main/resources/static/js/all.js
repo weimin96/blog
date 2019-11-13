@@ -141,13 +141,17 @@ let vue = new Vue({
                     window.location.reload();
                 }
             })
+        },
+        login(){
+            Cookies.set('back',window.location.href,{ expires: 1, path: '/' });
+            window.location.href="/login";
         }
     }
 });
 
 Vue.component('menu-tree', {
     props: ['value'],
-    template: '<li v-if="value.children"><a href="#">{{value.name}}</a>'+
+    template: '<li v-if="value.children"><a href="javascript:;">{{value.name}}</a>'+
         '<ul><menu-tree v-for="item in value.children" v-bind:value="item"></menu-tree></ul></li>'+
         '<li v-else><a class="menu-item" :href="\'category/\'+value.url">{{value.name}}</a></li>'
 });

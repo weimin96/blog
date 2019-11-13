@@ -95,4 +95,12 @@ public interface IUserService extends IService<User> {
      * @return ServerResponse
      */
     ServerResponse deleteUser(Long uid);
+
+    /**
+     * 解绑
+     * @param uid uid
+     * @param type type
+     * @return ServerResponse
+     */
+    ServerResponse unBinding(Long uid, String type);
 }

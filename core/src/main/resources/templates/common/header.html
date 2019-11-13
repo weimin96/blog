@@ -7,13 +7,13 @@
             <el-container>
                 <el-header>
                     <div class="header-logo">
-                        <a href="http://www.wiblog.cn">wiblog </a>
+                        <a href="/">wiblog </a>
                     </div>
 
                     <div class="user-center">
                         <ul class="unlogin" v-show="!isLogin">
                             <li>
-                                <a href="/login" class="nav-unlogin">登录<i></i></a>
+                                <a href="javascript:;" @click="login()" class="nav-unlogin">登录<i></i></a>
                                 <a href="/register">注册</a>
                             </li>
                         </ul>

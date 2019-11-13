@@ -209,18 +209,20 @@ public class UserController extends BaseController {
      * @param code code
      */
     @GetMapping("/github/callback")
-    public ServerResponse githubLogin(HttpServletRequest request, HttpServletResponse response, String code,String type) throws IOException {
-        String accessToken = githubProvider.getAccessToken(code);
+    public ServerResponse githubLogin(HttpServletRequest request, HttpServletResponse response, String code,String state) throws IOException {
+        String accessToken = githubProvider.getAccessToken(code,state);
         Map githubUser = githubProvider.getUser(accessToken);
-        if ("login".equals(type)){
+        if ("login".equals(state)){
             User user = githubProvider.registerGithub(githubUser,accessToken);
             // redis缓存
             String token = Md5Util.MD5(request.getSession().getId() + user.getUid().toString());
             redisTemplate.opsForValue().set(Constant.LOGIN_REDIS_KEY + token, JSON.toJSONString(user),7, TimeUnit.DAYS);
             // cookies
             WiblogUtil.setCookie(response, token);
-            // TODO 跳转历史页面
-            response.sendRedirect(request.getContextPath() + "/");
+            // 跳转历史页面
+            String url = WiblogUtil.getCookie(request,"back");
+            log.info(url);
+            response.sendRedirect(url);
             return null;
         }else {
             User user = getLoginUser(request);
@@ -254,6 +256,21 @@ public class UserController extends BaseController {
         User user = getLoginUser(request);
         if (user != null){
             return userService.binding(user.getUid(),type,val,code);
+        }
+        return ServerResponse.error("用户未登录",30001);
+    }
+
+    /**
+     * 绑解手机号或邮箱
+     * @param request request
+     * @param type type
+     * @return ServerResponse
+     */
+    @PostMapping("/unBinding")
+    public ServerResponse unBinding(HttpServletRequest request,String type){
+        User user = getLoginUser(request);
+        if (user != null){
+            return userService.unBinding(user.getUid(),type);
         }
         return ServerResponse.error("用户未登录",30001);
     }

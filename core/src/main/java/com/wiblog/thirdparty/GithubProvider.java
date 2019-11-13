@@ -40,9 +40,6 @@ public class GithubProvider {
     @Value("${github.redirect.uri}")
     private String redirectUrl;
 
-    @Value("${github.state}")
-    private String state;
-
     @Autowired
     private UserMapper userMapper;
 
@@ -61,7 +58,7 @@ public class GithubProvider {
      * @param code code
      * @return String
      */
-    public String getAccessToken(String code) {
+    public String getAccessToken(String code,String state) {
         String url = "https://github.com/login/oauth/access_token?client_id=%s&client_secret=%s&code=%s&redirect_uri=%s&state=%s";
         url = String.format(url, clientId, secret, code, redirectUrl, state);
         RestTemplate restTemplate = new RestTemplate();

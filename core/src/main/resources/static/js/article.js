@@ -171,6 +171,10 @@
                 this.moreCommentVisible=true;
                 this.showIndex = index;
                 this.commentItem=this.commentList[index];
+            },
+            login(){
+                Cookies.set('back',window.location.href,{ expires: 1, path: '/' });
+                window.location.href="/login";
             }
         },
         filters: {

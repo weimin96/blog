@@ -255,7 +255,13 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
     @Transactional(rollbackFor = Exception.class)
     public ServerResponse deleteUser(Long uid) {
         userMapper.updateStateToZero(uid);
-        userAuthMapper.updateStateToZero(uid);
+        userAuthMapper.updateStateToZero(uid,null);
         return ServerResponse.success(null,"注销成功");
+    }
+
+    @Override
+    public ServerResponse unBinding(Long uid, String type) {
+        userAuthMapper.updateStateToZero(uid,type);
+        return ServerResponse.success("解绑成功");
     }
 }

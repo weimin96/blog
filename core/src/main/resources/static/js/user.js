@@ -20,7 +20,14 @@ let app = new Vue({
         userReplyTotal:0,
         userReplyOrderBy:"desc",
         // 绑定列表
-        bindList:{}
+        bindList:{},
+        // 邮箱
+        emailVisible:false,
+        emailInput:"",
+        emailCode:"",
+        emailCodeBtn:false,
+        errorEmailMsg:"邮箱格式错误",
+        errorEmailCodeMsg:"验证码错误"
     },
     beforeCreate() {
         vm = this;
@@ -70,6 +77,18 @@ let app = new Vue({
                     console.log(vm.bindList);
                 }
             })
+        },
+        // 检测邮箱
+        checkEmail(){
+            $.post('/u/checkEmail', {value: this.emailInput}, function (res) {
+                if (res.code === 10000) {
+                    vm.errorEmailMsg = '';
+                    vm.emailCodeBtn = true;
+                } else {
+                    vm.errorEmailMsg = res.msg;
+                    vm.emailCodeBtn = false;
+                }
+            });
         }
     },
     filters: {
