@@ -187,15 +187,33 @@
                                                         class="fa fa-plus"></i>绑定</a>
                                                 </li>
                                                 <li v-else="">
-                                                    <img src="/img/phone_gray.svg"><span>手机</span><a><i
-                                                        class="fa fa-plus"></i>绑定</a>
+                                                    <img src="/img/phone_gray.svg">
+                                                    <div>
+                                                        <p>手机</p>
+                                                    </div>
+                                                    <div class="tips">
+                                                        <p>可用手机号加密码登录</p>
+                                                    </div>
+                                                    <a><i class="fa fa-plus"></i>绑定</a>
                                                 </li>
-                                                <li v-if="bindList.email === true">
-                                                    <img src="/img/email_pink.svg"><span>邮箱</span><a><i
-                                                        class="fa fa-plus"></i>绑定</a>
+
+                                                <li v-if="bindList.email !== ''">
+                                                    <img src="/img/email_pink.svg">
+                                                    <div>
+                                                        <p>邮箱</p>
+                                                        <p>{{bindList.email}}</p>
+                                                    </div>
+                                                    <a>已绑定</a>
                                                 </li>
+
                                                 <li v-else>
-                                                    <img src="/img/email_gray.svg"><span>邮箱</span>
+                                                    <img src="/img/email_gray.svg">
+                                                    <div>
+                                                        <p>邮箱</p>
+                                                    </div>
+                                                    <div>
+                                                        <p>邮箱</p>
+                                                    </div>
                                                     <a href="javascript:;" @click="emailVisible = true">
                                                         <i class="fa fa-plus"></i>绑定
                                                     </a>
@@ -208,8 +226,12 @@
                                                     <img src="/img/weibo_gray.svg"><span>微博</span><a><i
                                                         class="fa fa-plus"></i>绑定</a>
                                                 </li>
-                                                <li v-if="bindList.github === true">
-                                                    <img src="/img/github_black.svg"><span>github</span><a>解绑</a>
+                                                <li v-if="bindList.github !== ''">
+                                                    <img src="/img/github_black.svg">
+                                                    <div>
+                                                        <p>github</p>
+                                                    </div>
+                                                    <a>已绑定</a>
                                                 </li>
                                                 <li v-else="">
                                                     <img src="/img/github_gray.svg"><span>github</span><a><i
@@ -233,13 +255,13 @@
                 <p class="error-msg">{{errorEmailMsg}}</p>
                 <div class="dialog-lay">
                     <span class="dialog-label">验证码</span>
-                    <el-input class="dialog-input" v-model="emailCode" placeholder="请输入验证码"></el-input>
-                    <el-button type="primary" :disabled="emailCodeBtn" >获取验证码</el-button>
+                    <el-input class="dialog-input" v-model="emailCode" :disabled="emailCodeInputDisable" placeholder="请输入验证码"></el-input>
+                    <el-button type="primary" :disabled="emailCodeDisable" @click="getEmailCode()">{{emailCodeBtnMsg}}</el-button>
                 </div>
                 <p class="error-msg">{{errorEmailCodeMsg}}</p>
                 <div slot="footer" class="dialog-footer">
-                    <el-button>取 消</el-button>
-                    <el-button type="primary">绑定</el-button>
+                    <el-button @click="mailCancel()">取 消</el-button>
+                    <el-button @click="mailEnter()" type="primary">绑定</el-button>
                 </div>
             </el-dialog>
         </div>

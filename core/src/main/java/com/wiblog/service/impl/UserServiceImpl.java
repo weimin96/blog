@@ -220,13 +220,13 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
     }
 
     @Override
-    public ServerResponse binding(Long uid, String type, String val, String code) {
+    public ServerResponse binding(Long uid, String type, String val, Integer code) {
 
 
         if ("email".equals(type)){
             // 校验 验证码
-            String checkCode = (String) redisTemplate.opsForValue().get(Constant.CHECK_EMAIL_KEY + val);
-            if (StringUtils.isBlank(val) || !val.equals(checkCode)){
+            Integer checkCode = (Integer) redisTemplate.opsForValue().get(Constant.CHECK_EMAIL_KEY + val);
+            if (StringUtils.isBlank(val) || !code.equals(checkCode)){
                 return ServerResponse.error("验证码错误",30001);
             }
         }else if("phone".equals(type)){

@@ -229,22 +229,37 @@
 .binding li{
     border-bottom: 1px solid #ccc;
     padding: 10px;
-    margin-bottom: 10px;
+    height: 64px;
 }
 
-.binding span{
-    margin-left: 10px;
+.binding li img{
+    float: left;
+    width: 47px;
+}
+
+.binding li div{
+    float: left;
+}
+
+.binding p{
+    margin: 0 0 0 10px;
+}
+
+.binding .tips p{
+    margin-left: 260px;
+    color: #909399;
 }
 
 .binding a{
     float: right;
     background: #fff;
-    padding: 3px 10px;
+    padding: 4px 10px;
     border-radius: 5px;
     box-shadow: 0 1px 1px 0 rgba(0,0,0,.2);
     cursor: default;
     border: 1px solid #ccc;
     color: #333;
+    font-size: 13px;
 }
 
 .binding a:hover{
@@ -252,7 +267,8 @@
 }
 
 .binding a i{
-    padding-right: 5px;
+    padding-right: 10px;
+    color: #f14141;
 }
 
 /*对话框*/
@@ -265,6 +281,11 @@
     width: 170px;
     margin: 0 10px;
     padding-top: 5px;
+}
+
+.dialog-lay span{
+    width: 70px;
+    display: inline-block;
 }
 
 .error-msg{

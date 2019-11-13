@@ -4,30 +4,32 @@ let app = new Vue({
     data: {
         user: {},
         activeName: "first",
-        userActiveName:"first",
+        userActiveName: "first",
         // 侧边栏
-        sidebarActive:"message",
+        sidebarActive: "message",
         // 我的回复
         userComment: [],
-        userCommentPageNum:1,
-        userCommentPageSize:10,
-        userCommentTotal:0,
-        userCommentOrderBy:"desc",
+        userCommentPageNum: 1,
+        userCommentPageSize: 10,
+        userCommentTotal: 0,
+        userCommentOrderBy: "desc",
         // 回复我的
         userReply: [],
-        userReplyPageNum:1,
-        userReplyPageSize:10,
-        userReplyTotal:0,
-        userReplyOrderBy:"desc",
+        userReplyPageNum: 1,
+        userReplyPageSize: 10,
+        userReplyTotal: 0,
+        userReplyOrderBy: "desc",
         // 绑定列表
-        bindList:{},
+        bindList: {},
         // 邮箱
-        emailVisible:false,
-        emailInput:"",
-        emailCode:"",
-        emailCodeBtn:false,
-        errorEmailMsg:"邮箱格式错误",
-        errorEmailCodeMsg:"验证码错误"
+        emailVisible: false,
+        emailInput: "",
+        emailCode: "",
+        emailCodeDisable: true,
+        emailCodeInputDisable:true,
+        errorEmailMsg: "",
+        errorEmailCodeMsg: "",
+        emailCodeBtnMsg: "获取验证码",
     },
     beforeCreate() {
         vm = this;
@@ -41,7 +43,11 @@ let app = new Vue({
     methods: {
         getUserComment(orderBy) {
             this.userCommentOrderBy = orderBy;
-            $.get("/comment/getUserComment",{pageNum:this.userCommentPageNum,pageSize:this.userCommentPageSize,orderBy:orderBy}, function (res) {
+            $.get("/comment/getUserComment", {
+                pageNum: this.userCommentPageNum,
+                pageSize: this.userCommentPageSize,
+                orderBy: orderBy
+            }, function (res) {
                 if (res.code === 10000) {
                     vm.userComment = res.data.records;
                     vm.userCommentTotal = res.data.total;
@@ -50,7 +56,11 @@ let app = new Vue({
         },
         getUserReply(orderBy) {
             this.userReplyOrderBy = orderBy;
-            $.get("/comment/getUserReply",{pageNum:this.userReplyPageNum,pageSize:this.userReplyPageSize,orderBy:orderBy}, function (res) {
+            $.get("/comment/getUserReply", {
+                pageNum: this.userReplyPageNum,
+                pageSize: this.userReplyPageSize,
+                orderBy: orderBy
+            }, function (res) {
                 if (res.code === 10000) {
                     vm.userReply = res.data.records;
                     vm.userReplyTotal = res.data.total;
@@ -58,35 +68,80 @@ let app = new Vue({
             });
         },
         // 我的回复换页
-        userCommentHandlePageNum(pageNum){
-            this.userCommentPageNum=pageNum;
+        userCommentHandlePageNum(pageNum) {
+            this.userCommentPageNum = pageNum;
             this.getUserComment(this.userCommentOrderBy);
         },
         //回复我的换页
-        userReplyHandlePageNum(pageNum){
-            this.userReplyPageNum=pageNum;
+        userReplyHandlePageNum(pageNum) {
+            this.userReplyPageNum = pageNum;
             this.getUserReply(this.userReplyOrderBy);
         },
         // 绑定状态
-        getBinding(){
-            $.get("/u/getBindingList",function (res) {
-                if (res.code === 10000){
-                    $.each(res.data,function (index,item) {
-                       vm.bindList[item.identityType]=true;
+        getBinding() {
+            $.get("/u/getBindingList", function (res) {
+                if (res.code === 10000) {
+                    $.each(res.data, function (index, item) {
+                        vm.bindList[item.identityType] = item.identifier;
                     });
                     console.log(vm.bindList);
                 }
             })
         },
         // 检测邮箱
-        checkEmail(){
+        checkEmail() {
             $.post('/u/checkEmail', {value: this.emailInput}, function (res) {
                 if (res.code === 10000) {
                     vm.errorEmailMsg = '';
-                    vm.emailCodeBtn = true;
+                    vm.emailCodeDisable = false;
                 } else {
                     vm.errorEmailMsg = res.msg;
+                    vm.emailCodeDisable = true;
+                }
+            });
+        },
+        // 获取邮件验证码
+        getEmailCode() {
+            let time = 60;
+            this.emailCodeBtn = true;
+            this.emailCodeInputDisable=false;
+            $.get("/getEmailCheckCode", {email: this.emailInput}, function (res) {
+                if (res.code === 10000) {
+                    vm.$message({message: "发送验证码成功，请登录邮箱查看", type: "success"});
+                }
+            });
+            setInterval(function () {
+                if (time === 0) {
                     vm.emailCodeBtn = false;
+                    vm.emailCodeBtnMsg = "获取验证码";
+                    return;
+                    //clearInterval();
+                }
+                vm.emailCodeBtnMsg = time + "s";
+                time--;
+            }, 1000)
+        },
+        mailCancel() {
+            this.emailInput = "";
+            this.emailCode = "";
+            this.emailCodeDisable = true;
+            this.errorEmailMsg = "";
+            this.errorEmailCodeMsg = "";
+            this.emailCodeBtnMsg = "获取验证码";
+        },
+        mailEnter(){
+            if (this.emailInput.trim() === "") {
+                vm.$message.error("请输入邮箱");
+            }else if(this.emailCode.trim() === ""){
+                vm.$message.error("请输入验证码");
+            }
+            $.post("/u/binding",{type:"email",val:this.emailInput,code:this.emailCode},function (res) {
+                if (res.code === 10000){
+                    vm.getBinding();
+                    vm.$message({message: "绑定邮箱成功", type: "success"});
+                    vm.emailVisible=false;
+                }else {
+                    vm.$message.error(res.msg);
                 }
             });
         }
@@ -108,7 +163,8 @@ let app = new Vue({
                     return t;
                 }
             }
-            var result="";
+
+            var result = "";
             // 同一年不显示年份
             if (new Date().getFullYear() !== year) {
                 result += year + "."

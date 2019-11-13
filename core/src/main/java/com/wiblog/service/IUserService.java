@@ -87,7 +87,7 @@ public interface IUserService extends IService<User> {
      * @param code code
      * @return ServerResponse
      */
-    ServerResponse binding(Long uid, String type, String val, String code);
+    ServerResponse binding(Long uid, String type, String val, Integer code);
 
     /**
      * 用户注销

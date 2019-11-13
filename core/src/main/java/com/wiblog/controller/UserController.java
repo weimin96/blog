@@ -252,7 +252,7 @@ public class UserController extends BaseController {
      * @return ServerResponse
      */
     @PostMapping("/binding")
-    public ServerResponse binding(HttpServletRequest request,String type,String val,String code){
+    public ServerResponse binding(HttpServletRequest request,String type,String val,Integer code){
         User user = getLoginUser(request);
         if (user != null){
             return userService.binding(user.getUid(),type,val,code);
