@@ -45,7 +45,7 @@ id, uid, identity_type, identifier, password, state, create_time, logged
         set state = 0
         <where>
             uid = #{uid}
-            <if test="identity_type != null and identity_type != ''">
+            <if test="type != null and type != ''">
                 and identity_type = #{type}
             </if>
         </where>

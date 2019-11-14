@@ -182,14 +182,19 @@
                                         <el-tab-pane label="绑定账号" name="first">
                                             <ul class="binding">
 
-                                                <li v-if="bindList.phone === true">
-                                                    <img src="/img/phone_blue.svg"><span>手机</span><a><i
-                                                        class="fa fa-plus"></i>绑定</a>
+                                                <li v-if="bindList.phone !== false">
+                                                    <img src="/img/phone_blue.svg">
+                                                    <div>
+                                                        <p>手机</p>
+                                                        <p>{{bindList.phone}}</p>
+                                                    </div>
+                                                    <a @click="unBinding('phone')" href="javascript:;">已绑定</a>
                                                 </li>
                                                 <li v-else="">
                                                     <img src="/img/phone_gray.svg">
                                                     <div>
                                                         <p>手机</p>
+
                                                     </div>
                                                     <div class="tips">
                                                         <p>可用手机号加密码登录</p>
@@ -197,7 +202,7 @@
                                                     <a><i class="fa fa-plus"></i>绑定</a>
                                                 </li>
 
-                                                <li v-if="bindList.email !== undefined">
+                                                <li v-if="bindList.email !== false">
                                                     <img src="/img/email_pink.svg">
                                                     <div>
                                                         <p>邮箱</p>
@@ -219,15 +224,21 @@
                                                         <i class="fa fa-plus"></i>绑定
                                                     </a>
                                                 </li>
-                                                <li v-if="bindList.weibo === true">
-                                                    <img src="/img/weibo_red.svg"><span>微博</span><a><i
-                                                        class="fa fa-plus"></i>绑定</a>
+                                                <li v-if="bindList.weibo !== false">
+                                                    <img src="/img/weibo_red.svg">
+                                                    <div>
+                                                        <p>微博</p>
+                                                    </div>
+                                                    <a @click="unBinding('weibo')" href="javascript:;">已绑定</a>
                                                 </li>
                                                 <li v-else>
-                                                    <img src="/img/weibo_gray.svg"><span>微博</span><a><i
-                                                        class="fa fa-plus"></i>绑定</a>
+                                                    <img src="/img/weibo_gray.svg">
+                                                    <div>
+                                                        <p>微博</p>
+                                                    </div>
+                                                    <a ><i class="fa fa-plus"></i>绑定</a>
                                                 </li>
-                                                <li v-if="bindList.github !== undefined">
+                                                <li v-if="bindList.github !== false">
                                                     <img src="/img/github_black.svg">
                                                     <div>
                                                         <p>github</p>
@@ -235,7 +246,11 @@
                                                     <a @click="unBinding('github')" href="javascript:;">已绑定</a>
                                                 </li>
                                                 <li v-else="">
-                                                    <img src="/img/github_gray.svg" alt=""><span>github</span>
+                                                    <img src="/img/github_gray.svg" alt="">
+                                                    <div>
+                                                        <p>github</p>
+                                                    </div>
+
                                                     <a @click="bingGithub()" href="javascript:;">
                                                         <i class="fa fa-plus"></i>绑定
                                                     </a>

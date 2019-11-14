@@ -20,7 +20,12 @@ let app = new Vue({
         userReplyTotal: 0,
         userReplyOrderBy: "desc",
         // 绑定列表
-        bindList: {},
+        bindList: {
+            "phone":false,
+            "email":false,
+            "github":false,
+            "weibo":false
+        },
         // 邮箱
         emailVisible: false,
         emailInput: "",
@@ -88,6 +93,7 @@ let app = new Vue({
             $.get("/u/getBindingList", function (res) {
                 if (res.code === 10000) {
                     $.each(res.data, function (index, item) {
+
                         vm.bindList[item.identityType] = item.identifier;
                     });
                     console.log(vm.bindList);
@@ -156,11 +162,19 @@ let app = new Vue({
             window.location.href="https://github.com/login/oauth/authorize?client_id=9d543dc4501558c6759f&redirect_uri=https://127.0.0.1/u/github/callback&response_type=code&state=banding";
         },
         unBinding(type){
-            $.post("/u/unBinding",{type:type},function (res) {
-                if (res.code === 10000){
-                    vm.$message({message: res.msg, type: "success"});
-                }
+            this.$confirm('是否取消绑定?', '提示', {
+                confirmButtonText: '确定',
+                cancelButtonText: '取消',
+                type: 'warning'
+            }).then(() => {
+                $.post("/u/unBinding",{type:type},function (res) {
+                    if (res.code === 10000){
+                        vm.$message({message: "解绑成功", type: "success"});
+                        vm.getBinding();
+                    }
+                });
             });
+
         }
     },
     filters: {

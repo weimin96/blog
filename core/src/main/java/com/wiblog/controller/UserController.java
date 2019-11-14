@@ -70,7 +70,7 @@ public class UserController extends BaseController {
             User user = (User) serverResponse.getData();
             // redis缓存
             String token = Md5Util.MD5(request.getSession().getId() + user.getUid().toString());
-            redisTemplate.opsForValue().set(Constant.LOGIN_REDIS_KEY + token, JSON.toJSONString(user),7,TimeUnit.DAYS);
+            redisTemplate.opsForValue().set(Constant.LOGIN_REDIS_KEY + token, JSON.toJSONString(user), 7, TimeUnit.DAYS);
             // cookies
             WiblogUtil.setCookie(response, token);
             // TODO 登录日志
@@ -97,15 +97,15 @@ public class UserController extends BaseController {
     }
 
     @GetMapping("/logout")
-    public ServerResponse logout(HttpServletRequest request,HttpServletResponse response){
-        String token = WiblogUtil.getCookie(request,Constant.COOKIES_KEY);
-        if (StringUtils.isNotBlank(token)){
-            WiblogUtil.delCookie(request,response);
+    public ServerResponse logout(HttpServletRequest request, HttpServletResponse response) {
+        String token = WiblogUtil.getCookie(request, Constant.COOKIES_KEY);
+        if (StringUtils.isNotBlank(token)) {
+            WiblogUtil.delCookie(request, response);
             Boolean bool = redisTemplate.delete(Constant.LOGIN_REDIS_KEY + token);
-            log.info("退出登录{}",bool);
+            log.info("退出登录{}", bool);
         }
 
-        return ServerResponse.success(null,"退出成功");
+        return ServerResponse.success(null, "退出成功");
     }
 
     @ApiOperation(value = "注册", notes = "用户注册")
@@ -194,87 +194,92 @@ public class UserController extends BaseController {
     }
 
     @PostMapping("/deleteUser")
-    public ServerResponse deleteUser(HttpServletRequest request){
+    public ServerResponse deleteUser(HttpServletRequest request) {
         User user = getLoginUser(request);
-        if (user == null){
-            return ServerResponse.error("用户未登录",30001);
+        if (user == null) {
+            return ServerResponse.error("用户未登录", 30001);
         }
         return userService.deleteUser(user.getUid());
     }
 
     /**
      * github 登录回调
-     * @param request request
+     *
+     * @param request  request
      * @param response response
-     * @param code code
+     * @param code     code
      */
     @GetMapping("/github/callback")
-    public ServerResponse githubLogin(HttpServletRequest request, HttpServletResponse response, String code,String state) throws IOException {
-        String accessToken = githubProvider.getAccessToken(code,state);
+    public ServerResponse githubLogin(HttpServletRequest request, HttpServletResponse response, String code, String state) throws IOException {
+        String accessToken = githubProvider.getAccessToken(code, state);
         Map githubUser = githubProvider.getUser(accessToken);
-        if ("login".equals(state)){
-            User user = githubProvider.registerGithub(githubUser,accessToken);
+        if ("login".equals(state)) {
+            User user = githubProvider.registerGithub(githubUser, accessToken);
             // redis缓存
             String token = Md5Util.MD5(request.getSession().getId() + user.getUid().toString());
-            redisTemplate.opsForValue().set(Constant.LOGIN_REDIS_KEY + token, JSON.toJSONString(user),7, TimeUnit.DAYS);
+            redisTemplate.opsForValue().set(Constant.LOGIN_REDIS_KEY + token, JSON.toJSONString(user), 7, TimeUnit.DAYS);
             // cookies
             WiblogUtil.setCookie(response, token);
             // 跳转历史页面
-            String url = WiblogUtil.getCookie(request,"back");
+            String url = WiblogUtil.getCookie(request, "back");
             log.info(url);
             response.sendRedirect(url);
             return null;
-        }else {
+        } else {
             User user = getLoginUser(request);
-            if (user != null){
-                ServerResponse serverResponse = githubProvider.bingGithub(user.getUid(),githubUser,accessToken);
-                String url = WiblogUtil.getCookie(request,"back");
-                WiblogUtil.setCookie(response,"error",serverResponse.getMsg(),60);
+            if (user != null) {
+                ServerResponse serverResponse = githubProvider.bingGithub(user.getUid(), githubUser, accessToken);
+                String url = WiblogUtil.getCookie(request, "back");
+                if (!serverResponse.isSuccess()){
+                    WiblogUtil.setCookie(response, "error", serverResponse.getMsg(), 60);
+                }
                 response.sendRedirect(url);
             }
-            return ServerResponse.error("用户未登录",30001);
+            return ServerResponse.error("用户未登录", 30001);
         }
     }
 
 
     @GetMapping("/getBindingList")
-    public ServerResponse getBindingList(HttpServletRequest request){
+    public ServerResponse getBindingList(HttpServletRequest request) {
         User user = getLoginUser(request);
-        if (user != null){
+        if (user != null) {
             return userService.getBindingList(user.getUid());
         }
-        return ServerResponse.error("用户未登录",30001);
+        return ServerResponse.error("用户未登录", 30001);
     }
 
     /**
      * 绑定手机号或邮箱
+     *
      * @param request request
-     * @param type type
-     * @param val val
-     * @param code code
+     * @param type    type
+     * @param val     val
+     * @param code    code
      * @return ServerResponse
      */
     @PostMapping("/binding")
-    public ServerResponse binding(HttpServletRequest request,String type,String val,Integer code){
+    public ServerResponse binding(HttpServletRequest request, String type, String val, Integer code) {
         User user = getLoginUser(request);
-        if (user != null){
-            return userService.binding(user.getUid(),type,val,code);
+        if (user != null) {
+            return userService.binding(user.getUid(), type, val, code);
         }
-        return ServerResponse.error("用户未登录",30001);
+        return ServerResponse.error("用户未登录", 30001);
     }
 
     /**
      * 绑解手机号或邮箱
+     *
      * @param request request
-     * @param type type
+     * @param type    type
      * @return ServerResponse
      */
     @PostMapping("/unBinding")
-    public ServerResponse unBinding(HttpServletRequest request,String type){
+    public ServerResponse unBinding(HttpServletRequest request, String type) {
         User user = getLoginUser(request);
-        if (user != null){
-            return userService.unBinding(user.getUid(),type);
+        if (user != null) {
+            return userService.unBinding(user.getUid(), type);
         }
-        return ServerResponse.error("用户未登录",30001);
+        return ServerResponse.error("用户未登录", 30001);
     }
 }
