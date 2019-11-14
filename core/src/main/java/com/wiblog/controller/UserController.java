@@ -227,7 +227,10 @@ public class UserController extends BaseController {
         }else {
             User user = getLoginUser(request);
             if (user != null){
-                return githubProvider.bingGithub(user.getUid(),githubUser,accessToken);
+                ServerResponse serverResponse = githubProvider.bingGithub(user.getUid(),githubUser,accessToken);
+                String url = WiblogUtil.getCookie(request,"back");
+                WiblogUtil.setCookie(response,"error",serverResponse.getMsg(),60);
+                response.sendRedirect(url);
             }
             return ServerResponse.error("用户未登录",30001);
         }

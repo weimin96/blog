@@ -42,6 +42,14 @@ public class WiblogUtil {
         return content;
     }
 
+    public static void setCookie(HttpServletResponse response, String key,String value,int expire) {
+        Cookie cookie = new Cookie(key, value);
+        cookie.setDomain("");
+        cookie.setPath("/");
+        cookie.setMaxAge(expire);
+        response.addCookie(cookie);
+    }
+
     public static void setCookie(HttpServletResponse response, String token) {
         Cookie cookie = new Cookie(Constant.COOKIES_KEY, token);
         cookie.setDomain("");
@@ -74,7 +82,7 @@ public class WiblogUtil {
         }
         for (Cookie c:cookies){
             if (Constant.COOKIES_KEY.equals(c.getName())){
-                log.info("删除cookie",c.getName());
+                log.info("删除cookie{}",c.getName());
                 c.setMaxAge(0);
                 c.setValue(null);
                 c.setDomain("");

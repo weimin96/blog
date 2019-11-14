@@ -29,12 +29,18 @@ let app = new Vue({
         emailCodeInputDisable:true,
         errorEmailMsg: "",
         errorEmailCodeMsg: "",
-        emailCodeBtnMsg: "获取验证码",
+        emailCodeBtnMsg: "",
     },
     beforeCreate() {
         vm = this;
     },
     mounted() {
+        let msg = Cookies.get("error");
+        if (msg !== undefined && msg !== ""){
+            this.sidebarActive = "user";
+            this.$message({message: msg, type: "error"});
+            Cookies.remove("error");
+        }
         this.user = user;
         this.getUserComment(this.userCommentOrderBy);
         this.getUserReply(this.userReplyOrderBy);
@@ -141,7 +147,18 @@ let app = new Vue({
                     vm.$message({message: "绑定邮箱成功", type: "success"});
                     vm.emailVisible=false;
                 }else {
-                    vm.$message.error(res.msg);
+                    vm.emailCodeBtnMsg=res.msg;
+                }
+            });
+        },
+        bingGithub(){
+            Cookies.set('back',window.location.href,{ expires: 1, path: '/' });
+            window.location.href="https://github.com/login/oauth/authorize?client_id=9d543dc4501558c6759f&redirect_uri=https://127.0.0.1/u/github/callback&response_type=code&state=banding";
+        },
+        unBinding(type){
+            $.post("/u/unBinding",{type:type},function (res) {
+                if (res.code === 10000){
+                    vm.$message({message: res.msg, type: "success"});
                 }
             });
         }
