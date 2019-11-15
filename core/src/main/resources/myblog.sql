@@ -14,12 +14,24 @@ CREATE TABLE `user`
     `username`    varchar(32)  NOT NULL COMMENT '用户名',
     `sex`         varchar(32)  NOT NULL default 'male' COMMENT '性别 male or female',
     `avatar_img`  varchar(255) NOT NULL COMMENT '头像地址',
+    `region`      varchar(255) NOT NULL COMMENT '省',
+    `city`        varchar(255) NOT NULL COMMENT '市',
     `state`       tinyint(1)   NOT NULL default 1 COMMENT '状态 0删除',
     `create_time` DATETIME     NOT NULL COMMENT '创建时间',
     PRIMARY KEY (`uid`)
 ) ENGINE = InnoDB
   AUTO_INCREMENT = 16
   DEFAULT CHARSET = utf8;
+
+INSERT INTO `myblog`.`user` (`uid`, `username`, `sex`, `avatar_img`, `region`, `city`, `state`,
+                             `create_time`)
+VALUES ('18', 'admin', 'male', 'https://www.wiblog.cn/img/reply-avatar.svg', '广东', '广州', '1',
+        '2019-11-08 15:01:42');
+INSERT INTO `myblog`.`user` (`uid`, `username`, `sex`, `avatar_img`, `region`, `city`, `state`,
+                             `create_time`)
+VALUES ('20', 'aoliao', 'male', 'https://avatars1.githubusercontent.com/u/20983152?v=4', '广东', '深圳',
+        '1', '2019-11-08 16:01:44');
+
 
 
 -- ----------------------------
@@ -96,6 +108,7 @@ DROP TABLE IF EXISTS `article`;
 CREATE TABLE `article`
 (
     `id`              bigint(11)   NOT NULL AUTO_INCREMENT,
+    `uid`             bigint(11)   NOT NULL COMMENT '作者id',
     `author`          varchar(255) NOT NULL COMMENT '作者名',
     `title`           varchar(255) NOT NULL COMMENT '标题',
     `content`         longtext     NOT NULL COMMENT '内容',
@@ -241,28 +254,6 @@ CREATE TABLE `message`
   DEFAULT CHARSET = utf8;
 
 -- ---------------------------------------------------------------------------
-
-
--- ----------------------------
--- Table structure for comment_likes_record
--- ----------------------------
-DROP TABLE IF EXISTS `comment_likes_record`;
-CREATE TABLE `comment_likes_record`
-(
-    `id`         int(11)      NOT NULL AUTO_INCREMENT,
-    `article_id` bigint(20)   NOT NULL,
-    `p_id`       int(11)      NOT NULL,
-    `liker_id`   int(11)      NOT NULL,
-    `likeDate`   varchar(255) NOT NULL,
-    PRIMARY KEY (`id`)
-) ENGINE = InnoDB
-  AUTO_INCREMENT = 8
-  DEFAULT CHARSET = utf8;
-
--- ----------------------------
--- Records of comment_likes_record
--- ----------------------------
-
 
 -- ----------------------------
 -- Table structure for feedback

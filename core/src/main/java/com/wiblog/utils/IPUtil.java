@@ -1,14 +1,21 @@
 package com.wiblog.utils;
 
+import com.alibaba.fastjson.JSONObject;
+import com.wiblog.common.Constant;
+
+import org.springframework.web.client.RestTemplate;
+
 import java.net.InetAddress;
 import java.net.NetworkInterface;
 import java.net.SocketException;
 import java.net.UnknownHostException;
 import java.util.Enumeration;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
 import lombok.extern.java.Log;
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * IP工具类
@@ -16,6 +23,7 @@ import lombok.extern.java.Log;
  * @author pwm
  * @date 2019/7/3
  */
+@Slf4j
 public class IPUtil {
 
     private static final String UNKNOW = "unknown";
@@ -93,6 +101,26 @@ public class IPUtil {
             return netIp;
         } else {
             return localIp;
+        }
+    }
+
+    /**
+     * 根据ip获取地理位置
+     *
+     * @param ip ip
+     * @return String[]
+     */
+    public static String[] getIpInfo(String ip) {
+        try {
+            RestTemplate restTemplate = new RestTemplate();
+            String url = Constant.IP_TAOBAO_URL + ip;
+            String response = restTemplate.getForObject(url, String.class);
+            Map responseMap = (Map) JSONObject.parseObject(response).get("data");
+            return new String[]{(String) responseMap.get("region"), (String) responseMap.get("city")};
+        } catch (Exception e) {
+            e.printStackTrace();
+            log.error(e.getMessage(), e);
+            return new String[]{"", ""};
         }
     }
 }

@@ -33,8 +33,18 @@ public class Constant {
     public static final String VERIFY_CODE_SESSION_KEY = "verify_code";
 
     /**
+     * 点赞redis key
+     */
+    public static final String LIKE_RECORD_KEY = "like_record_";
+
+    /**
      * 邮箱发送次数
      */
     public static final String EMAIL_COUNT = "email_count_";
+
+    /**
+     * 淘宝ip地址库
+     */
+    public static final String IP_TAOBAO_URL = "http://ip.taobao.com/service/getIpInfo.php?ip=";
 }
 

@@ -5,22 +5,24 @@
 
     <!-- 通用查询映射结果 -->
     <resultMap id="BaseResultMap" type="com.wiblog.entity.User">
-            <id column="uid" property="uid"/>
-            <result column="username" property="username"/>
-            <result column="sex" property="sex"/>
-            <result column="avatar_img" property="avatarImg"/>
-            <result column="state" property="state"/>
-            <result column="create_time" property="createTime"/>
+        <id column="uid" property="uid"/>
+        <result column="username" property="username"/>
+        <result column="sex" property="sex"/>
+        <result column="avatar_img" property="avatarImg"/>
+        <result column="region" property="region"/>
+        <result column="city" property="city"/>
+        <result column="state" property="state"/>
+        <result column="create_time" property="createTime"/>
     </resultMap>
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
-uid, username, sex, avatar_img,state, create_time
+uid, username, sex, avatar_img,state, region,city,create_time
     </sql>
 
     <insert id="insertReturnId" useGeneratedKeys="true" keyColumn="uid" keyProperty="uid">
-        insert into user(username,avatar_img,create_time)
-        values(#{username},#{avatarImg},now())
+        insert into user(username,avatar_img,region,city,create_time)
+        values(#{username},#{avatarImg},region,city,now())
     </insert>
 
 
@@ -30,7 +32,7 @@ uid, username, sex, avatar_img,state, create_time
 
     <select id="selectUserManagePage" resultType="com.wiblog.vo.UserVo">
         select
-        uid, username, sex, avatar_img,state, create_time
+        uid, username, sex, avatar_img,region,city,state, create_time
         from user
         <where>
             <if test="state != null">

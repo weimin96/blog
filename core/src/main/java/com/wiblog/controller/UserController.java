@@ -9,6 +9,7 @@ import com.wiblog.entity.User;
 import com.wiblog.exception.WiblogException;
 import com.wiblog.service.IUserService;
 import com.wiblog.thirdparty.GithubProvider;
+import com.wiblog.utils.IPUtil;
 import com.wiblog.utils.Md5Util;
 import com.wiblog.utils.WiblogUtil;
 import io.swagger.annotations.Api;
@@ -19,6 +20,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.http.HttpRequest;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
@@ -116,9 +118,11 @@ public class UserController extends BaseController {
             @ApiImplicitParam(name = "phone", value = "手机号(非必填)", paramType = "form")
     })
     @PostMapping("/register")
-    public ServerResponse register(String username, String phone, String email, String password) {
+    public ServerResponse register(HttpServletRequest request,String username, String phone, String email, String password) {
         try {
-            userService.register(username, phone, email, password);
+            String ip = IPUtil.getIpAddr(request);
+            String[] address = IPUtil.getIpInfo(ip);
+            userService.register(username, phone, email, password,address);
         } catch (Exception e) {
             String msg = "注册失败";
             if (e instanceof WiblogException) {
