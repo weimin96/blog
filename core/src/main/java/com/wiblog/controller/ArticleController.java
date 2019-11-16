@@ -279,8 +279,8 @@ public class ArticleController extends BaseController {
                             // 获取第二个字段高亮内容
                             HighlightField highlightField2 = hit.getHighlightFields().get(fieldNames[1]);
                             String value2;
-                            if (highlightField1!=null){
-                                value2 = highlightField1.getFragments()[0].toString();
+                            if (highlightField2!=null){
+                                value2 = highlightField2.getFragments()[0].toString();
                             }else {
                                 value2 = (String) hit.getSourceAsMap().get(fieldNames[1]);
                             }

@@ -6,9 +6,15 @@ let app = new Vue({
         vm = this;
     },
     mounted() {
-
+        this.getSearchData();
     },
-    method: {
+    methods: {
+        getSearchData(){
+            $.get("/post/searchArticle",{keyword:"系统"},function (res) {
+                if (res.code===10000){
 
+                }
+            })
+        }
     }
 });
