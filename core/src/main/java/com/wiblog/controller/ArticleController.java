@@ -15,7 +15,11 @@ import com.wiblog.service.IArticleService;
 import com.wiblog.utils.PinYinUtil;
 import com.wiblog.utils.WiblogUtil;
 import com.wiblog.utils.WordFilterUtil;
-
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
+import io.swagger.annotations.ApiOperation;
+import lombok.extern.java.Log;
 import org.elasticsearch.action.search.SearchResponse;
 import org.elasticsearch.index.query.QueryBuilder;
 import org.elasticsearch.index.query.QueryBuilders;
@@ -33,26 +37,14 @@ import org.springframework.data.elasticsearch.core.aggregation.AggregatedPage;
 import org.springframework.data.elasticsearch.core.aggregation.impl.AggregatedPageImpl;
 import org.springframework.data.elasticsearch.core.query.NativeSearchQueryBuilder;
 import org.springframework.data.elasticsearch.core.query.SearchQuery;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
-import javax.servlet.http.HttpServletRequest;
-
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiImplicitParam;
-import io.swagger.annotations.ApiImplicitParams;
-import io.swagger.annotations.ApiOperation;
-import lombok.extern.java.Log;
 
 
 /**
@@ -178,10 +170,11 @@ public class ArticleController extends BaseController {
         article.setArticleSummary(content.substring(0,100));
         User user = getLoginUser(request);
         article.setAuthor(user.getUsername());
+        article.setUid(user.getUid());
         boolean bool = articleService.save(article);
 
         if (bool) {
-            Article article1 = articleService.getOne(new QueryWrapper<Article>().eq("title",title));
+            Article article1 = articleService.getOne(new QueryWrapper<Article>().eq("title",article.getTitle()));
             articleRepository.save(new EsArticle(article1.getId(),article1.getTitle(),article1.getContent(),article1.getCategoryId(),article1.getCreateTime(),article1.getArticleUrl()));
             return ServerResponse.success(articleUrl, "文章发表成功", title);
         }

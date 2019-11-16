@@ -12,7 +12,7 @@
             article: {
                 title: '',
                 content: '',
-                articleTime: '',
+                createTime: '',
                 id: '',
                 commentsCounts: 0,
                 hits: 0,
@@ -212,6 +212,27 @@
                     result += year + "."
                 }
                 return result + month + "." + day + " " + hour + ":" + minute;
+            },
+            articleDateFormat: function (d) {
+                var date = new Date(d);
+                var year = date.getFullYear();
+                var month = switchNum(date.getMonth());
+                var day = change(date.getDate());
+
+                function change(t) {
+                    if (t < 10) {
+                        return "0" + t;
+                    } else {
+                        return t;
+                    }
+                }
+
+                function switchNum(month) {
+                    var arry = ["一", "二", "三", "四", "五", "六", "七", "八", "九", "十", "十一", "十二"];
+                    return arry[Number(month)];
+                }
+
+                return month + "月" + day + ", " + year;
             }
         }
     });

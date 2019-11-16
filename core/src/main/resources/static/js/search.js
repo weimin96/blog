@@ -1,5 +1,5 @@
 let vm;
-let vue = new Vue({
+let app = new Vue({
     el: "#app",
     data: {},
     beforeCreate() {
@@ -8,5 +8,7 @@ let vue = new Vue({
     mounted() {
 
     },
-    method: {}
+    method: {
+
+    }
 });

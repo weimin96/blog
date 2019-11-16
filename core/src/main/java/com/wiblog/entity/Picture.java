@@ -1,10 +1,10 @@
 package com.wiblog.entity;
 
-import java.io.Serializable;
-import java.time.LocalDateTime;
-import java.util.Date;
+import lombok.Getter;
+import lombok.Setter;
 
-import lombok.Data;
+import java.io.Serializable;
+import java.util.Date;
 
 /**
  * 
@@ -12,7 +12,8 @@ import lombok.Data;
  * @author pwm
  * @date 2019-10-16
  */
-@Data
+@Getter
+@Setter
 public class Picture implements Serializable{
 
 	private static final long serialVersionUID = 1L;
@@ -41,17 +42,30 @@ public class Picture implements Serializable{
     /**
      * 额外字段
      */
-    private String extra;
+    private String extraData;
 
     private Date createTime;
 
     private Date updateTime;
 
-    public Picture(String name, String type, String url, String extra, Date createTime, Date updateTime) {
+    public Picture() {
+    }
+
+    public Picture(Long id, String name, String type, String url, String extraData, Date createTime, Date updateTime) {
+        this.id = id;
         this.name = name;
         this.type = type;
         this.url = url;
-        this.extra = extra;
+        this.extraData = extraData;
+        this.createTime = createTime;
+        this.updateTime = updateTime;
+    }
+
+    public Picture(String name, String type, String url, String extraData, Date createTime, Date updateTime) {
+        this.name = name;
+        this.type = type;
+        this.url = url;
+        this.extraData = extraData;
         this.createTime = createTime;
         this.updateTime = updateTime;
     }

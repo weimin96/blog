@@ -29,7 +29,7 @@
                                         <span class="tag-text">{{item}}</span>
                                     </span>
                                         <span>
-                                        <i class="fa fa-calendar"> {{article.articleTime}}</i>
+                                        <i class="fa fa-calendar"> {{article.createTime | articleDateFormat}}</i>
                                         <i class="fa fa-commenting-o">评论{{article.commentsCounts}}</i>
                                         <i class="fa fa-eye">阅读{{article.hits}}</i>
                                         <i class="fa fa-thumbs-o-up">喜欢{{article.likes}}</i>
