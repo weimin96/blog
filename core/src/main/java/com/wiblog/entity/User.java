@@ -1,6 +1,8 @@
 package com.wiblog.entity;
 
 
+import com.baomidou.mybatisplus.annotation.TableId;
+
 import java.io.Serializable;
 import java.util.Date;
 
@@ -20,6 +22,7 @@ public class User implements Serializable{
     /**
      * 主键id
      */
+    @TableId
     private Long uid;
 
 
@@ -37,6 +40,16 @@ public class User implements Serializable{
      * 头像地址
      */
     private String avatarImg;
+
+    /**
+     * 省
+     */
+    private String region;
+
+    /**
+     * 市
+     */
+    private String city;
 
     /**
      * 状态 0删除

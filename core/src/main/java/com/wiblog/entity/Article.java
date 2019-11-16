@@ -26,6 +26,10 @@ public class Article implements Serializable{
     @ApiModelProperty(value = "文章id")
     private Long id;
 
+    /**
+     * 作者id
+     */
+    private Long uid;
 
     /**
      * 作者名

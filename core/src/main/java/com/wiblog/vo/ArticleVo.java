@@ -21,6 +21,11 @@ public class ArticleVo implements Serializable{
      */
     private Long id;
 
+    /**
+     * 作者id
+     */
+    private Long uid;
+
 
     /**
      * 作者名

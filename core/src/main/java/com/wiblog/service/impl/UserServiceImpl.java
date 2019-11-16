@@ -78,7 +78,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public void register(String username, String phone, String email, String password) {
+    public void register(String username, String phone, String email, String password,String[] address) {
 
         // 校验用户名
         checkUsername(username);
@@ -86,6 +86,8 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
         // 插入用户表
         User user = new User();
         user.setUsername(username);
+        user.setRegion(address[0]);
+        user.setCity(address[1]);
         user.setAvatarImg("https://wwww.wiblog.cn/img/reply-avatar.svg");
         userMapper.insertReturnId(user);
         Long uid = user.getUid();

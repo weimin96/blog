@@ -55,7 +55,7 @@ public class UserRoleServiceImpl extends ServiceImpl<UserRoleMapper, UserRole> i
         }
         RoleVo roleVo = userRoleMapper.selectRoleByUid(user.getUid());
         // 没有权限
-        if(roleVo.getRoleId()>grade){
+        if(roleVo == null || roleVo.getRoleId()>grade){
             return ServerResponse.error("没有权限",40000);
         }
         return ServerResponse.success(null,"权限校验成功");
