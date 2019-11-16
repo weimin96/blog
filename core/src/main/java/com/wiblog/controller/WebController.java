@@ -1,9 +1,6 @@
 package com.wiblog.controller;
 
-import com.alibaba.fastjson.JSON;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.wiblog.common.Constant;
-import com.wiblog.common.ServerResponse;
 import com.wiblog.entity.Article;
 import com.wiblog.entity.Category;
 import com.wiblog.entity.User;
@@ -11,25 +8,13 @@ import com.wiblog.service.IArticleService;
 import com.wiblog.service.ICategoryService;
 import com.wiblog.service.IUserRoleService;
 import com.wiblog.service.IUserService;
-import com.wiblog.thirdparty.GithubProvider;
-import com.wiblog.utils.Commons;
-import com.wiblog.utils.Md5Util;
-import com.wiblog.utils.WiblogUtil;
-
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
-import java.io.IOException;
-import java.util.Date;
-import java.util.Map;
-import java.util.concurrent.TimeUnit;
-
-import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import java.util.Date;
 
 /**
  * @author pwm
@@ -124,6 +109,14 @@ public class WebController extends BaseController{
     @GetMapping("/register")
     public String register(){
         return "register";
+    }
+
+    /**
+     * 跳转搜索页
+     */
+    @GetMapping("/search")
+    public String search(){
+        return "search";
     }
 
     /**

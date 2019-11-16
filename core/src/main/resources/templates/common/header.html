@@ -20,7 +20,7 @@
                     </div>
 
                     <div class="user-center" v-show="isLogin"
-                         style="margin-left: 23px;margin-top: 12px;"
+                         style="margin-left: 23px;margin-top: 14px;"
                          @mouseover="showUserMessage = true"
                          @mouseout="showUserMessage = false">
                         <el-avatar :size="30" :src="avatarImg"
@@ -60,20 +60,17 @@
                         </div>
                     </div>
 
-                    <div class="nav-search" v-show="!showSearch" @click="showSearchBtn">
-                        <i></i>
-                    </div>
+                    <div class="nav-search">
+                        <i class=""></i>
+                        <span>
 
-                    <div class="menu-search" v-show="showSearch">
-                        <span class="search-cancel" @click="showSearch = false"></span>
-                        <label>
-                            <input id="searchInput" autocomplete="false">
-                        </label>
-                        <span class="search-ipt"></span>
+                            <input id="searchInput" v-model="searchInput" @blur="blurSearch()" autocomplete="false">
+                            <label @click="focusSearch()" v-show="focusSearchLabel !== true">搜索文章</label>
+                        </span>
 
                     </div>
 
-                    <div class="show-search" v-show="!showSearch">
+                    <div class="show-search">
                         <ul id="super-menu" class="sf-menu">
                             <li><a href="/" class="current">首页</a></li>
                             <menu-tree v-for="item in category" v-bind:value="item"></menu-tree>

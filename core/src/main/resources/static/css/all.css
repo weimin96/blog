@@ -267,63 +267,58 @@ header .nav-search{
     display: inline-block;
     float: right;
     margin-left: 20px;
-    height: 60px;
-    width: 60px;
+    height: 32px;
+    width: 152px;
     text-align: center;
+    background-color: #fff;
+    border-radius: 32px;
+    margin-top: 15px;
 }
 
-header .nav-search:hover{
-    background: #fff;
+header .nav-search span{
+    display: block;
+    position: relative;
+    margin: 4px 0 0 30px;
 }
 
-.nav-search i{
+header .nav-search i{
+    float: left;
     display: inline-block;
     background: url(/img/nav-search.svg) no-repeat;
-    width: 20px;
-    height: 20px;
-    margin-top: 20px;
+    width: 17px;
+    height: 17px;
+    margin-top: 7px;
+    margin-left: 10px;
 }
 
-.nav-search:hover i{
-    background: url(/img/nav-search-hover.svg) no-repeat;
+header .nav-search input{
+    width: 94%;
+    margin: 0;
+    padding: 0;
+    background: transparent;
+    color: #333;
+    line-height: 17px;
+    opacity: 1;
+    border: 0;
+    outline: 0;
+}
+
+header .nav-search label{
+    display: block;
+    position: absolute;
+    top: 0;
+    left: 0;
+    color: #9b9b9b;
+    cursor: text;
+    margin: 0;
+    font-weight: 300;
+    width: 100%;
+    text-align: left;
+    padding-left: 10px;
 }
 
 .show-search{
     float: right;
-}
-
-.menu-search{
-    display: inline-block;
-    float: left;
-    height: 60px;
-    margin-left: 100px;
-}
-
-.menu-search input{
-    height: 60px;
-    background: 0 0;
-    border: 0;
-    width: 500px;
-    padding-left: 10px;
-}
-
-.menu-search input:focus{
-    outline: 0;
-}
-
-.search-ipt{
-    display: inline-block;
-    background: url(/img/nav-search.svg) no-repeat;
-    width: 20px;
-    height: 20px;
-    margin-top: 20px;
-}
-
-.search-cancel{
-    display: inline-block;
-    background: url(/img/guanbihover.svg) no-repeat;
-    width: 14px;
-    height: 14px;
 }
 
 /*登录注册*/

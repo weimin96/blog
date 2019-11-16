@@ -1,99 +1,37 @@
 'use strict';
 
-
-// 菜单栏
-/*var offcanvas = function () {
-    // 复制下拉菜单
-    var $clone = $('#header-menu-wrap').clone();
-    $clone.attr({
-        'id': 'offcanvas-menu'
-    });
-    $clone.find('> ul').attr({
-        'class': '',
-        'id': ''
-    });
-    $('#index-page').prepend($clone);
-    var $body = $('body');
-    $('.js-nav-toggle').on('click', function () {
-        // 隐藏滚动条
-
-        if ($body.hasClass('offcanvas')) {
-            $body.removeClass('offcanvas');
-        } else {
-            $body.addClass('offcanvas');
-        }
-    });
-    $('#offcanvas-menu').css('height', $(window).height());
-    $(window).resize(function () {
-        var w = $(window);
-        $('#offcanvas-menu').css('height', w.height());
-        if (w.width() > 769) {
-            if ($body.hasClass('offcanvas')) {
-                $body.removeClass('offcanvas');
-            }
-        }
-    });
-};
-
-
-$(function () {
-    offcanvas();
-});*/
-
-
-/*function dateFormat(d) {
-    var date = new Date(d);
-    var year = date.getFullYear();
-    var month = switchNum(date.getMonth());
-    var day = change(date.getDate());
-
-    function change(t) {
-        if (t < 10) {
-            return "0" + t;
-        } else {
-            return t;
-        }
-    }
-
-    function switchNum(month) {
-        var arry = ["一", "二", "三", "四", "五", "六", "七", "八", "九", "十", "十一", "十二"];
-        return arry[Number(month)];
-    }
-
-    return month + "月" + day + ", " + year;
-}*/
-
 let vue = new Vue({
     el: "#index-header",
     data: {
         category: [],
-        showSearch: false,
+        focusSearchLabel: false,
+        searchInput: "",
         isLogin: false,
-        avatarImg:"",
+        avatarImg: "",
         username: "",
         showUserMessage: false,
         showMessage: false,
-        userUrl:"",
-        messageCount:0,
-        typeList:[0,0,0,0,0],
+        userUrl: "",
+        messageCount: 0,
+        typeList: [0, 0, 0, 0, 0],
     },
     mounted() {
         this.getCategory();
-        if (user != null){
+        if (user != null) {
             this.isLogin = true;
-            this.avatarImg=user.avatarImg;
+            this.avatarImg = user.avatarImg;
             this.username = user.username;
-            this.userUrl = (+new Date(user.createTime))*3;
+            this.userUrl = (+new Date(user.createTime)) * 3;
             this.getMessage();
         }
     },
     methods: {
-        getMessage(){
+        getMessage() {
             $.get("/getMessageCount", function (data) {
                 if (data.code === 10000) {
-                    $.each(data.data,function (index,item) {
-                        vue.typeList[item.type]=item.count;
-                        vue.messageCount +=item.count;
+                    $.each(data.data, function (index, item) {
+                        vue.typeList[item.type] = item.count;
+                        vue.messageCount += item.count;
                     });
                 }
             });
@@ -124,35 +62,43 @@ let vue = new Vue({
             }
             return tree;
         },
-        showSearchBtn(e){
+        /*showSearchBtn(e){
             this.showSearch = true;
             this.$nextTick(function (e) {
                 $("#searchInput").focus();
             });
 
+        },*/
+        focusSearch() {
+            this.focusSearchLabel = true;
+            $("#searchInput").focus();
+        },
+        blurSearch() {
+            this.focusSearchLabel = false;
+            this.searchInput = "";
         },
         // 个人中心
-        gotoUserCenter(){
-            window.parent.location.href = "/user/"+this.userUrl;
+        gotoUserCenter() {
+            window.parent.location.href = "/user/" + this.userUrl;
         },
-        logout(){
-            $.get("/u/logout",function (res) {
-                if (res.code === 10000){
+        logout() {
+            $.get("/u/logout", function (res) {
+                if (res.code === 10000) {
                     window.location.reload();
                 }
             })
         },
-        login(){
-            Cookies.set('back',window.location.href,{ expires: 1, path: '/' });
-            window.location.href="/login";
+        login() {
+            Cookies.set('back', window.location.href, {expires: 1, path: '/'});
+            window.location.href = "/login";
         }
     }
 });
 
 Vue.component('menu-tree', {
     props: ['value'],
-    template: '<li v-if="value.children"><a href="javascript:;">{{value.name}}</a>'+
-        '<ul><menu-tree v-for="item in value.children" v-bind:value="item"></menu-tree></ul></li>'+
+    template: '<li v-if="value.children"><a href="javascript:;">{{value.name}}</a>' +
+        '<ul><menu-tree v-for="item in value.children" v-bind:value="item"></menu-tree></ul></li>' +
         '<li v-else><a class="menu-item" :href="\'category/\'+value.url">{{value.name}}</a></li>'
 });
 
