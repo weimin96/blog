@@ -93,6 +93,7 @@ CREATE TABLE `user_role`
 ) ENGINE = InnoDB
   DEFAULT CHARSET = utf8;
 
+
 -- ----------------------------
 -- Records of user_role
 -- ----------------------------
