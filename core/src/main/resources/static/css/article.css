@@ -1,47 +1,68 @@
-#main{
-    margin-top: 10px;
+.main {
+    padding-top: 10px;
+    background: #f9fafd;
 }
 
-.card{
+/*面包屑*/
+.main .bread{
+    margin: 10px 0;
+}
+
+.card {
     background-color: #fff;
     border-radius: 5px;
     margin-bottom: 10px;
     padding: 24px;
-    box-shadow: 0 1px 3px rgba(26,26,26,.1);
+    box-shadow: 0 1px 3px rgba(26, 26, 26, .1);
 }
+
+
 /*文章标题*/
-.title{
-    margin: 0 0 15px;
-    color: #333;
-    font-size: 33px;
-    font-weight: 500;
+.article-header{
+    margin-top: 15px;
+}
+.article-header .title {
+    font-size: 22px;
+    margin-bottom: 15px;
+    line-height: 1.4;
+    font-weight: bold;
+    letter-spacing: 1px;
     word-break: break-word;
 }
 
 /*文章信息*/
-.article-data{
+.article-data {
     font-size: 14px;
     color: #777;
 }
 
-.article-data i{
+.article-data i {
     margin-right: 10px;
 }
 
+.article-data .fa:before{
+    margin-right: 5px;
+}
+
 /*标签*/
-.tags{
+.tags {
     color: #368bd6;
     font-size: 17px;
 }
 
-.tags .tag-text{
+.tags .tag-text {
     margin-right: 10px;
     margin-left: 5px;
     color: #777;
 }
 
+.article-content{
+    line-height: 1.8;
+    font-size: 15px;
+}
+
 /*评论*/
-.comment-title{
+.comment-title {
     font-size: 17px;
     font-weight: 500;
     border-bottom: 1px solid #f0f0f0;
@@ -51,11 +72,11 @@
 }
 
 /*已删除评论*/
-.remove-comment{
+.remove-comment {
     color: #999;
 }
 
-.comment-title-count{
+.comment-title-count {
     font-size: 14px;
 }
 
@@ -67,11 +88,11 @@
     display: inline-block;
 }
 
-.comment-title .active{
+.comment-title .active {
     color: #2f2f2f;
 }
 
-.comment-avatar img{
+.comment-avatar img {
     width: 40px;
     height: 40px;
     border: 1px solid #e6e6e6;
@@ -79,61 +100,61 @@
     overflow: hidden;
 }
 
-.no-comments{
+.no-comments {
     text-align: center;
     margin: 50px;
 
 }
 
-.comment-item-body{
+.comment-item-body {
     margin-bottom: 20px;
     padding-bottom: 16px;
     border-bottom: 1px solid #e6e6e6;
     margin-left: 50px;
 }
 
-.item-nickname{
+.item-nickname {
     font-size: 14px;
     font-weight: 500;
 }
 
-.item-nickname a{
+.item-nickname a {
     color: inherit;
 }
 
-.item-state{
+.item-state {
     margin-top: 2px;
     font-size: 12px;
     color: #969696;
 }
 
-.item-content{
+.item-content {
     margin-top: 10px;
     font-size: 16px;
     line-height: 1.5;
 }
 
-.item-btn-group{
+.item-btn-group {
     margin-top: 12px;
 }
 
-.item-btn-group button{
+.item-btn-group button {
     margin-right: 10px;
     background-color: #fff;
 
 }
 
-.item-btn-group button:focus{
-    outline-color: #fff!important;
+.item-btn-group button:focus {
+    outline-color: #fff !important;
 }
 
 /*评论框*/
-.reply-body{
+.reply-body {
     position: relative;
     margin-right: 80px;
 }
 
-.reply-body textarea{
+.reply-body textarea {
     font-size: 12px;
     display: inline-block;
     box-sizing: border-box;
@@ -142,7 +163,7 @@
     overflow: auto;
     border-radius: 4px;
     color: #555;
-    width: 100%!important;
+    width: 100% !important;
     height: 65px;
     transition: 0s;
     padding: 5px 10px;
@@ -151,12 +172,12 @@
     resize: none;
 }
 
-.reply-textarea:hover textarea{
+.reply-textarea:hover textarea {
     background-color: #fff;
     border-color: #00a1d6;
 }
 
-.comment-submit{
+.comment-submit {
     width: 70px;
     height: 64px;
     position: absolute;
@@ -175,16 +196,19 @@
     user-select: none;
     outline: none;
 }
+
 /*查看更多评论*/
-.more-comment{
+.more-comment {
     margin-left: 50px;
     color: #409eff;
 }
+
 /*请先登录后发表评论*/
-.no-reply-msg{
+.no-reply-msg {
     display: none;
 }
-.nologin .no-reply-msg{
+
+.nologin .no-reply-msg {
     display: block;
     position: absolute;
     z-index: 102;
@@ -200,32 +224,32 @@
     border: 1px solid #e5e9ef;
 }
 
-.nologin .btn-login{
+.nologin .btn-login {
     padding: 4px 9px;
     margin: 0 3px;
     color: #fff;
     border-radius: 4px;
 }
 
-.nologin .no-reply-msg a{
+.nologin .no-reply-msg a {
     outline: none;
     text-decoration: none;
     cursor: pointer;
 }
 
-.nologin .no-reply-msg a :hover{
+.nologin .no-reply-msg a :hover {
     color: #fff;
     background: #337ab7;
 }
 
-.nologin .comment-submit{
+.nologin .comment-submit {
     cursor: default;
     background-color: #e5e9ef;
-    border-color: #e5e9ef!important;
-    color: #b8c0cc!important;
+    border-color: #e5e9ef !important;
+    color: #b8c0cc !important;
 }
 
-.comment-emoji{
+.comment-emoji {
     width: 66px;
     height: 24px;
     color: #99a2aa;
@@ -238,21 +262,38 @@
     cursor: pointer;
 }
 
-.nologin .comment-emoji{
+.nologin .comment-emoji {
     background-color: #e5e9ef;
 }
 
-.comment-emoji span{
+.comment-emoji span {
     padding-left: 2px;
 }
 
-.show-reply{
+.show-reply {
     border: 0;
     margin-bottom: 0;
     padding-bottom: 0;
 }
 
-img{
+img {
     max-width: 100%;
+}
+
+/*左侧浮动*/
+.flow-btn{
+    position: fixed;
+    top: 66%;
+    left: 9%;
+    opacity: 1;
+    cursor: pointer;
+    width: 50px;
+    height: 50px;
+    background: #fff;
+    font-size: 28px;
+    text-align: center;
+    border-radius: 50%;
+    color: #222831;
+    box-shadow: 0 1px 12px 0 rgba(0,0,0,.2);
 }
 

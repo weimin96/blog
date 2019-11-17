@@ -12,6 +12,9 @@
     </div>
     <div class="manage-main">
         <template>
+            <el-button type="primary" plain
+                       @click="addCategoryDialog({id:0},'add')">新增
+            </el-button>
             <el-table
                     :data="categoryList"
                     style="width: 100%;margin-bottom: 20px;"

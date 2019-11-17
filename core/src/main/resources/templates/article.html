@@ -15,15 +15,24 @@
         <div th:include="common/header :: header"></div>
 
         <!--body-->
-        <div id="post-list">
-            <div class="container">
-                <div id="app" class="row">
+        <div id="app" >
+            <div class="main">
+                <el-row :gutter="20">
+                    <el-col :span="14" :offset="3">
 
-                    <section id="main" class="col-md-8">
                         <div class="card" id="article">
                             <template>
+                                <el-breadcrumb separator="/" class="bread">
+                                    <el-breadcrumb-item>
+                                        <a href="/">首页</a>
+                                    </el-breadcrumb-item>
+                                    <el-breadcrumb-item v-for="item in categoryList">
+                                        <a :href="item.url">{{item.name}}</a>
+                                    </el-breadcrumb-item>
+
+                                </el-breadcrumb>
                                 <div class="article-header">
-                                    <div class="title text-left">{{article.title}}</div>
+                                    <h2 class="title text-left">{{article.title}}</h2>
                                     <div class="article-data text-left">
                                     <span class="fa fa-tag tags" v-for="item in tagList">
                                         <span class="tag-text">{{item}}</span>
@@ -37,8 +46,8 @@
                                     </div>
                                 </div>
 
-                            <br>
-                            <div class="article-content" v-html="article.content"></div>
+                                <br>
+                                <div class="article-content" v-html="article.content"></div>
                             </template>
 
 
@@ -75,7 +84,8 @@
                                 <span>全部评论</span>
                                 <span class="comment-title-count">{{article.commentsCounts}}</span>
                                 <div class="pull-right">
-                                    <a class="" @click="getComment('asc')" v-bind:class="{active : 'asc' === orderBy}">按时间正序</a>
+                                    <a class="" @click="getComment('asc')"
+                                       v-bind:class="{active : 'asc' === orderBy}">按时间正序</a>
                                     <a class="" @click="getComment('desc')"
                                        v-bind:class="{active : 'desc' === orderBy}">按时间倒序</a>
                                 </div>
@@ -109,7 +119,8 @@
                                                     <button class="btn btn-white btn-xs">
                                                         <i class="fa fa-thumbs-up"></i> 赞
                                                     </button>
-                                                    <button class="btn btn-white btn-xs" @click="showReplyBtn(index,item.id)">
+                                                    <button class="btn btn-white btn-xs"
+                                                            @click="showReplyBtn(index,item.id)">
                                                         <i class="fa fa-comments"></i> 回复
                                                     </button>
                                                 </div>
@@ -170,7 +181,8 @@
                                                     <div class="comment-item-body reply-body show-reply"
                                                          v-bind:class="{nologin:nologin}">
                                                         <div class="no-reply-msg">请先<a class="btn-login main-background"
-                                                                                       href="javascript:;" @click="login()">登录</a>后发表评论
+                                                                                       href="javascript:;"
+                                                                                       @click="login()">登录</a>后发表评论
                                                             (・ω・)
                                                         </div>
 
@@ -212,159 +224,167 @@
                             </div>
 
                         </div>
+                    </el-col>
 
-                    </section>
+                    <el-col :span="4">
+                        <div class="card">
+                            <div>热门文章</div>
+                        </div>
+                    </el-col>
+                </el-row>
+            </div>
 
-                    <el-dialog title="查看对话" :visible.sync="moreCommentVisible" width="50%" height="50%">
-                        <div id="dialog" class="comment-body" style="height: 60vh;overflow-y: auto">
-                            <div class="comment-item ">
+            <div class="flow-btn">
+                <i class="fa fa-commenting-o"></i>
+            </div>
+
+            <el-dialog title="查看对话" :visible.sync="moreCommentVisible" width="50%" height="50%">
+                <div id="dialog" class="comment-body" style="height: 60vh;overflow-y: auto">
+                    <div class="comment-item ">
+                        <div class="comment-avatar">
+                            <a href="" class="pull-left">
+                                <img alt="image" v-bind:src="commentItem.avatarImg">
+                            </a>
+                        </div>
+                        <div class="comment-item-body show-reply">
+                            <div class="item-nickname">
+                                <a href="javascript:void(0);">{{commentItem.username}}</a>
+                                <span v-if="commentItem.username === author">（作者）</span>
+                            </div>
+                            <div class="item-state">
+                                <span>{{commentItem.floor}}楼</span>
+                                <time>{{ commentItem.createTime | commentDateFormat}}</time>
+                            </div>
+                            <div class="item-content" v-if="commentItem.state === 1">
+                                {{commentItem.content}}
+                            </div>
+                            <div class="remove-comment" v-else>
+                                该评论已删除
+                            </div>
+
+                            <div class="item-btn-group">
+                                <button class="btn btn-white btn-xs">
+                                    <i class="fa fa-thumbs-up"></i> 赞
+                                </button>
+                                <button class="btn btn-white btn-xs" @click="showReplyDialogBtn(-2,commentItem.id)">
+                                    <i class="fa fa-comments"></i> 回复
+                                </button>
+                            </div>
+
+                            <!--回复评论框-->
+                            <div style="margin-top: 12px;" v-show="showReplyDialogIndex === -2">
                                 <div class="comment-avatar">
-                                    <a href="" class="pull-left">
-                                        <img alt="image" v-bind:src="commentItem.avatarImg">
-                                    </a>
+                                    <img class="pull-left" v-bind:src="user_avatar">
                                 </div>
-                                <div class="comment-item-body show-reply">
-                                    <div class="item-nickname">
-                                        <a href="javascript:void(0);">{{commentItem.username}}</a>
-                                        <span v-if="commentItem.username === author">（作者）</span>
-                                    </div>
-                                    <div class="item-state">
-                                        <span>{{commentItem.floor}}楼</span>
-                                        <time>{{ commentItem.createTime | commentDateFormat}}</time>
-                                    </div>
-                                    <div class="item-content" v-if="commentItem.state === 1">
-                                        {{commentItem.content}}
-                                    </div>
-                                    <div class="remove-comment" v-else>
-                                        该评论已删除
+                                <div class="comment-item-body reply-body show-reply"
+                                     v-bind:class="{nologin:nologin}">
+                                    <div class="no-reply-msg">请先<a class="btn-login main-background"
+                                                                   href="javascript:;" @click="login()">登录</a>后发表评论
+                                        (・ω・)
                                     </div>
 
-                                    <div class="item-btn-group">
-                                        <button class="btn btn-white btn-xs">
-                                            <i class="fa fa-thumbs-up"></i> 赞
-                                        </button>
-                                        <button class="btn btn-white btn-xs" @click="showReplyDialogBtn(-2,commentItem.id)">
-                                            <i class="fa fa-comments"></i> 回复
-                                        </button>
-                                    </div>
-
-                                    <!--回复评论框-->
-                                    <div style="margin-top: 12px;" v-show="showReplyDialogIndex === -2">
-                                        <div class="comment-avatar">
-                                            <img class="pull-left" v-bind:src="user_avatar">
-                                        </div>
-                                        <div class="comment-item-body reply-body show-reply"
-                                             v-bind:class="{nologin:nologin}">
-                                            <div class="no-reply-msg">请先<a class="btn-login main-background"
-                                                                           href="javascript:;" @click="login()">登录</a>后发表评论
-                                                (・ω・)
-                                            </div>
-
-                                            <div class="reply-textarea">
+                                    <div class="reply-textarea">
                                                         <textarea cols="80" name="msg" rows="5"
                                                                   v-on:keyup.enter="replyUser"
                                                                   v-model.trim="replyUserContent"
                                                                   placeholder="请自觉遵守互联网相关的政策法规，严禁发布色情、暴力、反动的言论。"></textarea>
-                                            </div>
-                                            <button type="submit" class="comment-submit main-background"
-                                                    @click="replyUser(commentItem.id)">
-                                                发表评论
-                                            </button>
-                                            <div class="comment-emoji"><i
-                                                    class="fa fa-smile-o"></i><span>表情</span></div>
-                                        </div>
                                     </div>
-
-                                    <!--楼中楼-->
-                                    <div v-for="(it,i) in commentItem.subCommentVoList" :key="i"
-                                         style="margin-top: 12px;">
-                                        <div class="comment-item">
-                                            <div class="comment-avatar">
-                                                <a href="" class="pull-left">
-                                                    <img alt="image" v-bind:src="it.replyAvatarImg">
-                                                </a>
-                                            </div>
-                                            <div class="comment-item-body">
-                                                <div class="item-nickname">
-                                                    <a href="javascript:void(0);">{{it.replyName}}</a>
-                                                    <span v-if="it.replyName === author">
-                                                                    （作者）
-                                                                </span>
-                                                    回复{{it.replyedName}}
-                                                    <span v-if="it.replyedName === author">
-                                                                    （作者）
-                                                                </span>
-                                                </div>
-                                                <div class="item-state">
-                                                    <time>{{ it.createTime | commentDateFormat}}</time>
-                                                </div>
-                                                <div class="item-content" v-if="it.state === 1">
-                                                    {{it.content}}
-                                                </div>
-                                                <div class="remove-comment" v-else>
-                                                    该评论已删除
-                                                </div>
-
-                                                <div class="item-btn-group">
-                                                    <button class="btn btn-white btn-xs"><i
-                                                            class="fa fa-thumbs-up"></i> 赞
-                                                    </button>
-                                                    <button class="btn btn-white btn-xs"
-                                                            @click="showReplyDialogBtn(i,it.id)"><i
-                                                            class="fa fa-comments"></i> 回复
-                                                    </button>
-                                                </div>
-
-                                            </div>
-
-
-                                        </div>
-
-                                        <!--回复评论框-->
-                                        <div style="margin-top: 12px;" v-show="showReplyDialogIndex === i">
-                                            <div class="comment-avatar">
-                                                <img class="pull-left" v-bind:src="user_avatar">
-                                            </div>
-                                            <div class="comment-item-body reply-body show-reply"
-                                                 v-bind:class="{nologin:nologin}">
-                                                <div class="no-reply-msg">请先<a class="btn-login main-background"
-                                                                               href="javascript:;" @click="login()">登录</a>后发表评论
-                                                    (・ω・)
-                                                </div>
-
-                                                <div class="reply-textarea">
-                                                        <textarea cols="80" name="msg" rows="5"
-                                                                  v-on:keyup.enter="replyUser"
-                                                                  v-model.trim="replyUserContent"
-                                                                  placeholder="请自觉遵守互联网相关的政策法规，严禁发布色情、暴力、反动的言论。"></textarea>
-                                                </div>
-                                                <button type="submit" class="comment-submit main-background"
-                                                        @click="replyUser(commentItem.id)">
-                                                    发表评论
-                                                </button>
-                                                <div class="comment-emoji"><i
-                                                        class="fa fa-smile-o"></i><span>表情</span></div>
-                                            </div>
-                                        </div>
-                                    </div>
-
+                                    <button type="submit" class="comment-submit main-background"
+                                            @click="replyUser(commentItem.id)">
+                                        发表评论
+                                    </button>
+                                    <div class="comment-emoji"><i
+                                            class="fa fa-smile-o"></i><span>表情</span></div>
                                 </div>
                             </div>
+
+                            <!--楼中楼-->
+                            <div v-for="(it,i) in commentItem.subCommentVoList" :key="i"
+                                 style="margin-top: 12px;">
+                                <div class="comment-item">
+                                    <div class="comment-avatar">
+                                        <a href="" class="pull-left">
+                                            <img alt="image" v-bind:src="it.replyAvatarImg">
+                                        </a>
+                                    </div>
+                                    <div class="comment-item-body">
+                                        <div class="item-nickname">
+                                            <a href="javascript:void(0);">{{it.replyName}}</a>
+                                            <span v-if="it.replyName === author">
+                                                                    （作者）
+                                                                </span>
+                                            回复{{it.replyedName}}
+                                            <span v-if="it.replyedName === author">
+                                                                    （作者）
+                                                                </span>
+                                        </div>
+                                        <div class="item-state">
+                                            <time>{{ it.createTime | commentDateFormat}}</time>
+                                        </div>
+                                        <div class="item-content" v-if="it.state === 1">
+                                            {{it.content}}
+                                        </div>
+                                        <div class="remove-comment" v-else>
+                                            该评论已删除
+                                        </div>
+
+                                        <div class="item-btn-group">
+                                            <button class="btn btn-white btn-xs"><i
+                                                    class="fa fa-thumbs-up"></i> 赞
+                                            </button>
+                                            <button class="btn btn-white btn-xs"
+                                                    @click="showReplyDialogBtn(i,it.id)"><i
+                                                    class="fa fa-comments"></i> 回复
+                                            </button>
+                                        </div>
+
+                                    </div>
+
+
+                                </div>
+
+                                <!--回复评论框-->
+                                <div style="margin-top: 12px;" v-show="showReplyDialogIndex === i">
+                                    <div class="comment-avatar">
+                                        <img class="pull-left" v-bind:src="user_avatar">
+                                    </div>
+                                    <div class="comment-item-body reply-body show-reply"
+                                         v-bind:class="{nologin:nologin}">
+                                        <div class="no-reply-msg">请先<a class="btn-login main-background"
+                                                                       href="javascript:;" @click="login()">登录</a>后发表评论
+                                            (・ω・)
+                                        </div>
+
+                                        <div class="reply-textarea">
+                                                        <textarea cols="80" name="msg" rows="5"
+                                                                  v-on:keyup.enter="replyUser"
+                                                                  v-model.trim="replyUserContent"
+                                                                  placeholder="请自觉遵守互联网相关的政策法规，严禁发布色情、暴力、反动的言论。"></textarea>
+                                        </div>
+                                        <button type="submit" class="comment-submit main-background"
+                                                @click="replyUser(commentItem.id)">
+                                            发表评论
+                                        </button>
+                                        <div class="comment-emoji"><i
+                                                class="fa fa-smile-o"></i><span>表情</span></div>
+                                    </div>
+                                </div>
+                            </div>
+
                         </div>
-                    </el-dialog>
+                    </div>
                 </div>
-            </div>
+            </el-dialog>
         </div>
     </div>
-
 
 
     <footer th:include="common/footer :: copyright"></footer>
 </div>
 
 
-
 <div th:replace="common/foot :: foot"></div>
+<script src="/lib/scroll_to_top.js"></script>
 <script th:src="@{../js/article.js}"></script>
 </body>
 </html>

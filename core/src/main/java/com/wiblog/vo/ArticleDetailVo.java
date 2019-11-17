@@ -1,9 +1,9 @@
 package com.wiblog.vo;
 
+import lombok.Data;
+
 import java.io.Serializable;
 import java.util.Date;
-
-import lombok.Data;
 
 /**
  * 文章页所有信息
@@ -46,6 +46,8 @@ public class ArticleDetailVo implements Serializable{
      * 标签
      */
     private String tags;
+
+    private Long categoryId;
 
     /**
      * 分类url

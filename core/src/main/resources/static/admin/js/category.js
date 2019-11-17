@@ -56,7 +56,7 @@ var app = new Vue({
             if(type === "add"){
                 this.title = "插入分类";
                 this.parentId = row.id;
-                this.id = row.id;
+                // this.id = row.id;
             }else{
                 this.title = "修改分类";
                 this.name = row.name;

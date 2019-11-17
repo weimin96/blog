@@ -59,7 +59,7 @@ id,uid, author, title, content, tags, category_id, img_url, article_url, article
     </select>
 
     <select id="selectArticleByUrl" resultType="com.wiblog.vo.ArticleDetailVo">
-        select a.id,a.uid,a.title,a.author,a.article_summary,a.tags,a.img_url,a.hits,a.privately,a.reward,a.comment,a.article_url,a.content,
+        select a.id,a.uid,a.category_id,a.title,a.author,a.article_summary,a.tags,a.img_url,a.hits,a.privately,a.reward,a.comment,a.article_url,a.content,
         count(al.id) as likes,count(c2.id) as comments_counts,c.name as categoryName,c.url as categoryUrl,a.create_time
         from article as a
         left join category as c on a.category_id = c.id

@@ -13,14 +13,21 @@
     <div id="index-page">
         <!--header-->
         <div th:include="common/header :: header"></div>
-        <div id="post-list">
-            <div class="container">
-                <div id="app" class="row">
-                </div>
-            </div>
-        </div>
-    </div>
 
+        <div id="app">
+            <el-row :gutter="20">
+                <el-col :span="12" :offset="6">
+                    <template v-for="item in contentList">
+                        <div>{{item.title}}</div>
+                        <div >
+                            <p v-html="item.content"></p>
+                        </div>
+                    </template>
+                </el-col>
+            </el-row>
+        </div>
+
+    </div>
 
 
     <footer th:include="common/footer :: copyright"></footer>

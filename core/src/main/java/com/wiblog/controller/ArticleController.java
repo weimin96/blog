@@ -175,7 +175,7 @@ public class ArticleController extends BaseController {
 
         if (bool) {
             Article article1 = articleService.getOne(new QueryWrapper<Article>().eq("title",article.getTitle()));
-            articleRepository.save(new EsArticle(article1.getId(),article1.getTitle(),article1.getContent(),article1.getCategoryId(),article1.getCreateTime(),article1.getArticleUrl()));
+            articleRepository.save(new EsArticle(article1.getId(),article1.getTitle(),content,article1.getCategoryId(),article1.getCreateTime(),article1.getArticleUrl()));
             return ServerResponse.success(articleUrl, "文章发表成功", title);
         }
         return ServerResponse.error("文章发表失败", 30001);
@@ -288,11 +288,11 @@ public class ArticleController extends BaseController {
                             Matcher mt = PATTERN_HIGH_LIGHT.matcher(value2);
                             if (mt.find()){
                                 int mtStart = mt.start();
-                                int start = Math.max(mtStart - 10, 0);
-                                int end = Math.min(mtStart+30,value2.length()-1);
+                                int start = Math.max(mtStart - 20, 0);
+                                int end = Math.min(mtStart+200,value2.length()-1);
                                 value2 = value2.substring(start,end);
                             }else {
-                                value2 = value2.substring(0,Math.min(50,value2.length()-1));
+                                value2 = value2.substring(0,Math.min(200,value2.length()-1));
                             }
                             esArticle.setContent(value2);
                             list.add(esArticle);

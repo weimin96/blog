@@ -77,6 +77,13 @@ let vue = new Vue({
             this.focusSearchLabel = false;
             this.searchInput = "";
         },
+        // 搜索
+        search(){
+            if (this.searchInput.trim() === ""){
+                return;
+            }
+            window.location.href=window.location.protocol+"//"+window.location.host+"/search?key="+this.searchInput;
+        },
         // 个人中心
         gotoUserCenter() {
             window.parent.location.href = "/user/" + this.userUrl;

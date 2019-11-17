@@ -7,12 +7,10 @@ import com.wiblog.aop.OpsRecord;
 import com.wiblog.common.ServerResponse;
 import com.wiblog.entity.Category;
 import com.wiblog.service.ICategoryService;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
@@ -55,10 +53,10 @@ public class CategoryController {
         category.setName(name);
         category.setUrl(url);
         category.setRank(1);
-        Category parent = categoryService.getById(parentId);
+        /*Category parent = categoryService.getById(parentId);
         if (parent == null){
             return ServerResponse.error("不存在该父级分类",50001);
-        }
+        }*/
         category.setParentId(parentId);
         boolean result = categoryService.save(category);
         if (!result){

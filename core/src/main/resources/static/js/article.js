@@ -1,7 +1,7 @@
 (function () {
     'use strict';
 
-    var that;
+    let that;
 
     let app = new Vue({
         el: "#app",
@@ -9,6 +9,7 @@
             nologin: true,
             author: '',
             tagList: '',
+            categoryList:[],
             article: {
                 title: '',
                 content: '',
@@ -17,6 +18,7 @@
                 commentsCounts: 0,
                 hits: 0,
                 likes: 0,
+                categoryId:0,
                 reward: false,
                 comment: false
             },
@@ -59,45 +61,71 @@
         methods: {
             initData: function () {
                 new Promise((resolve, reject) => {
-                    $.get("/post/getArticle",{url:window.location.pathname},function (res) {
-                        if (res.code === 10000){
-                            that.article=res.data;
+                    $.get("/post/getArticle", {url: window.location.pathname}, function (res) {
+                        if (res.code === 10000) {
+                            that.article = res.data;
                             that.author = res.data.author;
                             that.tagList = res.data.tags.slice().split(/[\n\s+,，]/g);
                             resolve(that.article.comment);
                         }
                     });
                 }).then(function (value) {
-                    if (value){
+                    if (value) {
                         // 获取评论
                         that.getComment(that.orderBy);
+                        that.getCategoryList();
+
                     }
                 });
 
                 // 评论框
                 if (user !== null) {
                     this.nologin = false;
-                    if(user.avatarImg !== ""){
+                    if (user.avatarImg !== "") {
                         this.user_avatar = user.avatarImg;
                     }
                 }
 
 
             },
+            getCategoryList() {
+                $.get("/category/getCategory", function (data) {
+                    if (data.code === 10000) {
+                        that.getParentCategory(data.data,that.article.categoryId);
+                    }
+                });
+            },
+            getParentCategory(list,id){
+                if (id === 0){
+                    return;
+                }
+                $.each(list,function (index,item) {
+                  if (item.id === id){
+                      that.getParentCategory(list,item.parentId);
+                      that.categoryList.push(item);
+                      return null;
+                  }
+                });
+            },
             // 评论排序
-            getComment: function(orderBy){
+            getComment: function (orderBy) {
                 this.orderBy = orderBy;
-                this.showReplyIndex=-1;
-                $.post("/comment/commentListPage", {pageSize: this.pageSize, pageNum: this.pageNum,articleId: that.article.id,orderBy:this.orderBy}, function (res) {
+                this.showReplyIndex = -1;
+                $.post("/comment/commentListPage", {
+                    pageSize: this.pageSize,
+                    pageNum: this.pageNum,
+                    articleId: that.article.id,
+                    orderBy: this.orderBy
+                }, function (res) {
                     if (res.code === 10000) {
                         that.commentList = res.data.data.records;
                         that.now = res.data.time;
                         that.total = res.data.data.total;
                         if (that.commentList.length > 0) {
                             that.isHasComment = true;
-                            that.commentItem=that.commentList[that.showIndex];
+                            that.commentItem = that.commentList[that.showIndex];
                             // 评论成功滑到底部
-                            if(that.moreCommentVisible){
+                            if (that.moreCommentVisible) {
                                 that.$nextTick(function () {
                                     var $dialog = document.getElementById("dialog");
                                     $dialog.scrollTop = $dialog.scrollHeight;
@@ -110,7 +138,7 @@
                 });
             },
             handlePageNum: function (val) {
-                this.pageNum=val;
+                this.pageNum = val;
                 this.getComment(this.orderBy);
             },
             // 回复评论
@@ -128,9 +156,9 @@
                     function (res) {
                         if (res.code === 10000) {
                             that.$message({message: "评论成功", type: "success"});
-                            that.replyUserContent="";
+                            that.replyUserContent = "";
                             that.initData();
-                            that.showReplyIndex=-1;
+                            that.showReplyIndex = -1;
                         } else {
                             that.$message.error(res.msg);
                         }
@@ -146,35 +174,35 @@
                     function (res) {
                         if (res.code === 10000) {
                             that.$message({message: "评论成功", type: "success"});
-                            that.replyContent="";
+                            that.replyContent = "";
                             that.initData();
-                            that.showReplyIndex=-1;
+                            that.showReplyIndex = -1;
                         } else {
                             that.$message.error(res.msg);
                         }
                     });
             },
             // 回复评论框显示
-            showReplyBtn: function (index,parentId) {
+            showReplyBtn: function (index, parentId) {
                 this.showReplyIndex = this.showReplyIndex === index ? -1 : index;
                 // 楼中楼回复时设置父评论id
                 this.parentId = parentId;
             },
             // 弹出层回复评论框显示
-            showReplyDialogBtn: function (index,parentId) {
+            showReplyDialogBtn: function (index, parentId) {
                 this.showReplyDialogIndex = this.showReplyDialogIndex === index ? -1 : index;
                 // 楼中楼回复时设置父评论id
                 this.parentId = parentId;
             },
             // 更多评论弹出层
-            showMoreComment:function (index) {
-                this.moreCommentVisible=true;
+            showMoreComment: function (index) {
+                this.moreCommentVisible = true;
                 this.showIndex = index;
-                this.commentItem=this.commentList[index];
+                this.commentItem = this.commentList[index];
             },
-            login(){
-                Cookies.set('back',window.location.href,{ expires: 1, path: '/' });
-                window.location.href="/login";
+            login() {
+                Cookies.set('back', window.location.href, {expires: 1, path: '/'});
+                window.location.href = "/login";
             }
         },
         filters: {
@@ -216,7 +244,7 @@
             articleDateFormat: function (d) {
                 var date = new Date(d);
                 var year = date.getFullYear();
-                var month = switchNum(date.getMonth());
+                var month = change(date.getMonth()+1);
                 var day = change(date.getDate());
 
                 function change(t) {
@@ -227,15 +255,13 @@
                     }
                 }
 
-                function switchNum(month) {
-                    var arry = ["一", "二", "三", "四", "五", "六", "七", "八", "九", "十", "十一", "十二"];
-                    return arry[Number(month)];
-                }
-
-                return month + "月" + day + ", " + year;
+                return year+"-"+month + "-" + day;
             }
         }
     });
 
 
 }());
+
+
+scrolltotop.init();

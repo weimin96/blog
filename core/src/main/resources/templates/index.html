@@ -14,12 +14,10 @@
 
         <!--body-->
         <div id="post-list">
-            <div class="container">
-                <div class="row">
-                    <section id="main" class="col-md-8">
+            <el-row :gutter="20">
+                    <el-col :span="14" :offset="3">
                         <template v-for="item in articleList">
-                            <article class="post-card clearfix">
-                                <div class="clearfix">
+                            <article class="post-card">
                                     <div class="post-list-pic">
                                         <a :href="item.articleUrl"><img :src="item.imgUrl" alt=""></a>
                                     </div>
@@ -50,7 +48,6 @@
                                                 <i class="fa fa-chevron-circle-right"></i></a>
                                         </span>
                                     </div>
-                                </div>
                             </article>
                         </template>
                         <!--分页-->
@@ -58,9 +55,8 @@
                             <div id="pagination">
                             </div>
                         </div>
-                    </section>
-                </div>
-            </div>
+                    </el-col>
+                </el-row>
         </div>
 
         <footer th:include="common/footer :: copyright"></footer>
