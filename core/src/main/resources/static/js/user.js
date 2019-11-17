@@ -2,9 +2,11 @@ let vm;
 let app = new Vue({
     el: "#app",
     data: {
+        uid:Number(window.location.pathname.slice(6))/12345,
         user: {},
         activeName: "first",
         userActiveName: "first",
+        userSettingActiveName:"first",
         // 侧边栏
         sidebarActive: "message",
         // 我的回复
@@ -46,17 +48,30 @@ let app = new Vue({
             this.$message({message: msg, type: "error"});
             Cookies.remove("error");
         }
-        this.user = user;
-        this.getUserComment(this.userCommentOrderBy);
-        this.getUserReply(this.userReplyOrderBy);
+
+        this.getUserInfo();
+
         this.getBinding();
     },
     methods: {
+        // 获取用户基础信息
+        getUserInfo(){
+            $.get("/u/info",{id:this.uid},function (res) {
+               if (res.code === 10000){
+                   vm.user=res.data;
+                   vm.getUserComment(this.userCommentOrderBy);
+                   vm.getUserReply(this.userReplyOrderBy);
+               }
+            });
+        },
+        // 我的回复
         getUserComment(orderBy) {
             this.userCommentOrderBy = orderBy;
             $.get("/comment/getUserComment", {
-                pageNum: this.userCommentPageNum,
-                pageSize: this.userCommentPageSize,
+                uid:vm.uid,
+                type:"comment",
+                pageNum: vm.userCommentPageNum,
+                pageSize: vm.userCommentPageSize,
                 orderBy: orderBy
             }, function (res) {
                 if (res.code === 10000) {
@@ -65,11 +80,14 @@ let app = new Vue({
                 }
             });
         },
+        // 我的评论
         getUserReply(orderBy) {
             this.userReplyOrderBy = orderBy;
-            $.get("/comment/getUserReply", {
-                pageNum: this.userReplyPageNum,
-                pageSize: this.userReplyPageSize,
+            $.get("/comment/getUserComment", {
+                uid:vm.uid,
+                type:"type",
+                pageNum: vm.userReplyPageNum,
+                pageSize: vm.userReplyPageSize,
                 orderBy: orderBy
             }, function (res) {
                 if (res.code === 10000) {

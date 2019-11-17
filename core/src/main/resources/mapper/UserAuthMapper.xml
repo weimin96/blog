@@ -30,7 +30,7 @@ id, uid, identity_type, identifier, password, state, create_time, logged
 
     <select id="login" parameterType="com.wiblog.entity.UserAuth" resultType="com.wiblog.entity.User">
         SELECT
-        u.uid, u.username, u.sex, u.avatar_img,u.state, u.create_time
+        u.uid, u.username, u.sex, u.avatar_img,u.state, u.city,u.region,u.create_time
         FROM user as u
         join user_auth as ua on u.uid = ua.uid
         where

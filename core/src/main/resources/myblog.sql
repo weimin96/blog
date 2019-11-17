@@ -95,10 +95,19 @@ CREATE TABLE `user_role`
 
 
 -- ----------------------------
--- Records of user_role
+-- 用户设置表
 -- ----------------------------
-INSERT INTO `user_role`
-VALUES ('1', '16', '1');
+DROP TABLE IF EXISTS `user_setting`;
+CREATE TABLE `user_setting`
+(
+  `id`      BIGINT(11) NOT NULL AUTO_INCREMENT,
+  `uid`     BIGINT(11) NOT NULL COMMENT '用户id',
+  `comment` smallINT(11) NOT NULL default 1 COMMENT '是否开放评论',
+  `star` smallINT(11) NOT NULL default 1 COMMENT '是否开放收藏',
+  PRIMARY KEY (`id`),
+  UNIQUE key `uid` (`uid`)
+) ENGINE = InnoDB
+  DEFAULT CHARSET = utf8;
 
 
 

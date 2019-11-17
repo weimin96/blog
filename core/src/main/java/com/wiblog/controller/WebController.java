@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.Date;
 
 /**
  * @author pwm
@@ -82,9 +81,8 @@ public class WebController extends BaseController{
      */
     @GetMapping("/user/{url}")
     public String userCenter(HttpServletRequest request, @PathVariable String url){
-        long time = Long.parseLong(url)/3;
-        Date date = new Date(time);
-        User user = userService.getOne(new QueryWrapper<User>().eq("create_time",date));
+        long uid = Long.parseLong(url)/12345;
+        User user = userService.getById(uid);
         if (user == null){
             return "404";
         }

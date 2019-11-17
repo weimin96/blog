@@ -21,7 +21,7 @@ let vue = new Vue({
             this.isLogin = true;
             this.avatarImg = user.avatarImg;
             this.username = user.username;
-            this.userUrl = (+new Date(user.createTime)) * 3;
+            this.userUrl = user.uid*12345;
             this.getMessage();
         }
     },
@@ -108,5 +108,16 @@ Vue.component('menu-tree', {
         '<ul><menu-tree v-for="item in value.children" v-bind:value="item"></menu-tree></ul></li>' +
         '<li v-else><a class="menu-item" :href="\'category/\'+value.url">{{value.name}}</a></li>'
 });
+
+// 获取url参数
+function getQueryVariable(variable) {
+    var query = window.location.search.substring(1);
+    var vars = query.split("&");
+    for (var i=0;i<vars.length;i++) {
+        var pair = vars[i].split("=");
+        if(pair[0] === variable){return pair[1];}
+    }
+    return(false);
+}
 
 

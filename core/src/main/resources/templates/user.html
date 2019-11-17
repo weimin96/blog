@@ -17,6 +17,7 @@
         <div id="app">
             <!--头部-->
             <div class="user-header">
+
                 <template>
                     <div class="user-info">
 
@@ -31,11 +32,10 @@
                             <div class="name">{{user.username}}</div>
                             <!--信息-->
                             <div class="information"><span v-if="user.sex === 'male'">男</span><span
-                                    v-else>女</span><span>广东</span><span>广州市</span></div>
+                                    v-else>女</span><span>{{user.region}}</span><span>{{user.city}}</span></div>
                             <div class="more-info"><i class="el-icon-arrow-down"></i><a>更多信息</a>
                             </div>
                         </div>
-
 
                         <!--统计-->
                         <div class="user-statistic">
@@ -50,10 +50,6 @@
                             <div class="item">
                                 <span>0</span>
                                 <div>赞赏</div>
-                            </div>
-                            <div class="item user-setting">
-                                <i class="el-icon-s-tools"></i>
-                                <a>个人设置</a>
                             </div>
                         </div>
 
@@ -74,6 +70,10 @@
                                         <li :class="{sidebarActive:sidebarActive === 'message'} "
                                             @click="sidebarActive = 'message'"><i
                                                 class="fa fa-commenting-o"></i>我的消息
+                                        </li>
+                                        <li :class="{sidebarActive:sidebarActive === 'userSetting'}"
+                                            @click="sidebarActive = 'userSetting'"><i
+                                                class="el-icon-s-tools"></i>个人设置
                                         </li>
                                         <li :class="{sidebarActive:sidebarActive === 'user'}"
                                             @click="sidebarActive = 'user'"><i
@@ -236,7 +236,7 @@
                                                     <div>
                                                         <p>微博</p>
                                                     </div>
-                                                    <a ><i class="fa fa-plus"></i>绑定</a>
+                                                    <a><i class="fa fa-plus"></i>绑定</a>
                                                 </li>
                                                 <li v-if="bindList.github !== false">
                                                     <img src="/img/github_black.svg">
@@ -259,6 +259,45 @@
                                         </el-tab-pane>
                                     </el-tabs>
                                 </template>
+                                <template v-if="sidebarActive === 'userSetting'">
+                                    <el-tabs v-model="userSettingActiveName">
+                                        <el-tab-pane label="个人信息" name="first">
+                                            <div class="user-setting-left">
+                                                <div class="user-setting-li">
+                                                    <span>昵称：</span>
+                                                    <el-input></el-input>
+                                                </div>
+                                                <div class="user-setting-li">
+                                                    <span class="introduction">介绍：</span>
+                                                    <el-input type="textarea"
+                                                              :rows="3"
+                                                              placeholder="这个用户很懒，什么也没留下..."></el-input>
+                                                </div>
+                                                <div class="user-setting-li">
+                                                    <span>性别：</span>
+                                                    <el-radio v-model="user.sex" label="1">男</el-radio>
+                                                    <el-radio v-model="user.sex" label="2">女</el-radio>
+                                                </div>
+                                                <div class="user-setting-li">
+                                                    <span>地区：</span>
+                                                </div>
+                                            </div>
+                                            <div class="user-setting-right">
+                                                <el-image style="width: 136px; height: 136px"
+                                                          :src="user.avatarImg"
+                                                          fit="fill">
+                                                </el-image>
+                                                <div class="setting-avatar">
+                                                    <el-button>修改头像</el-button>
+                                                </div>
+
+                                            </div>
+
+                                        </el-tab-pane>
+                                        <el-tab-pane label="隐私设置" name="second">
+                                        </el-tab-pane>
+                                    </el-tabs>
+                                </template>
                             </el-col>
                         </el-row>
                     </div>
@@ -268,13 +307,16 @@
             <el-dialog title="绑定邮箱" :visible.sync="emailVisible" width="26%">
                 <div class="dialog-lay">
                     <span class="dialog-label">邮箱</span>
-                    <el-input class="dialog-input" v-model="emailInput" placeholder="请输入邮箱" @blur="checkEmail()"></el-input>
+                    <el-input class="dialog-input" v-model="emailInput" placeholder="请输入邮箱"
+                              @blur="checkEmail()"></el-input>
                 </div>
                 <p class="error-msg">{{errorEmailMsg}}</p>
                 <div class="dialog-lay">
                     <span class="dialog-label">验证码</span>
-                    <el-input class="dialog-input" v-model="emailCode" :disabled="emailCodeInputDisable" placeholder="请输入验证码"></el-input>
-                    <el-button type="primary" :disabled="emailCodeDisable" @click="getEmailCode()">{{emailCodeBtnMsg}}</el-button>
+                    <el-input class="dialog-input" v-model="emailCode" :disabled="emailCodeInputDisable"
+                              placeholder="请输入验证码"></el-input>
+                    <el-button type="primary" :disabled="emailCodeDisable" @click="getEmailCode()">{{emailCodeBtnMsg}}
+                    </el-button>
                 </div>
                 <p class="error-msg">{{errorEmailCodeMsg}}</p>
                 <div slot="footer" class="dialog-footer">

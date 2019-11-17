@@ -20,7 +20,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
-import org.springframework.http.HttpRequest;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
@@ -118,11 +117,11 @@ public class UserController extends BaseController {
             @ApiImplicitParam(name = "phone", value = "手机号(非必填)", paramType = "form")
     })
     @PostMapping("/register")
-    public ServerResponse register(HttpServletRequest request,String username, String phone, String email, String password) {
+    public ServerResponse register(HttpServletRequest request, String username, String phone, String email, String password) {
         try {
             String ip = IPUtil.getIpAddr(request);
             String[] address = IPUtil.getIpInfo(ip);
-            userService.register(username, phone, email, password,address);
+            userService.register(username, phone, email, password, address);
         } catch (Exception e) {
             String msg = "注册失败";
             if (e instanceof WiblogException) {
@@ -134,6 +133,19 @@ public class UserController extends BaseController {
         }
         return ServerResponse.success(null);
     }
+
+    /**
+     * 获取用户基础信息
+     *
+     * @param id id
+     * @return ServerResponse
+     */
+    @GetMapping("/info")
+    public ServerResponse getUserById(Long id) {
+        User user = userService.getById(id);
+        return ServerResponse.success(user);
+    }
+
 
     @ApiOperation(value = "检查用户名")
     @PostMapping("/checkUsername")
@@ -171,6 +183,7 @@ public class UserController extends BaseController {
         return ServerResponse.success("手机号校验成功");
     }
 
+    // TODO
     @GetMapping("/getAllUsername")
     public ServerResponse getAllUsername() {
         return userService.getAllUsername();
@@ -234,7 +247,7 @@ public class UserController extends BaseController {
             if (user != null) {
                 ServerResponse serverResponse = githubProvider.bingGithub(user.getUid(), githubUser, accessToken);
                 String url = WiblogUtil.getCookie(request, "back");
-                if (!serverResponse.isSuccess()){
+                if (!serverResponse.isSuccess()) {
                     WiblogUtil.setCookie(response, "error", serverResponse.getMsg(), 60);
                 }
                 response.sendRedirect(url);

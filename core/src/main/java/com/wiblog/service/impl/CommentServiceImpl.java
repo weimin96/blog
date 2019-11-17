@@ -6,8 +6,10 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.wiblog.common.ServerResponse;
 import com.wiblog.entity.Comment;
+import com.wiblog.entity.UserSetting;
 import com.wiblog.mapper.ArticleMapper;
 import com.wiblog.mapper.CommentMapper;
+import com.wiblog.mapper.UserSettingMapper;
 import com.wiblog.service.ICommentService;
 import com.wiblog.vo.CommentManageVo;
 import com.wiblog.vo.CommentVo;
@@ -37,6 +39,9 @@ public class CommentServiceImpl extends ServiceImpl<CommentMapper, Comment> impl
 
     @Autowired
     private ArticleMapper articleMapper;
+
+    @Autowired
+    private UserSettingMapper userSettingMapper;
 
     @Override
     public ServerResponse reply(Comment comment) {
@@ -106,26 +111,29 @@ public class CommentServiceImpl extends ServiceImpl<CommentMapper, Comment> impl
     }
 
     @Override
-    public ServerResponse getUserComment(Long uid,Integer pageNum,Integer pageSize,String orderBy) {
-        Page<UserCommentVo> page = new Page<>(pageNum,pageSize);
-        if("asc".equals(orderBy)){
-            page.setAsc("create_time");
-        }else{
-            page.setDesc("create_time");
+    public ServerResponse getUserComment(Long uid,Integer pageNum,Integer pageSize,String orderBy,Boolean isPermit,String type) {
+        // 不是管理员或自己
+        if (!isPermit){
+            UserSetting userSetting = userSettingMapper.selectOne(new QueryWrapper<UserSetting>().eq("uid",uid));
+            // 设置了不开放
+            if (userSetting != null && userSetting.getComment().equals(0)){
+                return ServerResponse.error("用户设置了权限",300001);
+            }
         }
-        IPage<UserCommentVo> list = commentMapper.selectCommentByUid(page,uid);
-        return ServerResponse.success(list);
-    }
 
-    @Override
-    public ServerResponse getUserReply(Long uid,Integer pageNum,Integer pageSize,String orderBy) {
         Page<UserCommentVo> page = new Page<>(pageNum,pageSize);
         if("asc".equals(orderBy)){
             page.setAsc("create_time");
         }else{
             page.setDesc("create_time");
         }
-        IPage<UserCommentVo> list = commentMapper.selectUserReplyByUid(page,uid);
+        IPage<UserCommentVo> list;
+        if ("comment".equals(type)){
+            list = commentMapper.selectCommentByUid(page,uid);
+        }else {
+            list = commentMapper.selectUserReplyByUid(page,uid);
+        }
+
         return ServerResponse.success(list);
     }
 

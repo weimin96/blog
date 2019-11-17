@@ -56,22 +56,15 @@ public interface ICommentService extends IService<Comment> {
     ServerResponse restoreComment(Integer id);
 
     /**
-     * 获取用户评论
+     * 获取用户评论/回复评论
      * @param uid uid
      * @param pageNum pageNum
      * @param pageSize pageSize
      * @param orderBy orderBy
+     * @param isPermit isPermit
+     * @param type type
      * @return ServerResponse
      */
-    ServerResponse getUserComment(Long uid,Integer pageNum,Integer pageSize,String orderBy);
+    ServerResponse getUserComment(Long uid,Integer pageNum,Integer pageSize,String orderBy,Boolean isPermit,String type);
 
-    /**
-     * 获取用户被回复的评论
-     * @param uid uid
-     * @param pageNum pageNum
-     * @param pageSize pageSize
-     * @param orderBy orderBy
-     * @return ServerResponse
-     */
-    ServerResponse getUserReply(Long uid,Integer pageNum,Integer pageSize,String orderBy);
 }

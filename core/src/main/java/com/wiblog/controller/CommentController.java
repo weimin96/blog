@@ -5,6 +5,7 @@ import com.wiblog.common.ServerResponse;
 import com.wiblog.entity.Comment;
 import com.wiblog.entity.User;
 import com.wiblog.service.ICommentService;
+import com.wiblog.service.IUserRoleService;
 import lombok.extern.java.Log;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -23,6 +24,9 @@ import javax.servlet.http.HttpServletRequest;
 public class CommentController extends BaseController{
 
     private ICommentService commentService;
+
+    @Autowired
+    private IUserRoleService userRoleService;
 
     @Autowired
     public CommentController(ICommentService commentService) {
@@ -105,35 +109,21 @@ public class CommentController extends BaseController{
 
     /**
      * 获取用户评论
+     *
+     * @param type type comment/reply
      * @return ServerResponse
      */
     @GetMapping("/getUserComment")
-    public ServerResponse getUserComment(HttpServletRequest request,
+    public ServerResponse getUserComment(HttpServletRequest request,Long uid,String type,
                                          @RequestParam(value = "pageNum", defaultValue = "1") Integer pageNum,
                                          @RequestParam(value = "pageSize", defaultValue = "10") Integer pageSize,
                                          @RequestParam(value = "orderBy", defaultValue = "desc") String orderBy){
         User user = getLoginUser(request);
-        if (user !=null){
-            return commentService.getUserComment(user.getUid(),pageNum,pageSize,orderBy);
+        boolean isPermit = false;
+        // 用户本身 或 管理员
+        if (user !=null && (user.getUid().equals(uid) || userRoleService.checkAuthorize(user,2).isSuccess())){
+            isPermit = true;
         }
-        return ServerResponse.error("用户未登录",30001);
-
-    }
-
-    /**
-     * 获取用户被回复的评论
-     * @return ServerResponse
-     */
-    @GetMapping("/getUserReply")
-    public ServerResponse getUserReply(HttpServletRequest request,
-                                       @RequestParam(value = "pageNum", defaultValue = "1") Integer pageNum,
-                                       @RequestParam(value = "pageSize", defaultValue = "10") Integer pageSize,
-                                       @RequestParam(value = "orderBy", defaultValue = "desc") String orderBy){
-        User user = getLoginUser(request);
-        if (user !=null){
-            return commentService.getUserReply(user.getUid(),pageNum,pageSize,orderBy);
-        }
-        return ServerResponse.error("用户未登录",30001);
-
+        return commentService.getUserComment(uid,pageNum,pageSize,orderBy,isPermit,type);
     }
 }
