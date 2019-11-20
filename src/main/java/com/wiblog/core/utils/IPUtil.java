@@ -2,20 +2,16 @@ package com.wiblog.core.utils;
 
 import com.alibaba.fastjson.JSONObject;
 import com.wiblog.core.common.Constant;
-
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.client.RestTemplate;
 
+import javax.servlet.http.HttpServletRequest;
 import java.net.InetAddress;
 import java.net.NetworkInterface;
 import java.net.SocketException;
 import java.net.UnknownHostException;
 import java.util.Enumeration;
 import java.util.Map;
-
-import javax.servlet.http.HttpServletRequest;
-
-import lombok.extern.java.Log;
-import lombok.extern.slf4j.Slf4j;
 
 /**
  * IP工具类

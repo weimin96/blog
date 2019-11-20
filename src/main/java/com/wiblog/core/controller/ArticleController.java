@@ -15,11 +15,7 @@ import com.wiblog.core.service.IArticleService;
 import com.wiblog.core.utils.PinYinUtil;
 import com.wiblog.core.utils.WiblogUtil;
 import com.wiblog.core.utils.WordFilterUtil;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiImplicitParam;
-import io.swagger.annotations.ApiImplicitParams;
-import io.swagger.annotations.ApiOperation;
-import lombok.extern.java.Log;
+import lombok.extern.slf4j.Slf4j;
 import org.elasticsearch.action.search.SearchResponse;
 import org.elasticsearch.index.query.QueryBuilder;
 import org.elasticsearch.index.query.QueryBuilders;
@@ -53,10 +49,9 @@ import java.util.regex.Pattern;
  * @author pwm
  * @date 2019-06-12
  */
-@Log
+@Slf4j
 @RestController
 @RequestMapping("/post")
-@Api(tags = "文章中心api")
 public class ArticleController extends BaseController {
 
     private static final Pattern PATTERN_HIGH_LIGHT= Pattern.compile("<(font)[^>]*>(.*?)<\\/\\1>");
@@ -81,11 +76,6 @@ public class ArticleController extends BaseController {
     }
 
     @PostMapping("/articles")
-    @ApiOperation(value = "文章列表", notes = "获取文章分页列表")
-    @ApiImplicitParams({
-            @ApiImplicitParam(name = "pageNum", value = "页码（默认0）", paramType = "form"),
-            @ApiImplicitParam(name = "pageSize", value = "每页数量(默认10)", paramType = "form")
-    })
     public ServerResponse<IPage> articlePageList(
             @RequestParam(value = "pageNum", defaultValue = "1") Integer pageNum,
             @RequestParam(value = "pageSize", defaultValue = "10") Integer pageSize) {
@@ -93,12 +83,7 @@ public class ArticleController extends BaseController {
     }
 
     @PostMapping("/articlesManage")
-    @ApiOperation(value = "文章列表", notes = "获取文章管理列表")
     @AuthorizeCheck(grade = "2")
-    @ApiImplicitParams({
-            @ApiImplicitParam(name = "pageNum", value = "页码（默认0）", paramType = "form"),
-            @ApiImplicitParam(name = "pageSize", value = "每页数量(默认10)", paramType = "form")
-    })
     public ServerResponse<IPage> articlesManage(
             @RequestParam(value = "pageNum", defaultValue = "1") Integer pageNum,
             @RequestParam(value = "pageSize", defaultValue = "10") Integer pageSize) {
@@ -112,18 +97,15 @@ public class ArticleController extends BaseController {
      */
     @PostMapping("/allArticles")
     @AuthorizeCheck(grade = "2")
-    @ApiOperation(value = "所有文章标题列表", notes = "获取文章标题列表")
     public ServerResponse articlePageList() {
         return articleService.getAllArticle();
     }
 
-    @ApiOperation(value = "通过url的文章id获取文章详细内容")
     @GetMapping("/get/{id}")
     public ServerResponse getArticleById(@PathVariable Long id) {
         return articleService.getArticleById(id);
     }
 
-    @ApiOperation(value = "通过url获取文章详细内容")
     @GetMapping("/getArticle")
     public ServerResponse getArticle(HttpServletRequest request, String url) {
         User user = getLoginUser(request);
@@ -136,14 +118,6 @@ public class ArticleController extends BaseController {
      * @param article article
      * @return ServerResponse
      */
-    @ApiOperation(value = "发表文章")
-    @ApiImplicitParams({
-            @ApiImplicitParam(name = "title", value = "标题", required = true, paramType = "form"),
-            @ApiImplicitParam(name = "content", value = "内容", required = true, paramType = "form"),
-            @ApiImplicitParam(name = "tags", value = "标签", required = true, paramType = "form"),
-            @ApiImplicitParam(name = "categoryId", value = "分类", required = true, paramType = "form"),
-            @ApiImplicitParam(name = "articleSummary", value = "简介", required = true, paramType = "form")
-    })
     @PostMapping("/push")
     @AuthorizeCheck(grade = "2")
     @OpsRecord(msg = "发表了文章<<{0}>>")
@@ -189,15 +163,6 @@ public class ArticleController extends BaseController {
      */
     @PostMapping("/update")
     @AuthorizeCheck(grade = "2")
-    @ApiOperation(value = "修改文章")
-    @ApiImplicitParams({
-            @ApiImplicitParam(name = "title", value = "标题", required = true, paramType = "form"),
-            @ApiImplicitParam(name = "id", value = "文章id", required = true, paramType = "form"),
-            @ApiImplicitParam(name = "content", value = "内容", required = true, paramType = "form"),
-            @ApiImplicitParam(name = "tags", value = "标签", required = true, paramType = "form"),
-            @ApiImplicitParam(name = "categoryId", value = "分类", required = true, paramType = "form"),
-            @ApiImplicitParam(name = "articleSummary", value = "简介", required = true, paramType = "form")
-    })
     @OpsRecord(msg = "修改了文章<<{0}>>")
     @RequestRequire(require = "id,title,content,tags,categoryId", parameter = Article.class)
     public ServerResponse<String> updateArticle(Article article) {

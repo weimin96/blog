@@ -12,10 +12,6 @@ import com.wiblog.core.thirdparty.GithubProvider;
 import com.wiblog.core.utils.IPUtil;
 import com.wiblog.core.utils.Md5Util;
 import com.wiblog.core.utils.WiblogUtil;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiImplicitParam;
-import io.swagger.annotations.ApiImplicitParams;
-import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,7 +34,6 @@ import java.util.concurrent.TimeUnit;
 @RestController
 @RequestMapping("/u")
 @Slf4j
-@Api(tags = "用户中心api")
 public class UserController extends BaseController {
 
     @Autowired
@@ -55,11 +50,6 @@ public class UserController extends BaseController {
         this.userService = userService;
     }
 
-    @ApiOperation(value = "登录", notes = "根据账号密码登录，账号可以为手机号、用户名、邮箱")
-    @ApiImplicitParams({
-            @ApiImplicitParam(name = "account", value = "账号", required = true, paramType = "form"),
-            @ApiImplicitParam(name = "password", value = "密码", required = true, paramType = "form")
-    })
     @PostMapping("/login")
     public ServerResponse login(String account, String password, HttpServletRequest request, HttpServletResponse response) {
         System.out.println("登录");
@@ -109,13 +99,6 @@ public class UserController extends BaseController {
         return ServerResponse.success(null, "退出成功");
     }
 
-    @ApiOperation(value = "注册", notes = "用户注册")
-    @ApiImplicitParams({
-            @ApiImplicitParam(name = "username", value = "用户名", required = true, paramType = "form"),
-            @ApiImplicitParam(name = "password", value = "密码", required = true, paramType = "form"),
-            @ApiImplicitParam(name = "email", value = "邮箱(非必填)", paramType = "form"),
-            @ApiImplicitParam(name = "phone", value = "手机号(非必填)", paramType = "form")
-    })
     @PostMapping("/register")
     public ServerResponse register(HttpServletRequest request, String username, String phone, String email, String password) {
         try {
@@ -147,7 +130,6 @@ public class UserController extends BaseController {
     }
 
 
-    @ApiOperation(value = "检查用户名")
     @PostMapping("/checkUsername")
     public ServerResponse checkUsername(String value) {
         try {
@@ -159,7 +141,6 @@ public class UserController extends BaseController {
         return ServerResponse.success("用户名校验成功");
     }
 
-    @ApiOperation(value = "检查手机号")
     @PostMapping("/checkPhone")
     public ServerResponse checkPhone(String value) {
         try {
@@ -171,7 +152,6 @@ public class UserController extends BaseController {
         return ServerResponse.success("手机号校验成功");
     }
 
-    @ApiOperation(value = "检查邮箱")
     @PostMapping("/checkEmail")
     public ServerResponse checkEmail(String value) {
         try {

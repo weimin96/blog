@@ -24,6 +24,12 @@
     <dependency>
       <groupId>org.springframework.boot</groupId>
       <artifactId>spring-boot-starter-web</artifactId>
+        <exclusions>
+            <exclusion>
+                <groupId>ch.qos.logback</groupId>
+                <artifactId>logback-classic</artifactId>
+            </exclusion>
+        </exclusions>
     </dependency>
     <dependency>
       <groupId>org.springframework.boot</groupId>
@@ -131,7 +137,7 @@
       <version>1.2.47</version>
     </dependency>
     <!--swagger2-->
-    <dependency>
+    <!--<dependency>
       <groupId>io.springfox</groupId>
       <artifactId>springfox-swagger2</artifactId>
       <version>2.6.1</version>
@@ -140,7 +146,7 @@
       <groupId>io.springfox</groupId>
       <artifactId>springfox-swagger-ui</artifactId>
       <version>2.6.1</version>
-    </dependency>
+    </dependency>-->
     <dependency>
       <groupId>org.ansj</groupId>
       <artifactId>ansj_seg</artifactId>
