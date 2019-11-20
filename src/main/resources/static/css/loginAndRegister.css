@@ -1,0 +1,177 @@
+/*背景*/
+.bg-img{
+    left: 0;
+    top: 0;
+    overflow: hidden;
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    width: 100%;
+    z-index: -999999;
+    position: fixed;
+    background: #f5f5f5;
+}
+
+.bg-img img{
+    position: absolute;
+    margin: 0;
+    padding: 0;
+    border: none;
+    z-index: -999999;
+    left: 0;
+}
+
+/*表单*/
+.form-box {
+    margin-top: 3%;
+    text-align: center;
+    width: 40%;
+    margin-left: 30%;
+}
+
+/*输入框*/
+.form-box .register-form .form-control{
+    display: inline;
+    width: 90%;
+}
+
+.form-box .login-form .form-control{
+    display: inline;
+    width: 100%;
+}
+
+/*星号*/
+.form-box strong i{
+    color: #a94442;
+    padding-right: 5px;
+}
+
+
+.form-box .pdr{
+    padding-left: 1%;
+}
+
+/*错误提示*/
+.form-box .error-msg{
+    color: #a94442;
+    font-size: 11px;
+    padding-top: 2px;
+    padding-left: 17px;
+    height: 14px;
+}
+
+/*正确错误图片*/
+.green{
+    color: #54a054;
+}
+
+.red{
+    color: #a94442;
+}
+
+.form-top {
+    overflow: hidden;
+    padding: 0 25px 15px 25px;
+    background: #fff;
+    -moz-border-radius: 4px 4px 0 0;
+    -webkit-border-radius: 4px 4px 0 0;
+    border-radius: 4px 4px 0 0;
+    text-align: left;
+}
+
+.form-top-left {
+    float: left;
+    width: 75%;
+    padding-top: 25px;
+}
+
+.form-top-left i{font-size: 430%;margin-right: 5%;}
+.form-top-left .form-title{font-size: 212%;}
+
+.form-top-right {
+    float: left;
+    width: 25%;
+    padding-top: 5px;
+    font-size: 66px;
+    color: #fff;
+    line-height: 100px;
+    text-align: right;
+    opacity: 0.3;
+}
+
+.form-bottom .register-form .btn {
+    margin-left: 18px;
+    width: 90%;
+    border-radius: 2px;
+    color: #f1ebeb;
+}
+
+.form-bottom .login-form .btn {
+    width: 100%;
+    border-radius: 2px;
+    color: #f1ebeb;
+    background: #3a9fda;
+}
+
+.form-bottom .btn:hover{
+    background: #5194bb;
+}
+
+.form-bottom {
+    padding: 25px 25px 30px 25px;
+    background: #fff;
+    -moz-border-radius: 0 0 4px 4px; -webkit-border-radius: 0 0 4px 4px; border-radius: 0 0 4px 4px;
+    text-align: left;
+}
+
+/*已有账号*/
+.hasAccount{
+    font-size: 14px;
+    float: right;
+    margin-bottom: 10px;
+}
+
+.social-login {
+    margin-top: 35px;
+    margin-left: 30%;
+    width: 40%;
+}
+
+.social-login h3 {
+    color: #fff;
+}
+
+/*底部水平线*/
+.h-content{
+    width: 100%;
+    border-top: 2px solid #ebebeb;
+    position: relative;
+}
+
+.h-content .h-title{
+    width: 25%;
+    background: #f5f5f5;
+    text-align: center;
+    line-height: 50px;
+    font-size: 16px;
+    color: #9b9b9b;
+    position: absolute;
+    top: -25px;
+    left: 37%;
+}
+
+.login-else{
+    width: 100%;
+    margin: 5% 0;
+    text-align: center;
+    font-size: 30px;
+}
+
+.login-else i{
+    width: 40px;
+}
+
+.form-group{
+    margin-bottom: 20px;
+}
+
