@@ -88,7 +88,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
         user.setUsername(username);
         user.setRegion(address[0]);
         user.setCity(address[1]);
-        user.setAvatarImg("https://wwww.wiblog.cn/img/reply-avatar.svg");
+        user.setAvatarImg("https://www.wiblog.cn/img/reply-avatar.svg");
         userMapper.insertReturnId(user);
         Long uid = user.getUid();
 

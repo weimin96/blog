@@ -42,7 +42,7 @@ public class Picture implements Serializable{
     /**
      * 额外字段
      */
-    private String extraData;
+    private String extra;
 
     private Date createTime;
 
@@ -51,21 +51,21 @@ public class Picture implements Serializable{
     public Picture() {
     }
 
-    public Picture(Long id, String name, String type, String url, String extraData, Date createTime, Date updateTime) {
+    public Picture(Long id, String name, String type, String url, String extra, Date createTime, Date updateTime) {
         this.id = id;
         this.name = name;
         this.type = type;
         this.url = url;
-        this.extraData = extraData;
+        this.extra = extra;
         this.createTime = createTime;
         this.updateTime = updateTime;
     }
 
-    public Picture(String name, String type, String url, String extraData, Date createTime, Date updateTime) {
+    public Picture(String name, String type, String url, String extra, Date createTime, Date updateTime) {
         this.name = name;
         this.type = type;
         this.url = url;
-        this.extraData = extraData;
+        this.extra = extra;
         this.createTime = createTime;
         this.updateTime = updateTime;
     }

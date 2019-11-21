@@ -39,12 +39,12 @@ public class LikesRecordController {
             count++;
             redisTemplate.opsForValue().set(Constant.LIKE_RECORD_KEY + type + articleId, count);
         } else if ("comment".equals(type)) {
-            count = (Integer) redisTemplate.opsForHash().get(Constant.LIKE_RECORD_KEY + type + articleId, commentId);
+            count = (Integer) redisTemplate.opsForHash().get(Constant.LIKE_RECORD_KEY + type + articleId, commentId+"");
             if (count == null) {
                 count = 0;
             }
             count++;
-            redisTemplate.opsForHash().put(Constant.LIKE_RECORD_KEY + type + articleId, commentId, count);
+            redisTemplate.opsForHash().put(Constant.LIKE_RECORD_KEY + type + articleId, commentId+"", count);
         } else {
             return ServerResponse.error("类型错误", 30001);
         }

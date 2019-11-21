@@ -9,19 +9,19 @@
             <result column="name" property="name"/>
             <result column="type" property="type"/>
             <result column="url" property="url"/>
-            <result column="extra_data" property="extraData"/>
+            <result column="extra" property="extra"/>
             <result column="create_time" property="createTime"/>
             <result column="update_time" property="updateTime"/>
     </resultMap>
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
-id, name, type, url, extra_data, create_time, update_time
+id, name, type, url, extra, create_time, update_time
     </sql>
 
     <select id="selectPageList" resultType="com.wiblog.core.entity.Picture">
         select
-        id, name, type, url, extra_data,update_time,DATE_FORMAT(create_time,"%Y-%m-%d") as `create_time`
+        id, name, type, url, extra,update_time,DATE_FORMAT(create_time,"%Y-%m-%d") as `create_time`
         from picture order by create_time desc
     </select>
 </mapper>

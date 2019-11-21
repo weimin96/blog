@@ -203,6 +203,39 @@
             login() {
                 Cookies.set('back', window.location.href, {expires: 1, path: '/'});
                 window.location.href = "/login";
+            },
+            like(type,commentId){
+
+
+                if (type === "article"){
+                    let bool = localStorage.getItem("article_"+that.article.id);
+                    if (bool === "1"){
+                        this.$message.error("您的爱心太过泛滥啦...");
+                        return;
+                    }
+                    $.post("/record/like",{articleId:this.article.id,type:type},function (res) {
+                        if (res.code === 10000){
+                            that.article.likes=res.data;
+                            localStorage.setItem("article_"+that.article.id,"1");
+                            that.$message({"message":"点赞成功","type":"success"});
+                        }
+                    });
+                } else{
+                    let bool = localStorage.getItem("comment_"+commentId);
+                    if (bool === "1"){
+                        this.$message.error("您的爱心太过泛滥啦...");
+                        return;
+                    }
+                    $.post("/record/like",{articleId:this.article.id,type:type,commentId:commentId},function (res) {
+                        if (res.code === 10000){
+                            that.article.likes=res.data;
+                            localStorage.setItem("comment_"+commentId,"1");
+                            that.$message({"message":"点赞成功","type":"success"});
+                        }
+                    });
+                }
+
+
             }
         },
         filters: {

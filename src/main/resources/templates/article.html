@@ -39,9 +39,9 @@
                                     </span>
                                         <span>
                                         <i class="fa fa-calendar"> {{article.createTime | articleDateFormat}}</i>
-                                        <i class="fa fa-commenting-o">评论{{article.commentsCounts}}</i>
-                                        <i class="fa fa-eye">阅读{{article.hits}}</i>
-                                        <i class="fa fa-thumbs-o-up">喜欢{{article.likes}}</i>
+                                        <a href="#comments"><i  class="fa fa-commenting-o">评论 {{article.commentsCounts}}</i></a>
+                                        <i class="fa fa-eye">阅读 {{article.hits}}</i>
+                                        <i @click="like('article')" class="fa fa-thumbs-o-up">喜欢 {{article.likes}}</i>
                                     </span>
                                     </div>
                                 </div>
@@ -116,8 +116,8 @@
                                                 </div>
 
                                                 <div class="item-btn-group">
-                                                    <button class="btn btn-white btn-xs">
-                                                        <i class="fa fa-thumbs-up"></i> 赞
+                                                    <button @click="like('comment',item.id)" class="btn btn-white btn-xs">
+                                                        <i  class="fa fa-thumbs-up"></i> 赞
                                                     </button>
                                                     <button class="btn btn-white btn-xs"
                                                             @click="showReplyBtn(index,item.id)">
@@ -156,8 +156,9 @@
                                                             </div>
 
                                                             <div class="item-btn-group">
-                                                                <button class="btn btn-white btn-xs"><i
-                                                                        class="fa fa-thumbs-up"></i> 赞
+                                                                <button @click="like('comment',it.id)" class="btn btn-white btn-xs">
+                                                                    <i
+                                                                       class="fa fa-thumbs-up"></i> 赞
                                                                 </button>
                                                                 <button class="btn btn-white btn-xs"
                                                                         @click="showReplyBtn(index,it.id)"><i
@@ -263,8 +264,8 @@
                             </div>
 
                             <div class="item-btn-group">
-                                <button class="btn btn-white btn-xs">
-                                    <i class="fa fa-thumbs-up"></i> 赞
+                                <button @click="like('comment',commentItem.id)" class="btn btn-white btn-xs">
+                                    <i   class="fa fa-thumbs-up"></i> 赞
                                 </button>
                                 <button class="btn btn-white btn-xs" @click="showReplyDialogBtn(-2,commentItem.id)">
                                     <i class="fa fa-comments"></i> 回复
@@ -329,8 +330,8 @@
                                         </div>
 
                                         <div class="item-btn-group">
-                                            <button class="btn btn-white btn-xs"><i
-                                                    class="fa fa-thumbs-up"></i> 赞
+                                            <button @click="like('comment',it.id)" class="btn btn-white btn-xs">
+                                                <i class="fa fa-thumbs-up"></i> 赞
                                             </button>
                                             <button class="btn btn-white btn-xs"
                                                     @click="showReplyDialogBtn(i,it.id)"><i

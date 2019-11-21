@@ -106,7 +106,7 @@ Vue.component('menu-tree', {
     props: ['value'],
     template: '<li v-if="value.children"><a href="javascript:;">{{value.name}}</a>' +
         '<ul><menu-tree v-for="item in value.children" v-bind:value="item"></menu-tree></ul></li>' +
-        '<li v-else><a class="menu-item" :href="\'category/\'+value.url">{{value.name}}</a></li>'
+        '<li v-else><a class="menu-item" :href="\'/category/\'+value.url">{{value.name}}</a></li>'
 });
 
 // 获取url参数

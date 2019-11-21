@@ -32,6 +32,10 @@ a:focus {
     text-decoration: none
 }
 
+a:-webkit-any-link{
+    color: #777;
+}
+
 p:first-child{
     margin-top: 0;
 }

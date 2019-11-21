@@ -6,7 +6,7 @@ var app = new Vue({
     data: {
         // 分类列表
         categoryList: [],
-        categoryIds: [],
+        categoryIds: [-1],
         // selected: '',
         tagTemp: '',
         tagList: [],
