@@ -37,4 +37,5 @@ public interface UserAuthMapper extends BaseMapper<UserAuth> {
      * @return int
      */
     int updateStateToZero(@Param("uid") Long uid,@Param("type")String type);
+
 }

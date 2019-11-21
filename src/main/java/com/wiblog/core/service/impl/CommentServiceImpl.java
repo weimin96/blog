@@ -1,14 +1,17 @@
 package com.wiblog.core.service.impl;
 
+import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.wiblog.core.common.Constant;
 import com.wiblog.core.common.ServerResponse;
 import com.wiblog.core.entity.Comment;
 import com.wiblog.core.entity.UserSetting;
 import com.wiblog.core.mapper.ArticleMapper;
 import com.wiblog.core.mapper.CommentMapper;
+import com.wiblog.core.mapper.UserAuthMapper;
 import com.wiblog.core.mapper.UserSettingMapper;
 import com.wiblog.core.service.ICommentService;
 import com.wiblog.core.vo.CommentManageVo;
@@ -17,6 +20,7 @@ import com.wiblog.core.vo.SubCommentVo;
 import com.wiblog.core.vo.UserCommentVo;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
@@ -41,7 +45,12 @@ public class CommentServiceImpl extends ServiceImpl<CommentMapper, Comment> impl
     private ArticleMapper articleMapper;
 
     @Autowired
+    private UserAuthMapper userAuthMapper;
+
+    @Autowired
     private UserSettingMapper userSettingMapper;
+
+
 
     @Override
     public ServerResponse reply(Comment comment) {
@@ -59,6 +68,11 @@ public class CommentServiceImpl extends ServiceImpl<CommentMapper, Comment> impl
                     .eq("article_id",comment.getArticleId())
                     .eq("gen_id",0L));
             comment.setFloor(++floor);
+            // 获取文章作者的邮箱 是自己不发邮件
+//            userAuthMapper.selectEmailByArticleId(comment.getArticleId());
+        }else{
+            // 获取被评论人的邮箱 是自己不发邮件
+
         }
         int count = commentMapper.insert(comment);
         if (count <= 0) {

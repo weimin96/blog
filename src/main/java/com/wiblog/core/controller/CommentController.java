@@ -1,6 +1,8 @@
 package com.wiblog.core.controller;
 
+import com.alibaba.fastjson.JSONObject;
 import com.wiblog.core.aop.RequestRequire;
+import com.wiblog.core.common.Constant;
 import com.wiblog.core.common.ServerResponse;
 import com.wiblog.core.entity.Comment;
 import com.wiblog.core.entity.User;
@@ -8,9 +10,12 @@ import com.wiblog.core.service.ICommentService;
 import com.wiblog.core.service.IUserRoleService;
 import lombok.extern.java.Log;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * 评论控制层
@@ -29,6 +34,9 @@ public class CommentController extends BaseController{
     private IUserRoleService userRoleService;
 
     @Autowired
+    private RedisTemplate<String,Object> redisTemplate;
+
+    @Autowired
     public CommentController(ICommentService commentService) {
         this.commentService = commentService;
     }
@@ -45,7 +53,17 @@ public class CommentController extends BaseController{
     public ServerResponse reply(Comment comment, HttpServletRequest request) {
         User user = getLoginUser(request);
         comment.setUid(user.getUid());
-        return commentService.reply(comment);
+        ServerResponse serverResponse = commentService.reply(comment);
+        // 邮件通知
+        if (serverResponse.isSuccess()){
+            Map<String,Object> message = new HashMap<>(3);
+            message.put("to","");
+            message.put("title","你有新的通知");
+            message.put("content","");
+            String messageJson = JSONObject.toJSONString(message);
+            redisTemplate.opsForList().rightPush(Constant.EMAIL_PUSH_KEY,messageJson);
+        }
+        return serverResponse;
     }
 
     /**

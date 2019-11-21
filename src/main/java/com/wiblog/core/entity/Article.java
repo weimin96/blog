@@ -21,6 +21,7 @@ public class Article implements Serializable{
      */
     private Long id;
 
+
     /**
      * 作者id
      */

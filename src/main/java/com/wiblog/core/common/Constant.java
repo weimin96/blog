@@ -51,5 +51,10 @@ public class Constant {
      * 分类列表缓存key
      */
     public static final String CATEGORY_KEY = "category";
+
+    /**
+     * 邮件推送redis队列
+     */
+    public static final String EMAIL_PUSH_KEY = "email_push";
 }
 

@@ -1,17 +1,22 @@
 package com.wiblog.core.service.impl;
 
+import com.alibaba.fastjson.JSONObject;
 import com.wiblog.core.common.Constant;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
+import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
 /**
  * TODO 描述
@@ -31,6 +36,10 @@ public class MailServiceImpl {
     @Autowired
     private RedisTemplate<String,Object> redisTemplate;
 
+    /**
+     * 异步线程 发送邮件
+     */
+    @Async
     public void sendHtmlMail(String to,String title,String content){
         MimeMessage message=mailSender.createMimeMessage();
         MimeMessageHelper helper = null;
@@ -50,6 +59,21 @@ public class MailServiceImpl {
     public boolean checkEmail(String email,String checkCode){
         String code = (String) redisTemplate.opsForValue().get(Constant.CHECK_EMAIL_KEY+email);
         return code != null && code.equals(checkCode);
+    }
+
+    /**
+     * 邮件监听发送
+     */
+    public void mailListener(){
+        log.info("读取邮件消息队列");
+        while (true){
+            String messageJson = (String) redisTemplate.opsForList().leftPop(Constant.EMAIL_PUSH_KEY,0, TimeUnit.SECONDS);
+            if (StringUtils.isNotBlank(messageJson)){
+                Map message = JSONObject.parseObject(messageJson);
+                sendHtmlMail((String)message.get("to"),(String)message.get("title"),(String)message.get("content"));
+            }
+        }
+
     }
 
 
