@@ -1,5 +1,147 @@
+body{
+    background: url(/img/login.jpg) no-repeat left;
+    background-size: cover;
+    min-width: 1200px;
+}
+
+.login-label{
+    width: 400px;
+    box-sizing: border-box;
+    background: #fff;
+    border-radius: 2px;
+    margin: 110px auto;
+}
+
+.login-top{
+    padding: 30px 40px 20px;
+}
+
+.login-title-label{
+    position: relative;
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+.login-title{
+    font-weight: 700;
+    left: 50%;
+    width: 200px;
+    margin-left: -100px;
+    top: 0;
+    position: absolute;
+    z-index: 2;
+    font-size: 18px;
+    color: #333;
+    background: #fff;
+    text-align: center;
+}
+
+.login-title span{
+    color: #1890ff;
+    margin-left: 5px;
+}
+
+.login-title-label:after{
+    display: inline-block;
+    content: "";
+    width: 100%;
+    height: 1px;
+    background: #f0f0f0;
+}
+
+.login-form{
+    box-sizing: border-box;
+    margin: 0;
+    list-style: none;
+    font-feature-settings: "tnum";
+    font-variant: tabular-nums;
+    line-height: 1.5;
+    color: rgba(0,0,0,.65);
+    font-size: 14px;
+    padding: 0 0 30px;
+}
+
+.login-form .first-input{
+    margin-bottom: 25px;
+}
+
+.login-form input{
+    background: #ebeef5;
+}
+
+.login-form button{
+    width: 100%;
+}
+
+
+/*错误提示*/
+.error-msg{
+    color: #a94442;
+    font-size: 11px;
+    padding-top: 5px;
+    padding-left: 14px;
+    height: 25px;
+}
+
+/*已有账号*/
+.hasAccount{
+    font-size: 12px;
+    float: right;
+    padding: 10px 0;
+}
+
+.hasAccount a{
+    color: #1890ff;
+}
+
+.h-content{
+    margin-top: 0;
+    margin-bottom: 1em;
+}
+
+.login-bottom{
+    border-top: 1px solid #f0f0f0;
+    color: #999;
+    margin: 0 40px;
+    padding: 20px 0;
+    font-size: 12px;
+}
+
+.login-else{
+    display: flex;
+    -webkit-justify-content: space-around;
+    -ms-flex-pack: distribute;
+    justify-content: space-around;
+}
+
+.login-else img{
+    cursor: pointer;
+    width: 40px;
+    height: 40px;
+}
+
+/*正确错误图片*/
+.green{
+    color: #54a054;
+}
+
+.red{
+    color: #a94442;
+}
+
+
+
+
+
+
+
+
+
+
+
+
 /*背景*/
-.bg-img{
+/*.bg-img{
     left: 0;
     top: 0;
     overflow: hidden;
@@ -19,26 +161,16 @@
     border: none;
     z-index: -999999;
     left: 0;
-}
+}*/
 
 /*表单*/
 .form-box {
-    margin-top: 3%;
-    text-align: center;
-    width: 40%;
-    margin-left: 30%;
+    margin-top: 5%;
+    width: 30%;
+    margin-left: 35%;
 }
 
-/*输入框*/
-.form-box .register-form .form-control{
-    display: inline;
-    width: 90%;
-}
 
-.form-box .login-form .form-control{
-    display: inline;
-    width: 100%;
-}
 
 /*星号*/
 .form-box strong i{
@@ -51,85 +183,11 @@
     padding-left: 1%;
 }
 
-/*错误提示*/
-.form-box .error-msg{
-    color: #a94442;
-    font-size: 11px;
-    padding-top: 2px;
-    padding-left: 17px;
-    height: 14px;
-}
 
-/*正确错误图片*/
-.green{
-    color: #54a054;
-}
 
-.red{
-    color: #a94442;
-}
 
-.form-top {
-    overflow: hidden;
-    padding: 0 25px 15px 25px;
-    background: #fff;
-    -moz-border-radius: 4px 4px 0 0;
-    -webkit-border-radius: 4px 4px 0 0;
-    border-radius: 4px 4px 0 0;
-    text-align: left;
-}
 
-.form-top-left {
-    float: left;
-    width: 75%;
-    padding-top: 25px;
-}
 
-.form-top-left i{font-size: 430%;margin-right: 5%;}
-.form-top-left .form-title{font-size: 212%;}
-
-.form-top-right {
-    float: left;
-    width: 25%;
-    padding-top: 5px;
-    font-size: 66px;
-    color: #fff;
-    line-height: 100px;
-    text-align: right;
-    opacity: 0.3;
-}
-
-.form-bottom .register-form .btn {
-    margin-left: 18px;
-    width: 90%;
-    border-radius: 2px;
-    color: #f1ebeb;
-}
-
-.form-bottom .login-form .btn {
-    width: 100%;
-    border-radius: 2px;
-    color: #f1ebeb;
-    background: #3a9fda;
-}
-
-.form-bottom .btn:hover{
-    background: #5194bb;
-}
-
-.form-bottom {
-    padding: 25px 25px 30px 25px;
-    background: #fff;
-    -moz-border-radius: 0 0 4px 4px; -webkit-border-radius: 0 0 4px 4px; border-radius: 0 0 4px 4px;
-    text-align: left;
-}
-
-/*已有账号*/
-.hasAccount{
-    font-size: 14px;
-    float: right;
-    margin-bottom: 10px;
-}
 
 .social-login {
     margin-top: 35px;
@@ -141,37 +199,6 @@
     color: #fff;
 }
 
-/*底部水平线*/
-.h-content{
-    width: 100%;
-    border-top: 2px solid #ebebeb;
-    position: relative;
-}
 
-.h-content .h-title{
-    width: 25%;
-    background: #f5f5f5;
-    text-align: center;
-    line-height: 50px;
-    font-size: 16px;
-    color: #9b9b9b;
-    position: absolute;
-    top: -25px;
-    left: 37%;
-}
 
-.login-else{
-    width: 100%;
-    margin: 5% 0;
-    text-align: center;
-    font-size: 30px;
-}
-
-.login-else i{
-    width: 40px;
-}
-
-.form-group{
-    margin-bottom: 20px;
-}
 
