@@ -10,100 +10,109 @@
 <div class="bg-img">
 </div>
 <div th:include="common/header :: header"></div>
-<div id="app" class="container" >
-    <br>
-    <div class="row">
+<div id="app" class="container">
+    <div class="register-label">
+        <div class="login-top">
+            <div class="login-title-label">
+                <span class="login-title">欢迎注册<span>wiblog</span></span>
+            </div>
+            <template>
+                <div class="login-form">
+                    <div class="start"><strong>*</strong></div>
 
-        <div class="form-box">
-            <div class="form-top">
-                <div class="form-top-left">
-                    <span><i class="fa fa-user-circle main-color"></i></span>
-                    <span class="form-title">注册</span>
+                    <el-input class="register-input "
+                              placeholder="用户名"
+                              @blur="checkName()"
+                              v-on:keyup.enter="register"
+                              v-model.trim="username" autocomplete="off">
+                        <i slot="prefix" class="el-input__icon el-icon-user"></i>
+                    </el-input>
+                    <template v-if="nameTag === '1'">
+                        <i class="fa fa-check-circle green pdr" aria-hidden="true"></i>
+                    </template>
+                    <template v-else-if="nameTag === '2'">
+                        <i class="fa fa-exclamation-circle red pdr" aria-hidden="true"></i>
+                    </template>
+                    <div class="error-msg">{{msgName}}</div>
+
+                    <div class="start"><strong>&nbsp;</strong></div>
+                    <el-input class="register-input" placeholder="手机号"
+                              @blur="checkPhone()"
+                              v-on:keyup.enter="register"
+                              v-model.trim="phone" autocomplete="off">
+                        <i slot="prefix" class="el-input__icon el-icon-mobile-phone"></i>
+                    </el-input>
+                    <template v-if="phoneTag === '1'">
+                        <i class="fa fa-check-circle green pdr" aria-hidden="true"></i>
+                    </template>
+                    <template v-else-if="phoneTag === '2'">
+                        <i class="fa fa-exclamation-circle red pdr" aria-hidden="true"></i>
+                    </template>
+                    <div class="error-msg">{{msgPhone}}</div>
+
+                    <div class="start"><strong>&nbsp;</strong></div>
+                    <el-input class="register-input" placeholder="邮箱"
+                              @blur="checkEmail()"
+                              v-on:keyup.enter="register"
+                              v-model.trim="email" autocomplete="off">
+                        <i slot="prefix" class="el-input__icon el-icon-user"></i>
+                    </el-input>
+                    <template v-if="emailTag === '1'">
+                        <i class="fa fa-check-circle green pdr" aria-hidden="true"></i>
+                    </template>
+                    <template v-else-if="emailTag === '2'">
+                        <i class="fa fa-exclamation-circle red pdr" aria-hidden="true"></i>
+                    </template>
+                    <div class="error-msg">{{msgEmail}}</div>
+
+                    <div class="start"><strong>*</strong></div>
+                    <el-input class="register-input" placeholder="密码"
+                              v-model.trim="password"
+                              v-on:keyup.enter="register"
+                              show-password="true"
+                              autocomplete="off">
+                        <i slot="prefix" class="el-input__icon el-icon-lock"></i>
+                    </el-input>
+                    <template v-if="passwordTag === '1'">
+                        <i class="fa fa-check-circle green pdr" aria-hidden="true"></i>
+                    </template>
+                    <template v-else-if="passwordTag === '2'">
+                        <i class="fa fa-exclamation-circle red pdr" aria-hidden="true"></i>
+                    </template>
+                    <div class="error-msg">{{msgPassword}}</div>
+
+                    <div class="start"><strong>*</strong></div>
+                    <el-input
+                            class="register-input" placeholder="确认密码"
+                            @blur="checkConfirmPassword()"
+                            v-model.trim="confirmPassword"
+                            v-on:keyup.enter="register"
+                            show-password="true"
+                            autocomplete="off">
+                        <i slot="prefix" class="el-input__icon el-icon-lock"></i>
+                    </el-input>
+                    <template v-if="confirmPasswordTag === '1'">
+                        <i class="fa fa-check-circle green pdr" aria-hidden="true"></i>
+                    </template>
+                    <template v-else-if="confirmPasswordTag === '2'">
+                        <i class="fa fa-exclamation-circle red pdr" aria-hidden="true"></i>
+                    </template>
+                    <div class="error-msg">{{msgConfirmPassword}}</div>
+
+                    <div class="register-btn">
+                        <el-button type="primary" v-on:click="register">注册</el-button>
+                    </div>
+
+                    <div class="hasAccount register-account">
+                        <div>已有账号？<a href="/login">点击登录</a></div>
+                    </div>
                 </div>
-
-            </div>
-            <div class="form-bottom">
-                <form name="form" class="register-form" action="" novalidate>
-                    <div class="form-group">
-                        <label class="sr-only" for="username">用户名</label><strong><i>*</i></strong>
-                        <input type="text" v-on:keyup.enter="register" v-model.trim="username" @blur="checkName()" name="username" placeholder="用户名" class="form-control" id="username" autocomplete="off">
-                        <template v-if="nameTag === '1'">
-                            <i class="fa fa-check-circle green pdr" aria-hidden="true"></i>
-                        </template>
-                        <template v-else-if="nameTag === '2'">
-                            <i class="fa fa-exclamation-circle red pdr" aria-hidden="true"></i>
-                        </template>
-                        <div class="error-msg">{{msgName}}</div>
-                    </div>
-                    <div class="form-group">
-                        <label class="sr-only" for="phone">手机号</label><strong><i style="opacity: 0">*</i></strong>
-                        <input type="text" v-on:keyup.enter="register" v-model.trim="phone" @blur="checkPhone()" name="phone" placeholder="手机号" class="form-control" id="phone" autocomplete="off">
-                        <template v-if="phoneTag === '1'">
-                            <i class="fa fa-check-circle green pdr" aria-hidden="true"></i>
-                        </template>
-                        <template v-else-if="phoneTag === '2'">
-                            <i class="fa fa-exclamation-circle red pdr" aria-hidden="true"></i>
-                        </template>
-                        <div class="error-msg">{{msgPhone}}</div>
-                    </div>
-                    <div class="form-group">
-                        <label class="sr-only" for="email">邮箱</label><strong><i style="opacity: 0">*</i></strong>
-                        <input type="email" v-on:keyup.enter="register" v-model.trim="email" @blur="checkEmail()" name="email" placeholder="邮箱" class="form-control" id="email" autocomplete="off" required>
-                        <template v-if="emailTag === '1'">
-                            <i class="fa fa-check-circle green pdr" aria-hidden="true"></i>
-                        </template>
-                        <template v-else-if="emailTag === '2'">
-                            <i class="fa fa-exclamation-circle red pdr" aria-hidden="true"></i>
-                        </template>
-                        <div class="error-msg">{{msgEmail}}</div>
-                    </div>
-                    <div class="form-group">
-                        <label class="sr-only" for="password">密码</label><strong><i>*</i></strong>
-                        <input type="password" v-on:keyup.enter="register" v-model.trim="password" @blur="checkPassword()" name="password" placeholder="密码" class="form-control" id="password" autocomplete="off">
-                        <template v-if="passwordTag === '1'">
-                            <i class="fa fa-check-circle green pdr" aria-hidden="true"></i>
-                        </template>
-                        <template v-else-if="passwordTag === '2'">
-                            <i class="fa fa-exclamation-circle red pdr" aria-hidden="true"></i>
-                        </template>
-                        <div class="error-msg">{{msgPassword}}</div>
-                    </div>
-                    <div class="form-group">
-                        <label class="sr-only" for="confirm-password">确认密码</label><strong><i>*</i></strong>
-                        <input type="password" v-on:keyup.enter="register" v-model.trim="confirmPassword" @blur="checkConfirmPassword()" name="confirm-password" placeholder="确认密码" class="form-control" id="confirm-password" autocomplete="off">
-                        <template v-if="confirmPasswordTag === '1'">
-                            <i class="fa fa-check-circle green pdr" aria-hidden="true"></i>
-                        </template>
-                        <template v-else-if="confirmPasswordTag === '2'">
-                            <i class="fa fa-exclamation-circle red pdr" aria-hidden="true"></i>
-                        </template>
-                        <div class="error-msg">{{msgConfirmPassword}}</div>
-                    </div>
-                    <div class="hasAccount">
-                        <a href="/login" style="margin-right: 25px;">已有账号？登录</a>
-                    </div>
-                    <a class="btn main-background" v-on:click="register" >注册</a>
-                </form>
-            </div>
+            </template>
         </div>
-    </div>
-    <div class="row">
-        <div class="social-login">
-            <div class="h-content">
-                <p class="h-title">其他方式登录</p>
-            </div>
 
-            <div class="login-else">
-                <i class="fa fa-github"></i>
-                <i class="fa fa-qq"></i>
-                <i class="fa fa-weixin"></i>
-                <i class="fa fa-weibo"></i>
-            </div>
-        </div>
     </div>
 </div>
-<footer th:include="common/footer :: copyright"></footer>
-
+<!--<footer th:include="common/footer :: copyright"></footer>-->
 
 
 </body>

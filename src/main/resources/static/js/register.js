@@ -1,5 +1,6 @@
 'use strict';
 
+var patternUserName = /^(?!\d+$|.*?[`~!@#$%^&*()_\-+=<>?:"{}|,.\/;'\\[\]·！￥…（）—《》？：“”【】、；‘’，。]+).+$/;
 let app = new Vue({
         el: "#app",
         data: {
@@ -21,11 +22,24 @@ let app = new Vue({
         },
         methods: {
             checkName: function () {
+
+
                 if(this.username === ""){
-                    app.msgName = "用户名不能为空";
-                    app.nameTag = '2';
+                    this.msgName = "用户名不能为空";
+                    this.nameTag = '2';
                     return false;
                 }
+                if (this.username.length<4 || this.username.length>32){
+                    this.msgName = "用户名长度必须大于4个字符且小于32字符";
+                    this.nameTag = '2';
+                    return false;
+                }
+                if(!patternUserName.test(this.username)){
+                    this.msgName = "用户名不能为纯数字或带有特殊字符";
+                    this.nameTag = '2';
+                    return false;
+                }
+
                 $.post('/u/checkUsername', {
                     value: app.username
                 }, function (res) {

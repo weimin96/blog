@@ -28,6 +28,8 @@ import javax.servlet.http.HttpServletRequest;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * 服务实现类
@@ -144,13 +146,16 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
         if (StringUtils.isBlank(username)) {
             throw new WiblogException("用户名不能为空");
         }
-        //不能带特殊字符
-        if (!username.matches(Constant.NON_SPECIAL_CHAR)) {
-            throw new WiblogException(ResultConstant.UserCenter.USERNAME_ERROR_MSG);
-        }
+
         // 用户名长度必须大于4个字符且小于32字符
         if (username.length() < 4 || username.length() > 32) {
             throw new WiblogException(ResultConstant.UserCenter.USERNAME_LEN_ERROR_MSG);
+        }
+        Pattern p = Pattern.compile(Constant.SPECIAL_CHAR);
+        Matcher m = p.matcher(username);
+        //不能带特殊字符或纯数字
+        if (!username.matches(Constant.PURE_NUM_CHAR) || m.find()) {
+            throw new WiblogException(ResultConstant.UserCenter.USERNAME_ERROR_MSG);
         }
         //用户名已存在 只校验本地帐户
         int checkUsername = userAuthMapper.checkUnique("username", username);

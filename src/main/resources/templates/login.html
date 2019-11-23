@@ -19,6 +19,7 @@
             <div class="login-form">
                 <el-input class="first-input"
                         placeholder="用户名|手机号|邮箱"
+                          v-on:keyup.enter="login"
                         v-model.trim="account" autocomplete="off">
                     <i slot="prefix" class="el-input__icon el-icon-user"></i>
                 </el-input>

@@ -23,7 +23,7 @@ public class ResultConstant {
         String MATCH_ERROR_MSG = "用户名或密码错误";
         int MATCH_ERROR_CODE = 30002;
 
-        String USERNAME_ERROR_MSG = "用户名不能带有特殊符号";
+        String USERNAME_ERROR_MSG = "用户名不能为纯数字或带有特殊字符";
         int USERNAME_ERROR_CODE = 30011;
 
         String USERNAME_LEN_ERROR_MSG = "用户名长度必须大于4个字符且小于32字符";

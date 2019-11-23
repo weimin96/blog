@@ -17,6 +17,14 @@ let app = new Vue({
             }
         },
         login: function (event) {
+            if (this.password === "" || this.account === ""){
+                this.msgError = "用户名和密码不能为空";
+                return;
+            }
+            if(this.password.length<6){
+                this.msgError="密码长度必须大于6位";
+                return;
+            }
             $.post('/u/login', {
                 account: app.account,
                 password: app.password
