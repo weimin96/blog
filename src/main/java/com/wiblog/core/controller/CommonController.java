@@ -3,6 +3,7 @@ package com.wiblog.core.controller;
 import com.wiblog.core.common.Constant;
 import com.wiblog.core.utils.VerifyCodeUtils;
 
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -19,6 +20,7 @@ import javax.servlet.http.HttpSession;
  * @date 2019/11/13
  */
 @RestController
+@Slf4j
 public class CommonController {
 
     /**
@@ -46,7 +48,8 @@ public class CommonController {
     public boolean checkVerify(String code, HttpSession session) {
         if (StringUtils.isNotBlank(code)) {
             String check = (String) session.getAttribute(Constant.VERIFY_CODE_SESSION_KEY);
-            return code.equals(check);
+            log.debug(check);
+            return code.equalsIgnoreCase(check);
         }
         return false;
     }

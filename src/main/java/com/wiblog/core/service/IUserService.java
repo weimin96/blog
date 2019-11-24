@@ -28,7 +28,7 @@ public interface IUserService extends IService<User> {
      * @param email email
      * @param password password
      */
-    void register(String username,String phone,String email,String password,String[] address);
+    void register(String username,String phone,String email,String emailCode,String password,String[] address);
 
     /**
      * 校验用户名

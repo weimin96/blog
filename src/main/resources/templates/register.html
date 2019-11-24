@@ -17,11 +17,11 @@
                 <span class="login-title">欢迎注册<span>wiblog</span></span>
             </div>
             <template>
-                <div class="login-form">
+                <div class="register-form">
                     <div class="start"><strong>*</strong></div>
 
                     <el-input class="register-input "
-                              placeholder="用户名"
+                              placeholder="请输入用户名"
                               @blur="checkName()"
                               v-on:keyup.enter="register"
                               v-model.trim="username" autocomplete="off">
@@ -36,26 +36,48 @@
                     <div class="error-msg">{{msgName}}</div>
 
                     <div class="start"><strong>&nbsp;</strong></div>
-                    <el-input class="register-input" placeholder="手机号"
+                    <el-input class="register-input" placeholder="请输入手机号（选填）"
                               @blur="checkPhone()"
+                              @focus="showPhoneCode = true"
                               v-on:keyup.enter="register"
                               v-model.trim="phone" autocomplete="off">
                         <i slot="prefix" class="el-input__icon el-icon-mobile-phone"></i>
                     </el-input>
-                    <template v-if="phoneTag === '1'">
+                    <template v-if="phoneCheck === '1'">
                         <i class="fa fa-check-circle green pdr" aria-hidden="true"></i>
                     </template>
-                    <template v-else-if="phoneTag === '2'">
+                    <template v-else-if="phoneCheck === '2'">
                         <i class="fa fa-exclamation-circle red pdr" aria-hidden="true"></i>
                     </template>
                     <div class="error-msg">{{msgPhone}}</div>
 
+                    <template v-if="showPhoneCode === true">
+                        <el-input class="register-input code-input" placeholder="请输入图形验证码"
+                                  @blur="checkImgCode()"
+                                  v-on:keyup.enter="register"
+                                  v-model.trim="imgCode" autocomplete="off">
+                            <i slot="prefix" class="el-input__icon el-icon-lock"></i>
+                        </el-input>
+                        <img id="imgCode" class="img-code" src="/getVerify" alt="" @click="getVerify()">
+                        <div class="error-msg">{{msgImgCode}}</div>
+                        <el-input class="register-input code-input" placeholder="请输入短信验证码"
+                                  @blur="checkPhoneCode()"
+                                  v-on:keyup.enter="register"
+                                  v-model.trim="phoneCode" autocomplete="off">
+                            <i slot="prefix" class="el-input__icon el-icon-lock"></i>
+                        </el-input>
+                        <el-button class="code-button" type="primary" v-on:click="getPhoneCode" :disabled="phoneButtonCheck() ">{{phoneCodeBtnMsg}}</el-button>
+                        <div class="error-msg">{{msgPhoneCode}}</div>
+                    </template>
+
+
                     <div class="start"><strong>&nbsp;</strong></div>
-                    <el-input class="register-input" placeholder="邮箱"
+                    <el-input class="register-input" placeholder="请输入邮箱（选填）"
                               @blur="checkEmail()"
+                              @focus="showEmailCode = true"
                               v-on:keyup.enter="register"
                               v-model.trim="email" autocomplete="off">
-                        <i slot="prefix" class="el-input__icon el-icon-user"></i>
+                        <i slot="prefix" class="el-input__icon fa fa-envelope-o"></i>
                     </el-input>
                     <template v-if="emailTag === '1'">
                         <i class="fa fa-check-circle green pdr" aria-hidden="true"></i>
@@ -65,8 +87,22 @@
                     </template>
                     <div class="error-msg">{{msgEmail}}</div>
 
+                    <div class="start"><strong>&nbsp;</strong></div>
+
+                    <template v-if="showEmailCode === true">
+                        <el-input class="register-input code-input" placeholder="请输入邮箱验证码"
+                                  @blur="checkEmailCode()"
+                                  v-on:keyup.enter="register"
+                                  v-model.trim="emailCode" autocomplete="off">
+                            <i slot="prefix" class="el-input__icon el-icon-lock"></i>
+                        </el-input>
+                        <el-button class="code-button" type="primary" @click="getEmailCode()" :disabled="emailButtonCheck()">{{emailCodeBtnMsg}}</el-button>
+                        <div class="error-msg">{{msgEmailCode}}</div>
+                    </template>
+
+
                     <div class="start"><strong>*</strong></div>
-                    <el-input class="register-input" placeholder="密码"
+                    <el-input class="register-input" placeholder="请输入密码"
                               v-model.trim="password"
                               v-on:keyup.enter="register"
                               show-password="true"
@@ -83,7 +119,7 @@
 
                     <div class="start"><strong>*</strong></div>
                     <el-input
-                            class="register-input" placeholder="确认密码"
+                            class="register-input" placeholder="请再次输入密码"
                             @blur="checkConfirmPassword()"
                             v-model.trim="confirmPassword"
                             v-on:keyup.enter="register"

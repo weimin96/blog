@@ -57,7 +57,7 @@ body{
     background: #f0f0f0;
 }
 
-.login-form{
+.login-form,.register-form{
     box-sizing: border-box;
     margin: 0;
     list-style: none;
@@ -73,7 +73,7 @@ body{
     margin-bottom: 25px;
 }
 
-.login-form input{
+.login-form input,.register-form input{
     background: #ebeef5;
 }
 
@@ -137,9 +137,9 @@ body{
     color: #a94442;
 }
 
-.login-form .start{
+.register-form .start{
     float: left;
-    width: 2px;
+    width: 0;
     margin-top: 10px;
     color: #ad1313;
 }
@@ -158,6 +158,20 @@ body{
 
 .register-account{
     padding-right: 25px;
+}
+
+.code-input{
+    width: 56%;
+}
+
+.code-button{
+    width: 112px;
+}
+
+.img-code{
+    width: 112px;
+    height: 38px;
+    vertical-align: middle;
 }
 
 

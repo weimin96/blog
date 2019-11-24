@@ -15,6 +15,7 @@ let app = new Vue({
             if (user !== null){
                 window.location.href = '/';
             }
+            this.account=getQueryVariable("name");
         },
         login: function (event) {
             if (this.password === "" || this.account === ""){

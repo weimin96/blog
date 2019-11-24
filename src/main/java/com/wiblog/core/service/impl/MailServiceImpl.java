@@ -57,6 +57,9 @@ public class MailServiceImpl {
 
 
     public boolean checkEmail(String email,String checkCode){
+        if (StringUtils.isBlank(email) || StringUtils.isBlank(checkCode)){
+            return false;
+        }
         String code = (String) redisTemplate.opsForValue().get(Constant.CHECK_EMAIL_KEY+email);
         return code != null && code.equals(checkCode);
     }

@@ -47,6 +47,9 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
     private UserAuthMapper userAuthMapper;
 
     @Autowired
+    private MailServiceImpl mailService;
+
+    @Autowired
     private RedisTemplate<String, Object> redisTemplate;
 
     @Override
@@ -80,7 +83,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public void register(String username, String phone, String email, String password,String[] address) {
+    public void register(String username, String phone, String email, String mailCode,String password,String[] address) {
 
         // 校验用户名
         checkUsername(username);
@@ -118,8 +121,11 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
             userAuthMapper.insert(userAuth);
         }
         // 校验邮箱
-        if (!StringUtils.isBlank(email)) {
+        if (!StringUtils.isBlank(email) ){
             checkEmail(email);
+            if (!mailService.checkEmail(email,mailCode)){
+                throw new WiblogException("邮箱验证码错误");
+            }
             // 校验成功
             UserAuth userAuth = new UserAuth();
             userAuth.setUid(uid);

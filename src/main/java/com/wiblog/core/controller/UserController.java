@@ -100,11 +100,11 @@ public class UserController extends BaseController {
     }
 
     @PostMapping("/register")
-    public ServerResponse register(HttpServletRequest request, String username, String phone, String email, String password) {
+    public ServerResponse register(HttpServletRequest request, String username, String phone, String email, String password,String emailCode) {
         try {
             String ip = IPUtil.getIpAddr(request);
             String[] address = IPUtil.getIpInfo(ip);
-            userService.register(username, phone, email, password, address);
+            userService.register(username, phone, email, emailCode,password, address);
         } catch (Exception e) {
             String msg = "注册失败";
             if (e instanceof WiblogException) {
@@ -135,7 +135,6 @@ public class UserController extends BaseController {
         try {
             userService.checkUsername(value);
         } catch (WiblogException e) {
-            log.warn(e.getMessage(), e);
             return ServerResponse.error(e.getMessage(), 30001);
         }
         return ServerResponse.success("用户名校验成功");
@@ -146,7 +145,6 @@ public class UserController extends BaseController {
         try {
             userService.checkPhone(value);
         } catch (WiblogException e) {
-            log.warn(e.getMessage(), e);
             return ServerResponse.error(e.getMessage(), 30001);
         }
         return ServerResponse.success("手机号校验成功");
@@ -157,7 +155,6 @@ public class UserController extends BaseController {
         try {
             userService.checkEmail(value);
         } catch (WiblogException e) {
-            log.warn(e.getMessage(), e);
             return ServerResponse.error(e.getMessage(), 30001);
         }
         return ServerResponse.success("手机号校验成功");
