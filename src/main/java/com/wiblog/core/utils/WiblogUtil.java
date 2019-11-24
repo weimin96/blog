@@ -42,6 +42,7 @@ public class WiblogUtil {
         return content;
     }
 
+
     public static void setCookie(HttpServletResponse response, String key,String value,int expire) {
         Cookie cookie = new Cookie(key, value);
         cookie.setDomain("");

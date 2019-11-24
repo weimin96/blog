@@ -9,11 +9,9 @@ import com.wiblog.core.entity.User;
 import com.wiblog.core.mapper.ArticleMapper;
 import com.wiblog.core.service.IArticleService;
 import com.wiblog.core.service.IUserRoleService;
-import com.wiblog.core.utils.WiblogUtil;
 import com.wiblog.core.vo.ArticleDetailVo;
 import com.wiblog.core.vo.ArticlePageVo;
 import com.wiblog.core.vo.ArticleVo;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -74,7 +72,7 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
         if (detailVo == null){
             return ServerResponse.error("获取文章失败",20001);
         }
-        detailVo.setContent(WiblogUtil.mdToHtml(detailVo.getContent()));
+//        detailVo.setContent(WiblogUtil.mdToHtml(detailVo.getContent()));
         if (detailVo.getPrivately() && !userRoleService.checkAuthorize(user,2).isSuccess()){
             return ServerResponse.error("获取文章失败",20001);
         }

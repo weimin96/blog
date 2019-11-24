@@ -1,6 +1,12 @@
 (function () {
     'use strict';
 
+    $('body').scrollspy({ target: '#navbar-example' });
+    $('#navbar-example').on('activate.bs.scrollspy', function () {
+        $("#navbar-example").removeClass("affix-top");
+        $("#navbar-example").addClass("affix");
+    });
+
     let that;
 
     let app = new Vue({
@@ -50,6 +56,8 @@
             showReplyDialogIndex: -1,
             // 父评论id
             parentId: 0,
+            // 导航
+            navList:[]
 
         },
         beforeCreate: function () {
@@ -59,6 +67,28 @@
             this.initData();
         },
         methods: {
+            // 生成目录
+            getNavTree(content){
+                let tempArr = [];
+                content.replace(/<h(2|3) id="(.*)?">(.*)?</g, function(match, m1, m2,m3) {
+                    tempArr.push({
+                        level:m1,
+                        id:m2,
+                        title:m3,
+                        children: []
+                    });
+                });
+                let navIndex = -1;
+                tempArr.forEach( item => {
+                    if (item.level === "2"){
+                        that.navList.push(item);
+                        navIndex++;
+                    }else{
+                        that.navList[navIndex].children.push(item)
+                    }
+                });
+                return this.navList;
+            },
             initData: function () {
                 new Promise((resolve, reject) => {
                     $.get("/post/getArticle", {url: window.location.pathname}, function (res) {
@@ -66,6 +96,10 @@
                             that.article = res.data;
                             that.author = res.data.author;
                             that.tagList = res.data.tags.slice().split(/[\n\s+,，]/g);
+                            let htmlContent = marked(that.article.content);
+                            document.getElementById('content').innerHTML =htmlContent;
+                            that.navList = that.getNavTree(htmlContent);
+                            console.log(that.navList);
                             resolve(that.article.comment);
                         }
                     });

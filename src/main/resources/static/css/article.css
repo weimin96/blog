@@ -298,3 +298,42 @@ img {
     box-shadow: 0 1px 12px 0 rgba(0,0,0,.2);
 }
 
+/*导航*/
+.affix{
+    position: fixed;
+    top:20px;
+}
+
+.affix-top{
+    position: relative;
+}
+
+.nav>li{
+    position: relative;
+    display: block;
+}
+
+.nav>.active>a{
+    padding-left: 18px;
+    font-weight: 700;
+    color: #563d7c;
+    background-color: transparent;
+    border-left: 2px solid #563d7c;
+}
+
+.nav>li>a{
+    display: block;
+    padding: 4px 20px;
+    font-size: 13px;
+    font-weight: 500;
+    color: #767676;
+}
+
+.nav .nav{
+    display: none;
+    padding-bottom: 10px;
+}
+
+.nav>.active>ul{
+    display: block;
+}
