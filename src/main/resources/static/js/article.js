@@ -2,10 +2,13 @@
     'use strict';
 
     $('body').scrollspy({ target: '#navbar-example' });
-    $('#navbar-example').on('activate.bs.scrollspy', function () {
-        $("#navbar-example").removeClass("affix-top");
-        $("#navbar-example").addClass("affix");
+    $('#navbar-card').affix({
+        offset: {
+            top: 160,
+            bottom: ($('footer').outerHeight(true) ) + 40
+        }
     });
+
 
     let that;
 

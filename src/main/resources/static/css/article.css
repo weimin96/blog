@@ -44,6 +44,11 @@
     margin-right: 5px;
 }
 
+.author{
+    color: #576b95;
+    margin-right: 10px;
+}
+
 /*标签*/
 .tags {
     color: #368bd6;
@@ -302,11 +307,12 @@ img {
 .affix{
     position: fixed;
     top:20px;
+    width: 15.66667%;
 }
 
-.affix-top{
+/*.affix-top{
     position: relative;
-}
+}*/
 
 .nav>li{
     position: relative;

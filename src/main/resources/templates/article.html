@@ -35,17 +35,21 @@
                                 <div class="article-header">
                                     <h2 class="title text-left">{{article.title}}</h2>
                                     <div class="article-data text-left">
-                                    <span class="fa fa-tag tags" v-for="item in tagList">
-                                        <span class="tag-text">{{item}}</span>
-                                    </span>
+                                        <span class="author">{{author}} </span><span>发表于</span>
+
                                         <span>
-                                        <i class="fa fa-calendar"> {{article.createTime | articleDateFormat}}</i>
-                                        <a href="#comments"><i
-                                                class="fa fa-commenting-o">评论 {{article.commentsCounts}}</i></a>
-                                        <i class="fa fa-eye">阅读 {{article.hits}}</i>
-                                        <i @click="like('article')" class="fa fa-thumbs-o-up">喜欢 {{article.likes}}</i>
-                                    </span>
+                                            <i class="fa fa-calendar"> {{article.createTime | articleDateFormat}}</i>
+                                        </span>
+
+                                            <a href="#comments"><i
+                                                    class="fa fa-commenting-o">评论 {{article.commentsCounts}}</i></a>
+                                            <i class="fa fa-eye">阅读 {{article.hits}}</i>
+                                            <i @click="like('article')" class="fa fa-thumbs-o-up">喜欢 {{article.likes}}</i>
                                     </div>
+
+                                    <span class="fa fa-tag tags" v-for="item in tagList" style="margin-top: 17px">
+                                            <span class="tag-text">{{item}}</span>
+                                        </span>
                                 </div>
 
                                 <br>
@@ -238,18 +242,22 @@
                         </div>
                     </el-col>
                     <el-col :span="4">
-                        <div class="card affix-top" id="navbar-example">
-                            <ul class="nav" role="tablist">
-                                <li v-for="(nav, index) in navList" :key="index">
-                                    <a :href="'#'+nav.id">{{nav.title}}</a>
-                                    <ul class="nav" v-if="nav.children.length>0">
-                                        <li v-for="subNav in nav.children">
-                                            <a :href="'#'+subNav.id">{{subNav.title}}</a>
-                                        </li>
-                                    </ul>
+                        <div class="card" id="navbar-card" data-spy="affix" data-offset-top="160">
+                            <div style="font-weight: bold;">目录</div>
+                            <nav role="tablist" id="navbar-example">
+                                <ul class="nav">
+                                    <li v-for="(nav, index) in navList" :key="index">
+                                        <a :href="'#'+nav.id">{{nav.title}}</a>
+                                        <ul class="nav" v-if="nav.children.length>0">
+                                            <li v-for="subNav in nav.children">
+                                                <a :href="'#'+subNav.id">{{subNav.title}}</a>
+                                            </li>
+                                        </ul>
 
-                                </li>
-                            </ul>
+                                    </li>
+                                </ul>
+                            </nav>
+
                         </div>
                     </el-col>
                 </el-row>
