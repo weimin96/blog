@@ -17,12 +17,39 @@
         <div id="app">
             <el-row :gutter="20">
                 <el-col :span="12" :offset="6">
-                    <template v-for="item in contentList">
-                        <div>{{item.title}}</div>
-                        <div >
-                            <p v-html="item.content"></p>
-                        </div>
-                    </template>
+
+                    <div style="margin: 50px 0;">
+                        <el-input @keyup.enter.native="search()" placeholder="搜索文章" v-model="searchVal">
+                            <el-button slot="append" icon="el-icon-search" @click="search()"></el-button>
+                        </el-input>
+                    </div>
+
+                    <div class="tools">
+                        <span>时间不限</span>
+                        <span>按时间倒序</span>
+                        <span>按时间正序</span>
+
+                    </div>
+                    <div class="main">
+                        <template v-for="item in contentList" >
+                            <div class="card">
+                                <div class="title"><a :href="item.url">{{item.title}}</a></div>
+                                <div class="abstract">
+                                    <span>{{item.createTime | articleDateFormat}} - </span>
+                                    <span v-html="item.content"></span>
+
+                                    <div class="category">
+                                        <el-tag class="category-tag">{{category[item.categoryId]}}</el-tag>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </template>
+                        <template v-if="contentList.length===0">
+                            无
+                        </template>
+                    </div>
+
                 </el-col>
             </el-row>
         </div>

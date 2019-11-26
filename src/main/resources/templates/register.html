@@ -23,7 +23,7 @@
                     <el-input class="register-input "
                               placeholder="请输入用户名"
                               @blur="checkName()"
-                              v-on:keyup.enter="register"
+                              @keyup.enter.native="register"
                               v-model.trim="username" autocomplete="off">
                         <i slot="prefix" class="el-input__icon el-icon-user"></i>
                     </el-input>
@@ -39,7 +39,7 @@
                     <el-input class="register-input" placeholder="请输入手机号（选填）"
                               @blur="checkPhone()"
                               @focus="showPhoneCode = true"
-                              v-on:keyup.enter="register"
+                              @keyup.enter.native="register"
                               v-model.trim="phone" autocomplete="off">
                         <i slot="prefix" class="el-input__icon el-icon-mobile-phone"></i>
                     </el-input>
@@ -54,7 +54,7 @@
                     <template v-if="showPhoneCode === true">
                         <el-input class="register-input code-input" placeholder="请输入图形验证码"
                                   @blur="checkImgCode()"
-                                  v-on:keyup.enter="register"
+                                  @keyup.enter.native="register"
                                   v-model.trim="imgCode" autocomplete="off">
                             <i slot="prefix" class="el-input__icon el-icon-lock"></i>
                         </el-input>
@@ -62,7 +62,7 @@
                         <div class="error-msg">{{msgImgCode}}</div>
                         <el-input class="register-input code-input" placeholder="请输入短信验证码"
                                   @blur="checkPhoneCode()"
-                                  v-on:keyup.enter="register"
+                                  @keyup.enter.native="register"
                                   v-model.trim="phoneCode" autocomplete="off">
                             <i slot="prefix" class="el-input__icon el-icon-lock"></i>
                         </el-input>
@@ -75,7 +75,7 @@
                     <el-input class="register-input" placeholder="请输入邮箱（选填）"
                               @blur="checkEmail()"
                               @focus="showEmailCode = true"
-                              v-on:keyup.enter="register"
+                              @keyup.enter.native="register"
                               v-model.trim="email" autocomplete="off">
                         <i slot="prefix" class="el-input__icon fa fa-envelope-o"></i>
                     </el-input>
@@ -92,7 +92,7 @@
                     <template v-if="showEmailCode === true">
                         <el-input class="register-input code-input" placeholder="请输入邮箱验证码"
                                   @blur="checkEmailCode()"
-                                  v-on:keyup.enter="register"
+                                  @keyup.enter.native="register"
                                   v-model.trim="emailCode" autocomplete="off">
                             <i slot="prefix" class="el-input__icon el-icon-lock"></i>
                         </el-input>
@@ -104,7 +104,7 @@
                     <div class="start"><strong>*</strong></div>
                     <el-input class="register-input" placeholder="请输入密码"
                               v-model.trim="password"
-                              v-on:keyup.enter="register"
+                              @keyup.enter.native="register"
                               show-password="true"
                               autocomplete="off">
                         <i slot="prefix" class="el-input__icon el-icon-lock"></i>
@@ -122,7 +122,7 @@
                             class="register-input" placeholder="请再次输入密码"
                             @blur="checkConfirmPassword()"
                             v-model.trim="confirmPassword"
-                            v-on:keyup.enter="register"
+                            @keyup.enter.native="register"
                             show-password="true"
                             autocomplete="off">
                         <i slot="prefix" class="el-input__icon el-icon-lock"></i>

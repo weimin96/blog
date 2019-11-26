@@ -19,14 +19,14 @@
             <div class="login-form">
                 <el-input class="first-input"
                         placeholder="用户名|手机号|邮箱"
-                          v-on:keyup.enter="login"
+                          @keyup.enter.native="login"
                         v-model.trim="account" autocomplete="off">
                     <i slot="prefix" class="el-input__icon el-icon-user"></i>
                 </el-input>
                 <el-input
                         placeholder="密码"
                         v-model.trim="password"
-                        v-on:keyup.enter="login"
+                        @keyup.enter.native="login"
                         autocomplete="off">
                     <i slot="prefix" class="el-input__icon el-icon-lock"></i>
                 </el-input>

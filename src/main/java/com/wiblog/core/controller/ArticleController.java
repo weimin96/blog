@@ -204,9 +204,9 @@ public class ArticleController extends BaseController {
         keyword = keyword.trim();
         Pageable pageable = PageRequest.of(pageNum,pageSize);
         //高亮拼接的前缀
-        String preTags="<font color=\"red\">";
+        String preTags="<p>";
         //高亮拼接的后缀
-        String postTags="</font>";
+        String postTags="</p>";
         //查询具体的字段
         String[] fieldNames= {"title","content"};
         //创建queryBuilder查询条件
@@ -232,6 +232,8 @@ public class ArticleController extends BaseController {
                             EsArticle esArticle = new EsArticle();
                             esArticle.setId(hit.getId());
                             esArticle.setUrl((String) hit.getSourceAsMap().get("url"));
+                            esArticle.setCreateTime(new Date((Long) hit.getSourceAsMap().get("createTime")));
+                            esArticle.setCategoryId(Long.parseLong(hit.getSourceAsMap().get("categoryId") +""));
                             // 获取第一个字段高亮内容
                             HighlightField highlightField1 = hit.getHighlightFields().get(fieldNames[0]);
                             String value1;
@@ -253,13 +255,14 @@ public class ArticleController extends BaseController {
                             Matcher mt = PATTERN_HIGH_LIGHT.matcher(value2);
                             if (mt.find()){
                                 int mtStart = mt.start();
-                                int start = Math.max(mtStart - 20, 0);
-                                int end = Math.min(mtStart+200,value2.length()-1);
+                                int start = Math.max(mtStart - 100, 0);
+                                int end = Math.min(mtStart+300,value2.length()-1);
                                 value2 = value2.substring(start,end);
                             }else {
-                                value2 = value2.substring(0,Math.min(200,value2.length()-1));
+                                value2 = value2.substring(0,Math.min(300,value2.length()-1));
                             }
                             esArticle.setContent(value2);
+
                             list.add(esArticle);
                         }
                     }
