@@ -17,8 +17,11 @@
 
         <!--body-->
         <div id="app">
+
+
             <el-col class="main">
                 <el-row :gutter="20">
+
                     <el-col :span="14" :offset="3">
 
                         <div class="card" id="article">
@@ -41,15 +44,15 @@
                                             <i class="fa fa-calendar"> {{article.createTime | articleDateFormat}}</i>
                                         </span>
 
-                                            <a href="#comments"><i
-                                                    class="fa fa-commenting-o">评论 {{article.commentsCounts}}</i></a>
-                                            <i class="fa fa-eye">阅读 {{article.hits}}</i>
-                                            <i @click="like('article')" class="fa fa-thumbs-o-up">喜欢 {{article.likes}}</i>
+                                        <i class="fa fa-eye">阅读 {{article.hits}}</i>
+
                                     </div>
 
-                                    <span class="fa fa-tag tags" v-for="item in tagList" style="margin-top: 17px">
+                                    <el-tag class="article-tags">
+                                        <span class="fa fa-tag tags" v-for="item in tagList">
                                             <span class="tag-text">{{item}}</span>
                                         </span>
+                                    </el-tag>
                                 </div>
 
                                 <br>
@@ -241,6 +244,7 @@
 
                         </div>
                     </el-col>
+                    <!--目录-->
                     <el-col :span="4">
                         <div class="card" id="navbar-card" data-spy="affix" data-offset-top="160">
                             <div style="font-weight: bold;">目录</div>
@@ -260,13 +264,31 @@
 
                         </div>
                     </el-col>
+
+                    <!--左侧浮动-->
+                    <div class="flow-btn-group">
+                        <div class="flow-btn">
+                            <el-badge :value="article.commentsCounts">
+                                <a href="#comments" style="color: #6c757d"><i class="el-icon-chat-line-square"></i></a>
+                            </el-badge>
+                        </div>
+                        <div class="flow-btn" :class="{isLike:isLike}">
+                            <el-badge :value="article.likes">
+                                <i class="fa fa-thumbs-o-up" @click="like('article')"></i>
+                            </el-badge>
+                        </div>
+                        <div class="flow-btn flow-btn-min">
+                            <i class="el-icon-star-off"></i>
+                        </div>
+                        <div class="flow-btn flow-btn-min">
+                            <i class="fa fa-share-alt"></i>
+                        </div>
+                    </div>
+
                 </el-row>
+            </el-col>
         </div>
 
-
-        <div class="flow-btn">
-            <i class="fa fa-commenting-o"></i>
-        </div>
 
         <el-dialog title="查看对话" :visible.sync="moreCommentVisible" width="50%" height="50%">
             <div id="dialog" class="comment-body" style="height: 60vh;overflow-y: auto">

@@ -60,7 +60,9 @@
             // 父评论id
             parentId: 0,
             // 导航
-            navList:[]
+            navList:[],
+            // 点赞
+            isLike:"0"
 
         },
         beforeCreate: function () {
@@ -102,7 +104,8 @@
                             let htmlContent = marked(that.article.content);
                             document.getElementById('content').innerHTML =htmlContent;
                             that.navList = that.getNavTree(htmlContent);
-                            console.log(that.navList);
+                            // 点赞
+                            this.isLike = localStorage.getItem("article_"+that.article.id);
                             resolve(that.article.comment);
                         }
                     });
@@ -122,6 +125,8 @@
                         this.user_avatar = user.avatarImg;
                     }
                 }
+
+
 
 
             },
@@ -242,11 +247,8 @@
                 window.location.href = "/login";
             },
             like(type,commentId){
-
-
                 if (type === "article"){
-                    let bool = localStorage.getItem("article_"+that.article.id);
-                    if (bool === "1"){
+                    if (this.isLike === "1"){
                         this.$message.error("您的爱心太过泛滥啦...");
                         return;
                     }
