@@ -1,11 +1,11 @@
 (function () {
     'use strict';
 
-    $('body').scrollspy({ target: '#navbar-example' });
+    $('body').scrollspy({target: '#navbar-example'});
     $('#navbar-card').affix({
         offset: {
             top: 160,
-            bottom: ($('footer').outerHeight(true) ) + 40
+            bottom: ($('footer').outerHeight(true)) + 40
         }
     });
 
@@ -18,7 +18,7 @@
             nologin: true,
             author: '',
             tagList: '',
-            categoryList:[],
+            categoryList: [],
             article: {
                 title: '',
                 content: '',
@@ -27,7 +27,7 @@
                 commentsCounts: 0,
                 hits: 0,
                 likes: 0,
-                categoryId:0,
+                categoryId: 0,
                 reward: false,
                 comment: false
             },
@@ -60,9 +60,9 @@
             // 父评论id
             parentId: 0,
             // 导航
-            navList:[],
+            navList: [],
             // 点赞
-            isLike:"0"
+            isLike: "0"
 
         },
         beforeCreate: function () {
@@ -73,22 +73,22 @@
         },
         methods: {
             // 生成目录
-            getNavTree(content){
+            getNavTree(content) {
                 let tempArr = [];
-                content.replace(/<h(2|3) id="(.*)?">(.*)?</g, function(match, m1, m2,m3) {
+                content.replace(/<h(2|3) id="(.*)?">(.*)?</g, function (match, m1, m2, m3) {
                     tempArr.push({
-                        level:m1,
-                        id:m2,
-                        title:m3,
+                        level: m1,
+                        id: m2,
+                        title: m3,
                         children: []
                     });
                 });
                 let navIndex = -1;
-                tempArr.forEach( item => {
-                    if (item.level === "2"){
+                tempArr.forEach(item => {
+                    if (item.level === "2") {
                         that.navList.push(item);
                         navIndex++;
-                    }else{
+                    } else {
                         that.navList[navIndex].children.push(item)
                     }
                 });
@@ -102,10 +102,12 @@
                             that.author = res.data.author;
                             that.tagList = res.data.tags.slice().split(/[\n\s+,，]/g);
                             let htmlContent = marked(that.article.content);
-                            document.getElementById('content').innerHTML =htmlContent;
+                            document.getElementById('content').innerHTML = htmlContent;
                             that.navList = that.getNavTree(htmlContent);
                             // 点赞
-                            this.isLike = localStorage.getItem("article_"+that.article.id);
+                            that.isLike = localStorage.getItem("article_" + that.article.id);
+                            // 点击
+                            that.hit();
                             resolve(that.article.comment);
                         }
                     });
@@ -127,26 +129,24 @@
                 }
 
 
-
-
             },
             getCategoryList() {
                 $.get("/category/getCategory", function (data) {
                     if (data.code === 10000) {
-                        that.getParentCategory(data.data,that.article.categoryId);
+                        that.getParentCategory(data.data, that.article.categoryId);
                     }
                 });
             },
-            getParentCategory(list,id){
-                if (id === 0){
+            getParentCategory(list, id) {
+                if (id === 0) {
                     return;
                 }
-                $.each(list,function (index,item) {
-                  if (item.id === id){
-                      that.getParentCategory(list,item.parentId);
-                      that.categoryList.push(item);
-                      return null;
-                  }
+                $.each(list, function (index, item) {
+                    if (item.id === id) {
+                        that.getParentCategory(list, item.parentId);
+                        that.categoryList.push(item);
+                        return null;
+                    }
                 });
             },
             // 评论排序
@@ -246,35 +246,25 @@
                 Cookies.set('back', window.location.href, {expires: 1, path: '/'});
                 window.location.href = "/login";
             },
-            like(type,commentId){
-                if (type === "article"){
-                    if (this.isLike === "1"){
-                        this.$message.error("您的爱心太过泛滥啦...");
-                        return;
-                    }
-                    $.post("/record/like",{articleId:this.article.id,type:type},function (res) {
-                        if (res.code === 10000){
-                            that.article.likes=res.data;
-                            localStorage.setItem("article_"+that.article.id,"1");
-                            that.$message({"message":"点赞成功","type":"success"});
-                        }
-                    });
-                } else{
-                    let bool = localStorage.getItem("comment_"+commentId);
-                    if (bool === "1"){
-                        this.$message.error("您的爱心太过泛滥啦...");
-                        return;
-                    }
-                    $.post("/record/like",{articleId:this.article.id,type:type,commentId:commentId},function (res) {
-                        if (res.code === 10000){
-                            that.article.likes=res.data;
-                            localStorage.setItem("comment_"+commentId,"1");
-                            that.$message({"message":"点赞成功","type":"success"});
-                        }
-                    });
+            like() {
+                if (this.isLike === "1") {
+                    this.$message.error("您的爱心太过泛滥啦...");
+                    return;
                 }
-
-
+                $.post("/post/record/like", {articleId: this.article.id}, function (res) {
+                    if (res.code === 10000) {
+                        that.article.likes = res.data;
+                        localStorage.setItem("article_" + that.article.id, "1");
+                        that.$message({"message": "点赞成功", "type": "success"});
+                    }
+                });
+            },
+            hit(){
+                $.post("/post/record/hit", {articleId: this.article.id}, function (res) {
+                    if (res.code === 10000) {
+                        that.article.hits = res.data;
+                    }
+                });
             }
         },
         filters: {
@@ -316,7 +306,7 @@
             articleDateFormat: function (d) {
                 var date = new Date(d);
                 var year = date.getFullYear();
-                var month = change(date.getMonth()+1);
+                var month = change(date.getMonth() + 1);
                 var day = change(date.getDate());
 
                 function change(t) {
@@ -327,7 +317,7 @@
                     }
                 }
 
-                return year+"-"+month + "-" + day;
+                return year + "-" + month + "-" + day;
             }
         }
     });

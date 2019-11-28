@@ -76,4 +76,19 @@ id,uid, author, title, content, tags, category_id, img_url, article_url, article
     <update id="updateState" parameterType="java.lang.Long">
         update article set state = 0 where id = #{id}
     </update>
+
+    <update id="updateHitsBatch" parameterType="java.util.List">
+        update article
+        <trim prefix="set" suffixOverrides=",">
+            <trim prefix="hits = case" suffix="end,">
+                <foreach collection="list" item="item" index="index">
+                    when id = #{item.id} then #{item.hits}
+                </foreach>
+            </trim>
+        </trim>
+        where id in
+        <foreach collection="list" index="index" item="item" separator="," open="(" close=")">
+            #{item.id}
+        </foreach>
+    </update>
 </mapper>

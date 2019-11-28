@@ -62,4 +62,11 @@ public interface ArticleMapper extends BaseMapper<Article> {
      * @return int
      */
     int updateState(Long id);
+
+    /**
+     * 批量更新点击率
+     * @param list list
+     * @return int
+     */
+    int updateHitsBatch(List list);
 }

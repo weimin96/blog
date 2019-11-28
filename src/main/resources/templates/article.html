@@ -125,10 +125,6 @@
                                                 </div>
 
                                                 <div class="item-btn-group">
-                                                    <button @click="like('comment',item.id)"
-                                                            class="btn btn-white btn-xs">
-                                                        <i class="fa fa-thumbs-up"></i> 赞
-                                                    </button>
                                                     <button class="btn btn-white btn-xs"
                                                             @click="showReplyBtn(index,item.id)">
                                                         <i class="fa fa-comments"></i> 回复
@@ -166,11 +162,7 @@
                                                             </div>
 
                                                             <div class="item-btn-group">
-                                                                <button @click="like('comment',it.id)"
-                                                                        class="btn btn-white btn-xs">
-                                                                    <i
-                                                                            class="fa fa-thumbs-up"></i> 赞
-                                                                </button>
+
                                                                 <button class="btn btn-white btn-xs"
                                                                         @click="showReplyBtn(index,it.id)"><i
                                                                         class="fa fa-comments"></i> 回复
@@ -315,9 +307,6 @@
                         </div>
 
                         <div class="item-btn-group">
-                            <button @click="like('comment',commentItem.id)" class="btn btn-white btn-xs">
-                                <i class="fa fa-thumbs-up"></i> 赞
-                            </button>
                             <button class="btn btn-white btn-xs" @click="showReplyDialogBtn(-2,commentItem.id)">
                                 <i class="fa fa-comments"></i> 回复
                             </button>
@@ -381,9 +370,6 @@
                                     </div>
 
                                     <div class="item-btn-group">
-                                        <button @click="like('comment',it.id)" class="btn btn-white btn-xs">
-                                            <i class="fa fa-thumbs-up"></i> 赞
-                                        </button>
                                         <button class="btn btn-white btn-xs"
                                                 @click="showReplyDialogBtn(i,it.id)"><i
                                                 class="fa fa-comments"></i> 回复

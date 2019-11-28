@@ -42,6 +42,11 @@ public class Constant {
     public static final String LIKE_RECORD_KEY = "like_record_";
 
     /**
+     * 点击率redis key
+     */
+    public static final String HIT_RECORD_KEY = "hit_record_";
+
+    /**
      * 邮箱发送次数
      */
     public static final String EMAIL_COUNT = "email_count_";

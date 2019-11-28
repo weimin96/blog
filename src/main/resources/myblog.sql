@@ -23,15 +23,6 @@ CREATE TABLE `user`
   AUTO_INCREMENT = 16
   DEFAULT CHARSET = utf8;
 
-INSERT INTO `myblog`.`user` (`uid`, `username`, `sex`, `avatar_img`, `region`, `city`, `state`,
-                             `create_time`)
-VALUES ('18', 'admin', 'male', 'https://www.wiblog.cn/img/reply-avatar.svg', '广东', '广州', '1',
-        '2019-11-08 15:01:42');
-INSERT INTO `myblog`.`user` (`uid`, `username`, `sex`, `avatar_img`, `region`, `city`, `state`,
-                             `create_time`)
-VALUES ('20', 'aoliao', 'male', 'https://avatars1.githubusercontent.com/u/20983152?v=4', '广东', '深圳',
-        '1', '2019-11-08 16:01:44');
-
 
 
 -- ----------------------------

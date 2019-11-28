@@ -6,16 +6,19 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.wiblog.core.aop.AuthorizeCheck;
 import com.wiblog.core.aop.OpsRecord;
 import com.wiblog.core.aop.RequestRequire;
+import com.wiblog.core.common.Constant;
 import com.wiblog.core.common.ServerResponse;
 import com.wiblog.core.entity.Article;
 import com.wiblog.core.entity.User;
 import com.wiblog.core.es.EsArticle;
 import com.wiblog.core.es.EsArticleRepository;
+import com.wiblog.core.scheduled.RecordScheduled;
 import com.wiblog.core.service.IArticleService;
 import com.wiblog.core.utils.PinYinUtil;
 import com.wiblog.core.utils.WiblogUtil;
 import com.wiblog.core.utils.WordFilterUtil;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 import org.elasticsearch.action.search.SearchResponse;
 import org.elasticsearch.index.query.QueryBuilder;
 import org.elasticsearch.index.query.QueryBuilders;
@@ -33,9 +36,11 @@ import org.springframework.data.elasticsearch.core.aggregation.AggregatedPage;
 import org.springframework.data.elasticsearch.core.aggregation.impl.AggregatedPageImpl;
 import org.springframework.data.elasticsearch.core.query.NativeSearchQueryBuilder;
 import org.springframework.data.elasticsearch.core.query.SearchQuery;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -54,7 +59,10 @@ import java.util.regex.Pattern;
 @RequestMapping("/post")
 public class ArticleController extends BaseController {
 
-    private static final Pattern PATTERN_HIGH_LIGHT= Pattern.compile("<(font)[^>]*>(.*?)<\\/\\1>");
+    @Autowired
+    private RedisTemplate<String, Object> redisTemplate;
+
+    private static final Pattern PATTERN_HIGH_LIGHT= Pattern.compile("<(p)>(.*?)<\\/\\1>");
 
     private IArticleService articleService;
 
@@ -275,5 +283,54 @@ public class ArticleController extends BaseController {
     }
 
 
+    /**
+     * 点赞
+     *
+     * @param articleId 文章id
+     * @return ServerResponse
+     */
+    @PostMapping("/record/like")
+    public ServerResponse like(Long articleId) {
+        Integer count;
+        count = (Integer) redisTemplate.opsForValue().get(Constant.LIKE_RECORD_KEY + articleId);
+        if (count == null) {
+            count = 0;
+        }
+        count++;
+        redisTemplate.opsForValue().set(Constant.LIKE_RECORD_KEY + articleId, count);
 
+        return ServerResponse.success(count);
+    }
+
+    /**
+     * 点击率记录
+     * @param articleId articleId
+     * @return ServerResponse
+     */
+    @PostMapping("/record/hit")
+    public ServerResponse hit(HttpServletRequest request, HttpServletResponse response,Long articleId){
+        String check = WiblogUtil.getCookie(request,"article_"+articleId);
+
+        Integer count;
+        count = (Integer) redisTemplate.opsForHash().get(Constant.HIT_RECORD_KEY,articleId+"");
+        if (count == null) {
+            count = 0;
+        }
+        if (StringUtils.isNotBlank(check)){
+            return ServerResponse.success(count);
+        }
+        count++;
+        redisTemplate.opsForHash().put(Constant.HIT_RECORD_KEY , articleId+"", count);
+        WiblogUtil.setCookie(response,"article_"+articleId,"1",60*60*2);
+
+        return ServerResponse.success(count);
+    }
+
+    @Autowired
+    private RecordScheduled recordHit;
+    @GetMapping("/test")
+    public Object test(){
+        recordHit.recordHit();
+        return null;
+    }
 }
