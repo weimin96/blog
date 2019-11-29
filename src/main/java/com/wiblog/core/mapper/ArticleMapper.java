@@ -69,4 +69,11 @@ public interface ArticleMapper extends BaseMapper<Article> {
      * @return int
      */
     int updateHitsBatch(List list);
+
+    /**
+     * 通过id队列查找文章列表
+     * @param list list
+     * @return List
+     */
+    List<Article> selectArticleByIds(List list);
 }

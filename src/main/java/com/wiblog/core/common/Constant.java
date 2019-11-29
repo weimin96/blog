@@ -65,5 +65,10 @@ public class Constant {
      * 邮件推送redis队列
      */
     public static final String EMAIL_PUSH_KEY = "email_push";
+
+    /**
+     * 文章排行榜redis zset
+     */
+    public static final String ARTICLE_RANKING_KEY  = "article_ranking";
 }
 

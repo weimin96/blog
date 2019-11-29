@@ -91,4 +91,14 @@ id,uid, author, title, content, tags, category_id, img_url, article_url, article
             #{item.id}
         </foreach>
     </update>
+
+    <select id="selectArticleByIds" parameterType="java.util.List">
+        select
+        <include refid="Base_Column_List"/>
+        from article
+        where id in
+        <foreach collection="list" item="item" index="index" separator="," open="(" close=")">
+            #{item}
+        </foreach>
+    </select>
 </mapper>

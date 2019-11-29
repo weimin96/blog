@@ -11,7 +11,7 @@ import org.springframework.stereotype.Component;
 import java.util.*;
 
 /**
- * 点赞定时器
+ * 点赞-点击率定时器
  *
  * @author pwm
  * @date 2019/11/15
@@ -29,6 +29,7 @@ public class RecordScheduled {
 
     @Scheduled(cron = "* * 0/2 * * ?")
     public void recordHit(){
+        // 获取 点击率存入数据库
         Map<Object,Object> hitMap = redisTemplate.opsForHash().entries(Constant.HIT_RECORD_KEY);
         Iterator<Map.Entry<Object, Object>> it = hitMap.entrySet().iterator();
         List<Map> dataList = new ArrayList<>();
@@ -38,9 +39,11 @@ public class RecordScheduled {
             data.put("id",itData.getKey());
             data.put("hits",itData.getValue());
             dataList.add(data);
-            System.out.println("==");
+            // 文章排行榜
+            redisTemplate.opsForZSet().add(Constant.ARTICLE_RANKING_KEY,itData.getKey(),Double.parseDouble(itData.getValue().toString()));
         }
         articleMapper.updateHitsBatch(dataList);
+
     }
 
 }

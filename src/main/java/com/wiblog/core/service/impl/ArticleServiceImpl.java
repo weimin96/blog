@@ -15,8 +15,10 @@ import com.wiblog.core.vo.ArticleVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 /**
  *  服务实现类
@@ -61,6 +63,19 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
     }
 
     @Override
+    public ServerResponse getArticleRank(Set<Object> rankSet) {
+        List<Article> result = new ArrayList<>();
+        List<Long> articleIds = new ArrayList<>();
+        if (rankSet != null && rankSet.size()>0){
+            for (Object o : rankSet) {
+                articleIds.add(Long.parseLong(o.toString()));
+            }
+            result = articleMapper.selectArticleByIds(articleIds);
+        }
+        return ServerResponse.success(result);
+    }
+
+    @Override
     public ServerResponse getArticleById(Long id) {
         Article article = articleMapper.selectById(id);
         return ServerResponse.success(article,"获取文章成功");
@@ -78,4 +93,6 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
         }
         return ServerResponse.success(detailVo,"获取文章成功");
     }
+
+
 }

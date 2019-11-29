@@ -41,9 +41,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -324,6 +322,18 @@ public class ArticleController extends BaseController {
         WiblogUtil.setCookie(response,"article_"+articleId,"1",60*60*2);
 
         return ServerResponse.success(count);
+    }
+
+    /**
+     * 文章排行榜
+     * @return ServerResponse
+     */
+    @GetMapping("/getArticleRank")
+    public ServerResponse getArticleRank(){
+        Set<Object> rankSet = redisTemplate.opsForZSet().range(Constant.ARTICLE_RANKING_KEY,0,9);
+
+
+        return articleService.getArticleRank(rankSet);
     }
 
     @Autowired
