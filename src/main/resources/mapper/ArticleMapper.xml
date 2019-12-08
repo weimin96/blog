@@ -92,7 +92,7 @@ id,uid, author, title, content, tags, category_id, img_url, article_url, article
         </foreach>
     </update>
 
-    <select id="selectArticleByIds" parameterType="java.util.List">
+    <select id="selectArticleByIds" parameterType="java.util.List" resultType="com.wiblog.core.entity.Article">
         select
         <include refid="Base_Column_List"/>
         from article

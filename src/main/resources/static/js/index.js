@@ -5,12 +5,14 @@ let app = new Vue({
     el: "#post-list",
     data: {
         articleList: [],
+        rankList:[]
     },
     beforeCreate: function () {
         vm = this;
     },
     mounted() {
         this.initData(1);
+        this.getArticleRank();
     },
     methods: {
         initData(currentPage) {
@@ -33,6 +35,13 @@ let app = new Vue({
                     });
                 }
             });
+        },
+        getArticleRank(){
+            $.get("/post/getArticleRank",function (res) {
+                if (res.code === 10000){
+                    vm.rankList = res.data;
+                }
+            })
         }
     },
     filters: {

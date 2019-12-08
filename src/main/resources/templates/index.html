@@ -61,6 +61,11 @@
                         <div  class="sibar-title">
                             <span>发现</span><span>热门文章</span>
                         </div>
+                        <div>
+                            <ul>
+                                <li v-for="item in rankList"><a>{{item.title}}</a></li>
+                            </ul>
+                        </div>
                     </div>
 
                 </el-col>
