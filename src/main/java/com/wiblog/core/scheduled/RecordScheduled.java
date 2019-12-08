@@ -5,6 +5,7 @@ import com.wiblog.core.mapper.ArticleMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
@@ -18,7 +19,7 @@ import java.util.*;
  */
 @Slf4j
 @Component
-//@EnableScheduling
+@EnableScheduling
 public class RecordScheduled {
 
     @Autowired
@@ -44,6 +45,18 @@ public class RecordScheduled {
         }
         articleMapper.updateHitsBatch(dataList);
 
+        // 点赞存入数据库
+        Map<Object,Object> likeMap = redisTemplate.opsForHash().entries(Constant.LIKE_RECORD_KEY);
+        Iterator<Map.Entry<Object, Object>> itLike = hitMap.entrySet().iterator();
+        List<Map> likeList = new ArrayList<>();
+        while (itLike.hasNext()){
+            Map.Entry<Object, Object> itData = itLike.next();
+            Map<String,Object> data = new HashMap<>(2);
+            data.put("id",itData.getKey());
+            data.put("likes",itData.getValue());
+            likeList.add(data);
+        }
+        articleMapper.updateLikesBatch(likeList);
     }
 
 }

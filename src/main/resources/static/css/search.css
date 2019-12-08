@@ -39,6 +39,7 @@
     color: red;
     display: inline;
     font-size: 13px;
+    font-weight: bold;
 }
 
 .abstract .category{

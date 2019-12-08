@@ -1,42 +1,44 @@
 let vm;
 let app = new Vue({
     el: "#app",
-    data: {
-        uid:Number(window.location.pathname.slice(6))/12345,
-        user: {},
-        activeName: "first",
-        userActiveName: "first",
-        userSettingActiveName:"first",
-        // 侧边栏
-        sidebarActive: "message",
-        // 我的回复
-        userComment: [],
-        userCommentPageNum: 1,
-        userCommentPageSize: 10,
-        userCommentTotal: 0,
-        userCommentOrderBy: "desc",
-        // 回复我的
-        userReply: [],
-        userReplyPageNum: 1,
-        userReplyPageSize: 10,
-        userReplyTotal: 0,
-        userReplyOrderBy: "desc",
-        // 绑定列表
-        bindList: {
-            "phone":false,
-            "email":false,
-            "github":false,
-            "weibo":false
-        },
-        // 邮箱
-        emailVisible: false,
-        emailInput: "",
-        emailCode: "",
-        emailCodeDisable: true,
-        emailCodeInputDisable:true,
-        errorEmailMsg: "",
-        errorEmailCodeMsg: "",
-        emailCodeBtnMsg: "",
+    data() {
+        return{
+            uid:Number(window.location.pathname.slice(6))/12345,
+            user: {},
+            activeName: "first",
+            userActiveName: "first",
+            userSettingActiveName:"first",
+            // 侧边栏
+            sidebarActive: "message",
+            // 我的回复
+            userComment: [],
+            userCommentPageNum: 1,
+            userCommentPageSize: 10,
+            userCommentTotal: 0,
+            userCommentOrderBy: "desc",
+            // 回复我的
+            userReply: [],
+            userReplyPageNum: 1,
+            userReplyPageSize: 10,
+            userReplyTotal: 0,
+            userReplyOrderBy: "desc",
+            // 绑定列表
+            bindList: {
+                "phone":false,
+                "email":false,
+                "github":false,
+                "weibo":false
+            },
+            // 邮箱
+            emailVisible: false,
+            emailInput: "",
+            emailCode: "",
+            emailCodeDisable: true,
+            emailCodeInputDisable:true,
+            errorEmailMsg: "",
+            errorEmailCodeMsg: "",
+            emailCodeBtnMsg: "",
+        };
     },
     beforeCreate() {
         vm = this;

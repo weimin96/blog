@@ -39,7 +39,7 @@ public class Constant {
     /**
      * 点赞redis key
      */
-    public static final String LIKE_RECORD_KEY = "like_record_";
+    public static final String LIKE_RECORD_KEY = "like_record";
 
     /**
      * 点击率redis key

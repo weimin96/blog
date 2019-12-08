@@ -76,4 +76,11 @@ public interface ArticleMapper extends BaseMapper<Article> {
      * @return List
      */
     List<Article> selectArticleByIds(List list);
+
+    /**
+     * 批量更新点赞
+     * @param likeList likeList
+     * @return int
+     */
+    int updateLikesBatch(List<Map> likeList);
 }

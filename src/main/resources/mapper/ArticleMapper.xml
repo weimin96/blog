@@ -92,6 +92,21 @@ id,uid, author, title, content, tags, category_id, img_url, article_url, article
         </foreach>
     </update>
 
+    <update id="updateLikesBatch" parameterType="java.util.List">
+        update article
+        <trim prefix="set" suffixOverrides=",">
+            <trim prefix="likes = case" suffix="end,">
+                <foreach collection="list" item="item" index="index">
+                    when id = #{item.id} then #{item.hits}
+                </foreach>
+            </trim>
+        </trim>
+        where id in
+        <foreach collection="list" index="index" item="item" separator="," open="(" close=")">
+            #{item.id}
+        </foreach>
+    </update>
+
     <select id="selectArticleByIds" parameterType="java.util.List" resultType="com.wiblog.core.entity.Article">
         select
         <include refid="Base_Column_List"/>
