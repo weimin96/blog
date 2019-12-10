@@ -4,7 +4,9 @@ let app = new Vue({
     data() {
         return{
             uid:Number(window.location.pathname.slice(6))/12345,
-            user: {},
+            user: {
+
+            },
             activeName: "first",
             userActiveName: "first",
             userSettingActiveName:"first",

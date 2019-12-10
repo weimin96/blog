@@ -104,6 +104,7 @@ public class UserController extends BaseController {
         try {
             String ip = IPUtil.getIpAddr(request);
             String[] address = IPUtil.getIpInfo(ip);
+            log.info("用户地址{}-{}",address[0],address[1]);
             userService.register(username, phone, email, emailCode,password, address);
         } catch (Exception e) {
             String msg = "注册失败";
