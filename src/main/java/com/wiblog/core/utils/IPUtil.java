@@ -11,6 +11,7 @@ import java.net.NetworkInterface;
 import java.net.SocketException;
 import java.net.UnknownHostException;
 import java.util.Enumeration;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -110,20 +111,17 @@ public class IPUtil {
     public static String[] getIpInfo(String ip) {
         try {
             RestTemplate restTemplate = new RestTemplate();
-            String url = Constant.IP_TAOBAO_URL + ip;
+            String url = Constant.IP_BAIDU_URL + ip;
             log.info("url:{}",url);
             String response = restTemplate.getForObject(url, String.class);
-            Map responseMap = (Map) JSONObject.parseObject(response).get("data");
-            return new String[]{(String) responseMap.get("region"), (String) responseMap.get("city")};
+            Map responseMap = JSONObject.parseObject(response);
+            Map data = ((List<Map>)responseMap.get("data")).get(0);
+            String location = ((String) data.get("location")).split(" ")[0];
+
+            return new String[]{"", location};
         } catch (Exception e) {
-            e.printStackTrace();
             log.error(e.getMessage(), e);
             return new String[]{"", ""};
         }
-    }
-
-    public static void main(String[] args) {
-        String[] a = getIpInfo("112.96.134.86");
-        System.out.println(a[0]+"-"+a[1]);
     }
 }

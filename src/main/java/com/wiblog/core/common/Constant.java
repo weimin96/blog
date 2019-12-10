@@ -54,7 +54,7 @@ public class Constant {
     /**
      * 淘宝ip地址库
      */
-    public static final String IP_TAOBAO_URL = "http://ip.taobao.com/service/getIpInfo.php?ip=";
+    public static final String IP_BAIDU_URL = "http://opendata.baidu.com/api.php?co=&resource_id=6006&t=1433920989928&ie=utf8&oe=utf-8&format=json&query=";
 
     /**
      * 分类列表缓存key
