@@ -1,19 +1,14 @@
 package com.wiblog.core.scheduled;
 
-import com.alibaba.fastjson.JSONObject;
 import com.wiblog.core.weixin.WeixinUtil;
-
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.scheduling.annotation.EnableScheduling;
-import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
-import org.springframework.web.client.RestTemplate;
-
-import lombok.extern.slf4j.Slf4j;
 
 /**
  * 微信定时任务
@@ -23,7 +18,7 @@ import lombok.extern.slf4j.Slf4j;
  */
 @Slf4j
 @Component
-//@EnableScheduling
+@EnableScheduling
 @PropertySource(value = "classpath:/config/wiblog.properties", encoding = "utf-8")
 public class WeixinScheduled {
 
@@ -43,7 +38,7 @@ public class WeixinScheduled {
      * 从微信服务端获取accessToken ticket并存入redis
      * 每隔两小时执行一次
      */
-    @Scheduled(cron = "* * 0/2 * * ?")
+//    @Scheduled(cron = "* * */2 * * ?")
     public void setAccessTokenAndTicket(){
         log.info("微信定时任务启动");
         String accessToken = weixinUtil.setAccessToken();

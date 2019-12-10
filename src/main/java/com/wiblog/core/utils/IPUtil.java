@@ -59,6 +59,7 @@ public class IPUtil {
                 ipAddress = ipAddress.substring(0, ipAddress.indexOf(","));
             }
         }
+        log.info("ip地址{}",ipAddress);
         return ipAddress;
     }
 
@@ -110,6 +111,7 @@ public class IPUtil {
         try {
             RestTemplate restTemplate = new RestTemplate();
             String url = Constant.IP_TAOBAO_URL + ip;
+            log.info("url:{}",url);
             String response = restTemplate.getForObject(url, String.class);
             Map responseMap = (Map) JSONObject.parseObject(response).get("data");
             return new String[]{(String) responseMap.get("region"), (String) responseMap.get("city")};
@@ -118,5 +120,10 @@ public class IPUtil {
             log.error(e.getMessage(), e);
             return new String[]{"", ""};
         }
+    }
+
+    public static void main(String[] args) {
+        String[] a = getIpInfo("112.96.134.86");
+        System.out.println(a[0]+"-"+a[1]);
     }
 }

@@ -28,7 +28,7 @@ public class RecordScheduled {
     @Autowired
     private RedisTemplate<String,Object> redisTemplate;
 
-    @Scheduled(cron = "* * 0/2 * * ?")
+    @Scheduled(cron = "0 0 */2 * * ?")
     public void recordHit(){
         // 获取 点击率存入数据库
         Map<Object,Object> hitMap = redisTemplate.opsForHash().entries(Constant.HIT_RECORD_KEY);
@@ -53,7 +53,7 @@ public class RecordScheduled {
             Map.Entry<Object, Object> itData = itLike.next();
             Map<String,Object> data = new HashMap<>(2);
             data.put("id",itData.getKey());
-            data.put("likes",itData.getValue());
+            data.put("likes",itData.getValue() == null ? 0:itData.getValue());
             likeList.add(data);
         }
         articleMapper.updateLikesBatch(likeList);

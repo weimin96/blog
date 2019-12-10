@@ -120,6 +120,7 @@ CREATE TABLE `article`
     `article_url`     varchar(255) NOT NULL COMMENT '文章地址',
     `article_summary` text         NOT NULL COMMENT '简介',
     `hits`            int(11)      NOT NULL COMMENT '点击量',
+    `likes`            int(11)      NOT NULL COMMENT '点赞数',
     `privately`       tinyint(1)   NOT NULL default 0 COMMENT '是否设为私密 1私密',
     `reward`          tinyint(1)   NOT NULL default 0 COMMENT '是否开放打赏 1开启',
     `comment`         tinyint(1)   NOT NULL default 0 COMMENT '是否开放评论 1开放',
@@ -182,23 +183,6 @@ INSERT INTO `category`
 VALUES ('2', '0', 'web', 'web', '2');
 INSERT INTO `category`
 VALUES ('3', '1', 'spring', 'spring', '1');
-
-
--- ----------------------------
--- Table structure for article_likes_record
--- ----------------------------
-DROP TABLE IF EXISTS `article_likes`;
-CREATE TABLE `article_likes`
-(
-    `id`          bigint(11) NOT NULL AUTO_INCREMENT,
-    `article_id`  bigint(11) NOT NULL COMMENT '文章id',
-    `uid`         bigint(11) NOT NULL COMMENT '用户id',
-    `create_time` DATETIME   NOT NULL COMMENT '创建时间',
-    PRIMARY KEY (`id`),
-    INDEX article (article_id)
-) ENGINE = InnoDB
-  AUTO_INCREMENT = 29
-  DEFAULT CHARSET = utf8;
 
 
 DROP TABLE IF EXISTS `picture`;

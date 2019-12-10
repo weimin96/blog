@@ -73,6 +73,11 @@ public class Article implements Serializable{
     private Integer hits;
 
     /**
+     * 点赞
+     */
+    private Integer likes;
+
+    /**
      * 是否设为私密 1私密
      */
     private Boolean privately;
