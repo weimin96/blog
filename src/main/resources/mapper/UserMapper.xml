@@ -22,7 +22,7 @@ uid, username, sex, avatar_img,state, region,city,create_time
 
     <insert id="insertReturnId" useGeneratedKeys="true" keyColumn="uid" keyProperty="uid">
         insert into user(username,avatar_img,region,city,create_time)
-        values(#{username},#{avatarImg},region,city,now())
+        values(#{username},#{avatarImg},#{region},#{city},now())
     </insert>
 
 
