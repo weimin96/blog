@@ -260,6 +260,7 @@ header .nav-message i{
 .message-box-user ul,.message-box ul{
     list-style: none;
     padding-inline-start: 0;
+    padding-left: 0;
 }
 
 .message-box-user ul li,.message-box ul li{

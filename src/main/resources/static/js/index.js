@@ -5,7 +5,8 @@ let app = new Vue({
     el: "#post-list",
     data: {
         articleList: [],
-        rankList:[]
+        rankList: [],
+        nearUserList: [],
     },
     beforeCreate: function () {
         vm = this;
@@ -36,12 +37,45 @@ let app = new Vue({
                 }
             });
         },
-        getArticleRank(){
-            $.get("/post/getArticleRank",function (res) {
-                if (res.code === 10000){
+        getArticleRank() {
+            $.get("/post/getArticleRank", function (res) {
+                if (res.code === 10000) {
                     vm.rankList = res.data;
                 }
             })
+        },
+        getGeoLocation() {
+            if (user === null) {
+                vm.$message.error("请登录后再次尝试");
+                return;
+            }
+            let option = {
+                enableHighAccuracy: true,
+                maximumAge: 0,//禁用缓存
+                timeout: 30000
+            };
+            navigator.geolocation.getCurrentPosition(position => {
+                $.get("/getNearUser", {lat: position.coords.latitude, lng: position.coords.longitude}, res => {
+                    if (res.code === 10000) {
+                        vm.nearUserList = res.data;
+                    }
+                });
+            }, e => {
+                switch (e.code) {
+                    case e.PERMISSION_DENIED:
+                        vm.$message.error("请通过定位授权");
+                        break;
+                    case e.POSITION_UNAVAILABLE:
+                        vm.$message.error("当前浏览器无法获取定位，请更换浏览器再次尝试");
+                        break;
+                    case e.TIMEOUT:
+                        vm.$message.error("当前浏览器无法获取定位，请更换浏览器再次尝试");
+                        break;
+                }
+            }, option);
+        },
+        gotoUser(uid){
+            window.parent.location.href = "/user/" + uid*12345;
         }
     },
     filters: {

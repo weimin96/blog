@@ -88,7 +88,8 @@
                     </div>
                 </template>
 
-                <el-button class="post-btn" type="primary" round @click="pushArticle">发表文章
+                <el-button class="post-btn" type="primary" round @click="pushArticle"
+                           v-loading.fullscreen.lock="pushLoading">发表文章
                 </el-button>
 
 

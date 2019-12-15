@@ -1,8 +1,10 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:http="http://www.w3.org/1999/xhtml">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:http="http://www.w3.org/1999/xhtml"
+      xmlns:v-bind="http://www.w3.org/1999/xhtml">
 <head th:replace="common/head :: head(~{::title},~{::link},~{})">
     <title>wiblog - Areo的个人网站</title>
     <link rel="stylesheet" th:href="@{css/index.css}">
+
 </head>
 
 <body>
@@ -57,25 +59,50 @@
                     </div>
                 </el-col>
                 <el-col :span="4">
-                    <div class="card">
-                        <div  class="sibar-title">
-                            <span>发现</span><span>热门文章</span>
+                    <template>
+                        <div class="card">
+
+                            <div class="sibar-title">
+                                <span>发现</span><span>热门文章</span>
+                            </div>
+                            <div>
+                                <ul>
+                                    <li v-for="item in rankList"><a>{{item.title}}</a></li>
+                                </ul>
+                            </div>
+
+
                         </div>
-                        <div>
-                            <ul>
-                                <li v-for="item in rankList"><a>{{item.title}}</a></li>
-                            </ul>
-                        </div>
-                    </div>
+                    </template>
 
                 </el-col>
                 <el-col :span="4">
-                    <div class="card">
-                        <div  class="sibar-title">
-                            <span>发现</span><span>附近的人</span>
-                        </div>
-                    </div>
+                    <template>
+                        <div class="card">
+                            <div class="sibar-title">
+                                <span>发现</span><span>附近的人</span>
+                                <div class="location" @click="getGeoLocation()" v-if="nearUserList.length === 0">
+                                    <i class="fa fa-bullseye"></i>
+                                    <span class="main-color">开启定位</span>
+                                </div>
+                                <div v-for="item in  nearUserList" style="margin-top: 5px">
+                                    <div @click="gotoUser(item.uid)" class="near-user-li">
+                                        <el-avatar :size="30" :src="item.avatar"></el-avatar>
 
+                                        <div style="display: inline-block;font-size: 12px;margin-left: 5px;">
+                                            <div style="">
+                                                <span style="font-weight: bold;">{{item.name}}</span>
+                                                <span v-if="item.sex === 'male'" class="el-icon-male main-color"></span>
+                                                <span v-else class="pink el-icon-female"></span>
+                                            </div>
+
+                                            <span>{{item.distance}}</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </template>
                 </el-col>
             </el-row>
 

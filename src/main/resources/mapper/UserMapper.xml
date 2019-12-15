@@ -9,6 +9,7 @@
         <result column="username" property="username"/>
         <result column="sex" property="sex"/>
         <result column="avatar_img" property="avatarImg"/>
+        <result column="intro" property="intro"/>
         <result column="region" property="region"/>
         <result column="city" property="city"/>
         <result column="state" property="state"/>
@@ -17,12 +18,12 @@
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
-uid, username, sex, avatar_img,state, region,city,create_time
+uid, username, sex, avatar_img,state, intro,region,city,create_time
     </sql>
 
     <insert id="insertReturnId" useGeneratedKeys="true" keyColumn="uid" keyProperty="uid">
-        insert into user(username,avatar_img,region,city,create_time)
-        values(#{username},#{avatarImg},#{region},#{city},now())
+        insert into user(username,avatar_img,region,city,create_time,intro)
+        values(#{username},#{avatarImg},#{region},#{city},now(),"")
     </insert>
 
 
@@ -49,4 +50,5 @@ uid, username, sex, avatar_img,state, region,city,create_time
         set state = 0
         where uid = #{uid}
     </update>
+
 </mapper>

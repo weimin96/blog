@@ -70,5 +70,10 @@ public class Constant {
      * 文章排行榜redis zset
      */
     public static final String ARTICLE_RANKING_KEY  = "article_ranking";
+
+    /**
+     * 附近的人
+     */
+    public static final String NEAR_USER_KEY = "near_user";
 }
 

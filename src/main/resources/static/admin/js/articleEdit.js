@@ -27,6 +27,7 @@ var app = new Vue({
             comment: true
         },
         editor: {},
+        pushLoading: false
     },
     beforeCreate() {
         vm = this;
@@ -117,6 +118,7 @@ var app = new Vue({
         },
         // 文章发表修改
         pushArticle: function () {
+            this.pushLoading =true;
             this.article.content = this.editor.getMarkdown();
             this.article.articleSummary = this.article.content.substr(0, 200);
             // 发表新文章
@@ -134,6 +136,7 @@ var app = new Vue({
                     if (res.code === 10000) {
                         window.parent.location.href = window.location.protocol + "//" + window.location.host + res.data;
                     } else {
+                        vm.pushLoading =false;
                         vm.$message.error(res.msg);
                     }
                 })
@@ -152,6 +155,7 @@ var app = new Vue({
                     if (res.code === 10000) {
                         window.parent.location.href = window.location.protocol + "//" + window.location.host + vm.article.articleUrl;
                     } else {
+                        vm.pushLoading =false;
                         vm.$message.error(res.msg);
                     }
                 })
