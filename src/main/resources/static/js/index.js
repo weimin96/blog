@@ -1,11 +1,12 @@
 'use strict';
-
 let vm;
 let app = new Vue({
     el: "#post-list",
+    components: {
+        popularArticle
+    },
     data: {
         articleList: [],
-        rankList: [],
         nearUserList: [],
     },
     beforeCreate: function () {
@@ -13,7 +14,7 @@ let app = new Vue({
     },
     mounted() {
         this.initData(1);
-        this.getArticleRank();
+        this.$bus.emit('popular-article-init');
     },
     methods: {
         initData(currentPage) {
@@ -37,13 +38,7 @@ let app = new Vue({
                 }
             });
         },
-        getArticleRank() {
-            $.get("/post/getArticleRank", function (res) {
-                if (res.code === 10000) {
-                    vm.rankList = res.data;
-                }
-            })
-        },
+
         getGeoLocation() {
             if (user === null) {
                 vm.$message.error("请登录后再次尝试");
@@ -102,6 +97,8 @@ let app = new Vue({
         }
     }
 });
+
+
 
 
 

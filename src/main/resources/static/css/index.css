@@ -168,20 +168,7 @@
 }
 
 /*右侧*/
-.card {
-    background-color: #fff;
-    border-radius: 5px;
-    margin-bottom: 10px;
-    padding: 24px;
-    box-shadow: 0 1px 3px rgba(26, 26, 26, .1);
-}
 
-.sibar-title>span:first-child{
-    margin-right: 10px;
-    padding-right: 10px;
-    font-weight: 600;
-    border-right: 2px solid #0b90dd;
-}
 
 .location{
     margin-top: 5px;

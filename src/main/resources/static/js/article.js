@@ -14,6 +14,9 @@
 
     let app = new Vue({
         el: "#app",
+        components: {
+            popularArticle
+        },
         data: {
             nologin: true,
             author: '',
@@ -70,6 +73,9 @@
         },
         created() {
             this.initData();
+        },
+        mounted() {
+            this.$bus.emit('popular-article-init');
         },
         methods: {
             // 生成目录

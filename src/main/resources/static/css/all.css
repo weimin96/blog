@@ -554,6 +554,40 @@ header .nav-search label{
     float: left;
 }
 
+/*右侧*/
+.card {
+    background-color: #fff;
+    border-radius: 5px;
+    margin-bottom: 10px;
+    padding: 24px;
+    box-shadow: 0 1px 3px rgba(26, 26, 26, .1);
+}
+
+.sibar-title>span:first-child{
+    margin-right: 10px;
+    padding-right: 10px;
+    font-weight: 600;
+    border-right: 2px solid #0b90dd;
+}
+.rank-list li:first-child{
+    margin-top: 10px;
+}
+.rank-list li{
+    margin-top: 5px;
+    font-size: 14px;
+    cursor: pointer;
+    padding: 5px 5px;
+    border-radius: 5px;
+}
+
+.rank-list li a{
+    color: #000000b3;
+    font-weight: bold;
+}
+
+.rank-list li:hover{
+    background: #dcdfe6;
+}
 
 
 

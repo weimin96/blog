@@ -60,19 +60,7 @@
                 </el-col>
                 <el-col :span="4">
                     <template>
-                        <div class="card">
-
-                            <div class="sibar-title">
-                                <span>发现</span><span>热门文章</span>
-                            </div>
-                            <div>
-                                <ul>
-                                    <li v-for="item in rankList"><a>{{item.title}}</a></li>
-                                </ul>
-                            </div>
-
-
-                        </div>
+                        <popular-article></popular-article>
                     </template>
 
                 </el-col>
@@ -113,6 +101,7 @@
 </div>
 <div th:replace="common/foot :: foot"></div>
 <script th:src="@{lib/jq_paging.js}"></script>
+<script th:src="@{components/popularArticle.js}"></script>
 <script th:src="@{js/index.js}"></script>
 </body>
 </html>
