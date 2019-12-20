@@ -2,15 +2,9 @@ package com.wiblog.core.websocket;
 
 import org.springframework.stereotype.Component;
 
-import javax.websocket.OnClose;
-import javax.websocket.OnError;
-import javax.websocket.OnOpen;
-import javax.websocket.Session;
+import javax.websocket.*;
 import javax.websocket.server.ServerEndpoint;
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
+import java.io.*;
 
 /**
  * @author pwm
@@ -37,13 +31,19 @@ public class LogWebSocket {
         System.out.println("连接");
         try {
             Runtime.getRuntime().exec("tail -f /home/pwm/log/log.log");
-            inputStream = process.getInputStream();
 
+            inputStream = process.getInputStream();
+            //inputStream = new FileInputStream(new File("E:\\桌面\\log.log"));
             // 一定要启动新的线程，防止InputStream阻塞处理WebSocket的线程
             tailLogThread(inputStream, session);
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    @OnMessage
+    public void onMessage(String message){
+        System.out.println("发送消息"+message);
     }
 
     /**
@@ -65,7 +65,7 @@ public class LogWebSocket {
             } catch (IOException e) {
                 e.printStackTrace();
             }
-        });
+        }).start();
 
     }
 
@@ -74,6 +74,7 @@ public class LogWebSocket {
      */
     @OnClose
     public void onClose() {
+        System.out.println("关闭");
         if (inputStream != null) {
             try {
                 inputStream.close();
