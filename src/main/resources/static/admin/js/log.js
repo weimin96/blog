@@ -1,6 +1,6 @@
 $(document).ready(function() {
     // 指定websocket路径
-    var websocket = new WebSocket('wss://127.0.0.1/websocket/log');
+    var websocket = new WebSocket('wss://www.wiblog.cn/websocket/log');
     websocket.onmessage = function(event) {
         // 接收服务端的实时日志并添加到HTML页面中
         $("#log-container div").append(event.data);
