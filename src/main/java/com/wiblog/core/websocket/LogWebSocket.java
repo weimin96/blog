@@ -1,10 +1,14 @@
 package com.wiblog.core.websocket;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
 import javax.websocket.*;
 import javax.websocket.server.ServerEndpoint;
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 
 /**
  * @author pwm
@@ -12,7 +16,7 @@ import java.io.*;
  */
 @ServerEndpoint("/websocket/log")
 @Component
-//@Slf4j
+@Slf4j
 public class LogWebSocket {
 
     private Process process;
@@ -28,22 +32,18 @@ public class LogWebSocket {
      */
     @OnOpen
     public void onOpen(Session session) {
-        System.out.println("连接");
+        log.info("连接");
         try {
-            Runtime.getRuntime().exec("tail -f /home/pwm/log/log.log");
+            process = Runtime.getRuntime().exec("tail -f /home/pwm/log/log.log");
+//            process = Runtime.getRuntime().exec("cmd /c powershell Get-Content E:\\桌面\\log.log -Wait");
 
             inputStream = process.getInputStream();
             //inputStream = new FileInputStream(new File("E:\\桌面\\log.log"));
             // 一定要启动新的线程，防止InputStream阻塞处理WebSocket的线程
             tailLogThread(inputStream, session);
         } catch (IOException e) {
-            e.printStackTrace();
+            log.error("异常",e);
         }
-    }
-
-    @OnMessage
-    public void onMessage(String message){
-        System.out.println("发送消息"+message);
     }
 
     /**
@@ -63,7 +63,7 @@ public class LogWebSocket {
                     session.getBasicRemote().sendText(line + "<br>");
                 }
             } catch (IOException e) {
-                e.printStackTrace();
+                log.error("异常",e);
             }
         }).start();
 
@@ -74,7 +74,7 @@ public class LogWebSocket {
      */
     @OnClose
     public void onClose() {
-        System.out.println("关闭");
+        log.info("关闭socket");
         if (inputStream != null) {
             try {
                 inputStream.close();
@@ -94,7 +94,6 @@ public class LogWebSocket {
      */
     @OnError
     public void onError(Session session, Throwable error) {
-        System.out.println("错误");
-//        log.error("websocket", error);
+        log.error("websocket错误", error);
     }
 }

@@ -13,6 +13,7 @@ $(document).ready(function() {
     };
 
     websocket.onclose = function(event) {
+        console.log('websocket 断开: ' + event.code + ' ' + event.reason + ' ' + event.wasClean)
         console.log("关闭");
     };
 
