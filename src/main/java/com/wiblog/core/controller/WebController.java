@@ -180,4 +180,12 @@ public class WebController extends BaseController{
     public String category(){
         return "admin/category";
     }
+
+    /**
+     * 后台日志管理
+     */
+    @GetMapping("/admin/log")
+    public String log(){
+        return "admin/log";
+    }
 }
