@@ -1,10 +1,11 @@
 package com.wiblog.core.websocket;
 
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
 
-import javax.websocket.*;
+import javax.websocket.OnClose;
+import javax.websocket.OnError;
+import javax.websocket.OnOpen;
+import javax.websocket.Session;
 import javax.websocket.server.ServerEndpoint;
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -17,7 +18,7 @@ import java.io.InputStreamReader;
  */
 @ServerEndpoint("/websocket/log")
 @Component
-@Slf4j
+//@Slf4j
 public class LogWebSocket {
 
     private Process process;
@@ -33,6 +34,7 @@ public class LogWebSocket {
      */
     @OnOpen
     public void onOpen(Session session) {
+        System.out.println("连接");
         try {
             Runtime.getRuntime().exec("tail -f /home/pwm/log/log.log");
             inputStream = process.getInputStream();
@@ -50,18 +52,21 @@ public class LogWebSocket {
      * @param in      in
      * @param session session
      */
-    @Async
+//    @Async
     public void tailLogThread(InputStream in, Session session) {
-        BufferedReader reader = new BufferedReader(new InputStreamReader(in));
-        String line;
-        try {
-            while ((line = reader.readLine()) != null) {
-                // 将实时日志通过WebSocket发送给客户端，给每一行添加一个HTML换行
-                session.getBasicRemote().sendText(line + "<br>");
+        new Thread(() -> {
+            BufferedReader reader = new BufferedReader(new InputStreamReader(in));
+            String line;
+            try {
+                while ((line = reader.readLine()) != null) {
+                    // 将实时日志通过WebSocket发送给客户端，给每一行添加一个HTML换行
+                    session.getBasicRemote().sendText(line + "<br>");
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
             }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        });
+
     }
 
     /**
@@ -88,6 +93,7 @@ public class LogWebSocket {
      */
     @OnError
     public void onError(Session session, Throwable error) {
-        log.error("websocket", error);
+        System.out.println("错误");
+//        log.error("websocket", error);
     }
 }
