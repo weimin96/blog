@@ -35,7 +35,7 @@ public class LogWebSocket {
     @OnOpen
     public void onOpen(Session session) {
         System.out.println("连接");
-        try {
+        /*try {
             Runtime.getRuntime().exec("tail -f /home/pwm/log/log.log");
             inputStream = process.getInputStream();
 
@@ -43,7 +43,7 @@ public class LogWebSocket {
             tailLogThread(inputStream, session);
         } catch (IOException e) {
             e.printStackTrace();
-        }
+        }*/
     }
 
     /**
