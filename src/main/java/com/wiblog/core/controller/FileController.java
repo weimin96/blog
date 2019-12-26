@@ -48,4 +48,10 @@ public class FileController {
     public ServerResponse delImage(Long id){
         return fileService.delImage(id);
     }
+
+    @GetMapping("/getLogList")
+    @AuthorizeCheck(grade = "2")
+    public ServerResponse getLogList(){
+        return fileService.getLogList();
+    }
 }

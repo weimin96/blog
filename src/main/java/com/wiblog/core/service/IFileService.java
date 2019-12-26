@@ -39,4 +39,10 @@ public interface IFileService {
      * @return ServerResponse
      */
     ServerResponse delImage(Long id);
+
+    /**
+     * 获取日志列表
+     * @return ServerResponse
+     */
+    ServerResponse getLogList();
 }

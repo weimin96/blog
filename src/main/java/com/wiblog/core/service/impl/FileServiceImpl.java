@@ -1,6 +1,5 @@
 package com.wiblog.core.service.impl;
 
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.wiblog.core.common.ServerResponse;
@@ -120,5 +119,10 @@ public class FileServiceImpl implements IFileService {
             }
         }
         return ServerResponse.error("删除失败",30001);
+    }
+
+    @Override
+    public ServerResponse getLogList() {
+        return ServerResponse.success(null,"获取日志列表成功");
     }
 }

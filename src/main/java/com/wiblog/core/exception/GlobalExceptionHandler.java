@@ -1,9 +1,8 @@
 package com.wiblog.core.exception;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
-
-import lombok.extern.slf4j.Slf4j;
 
 /**
  * TODO 描述
@@ -14,19 +13,17 @@ import lombok.extern.slf4j.Slf4j;
 @ControllerAdvice
 @Slf4j
 public class GlobalExceptionHandler {
-    /*
-    @ExceptionHandler(value = WiblogException.class)
-    public String tipException(Exception e) {
-        log.error("find exception:e={}",e.getMessage());
-        e.printStackTrace();
-        return "comm/error_500";
-    }
+    /*@ExceptionHandler(value = WiblogException.class)
+    @ResponseBody
+    public ServerResponse tipException(Exception e) {
+        log.error("find exception:e={}",e);
+        return ServerResponse.error("自定义异常",30001);
+    }*/
 
 
     @ExceptionHandler(value = Exception.class)
     public String exception(Exception e){
-        log.error("find exception:e={}",e.getMessage());
-        e.printStackTrace();
-        return "comm/error_404";
-    }*/
+        log.error("find exception:e={}",e);
+        return "500.html";
+    }
 }
