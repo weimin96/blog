@@ -83,6 +83,7 @@ public class LogWebSocket {
 
     @OnMessage
     public void onMessage(String message) {
+        // 接收token
         if (StringUtils.isNotBlank(message)) {
             String userJson = (String) redisTemplate.opsForValue().get(Constant.LOGIN_REDIS_KEY + message);
             if (StringUtils.isNotBlank(userJson)) {
