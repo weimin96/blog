@@ -29,13 +29,25 @@
                             {{record.createTime | dateFormatter}}
                         </div>
 
-                        <el-image :src="record.url" fit="cover" style="height: 145px;width: 240px"
-                                  :id="record.id">
+                        <!--<el-image :src="record.url" fit="cover" style="height: 145px;width: 240px"
+                                  :id="record.id" :preview-src-list="[record.url]">
                             <div slot="placeholder" class="image-slot">
                                 加载中<span class="dot">...</span>
                             </div>
+                        </el-image>-->
+                        <div style="height: 145px;width: 240px;display: inline-block;position: relative;">
 
-                        </el-image>
+
+                            <img :src="record.url" width="100%" :id="record.id"/>
+                            <span style="position: absolute;left: 0;">
+                                <span>
+                                    <i class="el-icon-zoom-in"></i>
+                                </span>
+                                <span>
+                                    <i class="el-icon-delete"></i>
+                                </span>
+                            </span>
+                        </div>
                     </template>
                 </el-col>
             </el-row>

@@ -18,6 +18,7 @@ let app = new Vue({
     },
     methods: {
         init() {
+            this.id=-1;
             this.records=[];
             this.pageNum=1;
             this.loadImg();

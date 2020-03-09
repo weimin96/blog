@@ -1,16 +1,10 @@
 package com.wiblog.core.websocket;
 
-import com.alibaba.fastjson.JSON;
-import com.wiblog.core.common.Constant;
-import com.wiblog.core.entity.User;
 import com.wiblog.core.service.IUserRoleService;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.concurrent.BasicThreadFactory;
 import org.springframework.context.ApplicationContext;
-import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Component;
-import org.springframework.web.context.ContextLoader;
 
 import javax.servlet.http.HttpSession;
 import javax.websocket.*;
@@ -77,11 +71,6 @@ public class LogWebSocket {
                 tailLogThread(inputStream, session);
             } catch (IOException e) {
                 log.error("异常", e);
-            }
-            try {
-                int a = 1/0;
-            }catch (Exception e){
-                log.error("异常",e);
             }
         }
     }
