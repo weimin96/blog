@@ -1,13 +1,17 @@
 package com.wiblog.core.service.impl;
 
+import com.alibaba.fastjson.JSON;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.wiblog.core.common.Constant;
 import com.wiblog.core.common.ServerResponse;
 import com.wiblog.core.entity.User;
 import com.wiblog.core.entity.UserRole;
 import com.wiblog.core.mapper.UserRoleMapper;
 import com.wiblog.core.service.IUserRoleService;
 import com.wiblog.core.vo.RoleVo;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -23,6 +27,10 @@ public class UserRoleServiceImpl extends ServiceImpl<UserRoleMapper, UserRole> i
 
     @Autowired
     private UserRoleMapper userRoleMapper;
+
+    @Autowired
+    private RedisTemplate<String, Object> redisTemplate;
+
     @Override
     public ServerResponse assignPermission(User user, Long uid, Long id) {
         // 分配权限
@@ -59,5 +67,18 @@ public class UserRoleServiceImpl extends ServiceImpl<UserRoleMapper, UserRole> i
             return ServerResponse.error("没有权限",40000);
         }
         return ServerResponse.success(null,"权限校验成功");
+    }
+
+    @Override
+    public Boolean checkAuthorize(String token) {
+        if (StringUtils.isNotBlank(token)) {
+            String userJson = (String) redisTemplate.opsForValue().get(Constant.LOGIN_REDIS_KEY + token);
+            if (StringUtils.isNotBlank(userJson)) {
+                User user = JSON.parseObject(userJson, User.class);
+                ServerResponse response = checkAuthorize(user,2);
+                return response.isSuccess();
+            }
+        }
+        return false;
     }
 }

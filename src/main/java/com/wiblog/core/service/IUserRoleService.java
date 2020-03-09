@@ -42,4 +42,11 @@ public interface IUserRoleService extends IService<UserRole> {
      * @return ServerResponse
      */
     ServerResponse checkAuthorize(User user,int grade);
+
+    /**
+     * 校验权限 是否是管理员
+     * @param token token
+     * @return Boolean
+     */
+    Boolean checkAuthorize(String token);
 }

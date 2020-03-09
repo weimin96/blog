@@ -13,8 +13,7 @@ import org.springframework.web.socket.server.standard.ServerEndpointExporter;
  * @date 2019/12/17
  */
 @Configuration
-@EnableWebSocketMessageBroker
-public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
+public class WebSocketConfig {
 
     /**
      * WebSocket扩展协议配置
@@ -25,8 +24,5 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
         return new ServerEndpointExporter();
     }
 
-    @Override
-    public void registerStompEndpoints(StompEndpointRegistry registry) {
-        registry.addEndpoint();
-    }
+
 }

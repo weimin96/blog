@@ -24,4 +24,14 @@ id, name, type, url, extra, create_time, update_time
         id, name, type, url, extra,update_time,DATE_FORMAT(create_time,"%Y-%m-%d") as `create_time`
         from picture order by create_time desc
     </select>
+
+    <!--批量插入图片返回id-->
+    <insert id="insertBatch" parameterType="list" keyColumn="id" keyProperty="id" useGeneratedKeys="true">
+        insert into picture (name,type,url,extra,create_time,update_time)
+        values
+        <foreach collection="list" item="item" index="index"
+                 separator=",">
+            (#{item.name},"","","",now(),now())
+        </foreach>
+    </insert>
 </mapper>

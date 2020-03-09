@@ -15,18 +15,17 @@ let app = new Vue({
     },
     methods: {
         createWebsocket(){
+            let token = this.$cookies.get("uToken");
             // this.websocket = new WebSocket('wss://www.wiblog.cn/websocket/log');
-            this.websocket = new WebSocket('wss://127.0.0.1/websocket/log');
+            this.websocket = new WebSocket('wss://127.0.0.1/websocket/log/'+token);
             this.websocket.onopen = this.open;
-            this.websocket.onmessage = this.onmessage();
+            this.websocket.onmessage = this.onmessage;
         },
         // websocket连接
-        open(){
+        open(event){
             console.log("socket连接成功");
-            let token = Vue.$cookies.get("uToken");
-            this.websocket.send(token);
         },
-        onmessage(){
+        onmessage(event){
             $("#log-container div").append(event.data);
         }
     }

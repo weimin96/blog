@@ -5,6 +5,9 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.wiblog.core.entity.Picture;
 
+import java.util.List;
+import java.util.Map;
+
 /**
  *  Mapper 接口
  *
@@ -19,4 +22,6 @@ public interface PictureMapper extends BaseMapper<Picture> {
      * @return IPage
      */
     IPage<Picture> selectPageList(Page<Picture> page);
+
+    int insertBatch(List<Picture> list);
 }
