@@ -9,6 +9,9 @@ let app = new Vue({
         noMore: false,
         id: -1,
         timer: false,
+        isActive: -1,
+        imgVisible: false,
+        imgUrl: ""
     },
     beforeCreate() {
         vm = this;
@@ -18,9 +21,9 @@ let app = new Vue({
     },
     methods: {
         init() {
-            this.id=-1;
-            this.records=[];
-            this.pageNum=1;
+            this.id = -1;
+            this.records = [];
+            this.pageNum = 1;
             this.loadImg();
             this.onscroll();
         },
@@ -65,25 +68,58 @@ let app = new Vue({
             };
         },
         //上传图片成功
-        uploadSuccess(){
+        uploadSuccess() {
             console.log("上传成功");
             this.init();
+        },
+        mouseEnter(index) {
+            console.log(index);
+            this.isActive = index;
+        },
+        //   鼠标移除
+        mouseLeave() {
+            this.isActive = null;
+        },
+        // 查看图片
+        showImg(url) {
+            this.imgUrl = url;
+            this.imgVisible = true;
+        },
+        delImg(id) {
+            this.$confirm('是否删除该图片', '提示', {
+                confirmButtonText: '确定',
+                cancelButtonText: '取消',
+                type: 'warning'
+            }).then(() => {
+                $.get("/delImage", {id: id}, function (res) {
+                    if (res.code === 10000){
+                        vm.$message({
+                            type: 'success',
+                            message: '删除成功!'
+                        });
+                        vm.init();
+                    }
+                });
+
+            });
         }
     },
-    filters:{
+    filters: {
         dateFormatter: function (d) {
             let date = new Date(d);
-            let year=date.getFullYear();
-            let month=change(date.getMonth()+1);
-            let day=change(date.getDate());
-            function change(t){
-                if(t<10){
-                    return "0"+t;
-                }else{
+            let year = date.getFullYear();
+            let month = change(date.getMonth() + 1);
+            let day = change(date.getDate());
+
+            function change(t) {
+                if (t < 10) {
+                    return "0" + t;
+                } else {
                     return t;
                 }
             }
-            return year+"."+month+"."+day;
+
+            return year + "." + month + "." + day;
         }
     }
 });
