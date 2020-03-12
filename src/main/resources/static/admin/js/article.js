@@ -56,6 +56,7 @@ var app = new Vue({
             }).then(() => {
                 $.post("/post/del",{id:row.id},function (res) {
                     vm.$message({message:"删除成功",type: 'success'});
+                    vm.init();
                 });
             });
 

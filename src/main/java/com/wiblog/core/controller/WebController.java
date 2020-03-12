@@ -20,7 +20,7 @@ import javax.servlet.http.HttpServletRequest;
  * @date 2019/4/12
  */
 @Controller
-public class WebController extends BaseController{
+public class WebController extends BaseController {
 
     @Autowired
     private IArticleService articleService;
@@ -38,7 +38,7 @@ public class WebController extends BaseController{
      * 跳转首页
      */
     @GetMapping("/")
-    public String index(){
+    public String index() {
         return "index";
     }
 
@@ -46,17 +46,16 @@ public class WebController extends BaseController{
      * 跳转首页
      */
     @GetMapping("/index")
-    public String index2(){
+    public String index2() {
         return "index";
     }
-
 
 
     /**
      * 跳转登录页
      */
     @GetMapping("/login")
-    public String login(){
+    public String login() {
         return "login";
     }
 
@@ -64,13 +63,13 @@ public class WebController extends BaseController{
      * 跳转文章页
      */
     @GetMapping("/post/{url}")
-    public String article(HttpServletRequest request, @PathVariable String url){
-        Article article = articleService.getOne(new QueryWrapper<Article>().select("privately").eq("article_url","/post/"+url));
-        if (article == null){
+    public String article(HttpServletRequest request, @PathVariable String url) {
+        Article article = articleService.getOne(new QueryWrapper<Article>().select("privately").eq("article_url", "/post/" + url));
+        if (article == null) {
             return "404";
         }
         User user = getLoginUser(request);
-        if (article.getPrivately() && !userRoleService.checkAuthorize(user,2).isSuccess()){
+        if (article.getPrivately() && !userRoleService.checkAuthorize(user, 2).isSuccess()) {
             return "404";
         }
         return "article";
@@ -80,10 +79,10 @@ public class WebController extends BaseController{
      * 跳转用户中心
      */
     @GetMapping("/user/{url}")
-    public String userCenter(HttpServletRequest request, @PathVariable String url){
-        long uid = Long.parseLong(url)/12345;
+    public String userCenter(HttpServletRequest request, @PathVariable String url) {
+        long uid = Long.parseLong(url) / 12345;
         User user = userService.getById(uid);
-        if (user == null){
+        if (user == null) {
             return "404";
         }
         return "user";
@@ -93,9 +92,9 @@ public class WebController extends BaseController{
      * 跳转分类页
      */
     @GetMapping("/category/{url}")
-    public String category(HttpServletRequest request, @PathVariable String url){
-        Category category = categoryService.getOne(new QueryWrapper<Category>().eq("url",url));
-        if (category == null){
+    public String category(HttpServletRequest request, @PathVariable String url) {
+        Category category = categoryService.getOne(new QueryWrapper<Category>().eq("url", url));
+        if (category == null) {
             return "404";
         }
         return "category";
@@ -105,7 +104,7 @@ public class WebController extends BaseController{
      * 跳转注册页
      */
     @GetMapping("/register")
-    public String register(){
+    public String register() {
         return "register";
     }
 
@@ -113,7 +112,7 @@ public class WebController extends BaseController{
      * 跳转搜索页
      */
     @GetMapping("/search")
-    public String search(){
+    public String search() {
         return "search";
     }
 
@@ -121,7 +120,7 @@ public class WebController extends BaseController{
      * 后台主页框架
      */
     @GetMapping("/admin")
-    public String adminIndex(){
+    public String adminIndex() {
         return "admin/index";
     }
 
@@ -129,7 +128,7 @@ public class WebController extends BaseController{
      * 后台主页内容
      */
     @GetMapping("/admin/home")
-    public String adminIndexHome(){
+    public String adminIndexHome() {
         return "admin/home";
     }
 
@@ -137,7 +136,7 @@ public class WebController extends BaseController{
      * 后台文章中心
      */
     @GetMapping("/admin/articleList")
-    public String articleList(){
+    public String articleList() {
         return "admin/articleList";
     }
 
@@ -145,7 +144,7 @@ public class WebController extends BaseController{
      * 后台文章编辑
      */
     @GetMapping("/admin/articleEdit")
-    public String articleEdit(){
+    public String articleEdit() {
         return "admin/articleEdit";
     }
 
@@ -153,7 +152,7 @@ public class WebController extends BaseController{
      * 后台文章评论管理
      */
     @GetMapping("/admin/comment")
-    public String comment(){
+    public String comment() {
         return "admin/comment";
     }
 
@@ -161,7 +160,7 @@ public class WebController extends BaseController{
      * 后台用户管理
      */
     @GetMapping("/admin/user")
-    public String user(){
+    public String user() {
         return "admin/user";
     }
 
@@ -169,7 +168,7 @@ public class WebController extends BaseController{
      * 后台图片管理
      */
     @GetMapping("/admin/pic")
-    public String pic(){
+    public String pic() {
         return "admin/picture";
     }
 
@@ -177,7 +176,7 @@ public class WebController extends BaseController{
      * 后台分类管理
      */
     @GetMapping("/admin/category")
-    public String category(){
+    public String category() {
         return "admin/category";
     }
 
@@ -185,7 +184,7 @@ public class WebController extends BaseController{
      * 后台日志管理
      */
     @GetMapping("/admin/log")
-    public String log(){
+    public String log() {
         return "admin/log";
     }
 }

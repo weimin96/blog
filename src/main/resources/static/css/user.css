@@ -336,3 +336,10 @@
 .user-setting-li .el-input,.user-setting-li .el-textarea{
     width: 75%;
 }
+
+/*无内容*/
+.no-data{
+    text-align: center;
+    margin: 50px;
+    color: #c0c4cc;
+}

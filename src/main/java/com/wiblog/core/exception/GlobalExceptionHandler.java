@@ -24,6 +24,6 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(value = Exception.class)
     public String exception(Exception e){
         log.error("find exception:e={}",e);
-        return "500.html";
+        return "/error/500.html";
     }
 }

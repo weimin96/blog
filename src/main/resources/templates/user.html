@@ -94,6 +94,9 @@
                                                        v-bind:class="{active : 'desc' === userCommentOrderBy}">按时间倒序</a>
                                                 </div>
                                             </div>
+                                            <div v-if="userComment.length === 0" class="no-data">
+                                                暂无内容
+                                            </div>
                                             <div class="comment-card" v-for="item in userComment">
                                                 <div class="comment-top">
                                                     <div class="comment-top-left">
@@ -114,7 +117,15 @@
                                                               v-else>该评论已经删除</span>
                                                     </div>
                                                 </div>
-                                                <div><span>来自：</span><a :href="item.articleUrl">{{item.title}}</a>
+                                                <div><span>来自：</span>
+                                                    <template v-if="item.title != null">
+                                                        <a :href="item.articleUrl">{{item.title}}</a>
+                                                    </template>
+                                                    <template v-else>
+                                                        <span style="text-decoration: line-through;">
+                                                            该文章已被删除
+                                                        </span>
+                                                    </template>
                                                 </div>
 
                                             </div>
@@ -138,6 +149,9 @@
                                                     <a class="" @click="getUserReply('desc')"
                                                        v-bind:class="{active : 'desc' === userReplyOrderBy}">按时间倒序</a>
                                                 </div>
+                                            </div>
+                                            <div v-if="userReply.length === 0" class="no-data">
+                                                暂无内容
                                             </div>
                                             <div class="comment-card" v-for="item in userReply">
                                                 <div class="comment-top">

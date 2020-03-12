@@ -3,6 +3,7 @@ package com.wiblog.core.service.impl;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.wiblog.core.common.Constant;
 import com.wiblog.core.common.ServerResponse;
 import com.wiblog.core.entity.Article;
 import com.wiblog.core.entity.User;
@@ -13,6 +14,7 @@ import com.wiblog.core.vo.ArticleDetailVo;
 import com.wiblog.core.vo.ArticlePageVo;
 import com.wiblog.core.vo.ArticleVo;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -34,6 +36,9 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
 
     @Autowired
     private IUserRoleService userRoleService;
+
+    @Autowired
+    private RedisTemplate<String,Object> redisTemplate;
 
     @Override
     public ServerResponse getAllArticle() {
@@ -59,6 +64,8 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
     public ServerResponse delArticle(Long id) {
         int count = articleMapper.updateState(id);
         ArticleVo article = articleMapper.selectArticleById(id);
+        // 删除排行榜数据
+        redisTemplate.opsForZSet().remove(Constant.ARTICLE_RANKING_KEY,String.valueOf(id));
         return ServerResponse.success(null,"删除成功",article.getTitle());
     }
 

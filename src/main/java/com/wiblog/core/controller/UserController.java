@@ -7,6 +7,7 @@ import com.wiblog.core.common.Constant;
 import com.wiblog.core.common.ServerResponse;
 import com.wiblog.core.entity.User;
 import com.wiblog.core.exception.WiblogException;
+import com.wiblog.core.service.IUserRoleService;
 import com.wiblog.core.service.IUserService;
 import com.wiblog.core.thirdparty.GithubProvider;
 import com.wiblog.core.utils.IPUtil;
@@ -41,6 +42,9 @@ public class UserController extends BaseController {
 
     @Autowired
     private IUserService userService;
+
+    @Autowired
+    private IUserRoleService userRoleService;
 
     @Autowired
     private GithubProvider githubProvider;
@@ -189,12 +193,24 @@ public class UserController extends BaseController {
     }
 
     @PostMapping("/deleteUser")
-    public ServerResponse deleteUser(HttpServletRequest request) {
-        User user = getLoginUser(request);
-        if (user == null) {
-            return ServerResponse.error("用户未登录", 30001);
+    public ServerResponse deleteUser(HttpServletRequest request,Long id) {
+        // 删除自己
+        if (id == null){
+            User user = getLoginUser(request);
+            if (user == null) {
+                return ServerResponse.error("用户未登录", 30001);
+            }
+            return userService.deleteUser(user.getUid());
+        }else{
+            // 管理员权限
+            String token = WiblogUtil.getCookie(request, Constant.COOKIES_KEY);
+            boolean isManager = userRoleService.checkAuthorize(token);
+            if (isManager){
+                return userService.deleteUser(id);
+            }else{
+                return ServerResponse.error("没有权限", 30001);
+            }
         }
-        return userService.deleteUser(user.getUid());
     }
 
     /**

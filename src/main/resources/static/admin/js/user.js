@@ -41,7 +41,7 @@ var app = new Vue({
                 }
             });
         },
-        //评论列表
+        //列表
         initCommentList:function(){
             $.post("/u/userManageListPage", {
                 username:this.username,
@@ -97,7 +97,7 @@ var app = new Vue({
         // 查看用户
         handleView: function(index,row){
             var d = new Date(row.createTime);
-            window.parent.location.href = "/user/"+(d.getTime()*3);
+            window.parent.location.href = "/user/"+row.uid*12345;
         },
         // 用户授权
         handleEdit: function(index,row){
@@ -132,7 +132,15 @@ var app = new Vue({
         },
         // 用户注销
         handleDelete: function(index,row){
-
+            $.post("/u/deleteUser",{id:row.uid},function (res) {
+                if(res.code === 10000){
+                    vm.$message({message:"注销用户成功",type: 'success'});
+                    vm.initCommentList();
+                    vm.init();
+                }else{
+                    vm.$message.error(res.msg);
+                }
+            })
         },
         handlePageNum: function (val) {
             this.pageNum=val;

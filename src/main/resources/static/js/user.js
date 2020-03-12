@@ -181,7 +181,7 @@ let app = new Vue({
         },
         bingGithub(){
             Cookies.set('back',window.location.href,{ expires: 1, path: '/' });
-            window.location.href="https://github.com/login/oauth/authorize?client_id=9d543dc4501558c6759f&redirect_uri=https://127.0.0.1/u/github/callback&response_type=code&state=banding";
+            window.location.href="https://github.com/login/oauth/authorize?client_id=9d543dc4501558c6759f&redirect_uri=https://www.wiblog.cn/u/github/callback&response_type=code&state=banding";
         },
         unBinding(type){
             this.$confirm('是否取消绑定?', '提示', {
