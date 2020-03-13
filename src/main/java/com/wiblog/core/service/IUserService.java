@@ -87,7 +87,7 @@ public interface IUserService extends IService<User> {
      * @param code code
      * @return ServerResponse
      */
-    ServerResponse binding(Long uid, String type, String val, Integer code);
+    ServerResponse binding(Long uid, String type, String val, String code);
 
     /**
      * 用户注销
@@ -103,4 +103,12 @@ public interface IUserService extends IService<User> {
      * @return ServerResponse
      */
     ServerResponse unBinding(Long uid, String type);
+
+    /**
+     * 设置用户信息
+     * @param uid uid
+     * @param userNew userNew
+     * @return ServerResponse
+     */
+    ServerResponse setUserDetail(Long uid, User userNew);
 }

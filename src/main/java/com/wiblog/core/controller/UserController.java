@@ -270,7 +270,7 @@ public class UserController extends BaseController {
      * @return ServerResponse
      */
     @PostMapping("/binding")
-    public ServerResponse binding(HttpServletRequest request, String type, String val, Integer code) {
+    public ServerResponse binding(HttpServletRequest request, String type, String val, String code) {
         User user = getLoginUser(request);
         if (user != null) {
             return userService.binding(user.getUid(), type, val, code);
@@ -290,6 +290,15 @@ public class UserController extends BaseController {
         User user = getLoginUser(request);
         if (user != null) {
             return userService.unBinding(user.getUid(), type);
+        }
+        return ServerResponse.error("用户未登录", 30001);
+    }
+
+    @PostMapping("/setUserDetail")
+    public ServerResponse setUserDetail(HttpServletRequest request,User userNew){
+        User user = getLoginUser(request);
+        if (user != null) {
+            return userService.setUserDetail(user.getUid(),userNew);
         }
         return ServerResponse.error("用户未登录", 30001);
     }

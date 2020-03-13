@@ -4,9 +4,7 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.wiblog.core.entity.User;
-import com.wiblog.core.entity.UserAuth;
 import com.wiblog.core.vo.UserVo;
-
 import org.apache.ibatis.annotations.Options;
 
 import java.util.List;
@@ -51,4 +49,11 @@ public interface UserMapper extends BaseMapper<User> {
      * @return int
      */
     int updateStateToZero(Long uid);
+
+    /**
+     * 修改用户信息
+     * @param user user
+     * @return int
+     */
+    int updateDetail(User user);
 }

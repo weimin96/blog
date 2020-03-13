@@ -63,7 +63,12 @@
                 :visible.sync="imgVisible"
                 width="60%"
                 :show-close="false">
-        <img :src="imgUrl" width="100%" height="100%"/>
+            <img :src="imgUrl" width="100%" height="100%"/>
+            <div style="margin: 15px;padding-bottom: 15px;">
+                <el-input v-model="imgUrl" id="input">
+                    <el-button slot="append" @click="copyImgUrl()" style="cursor: pointer;">复制链接</el-button>
+                </el-input>
+            </div>
         </el-dialog>
     </div>
 </div>

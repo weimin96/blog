@@ -39,7 +39,7 @@ let app = new Vue({
             emailCodeInputDisable:true,
             errorEmailMsg: "",
             errorEmailCodeMsg: "",
-            emailCodeBtnMsg: "",
+            emailCodeBtnMsg: "获取验证码",
         };
     },
     beforeCreate() {
@@ -166,8 +166,10 @@ let app = new Vue({
         mailEnter(){
             if (this.emailInput.trim() === "") {
                 vm.$message.error("请输入邮箱");
+                return;
             }else if(this.emailCode.trim() === ""){
                 vm.$message.error("请输入验证码");
+                return;
             }
             $.post("/u/binding",{type:"email",val:this.emailInput,code:this.emailCode},function (res) {
                 if (res.code === 10000){
@@ -175,7 +177,8 @@ let app = new Vue({
                     vm.$message({message: "绑定邮箱成功", type: "success"});
                     vm.emailVisible=false;
                 }else {
-                    vm.emailCodeBtnMsg=res.msg;
+                    vm.$message.error(res.msg);
+                    //vm.emailCodeBtnMsg=res.msg;
                 }
             });
         },

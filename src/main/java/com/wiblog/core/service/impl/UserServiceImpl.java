@@ -233,12 +233,12 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
     }
 
     @Override
-    public ServerResponse binding(Long uid, String type, String val, Integer code) {
+    public ServerResponse binding(Long uid, String type, String val, String code) {
 
 
         if ("email".equals(type)){
             // 校验 验证码
-            Integer checkCode = (Integer) redisTemplate.opsForValue().get(Constant.CHECK_EMAIL_KEY + val);
+            String checkCode = (String) redisTemplate.opsForValue().get(Constant.CHECK_EMAIL_KEY + val);
             if (StringUtils.isBlank(val) || !code.equals(checkCode)){
                 return ServerResponse.error("验证码错误",30001);
             }
@@ -276,5 +276,12 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
     public ServerResponse unBinding(Long uid, String type) {
         userAuthMapper.updateStateToZero(uid,type);
         return ServerResponse.success("解绑成功");
+    }
+
+    @Override
+    public ServerResponse setUserDetail(Long uid, User userNew) {
+        userNew.setUid(uid);
+        userMapper.updateDetail(userNew);
+        return ServerResponse.success("设置成功");
     }
 }

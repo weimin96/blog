@@ -102,6 +102,15 @@ let app = new Vue({
                 });
 
             });
+        },
+        copyImgUrl(){
+            var input = $('#input');
+            input.select();
+            document.execCommand("Copy");
+            vm.$message({
+                type: 'success',
+                message: '复制成功!'
+            });
         }
     },
     filters: {
