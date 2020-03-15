@@ -8,6 +8,7 @@ import com.wiblog.core.service.IArticleService;
 import com.wiblog.core.service.ICategoryService;
 import com.wiblog.core.service.IUserRoleService;
 import com.wiblog.core.service.IUserService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -20,6 +21,7 @@ import javax.servlet.http.HttpServletRequest;
  * @date 2019/4/12
  */
 @Controller
+@Slf4j
 public class WebController extends BaseController {
 
     @Autowired
@@ -85,6 +87,7 @@ public class WebController extends BaseController {
         if (user == null) {
             return "404";
         }
+        log.info("用户信息{}",user);
         return "user";
     }
 

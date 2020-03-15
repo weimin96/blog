@@ -3,6 +3,7 @@ package com.wiblog.core.service;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.wiblog.core.common.ServerResponse;
 import com.wiblog.core.entity.User;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -111,4 +112,12 @@ public interface IUserService extends IService<User> {
      * @return ServerResponse
      */
     ServerResponse setUserDetail(Long uid, User userNew);
+
+    /**
+     * 设置用户头像
+     * @param uid uid
+     * @param file file
+     * @return ServerResponse
+     */
+    ServerResponse setAvatar(Long uid, MultipartFile file);
 }

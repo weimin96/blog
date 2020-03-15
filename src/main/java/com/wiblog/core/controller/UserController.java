@@ -18,6 +18,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -298,7 +299,31 @@ public class UserController extends BaseController {
     public ServerResponse setUserDetail(HttpServletRequest request,User userNew){
         User user = getLoginUser(request);
         if (user != null) {
-            return userService.setUserDetail(user.getUid(),userNew);
+            ServerResponse response = userService.setUserDetail(user.getUid(),userNew);
+            if (response.isSuccess()) {
+                user.setCity(userNew.getCity());
+                user.setSex(userNew.getSex());
+                user.setIntro(userNew.getIntro());
+                String token = WiblogUtil.getCookie(request, Constant.COOKIES_KEY);
+                redisTemplate.opsForValue().set(Constant.LOGIN_REDIS_KEY + token, JSON.toJSONString(user), 7, TimeUnit.DAYS);
+            }
+            return response;
+        }
+        return ServerResponse.error("用户未登录", 30001);
+    }
+
+    @PostMapping("/setAvatar")
+    public ServerResponse setAvatar(HttpServletRequest request, MultipartFile file){
+        User user = getLoginUser(request);
+        if (user != null) {
+            ServerResponse response = userService.setAvatar(user.getUid(),file);
+            if (response.isSuccess()) {
+                user.setAvatarImg((String) response.getData());
+                String token = WiblogUtil.getCookie(request, Constant.COOKIES_KEY);
+                log.info("token={}",token);
+                redisTemplate.opsForValue().set(Constant.LOGIN_REDIS_KEY + token, JSON.toJSONString(user), 7, TimeUnit.DAYS);
+            }
+            return response;
         }
         return ServerResponse.error("用户未登录", 30001);
     }

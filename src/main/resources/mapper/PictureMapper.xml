@@ -22,7 +22,7 @@ id, name, type, url, extra, create_time, update_time
     <select id="selectPageList" resultType="com.wiblog.core.entity.Picture">
         select
         id, name, type, url, extra,update_time,DATE_FORMAT(create_time,"%Y-%m-%d") as `create_time`
-        from picture order by create_time desc
+        from picture where type = "img" order by create_time desc
     </select>
 
     <!--批量插入图片返回id-->

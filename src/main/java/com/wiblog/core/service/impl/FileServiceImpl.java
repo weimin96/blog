@@ -47,7 +47,7 @@ public class FileServiceImpl implements IFileService {
     private String path;
 
     @Override
-    public ServerResponse uploadImage(MultipartFile file) {
+    public ServerResponse uploadImage(MultipartFile file,String type) {
         if(StringUtils.isBlank(file.getOriginalFilename())){
             return ServerResponse.error("文件为空",40001);
         }
@@ -59,7 +59,7 @@ public class FileServiceImpl implements IFileService {
         try {
             String eTag = cosApi.uploadFile(file.getInputStream(),fileName,bucketName);
             if(eTag != null){
-                Picture picture = new Picture(fileName,"img",path+fileName,"",date,date);
+                Picture picture = new Picture(fileName,type,path+fileName,"",date,date);
                 pictureMapper.insert(picture);
                 return ServerResponse.success(path+fileName,"图片上传成功");
             }

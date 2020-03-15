@@ -7,6 +7,12 @@ let app = new Vue({
             user: {
 
             },
+            userNew:{
+                username:user.username,
+                sex:"male",
+                city:"",
+                intro:""
+            },
             activeName: "first",
             userActiveName: "first",
             userSettingActiveName:"first",
@@ -56,6 +62,7 @@ let app = new Vue({
         this.getUserInfo();
 
         this.getBinding();
+
     },
     methods: {
         // 获取用户基础信息
@@ -63,6 +70,9 @@ let app = new Vue({
             $.get("/u/info",{id:this.uid},function (res) {
                if (res.code === 10000){
                    vm.user=res.data;
+                   vm.userNew.intro = res.data.intro;
+                   vm.userNew.sex = res.data.sex;
+                   vm.userNew.city = res.data.city;
                    vm.getUserComment(this.userCommentOrderBy);
                    vm.getUserReply(this.userReplyOrderBy);
                }
@@ -199,6 +209,46 @@ let app = new Vue({
                     }
                 });
             });
+
+        },
+        showImg(response, file, fileList){
+            if (response.code === 10000){
+                this.user.avatarImg=response.data;
+                vue.avatarImg = response.data;
+                user.avatarImg = response.data;
+            }
+        },
+        gotoUserSetting(){
+            this.sidebarActive = 'userSetting';
+
+            this.$nextTick(function(){
+                $('[data-toggle="city-picker"]').citypicker();
+            });
+
+            // var $citypicker = $('#city-picker');
+            // $citypicker.citypicker();
+        },
+        // 用户设置保存
+        submitUserSetting(){
+            let city = $('[data-toggle="city-picker"]')[0].value;
+            console.log(vm.userNew);
+            $.post("/u/setUserDetail",{city:city,intro:vm.userNew.intro,sex:vm.userNew.sex},function (res) {
+                if (res.code === 10000){
+                    vm.$message({message: "修改信息成功", type: "success"});
+                    vm.user.city=city;
+                    vm.user.intro=vm.userNew.intro;
+                    vm.user.sex=vm.userNew.sex;}
+            });
+        },
+        // 更多信息
+        moreInfo(){
+            if($("#intro").css('display') ==="block"){
+                $(".user-header").css("height","155px");
+                $("#intro").hide();
+            }else{
+                $(".user-header").css("height","182px");
+                $("#intro").show();
+            }
 
         }
     },

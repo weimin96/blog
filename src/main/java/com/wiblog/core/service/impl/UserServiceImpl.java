@@ -13,6 +13,7 @@ import com.wiblog.core.entity.UserAuth;
 import com.wiblog.core.exception.WiblogException;
 import com.wiblog.core.mapper.UserAuthMapper;
 import com.wiblog.core.mapper.UserMapper;
+import com.wiblog.core.service.IFileService;
 import com.wiblog.core.service.IUserService;
 import com.wiblog.core.utils.Md5Util;
 import com.wiblog.core.utils.WiblogUtil;
@@ -23,6 +24,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.Date;
@@ -51,6 +53,9 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
 
     @Autowired
     private RedisTemplate<String, Object> redisTemplate;
+
+    @Autowired
+    private IFileService fileService;
 
     @Override
     public ServerResponse<User> login(String account, String password) {
@@ -284,4 +289,20 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
         userMapper.updateDetail(userNew);
         return ServerResponse.success("设置成功");
     }
+
+    @Override
+    public ServerResponse setAvatar(Long uid, MultipartFile file) {
+        ServerResponse response = fileService.uploadImage(file,"avatar");
+        if (response.isSuccess()){
+            String url = (String) response.getData();
+            User user = new User();
+            user.setUid(uid);
+            user.setAvatarImg(url);
+            userMapper.updateDetail(user);
+            return ServerResponse.success(url,"设置成功");
+        }
+        return response;
+    }
+
+
 }

@@ -27,7 +27,7 @@ public class FileController {
     @PostMapping("/uploadImage")
     @AuthorizeCheck(grade = "2")
     public ServerResponse uploadImage(MultipartFile file){
-        return fileService.uploadImage(file);
+        return fileService.uploadImage(file,"img");
     }
 
     @PostMapping("/uploadImageForEditorMd")

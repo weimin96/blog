@@ -14,9 +14,10 @@ public interface IFileService {
     /**
      * 腾讯云对象存储 上传图片
      * @param file file
+     * @param type type img avatar
      * @return ServerResponse
      */
-    ServerResponse uploadImage(MultipartFile file);
+    ServerResponse uploadImage(MultipartFile file,String type);
 
     /**
      * md编辑器 腾讯云对象存储 上传图片

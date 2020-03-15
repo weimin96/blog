@@ -343,3 +343,24 @@
     margin: 50px;
     color: #c0c4cc;
 }
+
+.el-tabs__content{
+    padding: 10px;
+    box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);
+    border-radius: 2px;
+    overflow: inherit;
+    position: absolute;
+    width: 65.3%;
+}
+
+/*文本*/
+.user-setting-li span,.binding p{
+    font-weight: 500;
+}
+
+#intro{
+    font-size: 13px;
+    color: #ccc;
+    margin-top: 10px;
+    display: none;
+}
