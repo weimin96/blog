@@ -48,11 +48,13 @@
 
                                     </div>
 
-                                    <el-tag class="article-tags">
-                                        <span class="fa fa-tag tags" v-for="item in tagList">
-                                            <span class="tag-text">{{item}}</span>
+                                    <div class="article-tags">
+                                        <span  v-for="item in tagList">
+                                            <el-tag style="margin-right: 10px">
+                                                <span class="fa fa-tag tags tag-text">{{item}}</span>
+                                            </el-tag>
                                         </span>
-                                    </el-tag>
+                                    </div>
                                 </div>
 
                                 <br>
