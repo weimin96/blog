@@ -44,6 +44,9 @@ let app = new Vue({
             }).then(function (response) {
                 var records = response.data.data.records;
                 vm.records = vm.records.concat(records);
+                if (records.length<=0){
+                    return;
+                }
                 vm.id = vm.records[vm.records.length - 1].id;
                 vm.noMore = vm.records.length >= response.data.data.total;
                 vm.pageNum++;
@@ -68,12 +71,15 @@ let app = new Vue({
             };
         },
         //上传图片成功
-        uploadSuccess() {
-            console.log("上传成功");
-            this.init();
+        uploadSuccess(e) {
+            if (e.code === 10000){
+                this.init();
+                vm.$message({type: 'success', message: '上传成功!'});
+            } else if (e.code === 40003){
+                vm.$message.error(e.msg);
+            }
         },
         mouseEnter(index) {
-            console.log(index);
             this.isActive = index;
         },
         //   鼠标移除

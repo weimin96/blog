@@ -43,7 +43,9 @@ public class RecordScheduled {
             // 文章排行榜
             redisTemplate.opsForZSet().add(Constant.ARTICLE_RANKING_KEY,itData.getKey(),Double.parseDouble(itData.getValue().toString()));
         }
-        articleMapper.updateHitsBatch(dataList);
+        if (dataList.size()>0) {
+            articleMapper.updateHitsBatch(dataList);
+        }
 
         // 点赞存入数据库
         Map<Object,Object> likeMap = redisTemplate.opsForHash().entries(Constant.LIKE_RECORD_KEY);
@@ -56,7 +58,9 @@ public class RecordScheduled {
             data.put("likes",itData.getValue() == null ? 0:itData.getValue());
             likeList.add(data);
         }
-        articleMapper.updateLikesBatch(likeList);
+        if(likeList.size()>0) {
+            articleMapper.updateLikesBatch(likeList);
+        }
     }
 
 }

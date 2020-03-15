@@ -7,6 +7,7 @@ import com.wiblog.core.entity.Picture;
 import com.wiblog.core.mapper.PictureMapper;
 import com.wiblog.core.service.IFileService;
 import com.wiblog.core.thirdparty.CosApi;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -24,6 +25,7 @@ import java.util.Map;
  * @author pwm
  * @date 2019/10/1
  */
+@Slf4j
 @Service
 @PropertySource(value = "classpath:/config/wiblog.properties", encoding = "utf-8")
 public class FileServiceImpl implements IFileService {
@@ -58,13 +60,15 @@ public class FileServiceImpl implements IFileService {
         String fileName = sf.format(date)+file.getOriginalFilename();
         try {
             String eTag = cosApi.uploadFile(file.getInputStream(),fileName,bucketName);
-            if(eTag != null){
+            if ("file name error".equals(eTag)){
+                return ServerResponse.error("文件名不能带特殊字符",40003);
+            }else if(eTag != null){
                 Picture picture = new Picture(fileName,type,path+fileName,"",date,date);
                 pictureMapper.insert(picture);
                 return ServerResponse.success(path+fileName,"图片上传成功");
             }
         } catch (IOException e) {
-            e.printStackTrace();
+            log.error("异常",e);
         }
         return ServerResponse.error("图片上传失败",40002);
     }
@@ -81,21 +85,24 @@ public class FileServiceImpl implements IFileService {
             String fileName = sf.format(date)+file.getOriginalFilename();
             try {
                 String eTag = cosApi.uploadFile(file.getInputStream(),fileName,bucketName);
-                if(eTag != null){
+                if ("file name error".equals(eTag)){
+                    result.put("message", "文件名不能带特殊字符");
+                }else if(eTag != null){
                     result.put("success", 1);
                     result.put("message", "图片上传成功");
                     result.put("url", path+fileName);
                     Picture picture = new Picture(fileName,"img",path+fileName,"",date,date);
                     pictureMapper.insert(picture);
                     return result;
+                }else{
+                    result.put("message", "图片上传失败");
                 }
             } catch (IOException e) {
-                e.printStackTrace();
+                log.error("异常",e);
             }
         }
 
         result.put("success", 0);
-        result.put("message", "图片上传失败");
         result.put("url", "");
         return result;
     }

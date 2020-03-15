@@ -8,6 +8,7 @@ import com.qcloud.cos.exception.CosClientException;
 import com.qcloud.cos.exception.CosServiceException;
 import com.qcloud.cos.model.*;
 import com.qcloud.cos.region.Region;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 
 import java.io.IOException;
@@ -22,6 +23,7 @@ import java.util.Map;
  * @author pwm
  * @date 2019/10/1
  */
+@Slf4j
 public class CosApi {
 
     private COSClient client;
@@ -59,8 +61,12 @@ public class CosApi {
 
             PutObjectResult putObjectResult = this.client.putObject(putObjectRequest);
             return putObjectResult.getETag();
-        } catch (IOException | CosClientException e) {
-            e.printStackTrace();
+        } catch (CosServiceException e){
+            // 文件名带某些特殊符号会抛异常 例如+
+            return "file name error";
+        }
+        catch (IOException | CosClientException e) {
+            log.error("异常",e);
         } finally {
             this.client.shutdown();
         }
@@ -103,7 +109,7 @@ public class CosApi {
 
             }
         } catch (CosClientException e) {
-            e.printStackTrace();
+            log.error("异常",e);
         } finally {
             this.client.shutdown();
         }
