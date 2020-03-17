@@ -29,7 +29,6 @@ public class LogWebSocket {
     private static ApplicationContext applicationContext;
 
     private IUserRoleService userRoleService;
-
     private ThreadFactory threadFactory = new BasicThreadFactory.Builder().namingPattern("cache-pool-%d")
             .daemon(true).build();
     private ExecutorService executorService = new ThreadPoolExecutor(0, Integer.MAX_VALUE, 200L,

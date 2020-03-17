@@ -48,7 +48,7 @@ id,uid, author, title, content, tags, category_id, img_url, article_url, article
                 and a.privately = #{state}
             </if>
         </where>
-        group by a.id
+        group by a.id order by a.create_time desc
     </select>
 
     <select id="selectArticleById" resultType="com.wiblog.core.vo.ArticleVo">
