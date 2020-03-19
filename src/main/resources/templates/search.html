@@ -33,7 +33,8 @@
                     <div class="main">
                         <template v-for="item in contentList" >
                             <div class="card">
-                                <div class="title"><a :href="item.url">{{item.title}}</a></div>
+
+                                <div class="title"><a :href="item.url"><span v-html="item.title"></span></a></div>
                                 <div class="abstract">
                                     <span>{{item.createTime | articleDateFormat}} - </span>
                                     <span v-html="item.content"></span>

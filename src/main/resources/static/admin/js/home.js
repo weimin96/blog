@@ -5,10 +5,10 @@ $(function () {
         data: {
             // 统计信息
             staticData:{
-                articleCount:10,
-                commentCount: 33,
-                hitCount: 1411,
-                userCount: 5,
+                articleCount:0,
+                commentCount: 0,
+                hitCount: 0,
+                userCount: 0,
                 profitCount: 0,
             },
             // 结束日期

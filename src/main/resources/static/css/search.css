@@ -31,6 +31,12 @@
     margin-bottom: 1px;
 }
 
+.title p{
+    display: inline-block;
+    color: red;
+    font-weight: bold;
+}
+
 .abstract{
     font-size: 13px;
 }

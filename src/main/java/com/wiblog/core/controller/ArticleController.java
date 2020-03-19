@@ -147,7 +147,8 @@ public class ArticleController extends BaseController {
         String content = WiblogUtil.mdToHtml(article.getContent());
         content = content.replaceAll("<[^>]+>","");
         content = content.replaceAll("\\s*|\t|\r|\n","");
-        article.setArticleSummary(content.substring(0,100));
+        int length = Math.min(100,content.length());
+        article.setArticleSummary(content.substring(0,length));
         User user = getLoginUser(request);
         article.setAuthor(user.getUsername());
         article.setUid(user.getUid());
@@ -181,7 +182,18 @@ public class ArticleController extends BaseController {
         article.setArticleSummary(content.substring(0,100));
         boolean bool = articleService.updateById(article);
         if (bool) {
-            EsArticle esArticle = new EsArticle(article.getId(),article.getTitle(),article.getContent(),article.getCategoryId(),article.getCreateTime(),article.getArticleUrl());
+
+            EsArticle esArticle = articleRepository.queryEsArticleByArticleId(article.getId());
+            if (esArticle == null){
+                Article article1 = articleService.getById(article.getId());
+                esArticle = new EsArticle();
+                esArticle.setArticleId(article.getId());
+                esArticle.setCreateTime(article1.getCreateTime());
+                esArticle.setUrl(article1.getArticleUrl());
+            }
+            esArticle.setContent(content);
+            esArticle.setTitle(article.getTitle());
+            esArticle.setCategoryId(article.getCategoryId());
             articleRepository.save(esArticle);
             return ServerResponse.success(null, "文章修改成功",article.getTitle());
         }

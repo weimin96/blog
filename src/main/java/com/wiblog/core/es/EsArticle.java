@@ -1,5 +1,8 @@
 package com.wiblog.core.es;
 
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.elasticsearch.annotations.Document;
 import org.springframework.data.elasticsearch.annotations.Field;
@@ -7,11 +10,6 @@ import org.springframework.data.elasticsearch.annotations.FieldType;
 
 import java.io.Serializable;
 import java.util.Date;
-
-import lombok.Data;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
 
 /**
  * 文档类 article
@@ -55,4 +53,6 @@ public class EsArticle  implements Serializable {
         this.createTime = createTime;
         this.url = url;
     }
+
+
 }
