@@ -49,7 +49,7 @@ public class RecordScheduled {
 
         // 点赞存入数据库
         Map<Object,Object> likeMap = redisTemplate.opsForHash().entries(Constant.LIKE_RECORD_KEY);
-        Iterator<Map.Entry<Object, Object>> itLike = hitMap.entrySet().iterator();
+        Iterator<Map.Entry<Object, Object>> itLike = likeMap.entrySet().iterator();
         List<Map> likeList = new ArrayList<>();
         while (itLike.hasNext()){
             Map.Entry<Object, Object> itData = itLike.next();

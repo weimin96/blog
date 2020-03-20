@@ -9,7 +9,6 @@ import org.springframework.data.elasticsearch.annotations.Field;
 import org.springframework.data.elasticsearch.annotations.FieldType;
 
 import java.io.Serializable;
-import java.util.Date;
 
 /**
  * 文档类 article
@@ -39,13 +38,12 @@ public class EsArticle  implements Serializable {
     @Field(type = FieldType.Long)
     private Long categoryId;
 
-    @Field(type = FieldType.Date)
-    private Date createTime;
+    private Long createTime;
 
     @Field(type = FieldType.Text)
     private String url;
 
-    public EsArticle(Long articleId, String title, String content, Long categoryId, Date createTime, String url) {
+    public EsArticle(Long articleId, String title, String content, Long categoryId, Long createTime, String url) {
         this.articleId = articleId;
         this.title = title;
         this.content = content;

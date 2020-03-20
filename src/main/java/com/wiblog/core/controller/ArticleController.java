@@ -156,7 +156,7 @@ public class ArticleController extends BaseController {
 
         if (bool) {
             Article article1 = articleService.getOne(new QueryWrapper<Article>().eq("title",article.getTitle()));
-            articleRepository.save(new EsArticle(article1.getId(),article1.getTitle(),content,article1.getCategoryId(),article1.getCreateTime(),article1.getArticleUrl()));
+            articleRepository.save(new EsArticle(article1.getId(),article1.getTitle(),content,article1.getCategoryId(),article1.getCreateTime().getTime(),article1.getArticleUrl()));
             return ServerResponse.success(articleUrl, "文章发表成功", title);
         }
         return ServerResponse.error("文章发表失败", 30001);
@@ -188,7 +188,7 @@ public class ArticleController extends BaseController {
                 Article article1 = articleService.getById(article.getId());
                 esArticle = new EsArticle();
                 esArticle.setArticleId(article.getId());
-                esArticle.setCreateTime(article1.getCreateTime());
+                esArticle.setCreateTime(article1.getCreateTime().getTime());
                 esArticle.setUrl(article1.getArticleUrl());
             }
             esArticle.setContent(content);
@@ -250,7 +250,7 @@ public class ArticleController extends BaseController {
                             EsArticle esArticle = new EsArticle();
                             esArticle.setId(hit.getId());
                             esArticle.setUrl((String) hit.getSourceAsMap().get("url"));
-                            esArticle.setCreateTime(new Date((Long) hit.getSourceAsMap().get("createTime")));
+                            esArticle.setCreateTime((Long) hit.getSourceAsMap().get("createTime"));
                             esArticle.setCategoryId(Long.parseLong(hit.getSourceAsMap().get("categoryId") +""));
                             // 获取第一个字段高亮内容
                             HighlightField highlightField1 = hit.getHighlightFields().get(fieldNames[0]);
