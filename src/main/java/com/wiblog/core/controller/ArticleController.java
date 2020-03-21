@@ -302,7 +302,7 @@ public class ArticleController extends BaseController {
     @PostMapping("/record/like")
     public ServerResponse like(Long articleId) {
         Integer count;
-        count = (Integer) redisTemplate.opsForHash().get(Constant.LIKE_RECORD_KEY,articleId);
+        count = (Integer) redisTemplate.opsForHash().get(Constant.LIKE_RECORD_KEY,articleId+"");
         if (count == null) {
             count = 0;
         }
