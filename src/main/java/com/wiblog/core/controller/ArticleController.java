@@ -307,7 +307,7 @@ public class ArticleController extends BaseController {
             count = 0;
         }
         count++;
-        redisTemplate.opsForHash().put(Constant.LIKE_RECORD_KEY , articleId, count);
+        redisTemplate.opsForHash().put(Constant.LIKE_RECORD_KEY , articleId+"", count);
 
         return ServerResponse.success(count);
     }
