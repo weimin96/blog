@@ -1,13 +1,19 @@
 package com.wiblog.core.scheduled;
 
+import com.alibaba.fastjson.JSONObject;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.wiblog.core.common.Constant;
+import com.wiblog.core.entity.Article;
 import com.wiblog.core.mapper.ArticleMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
+import org.springframework.web.client.RestTemplate;
 
 import java.util.*;
 
@@ -63,4 +69,25 @@ public class RecordScheduled {
         }
     }
 
+    @Scheduled(cron = "0 0 */2 * * ?")
+    public void pushArticle(){
+        String api_url = "http://data.zz.baidu.com/urls?site=www.wiblog.cn&token=OesFmLmaNBZXO2G1";
+        List<Article> list = articleMapper.selectList(new QueryWrapper<Article>().eq("state","1"));
+        StringBuilder builder = new StringBuilder();
+        for (Article article : list) {
+            String url = "https://www.wiblog.cn" + article.getArticleUrl()+"\n";
+            builder.append(url);
+        }
+        HttpHeaders headers = new HttpHeaders();
+        headers.add("Host", "data.zz.baidu.com");
+        headers.add("User-Agent", "curl/7.12.1");
+        headers.add("Content-Length", "83");
+        headers.add("Content-Type", "text/plain");
+        HttpEntity<String> entity = new HttpEntity<String>(builder.toString(), headers);
+        RestTemplate restTemplate = new RestTemplate();
+        JSONObject result = restTemplate.postForObject(api_url, entity, JSONObject.class);
+        if (result!=null && result.get("message")!=null){
+            log.error("主动更新异常{}",(String) result.get("message"));
+        }
+    }
 }
