@@ -12,7 +12,6 @@ import com.wiblog.core.entity.Article;
 import com.wiblog.core.entity.User;
 import com.wiblog.core.es.EsArticle;
 import com.wiblog.core.es.EsArticleRepository;
-import com.wiblog.core.scheduled.RecordScheduled;
 import com.wiblog.core.service.IArticleService;
 import com.wiblog.core.utils.PinYinUtil;
 import com.wiblog.core.utils.WiblogUtil;
@@ -41,7 +40,10 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -343,16 +345,13 @@ public class ArticleController extends BaseController {
     @GetMapping("/getArticleRank")
     public ServerResponse getArticleRank(){
         Set<Object> rankSet = redisTemplate.opsForZSet().range(Constant.ARTICLE_RANKING_KEY,0,9);
-
-
         return articleService.getArticleRank(rankSet);
     }
 
-    @Autowired
-    private RecordScheduled recordHit;
     @GetMapping("/test")
-    public Object test(){
-        recordHit.recordHit();
-        return null;
+    public Object test(String b){
+        Double a = redisTemplate.opsForZSet().score(Constant.ARTICLE_RANKING_KEY, b);
+        Long i=redisTemplate.opsForZSet().remove(Constant.ARTICLE_RANKING_KEY,b);
+        return a;
     }
 }

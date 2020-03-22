@@ -62,11 +62,18 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
 
     @Override
     public ServerResponse delArticle(Long id) {
+        if (id == null){
+            return ServerResponse.success(null,"删除失败");
+        }
         int count = articleMapper.updateState(id);
         ArticleVo article = articleMapper.selectArticleById(id);
+        String title = "";
+        if (article != null){
+            title = article.getTitle();
+        }
         // 删除排行榜数据
-        redisTemplate.opsForZSet().remove(Constant.ARTICLE_RANKING_KEY,String.valueOf(id));
-        return ServerResponse.success(null,"删除成功",article.getTitle());
+        Long result = redisTemplate.opsForZSet().remove(Constant.ARTICLE_RANKING_KEY,String.valueOf(id));
+        return ServerResponse.success(result,"删除成功",title);
     }
 
     @Override

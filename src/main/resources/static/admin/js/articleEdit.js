@@ -118,6 +118,26 @@ var app = new Vue({
         },
         // 文章发表修改
         pushArticle: function () {
+            if(this.article.title === ""){
+                vm.$message.error("文章标题不能为空");
+                return;
+            }
+            if(this.article.content === ""){
+                vm.$message.error("文章内容不能为空");
+                return;
+            }
+            if(this.article.tags === ""){
+                vm.$message.error("文章标签不能为空");
+                return;
+            }
+            if(this.article.categoryId === ""){
+                vm.$message.error("文章分类不能为空");
+                return;
+            }
+            if(this.article.imgUrl === ""){
+                vm.$message.error("文章题图不能为空");
+                return;
+            }
             this.pushLoading =true;
             this.article.content = this.editor.getMarkdown();
             this.article.articleSummary = this.article.content.substr(0, 200);

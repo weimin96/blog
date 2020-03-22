@@ -55,7 +55,7 @@ id,uid, author, title, content, tags, category_id, img_url, article_url, article
         select a.id,a.uid,a.title,a.author,a.content,a.tags,a.img_url,a.privately,a.reward,a.comment,
         a.category_id,a.create_time
         from article as a
-        where a.state = 1
+        where a.state = 1 and a.id=#{id}
     </select>
 
     <select id="selectArticleByUrl" resultType="com.wiblog.core.vo.ArticleDetailVo">
