@@ -73,6 +73,9 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
         }
         // 删除排行榜数据
         Long result = redisTemplate.opsForZSet().remove(Constant.ARTICLE_RANKING_KEY,String.valueOf(id));
+        // 删除点击率 点赞
+        redisTemplate.opsForHash().delete(Constant.HIT_RECORD_KEY,id);
+        redisTemplate.opsForHash().delete(Constant.LIKE_RECORD_KEY,id);
         return ServerResponse.success(result,"删除成功",title);
     }
 
