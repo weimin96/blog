@@ -86,8 +86,9 @@ public class ArticleController extends BaseController {
     @PostMapping("/articles")
     public ServerResponse<IPage> articlePageList(
             @RequestParam(value = "pageNum", defaultValue = "1") Integer pageNum,
-            @RequestParam(value = "pageSize", defaultValue = "10") Integer pageSize) {
-        return articleService.articlePageList(pageNum, pageSize);
+            @RequestParam(value = "pageSize", defaultValue = "10") Integer pageSize,
+            Long categoryId) {
+        return articleService.articlePageList(pageNum, pageSize,categoryId);
     }
 
     @PostMapping("/articlesManage")

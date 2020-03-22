@@ -47,16 +47,16 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
     }
 
     @Override
-    public ServerResponse<IPage> articlePageList(Integer pageNum, Integer pageSize) {
+    public ServerResponse<IPage> articlePageList(Integer pageNum, Integer pageSize,Long categoryId) {
         Page<Article> page = new Page<>(pageNum, pageSize);
-        IPage<ArticlePageVo> iPage = articleMapper.selectPageList(page,0);
+        IPage<ArticlePageVo> iPage = articleMapper.selectPageList(page,0,categoryId);
         return ServerResponse.success(iPage,"获取文章列表成功");
     }
 
     @Override
     public ServerResponse<IPage> articlesManage(Integer pageNum, Integer pageSize) {
         Page<Article> page = new Page<>(pageNum, pageSize);
-        IPage<ArticlePageVo> iPage = articleMapper.selectPageList(page,null);
+        IPage<ArticlePageVo> iPage = articleMapper.selectPageList(page,null,null);
         return ServerResponse.success(iPage,"获取文章列表成功");
     }
 

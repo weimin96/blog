@@ -27,9 +27,10 @@ public interface IArticleService extends IService<Article> {
      * 获取文章列表
      * @param pageNum pageNum
      * @param pageSize pageSize
+     * @param categoryId 文章分类
      * @return ServerResponse
      */
-    ServerResponse<IPage> articlePageList(Integer pageNum, Integer pageSize);
+    ServerResponse<IPage> articlePageList(Integer pageNum, Integer pageSize,Long categoryId);
 
     /**
      * 获取文章详细信息

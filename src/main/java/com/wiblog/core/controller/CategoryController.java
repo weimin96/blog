@@ -51,12 +51,11 @@ public class CategoryController {
             List<Category> list = categoryService.list(new QueryWrapper<Category>().orderByDesc("rank"));
             return ServerResponse.success(list,"获取分类列表成功");
         }
-        String json = (String) redisTemplate.opsForValue().get(Constant.CATEGORY_KEY);
-        if (StringUtil.isBlank(json)){
-            return ServerResponse.error("获取分类列表失败",30001);
+        ServerResponse<List<Category>> response = getCategory();
+        if (!response.isSuccess()){
+            return response;
         }
-        List<Category> list = JSONObject.parseArray(json,Category.class);
-        return ServerResponse.success(list,"获取分类列表成功");
+        return ServerResponse.success(response.getData(),"获取分类列表成功");
     }
 
     /**
@@ -82,6 +81,7 @@ public class CategoryController {
         if (!result){
             return ServerResponse.error("新增分类失败",50002);
         }
+        updateCache();
         return ServerResponse.success(null,"新增分类成功",name);
     }
 
@@ -98,6 +98,7 @@ public class CategoryController {
         if (!tag){
             return ServerResponse.error("更新分类失败",30001);
         }
+        updateCache();
         return ServerResponse.success(null,"更新分类成功",category.getName());
     }
 
@@ -110,7 +111,11 @@ public class CategoryController {
     @OpsRecord(msg = "删除了分类<<{0}>>")
     @PostMapping("/delCategory")
     public ServerResponse delCategory(Long id){
-        return categoryService.delCategory(id);
+        ServerResponse response = categoryService.delCategory(id);
+        if (response.isSuccess()){
+            updateCache();
+        }
+        return response;
     }
 
     /**
@@ -124,5 +129,33 @@ public class CategoryController {
         String data = JSONObject.toJSONString(list);
         redisTemplate.opsForValue().set(Constant.CATEGORY_KEY,data);
         return ServerResponse.success(null,"更新数据成功");
+    }
+
+    /**
+     * 通过链接获取分类id
+     * @param url url
+     * @return ServerResponse
+     */
+    @GetMapping("/getCategoryIdByUrl")
+    public ServerResponse getCategoryIdByUrl(String url){
+        ServerResponse<List<Category>> response = getCategory();
+        if (!response.isSuccess()){
+            return response;
+        }
+        for (Category c:response.getData()){
+            if (c.getUrl().equals(url)){
+                return ServerResponse.success(c.getId(),"获取分类id成功");
+            }
+        }
+        return ServerResponse.error("获取分类id失败",30001);
+    }
+
+    private ServerResponse<List<Category>> getCategory(){
+        String json = (String) redisTemplate.opsForValue().get(Constant.CATEGORY_KEY);
+        if (StringUtil.isBlank(json)){
+            return ServerResponse.error("获取分类列表失败",30001);
+        }
+        List<Category> list = JSONObject.parseArray(json,Category.class);
+        return ServerResponse.success(list,"获取分类列表成功");
     }
 }

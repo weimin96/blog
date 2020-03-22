@@ -47,6 +47,9 @@ id,uid, author, title, content, tags, category_id, img_url, article_url, article
             <if test="state != null">
                 and a.privately = #{state}
             </if>
+            <if test="categoryId !=null">
+                and a.category_id = #{categoryId}
+            </if>
         </where>
         group by a.id order by a.create_time desc
     </select>
