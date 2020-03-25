@@ -75,5 +75,10 @@ public class Constant {
      * 附近的人
      */
     public static final String NEAR_USER_KEY = "near_user";
+
+    /**
+     * 日志列表
+     */
+    public static final String LOG_PATH = "/home/pwm/log/";
 }
 

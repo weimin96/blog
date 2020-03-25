@@ -17,6 +17,8 @@ import java.io.InputStreamReader;
 import java.util.concurrent.*;
 
 /**
+ * websocket为多进程 单例不影响
+ *
  * @author pwm
  * @date 2019/12/17
  */
@@ -25,24 +27,23 @@ import java.util.concurrent.*;
 @Slf4j
 public class LogWebSocket {
 
-    //此处是解决无法注入的关键
     private static ApplicationContext applicationContext;
+    private static IUserRoleService userRoleService;
 
-    private IUserRoleService userRoleService;
-    private ThreadFactory threadFactory = new BasicThreadFactory.Builder().namingPattern("cache-pool-%d")
+    private static ThreadFactory threadFactory = new BasicThreadFactory.Builder().namingPattern("cache-pool-%d")
             .daemon(true).build();
-    private ExecutorService executorService = new ThreadPoolExecutor(0, Integer.MAX_VALUE, 200L,
+    private static ExecutorService executorService = new ThreadPoolExecutor(0, Integer.MAX_VALUE, 200L,
             TimeUnit.SECONDS, new SynchronousQueue<>(), threadFactory);
 
     private Process process;
     private InputStream inputStream;
 
-//    private RedisTemplate redisTemplate = (RedisTemplate) ContextLoader.getCurrentWebApplicationContext();
-
     /**
      * 与某个客户端的连接会话，需要通过它来给客户端发送数据
      */
     private Session session;
+
+    private boolean isRun = true;
 
     /**
      * 整个会话
@@ -54,8 +55,8 @@ public class LogWebSocket {
      */
     @OnOpen
     public void onOpen(@PathParam("token") String token, Session session, EndpointConfig config) {
-        log.info("连接");
-        userRoleService = applicationContext.getBean(IUserRoleService.class);
+        this.session = session;
+
         boolean isAuth = userRoleService.checkAuthorize(token);
         // 没有权限
         if (!isAuth) {
@@ -63,11 +64,11 @@ public class LogWebSocket {
             onClose();
         } else {
             try {
-            process = Runtime.getRuntime().exec("tail -f /home/pwm/log/log.log");
-//                process = Runtime.getRuntime().exec("cmd /c powershell Get-Content E:\\桌面\\log.log -Wait");
+//            process = Runtime.getRuntime().exec("tail -f /home/pwm/log/log.log");
+                process = Runtime.getRuntime().exec("cmd /c powershell Get-Content E:\\桌面\\log.log -Wait");
                 inputStream = process.getInputStream();
                 // 一定要启动新的线程，防止InputStream阻塞处理WebSocket的线程
-                tailLogThread(inputStream, session);
+                tailLogThread(inputStream);
             } catch (IOException e) {
                 log.error("异常", e);
             }
@@ -78,10 +79,9 @@ public class LogWebSocket {
      * 异步线程 发送消息
      *
      * @param in      in
-     * @param session session
      */
-    private void tailLogThread(InputStream in, Session session) {
-        executorService.execute(() -> {
+    private void tailLogThread(InputStream in) {
+        Future future = executorService.submit(() -> {
             BufferedReader reader = new BufferedReader(new InputStreamReader(in));
             String line;
             try {
@@ -90,10 +90,9 @@ public class LogWebSocket {
                     session.getBasicRemote().sendText(line + "<br>");
                 }
             } catch (IOException e) {
-                log.error("异常", e);
+                //log.error("异常", e);
             }
         });
-
     }
 
     @OnMessage
@@ -110,10 +109,19 @@ public class LogWebSocket {
             try {
                 inputStream.close();
             } catch (IOException e) {
-                e.printStackTrace();
+                log.error("异常",e);
             }
             if (process != null) {
                 process.destroy();
+            }
+
+        }
+        if (session != null && session.isOpen()) {
+            log.info(session.getId());
+            try {
+                session.close();
+            } catch (IOException e) {
+                log.error("异常", e);
             }
         }
     }
@@ -125,11 +133,13 @@ public class LogWebSocket {
      */
     @OnError
     public void onError(Session session, Throwable error) {
-        log.error("websocket错误", error);
+        log.error("关闭socket异常", error);
+        onClose();
     }
 
 
     public static void setApplicationContext(ApplicationContext context) {
         applicationContext = context;
+        userRoleService = applicationContext.getBean(IUserRoleService.class);
     }
 }

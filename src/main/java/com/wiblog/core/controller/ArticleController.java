@@ -349,10 +349,13 @@ public class ArticleController extends BaseController {
         return articleService.getArticleRank(rankSet);
     }
 
+    public String a ="a";
     @GetMapping("/test")
     public Object test(String b){
-        Double a = redisTemplate.opsForZSet().score(Constant.ARTICLE_RANKING_KEY, b);
-        Long i=redisTemplate.opsForZSet().remove(Constant.ARTICLE_RANKING_KEY,b);
+        if (StringUtils.isBlank(b)){
+            return a;
+        }
+        a = b;
         return a;
     }
 }
