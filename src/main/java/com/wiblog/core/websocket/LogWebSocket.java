@@ -64,8 +64,8 @@ public class LogWebSocket {
             onClose();
         } else {
             try {
-//            process = Runtime.getRuntime().exec("tail -f /home/pwm/log/log.log");
-                process = Runtime.getRuntime().exec("cmd /c powershell Get-Content E:\\桌面\\log.log -Wait");
+            process = Runtime.getRuntime().exec("tail -f /home/pwm/log/log.log");
+//                process = Runtime.getRuntime().exec("cmd /c powershell Get-Content E:\\桌面\\log.log -Wait");
                 inputStream = process.getInputStream();
                 // 一定要启动新的线程，防止InputStream阻塞处理WebSocket的线程
                 tailLogThread(inputStream);
