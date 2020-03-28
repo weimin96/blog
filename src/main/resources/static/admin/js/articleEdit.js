@@ -118,6 +118,8 @@ var app = new Vue({
         },
         // 文章发表修改
         pushArticle: function () {
+            this.article.content = this.editor.getMarkdown();
+            this.article.articleSummary = this.article.content.substr(0, 200);
             if(this.article.title === ""){
                 vm.$message.error("文章标题不能为空");
                 return;
@@ -139,8 +141,7 @@ var app = new Vue({
                 return;
             }
             this.pushLoading =true;
-            this.article.content = this.editor.getMarkdown();
-            this.article.articleSummary = this.article.content.substr(0, 200);
+
             // 发表新文章
             if (this.articleId === '' || this.articleId === null) {
                 $.post('/post/push', {
