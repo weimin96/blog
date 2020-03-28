@@ -338,6 +338,7 @@ img {
     color: #563d7c;
     background-color: transparent;
     border-left: 2px solid #563d7c;
+    word-break: break-word;
 }
 
 .nav>li>a{
@@ -346,6 +347,7 @@ img {
     font-size: 13px;
     font-weight: 500;
     color: #767676;
+    word-break: break-word;
 }
 
 .nav .nav{
