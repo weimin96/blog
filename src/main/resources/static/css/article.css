@@ -417,3 +417,11 @@ pre code{
     list-style: disc;
     margin-left: 20px;
 }
+
+#content li ul li{
+    list-style: circle;
+}
+
+#content ol li{
+    list-style: decimal;
+}
