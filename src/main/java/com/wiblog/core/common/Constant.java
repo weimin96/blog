@@ -72,6 +72,11 @@ public class Constant {
     public static final String ARTICLE_RANKING_KEY  = "article_ranking";
 
     /**
+     * 文章简要信息redis
+     */
+    public static final String ARTICLE_DETAIL_KEY  = "article_detail";
+
+    /**
      * 附近的人
      */
     public static final String NEAR_USER_KEY = "near_user";

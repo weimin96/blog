@@ -32,11 +32,13 @@ public class LogWebSocket {
 
     private static ThreadFactory threadFactory = new BasicThreadFactory.Builder().namingPattern("cache-pool-%d")
             .daemon(true).build();
-    private static ExecutorService executorService = new ThreadPoolExecutor(0, Integer.MAX_VALUE, 200L,
+    private static ExecutorService executorService = new ThreadPoolExecutor(0, Integer.MAX_VALUE, 0L,
             TimeUnit.SECONDS, new SynchronousQueue<>(), threadFactory);
 
     private Process process;
     private InputStream inputStream;
+
+    private static ConcurrentHashMap<String,Thread> futures = new ConcurrentHashMap<>();
 
     /**
      * 与某个客户端的连接会话，需要通过它来给客户端发送数据
@@ -67,6 +69,7 @@ public class LogWebSocket {
             process = Runtime.getRuntime().exec("tail -f /home/pwm/log/log.log");
 //                process = Runtime.getRuntime().exec("cmd /c powershell Get-Content E:\\桌面\\log.log -Wait");
                 inputStream = process.getInputStream();
+
                 // 一定要启动新的线程，防止InputStream阻塞处理WebSocket的线程
                 tailLogThread(inputStream);
             } catch (IOException e) {
@@ -81,18 +84,24 @@ public class LogWebSocket {
      * @param in      in
      */
     private void tailLogThread(InputStream in) {
-        Future future = executorService.submit(() -> {
+        Thread t = new Thread(() -> {
             BufferedReader reader = new BufferedReader(new InputStreamReader(in));
             String line;
             try {
                 while ((line = reader.readLine()) != null) {
                     // 将实时日志通过WebSocket发送给客户端，给每一行添加一个HTML换行
+
                     session.getBasicRemote().sendText(line + "<br>");
                 }
-            } catch (IOException e) {
-                //log.error("异常", e);
+            } catch (Exception e) {
+                log.error(e.getMessage(), e);
             }
         });
+        t.start();
+//        Future future = executorService.submit(() -> {
+//
+//        });
+        futures.put(session.getId(),t);
     }
 
     @OnMessage
@@ -116,6 +125,9 @@ public class LogWebSocket {
             }
 
         }
+        Thread future = futures.get(session.getId());
+        future.stop();
+//        log.info("线程{}",future.isCancelled());
         if (session != null && session.isOpen()) {
             log.info(session.getId());
             try {
@@ -124,6 +136,8 @@ public class LogWebSocket {
                 log.error("异常", e);
             }
         }
+
+
     }
 
     /**

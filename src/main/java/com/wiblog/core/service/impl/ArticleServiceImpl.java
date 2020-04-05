@@ -13,14 +13,13 @@ import com.wiblog.core.service.IUserRoleService;
 import com.wiblog.core.vo.ArticleDetailVo;
 import com.wiblog.core.vo.ArticlePageVo;
 import com.wiblog.core.vo.ArticleVo;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.core.ZSetOperations.TypedTuple;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 /**
  *  服务实现类
@@ -28,6 +27,7 @@ import java.util.Set;
  * @author pwm
  * @since 2019-06-12
  */
+@Slf4j
 @Service
 public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> implements IArticleService {
 
@@ -80,15 +80,22 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
     }
 
     @Override
-    public ServerResponse getArticleRank(Set<Object> rankSet) {
-        List<Article> result = new ArrayList<>();
-        List<Long> articleIds = new ArrayList<>();
+    public ServerResponse getArticleRank() {
+        Set<TypedTuple<Object>> rankSet = redisTemplate.opsForZSet().rangeWithScores(Constant.ARTICLE_RANKING_KEY,0,9);
+        List<Map> result = new ArrayList<>();
         if (rankSet != null && rankSet.size()>0){
-            for (Object o : rankSet) {
-                articleIds.add(Long.parseLong(o.toString()));
+            // set排序
+//            Set<TypedTuple<Object>> set = new TreeSet<>((o1, o2) -> o2.getScore()>=o1.getScore()?1:-1);
+//            set.addAll(rankSet);
+             Map entry = redisTemplate.opsForHash().entries(Constant.ARTICLE_DETAIL_KEY);
+            for (TypedTuple<Object> o:rankSet){
+                Map map = (Map) entry.get(o.getValue());
+                if (map!=null) {
+                    result.add(map);
+                }
             }
-            result = articleMapper.selectArticleByIds(articleIds);
         }
+        Collections.reverse(result);
         return ServerResponse.success(result);
     }
 

@@ -7,8 +7,6 @@ import com.wiblog.core.entity.Article;
 import com.wiblog.core.entity.User;
 import com.wiblog.core.vo.ArticleDetailVo;
 
-import java.util.Set;
-
 /**
  *   服务类
  *
@@ -64,8 +62,7 @@ public interface IArticleService extends IService<Article> {
 
     /**
      * 文章排行榜
-     * @param rankSet rankSet
      * @return ServerResponse
      */
-    ServerResponse getArticleRank(Set<Object> rankSet);
+    ServerResponse getArticleRank();
 }

@@ -48,6 +48,7 @@ public class RecordScheduled {
             dataList.add(data);
             // 文章排行榜
             redisTemplate.opsForZSet().add(Constant.ARTICLE_RANKING_KEY,itData.getKey(),Double.parseDouble(itData.getValue().toString()));
+
         }
         if (dataList.size()>0) {
             articleMapper.updateHitsBatch(dataList);

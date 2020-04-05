@@ -40,10 +40,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -155,11 +152,17 @@ public class ArticleController extends BaseController {
         User user = getLoginUser(request);
         article.setAuthor(user.getUsername());
         article.setUid(user.getUid());
+
         boolean bool = articleService.save(article);
 
         if (bool) {
             Article article1 = articleService.getOne(new QueryWrapper<Article>().eq("title",article.getTitle()));
             articleRepository.save(new EsArticle(article1.getId(),article1.getTitle(),content,article1.getCategoryId(),article1.getCreateTime().getTime(),article1.getArticleUrl()));
+            // 文章简要信息
+            Map<String,Object> article2 = new HashMap<>();
+            article2.put("url",articleUrl);
+            article2.put("title",article.getTitle());
+            redisTemplate.opsForHash().put(Constant.ARTICLE_DETAIL_KEY,String.valueOf(article1.getId()),article2);
             return ServerResponse.success(articleUrl, "文章发表成功", title);
         }
         return ServerResponse.error("文章发表失败", 30001);
@@ -187,6 +190,7 @@ public class ArticleController extends BaseController {
         if (bool) {
 
             EsArticle esArticle = articleRepository.queryEsArticleByArticleId(article.getId());
+            // 没有就更新
             if (esArticle == null){
                 Article article1 = articleService.getById(article.getId());
                 esArticle = new EsArticle();
@@ -345,8 +349,7 @@ public class ArticleController extends BaseController {
      */
     @GetMapping("/getArticleRank")
     public ServerResponse getArticleRank(){
-        Set<Object> rankSet = redisTemplate.opsForZSet().range(Constant.ARTICLE_RANKING_KEY,0,9);
-        return articleService.getArticleRank(rankSet);
+        return articleService.getArticleRank();
     }
 
     public String a ="a";
