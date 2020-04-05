@@ -8,6 +8,7 @@ import com.wiblog.core.entity.Picture;
 import com.wiblog.core.mapper.PictureMapper;
 import com.wiblog.core.service.IFileService;
 import com.wiblog.core.thirdparty.CosApi;
+import com.wiblog.core.utils.ImageUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +19,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -64,7 +66,9 @@ public class FileServiceImpl implements IFileService {
         SimpleDateFormat sf = new SimpleDateFormat("yyyyMMddHHmmss-");
         String fileName = sf.format(date) + file.getOriginalFilename();
         try {
-            String eTag = cosApi.uploadFile(file.getInputStream(), fileName, bucketName);
+            // 压缩图片
+            InputStream in = ImageUtil.compressPicForScale(file.getInputStream());
+            String eTag = cosApi.uploadFile(in, fileName, bucketName);
             if ("file name error".equals(eTag)) {
                 return ServerResponse.error("文件名不能带特殊字符", 40003);
             } else if (eTag != null) {
@@ -89,7 +93,9 @@ public class FileServiceImpl implements IFileService {
             SimpleDateFormat sf = new SimpleDateFormat("yyyyMMddHHmmss-");
             String fileName = sf.format(date) + file.getOriginalFilename();
             try {
-                String eTag = cosApi.uploadFile(file.getInputStream(), fileName, bucketName);
+                // 压缩图片
+                InputStream in = ImageUtil.compressPicForScale(file.getInputStream());
+                String eTag = cosApi.uploadFile(in, fileName, bucketName);
                 if ("file name error".equals(eTag)) {
                     result.put("message", "文件名不能带特殊字符");
                 } else if (eTag != null) {
