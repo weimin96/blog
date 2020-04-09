@@ -139,20 +139,15 @@ public class ArticleController extends BaseController {
             return ServerResponse.error("文章发表失败，已存在相同标题", 30001);
         }
         Date date = new Date();
-        article.setUpdateTime(date);
-        article.setCreateTime(date);
-        article.setArticleUrl(articleUrl);
-        article.setHits(0);
+
         // 提取纯文本
         String content = WiblogUtil.mdToHtml(article.getContent());
         content = content.replaceAll("<[^>]+>","");
         content = content.replaceAll("\\s*|\t|\r|\n","");
         int length = Math.min(100,content.length());
-        article.setArticleSummary(content.substring(0,length));
         User user = getLoginUser(request);
-        article.setAuthor(user.getUsername());
-        article.setUid(user.getUid());
-
+        // 赋值
+        article.setUpdateTime(date).setCreateTime(date).setArticleUrl(articleUrl).setHits(0).setUid(user.getUid()).setAuthor(user.getUsername()).setArticleSummary(content.substring(0,length));
         boolean bool = articleService.save(article);
 
         if (bool) {

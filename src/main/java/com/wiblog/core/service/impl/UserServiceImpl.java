@@ -94,11 +94,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
         checkUsername(username);
 
         // 插入用户表
-        User user = new User();
-        user.setUsername(username);
-        user.setRegion(address[0]);
-        user.setCity(address[1]);
-        user.setAvatarImg("https://www.wiblog.cn/img/reply-avatar.svg");
+        User user = User.builder().username(username).region(address[0]).city(address[1]).avatarImg("https://www.wiblog.cn/img/reply-avatar.svg").build();
         userMapper.insertReturnId(user);
         Long uid = user.getUid();
 
@@ -295,9 +291,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
         ServerResponse response = fileService.uploadImage(file,"avatar");
         if (response.isSuccess()){
             String url = (String) response.getData();
-            User user = new User();
-            user.setUid(uid);
-            user.setAvatarImg(url);
+            User user = User.of().setUid(uid).setAvatarImg(url);
             userMapper.updateDetail(user);
             return ServerResponse.success(url,"设置成功");
         }
