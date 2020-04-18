@@ -94,7 +94,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
         checkUsername(username);
 
         // 插入用户表
-        User user = User.builder().username(username).region(address[0]).city(address[1]).avatarImg("https://www.wiblog.cn/img/reply-avatar.svg").build();
+        User user = User.of().setUsername(username).setRegion(address[0]).setCity(address[1]).setAvatarImg("https://www.wiblog.cn/img/reply-avatar.svg");
         userMapper.insertReturnId(user);
         Long uid = user.getUid();
 
