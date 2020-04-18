@@ -166,7 +166,7 @@ public class FileServiceImpl implements IFileService {
         try {
             Path paths = Paths.get(path);
             Stream<String> lines = Files.lines(paths);
-            List<String> list = lines.skip(pageNum * 15).limit(15).collect(Collectors.toList());
+            List<String> list = lines.skip(pageNum * 10).limit(10).collect(Collectors.toList());
             result.put("list", list);
             result.put("total", Files.lines(paths).count());
         } catch (IOException e) {
