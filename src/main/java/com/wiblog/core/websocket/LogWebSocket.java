@@ -84,7 +84,8 @@ public class LogWebSocket {
      * @param in      in
      */
     private void tailLogThread(InputStream in) {
-        Thread t = new Thread(() -> {
+
+        executorService.execute(() -> {
             BufferedReader reader = new BufferedReader(new InputStreamReader(in));
             String line;
             try {
@@ -94,14 +95,9 @@ public class LogWebSocket {
                     session.getBasicRemote().sendText(line + "<br>");
                 }
             } catch (Exception e) {
-                log.error(e.getMessage(), e);
+//                log.error(e.getMessage(), e);
             }
         });
-        t.start();
-//        Future future = executorService.submit(() -> {
-//
-//        });
-        futures.put(session.getId(),t);
     }
 
     @OnMessage

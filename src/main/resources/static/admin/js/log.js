@@ -20,12 +20,26 @@ let app = new Vue({
         this.getLogList();
         //this.createWebsocket();
     },
+    computed: {
+        sortLog() {
+            return this.sortByKey(this.logList,"name");
+        }
+    },
     methods: {
         getLogList() {
 
             $.get("/getLogList", function (res) {
                 if (res.code === 10000) {
-                    vm.logList = res.data;
+
+                    vm.logList = [{name: "log.2020-04-15.0.log", path: "/home/pwm/log/log.2020-04-15.0.log"},
+                    {name: "log.2020-04-05.0.log", path: "/home/pwm/log/log.2020-04-05.0.log"},
+                    {name: "log.2020-03-31.0.log", path: "/home/pwm/log/log.2020-03-31.0.log"},
+                    {name: "log.log", path: "/home/pwm/log/log.log"},
+                    {name: "log.2020-04-06.0.log", path: "/home/pwm/log/log.2020-04-06.0.log"},
+                    {name: "log.2020-03-21.0.log", path: "/home/pwm/log/log.2020-03-21.0.log"},
+                    {name: "log.2020-04-13.0.log", path: "/home/pwm/log/log.2020-04-13.0.log"},
+                    {name: "log.2020-04-16.0.log", path: "/home/pwm/log/log.2020-04-16.0.log"},
+                    ]//res.data;
 
                 }
             })
@@ -52,7 +66,7 @@ let app = new Vue({
                 }
             })
         },
-        handleView(i,row){
+        handleView(i, row) {
             this.path = row.path;
             $.get("/showLog", {path: this.path, pageNum: this.pageNum}, function (res) {
                 if (res.code === 10000) {
@@ -62,7 +76,7 @@ let app = new Vue({
                 }
             })
         },
-        handleDel(){
+        handleDel() {
 
         },
         currentData() {
@@ -81,11 +95,20 @@ let app = new Vue({
             console.log("socket连接成功");
         },
         onmessage(event) {
-            $("#log-container div").append(event.data);
+            $("#log-container").append(event.data);
         },
-        closeCurrentData(){
+        closeCurrentData() {
             this.currentVisible = false;
             this.websocket.close();
+        },
+        //数组对象方法排序:
+        sortByKey(array, key) {
+            return array.sort(function (a, b) {
+                var x = a[key];
+                var y = b[key];
+                return y.localeCompare(x)
+            });
         }
+
     }
 });
