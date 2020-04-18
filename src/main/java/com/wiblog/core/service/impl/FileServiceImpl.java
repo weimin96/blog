@@ -170,7 +170,7 @@ public class FileServiceImpl implements IFileService {
             result.put("list", list);
             result.put("total", Files.lines(paths).count());
         } catch (IOException e) {
-            log.error("异常", e);
+            log.error("日志异常", e);
         }
         return ServerResponse.success(result);
     }
