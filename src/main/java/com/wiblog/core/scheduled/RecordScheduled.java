@@ -38,36 +38,65 @@ public class RecordScheduled {
     public void recordHit(){
         // 获取 点击率存入数据库
         Map<Object,Object> hitMap = redisTemplate.opsForHash().entries(Constant.HIT_RECORD_KEY);
-        Iterator<Map.Entry<Object, Object>> it = hitMap.entrySet().iterator();
-        List<Map> dataList = new ArrayList<>();
-        while (it.hasNext()){
-            Map.Entry<Object, Object> itData = it.next();
-            Map<String,Object> data = new HashMap<>(2);
-            data.put("id",itData.getKey());
-            data.put("hits",itData.getValue());
-            dataList.add(data);
-            // 文章排行榜
-            redisTemplate.opsForZSet().add(Constant.ARTICLE_RANKING_KEY,itData.getKey(),Double.parseDouble(itData.getValue().toString()));
+        // 缓存不存在 将数据库数据导入缓存
+        if (hitMap == null || hitMap.isEmpty()){
+            List<Map> hitList = articleMapper.selectHits();
+            Map<String, Object> hits = new HashMap<>(16);
+            for (Map item:hitList){
+                hits.put(String.valueOf(item.get("id")),item.get("hits"));
+                // 更新排行榜
+                redisTemplate.opsForZSet().add(Constant.ARTICLE_RANKING_KEY, item.get("id"), Double.parseDouble(item.get("hits").toString()));
+            }
+            redisTemplate.opsForHash().putAll(Constant.HIT_RECORD_KEY,hits);
+        }else {
+            Iterator<Map.Entry<Object, Object>> it = hitMap.entrySet().iterator();
+            List<Map> dataList = new ArrayList<>();
+            while (it.hasNext()) {
+                Map.Entry<Object, Object> itData = it.next();
+                Map<String, Object> data = new HashMap<>(2);
+                data.put("id", itData.getKey());
+                data.put("hits", itData.getValue());
+                dataList.add(data);
+                // 文章排行榜
+                redisTemplate.opsForZSet().add(Constant.ARTICLE_RANKING_KEY, itData.getKey(), Double.parseDouble(itData.getValue().toString()));
 
-        }
-        if (dataList.size()>0) {
-            articleMapper.updateHitsBatch(dataList);
+            }
+            if (dataList.size() > 0) {
+                articleMapper.updateHitsBatch(dataList);
+            }
         }
 
         // 点赞存入数据库
         Map<Object,Object> likeMap = redisTemplate.opsForHash().entries(Constant.LIKE_RECORD_KEY);
-        Iterator<Map.Entry<Object, Object>> itLike = likeMap.entrySet().iterator();
-        List<Map> likeList = new ArrayList<>();
-        while (itLike.hasNext()){
-            Map.Entry<Object, Object> itData = itLike.next();
-            Map<String,Object> data = new HashMap<>(2);
-            data.put("id",itData.getKey());
-            data.put("likes",itData.getValue() == null ? 0:itData.getValue());
-            likeList.add(data);
+        // 缓存不存在 将数据库数据导入缓存
+        if (likeMap == null || likeMap.isEmpty()){
+            List<Map> likeList = articleMapper.selectLikes();
+            Map<String, Object> likes = new HashMap<>(16);
+            for (Map item:likeList){
+                likes.put(String.valueOf(item.get("id")),item.get("hits"));
+            }
+            redisTemplate.opsForHash().putAll(Constant.LIKE_RECORD_KEY,likes);
+        }else {
+            Iterator<Map.Entry<Object, Object>> itLike = likeMap.entrySet().iterator();
+            List<Map> likeList = new ArrayList<>();
+            while (itLike.hasNext()) {
+                Map.Entry<Object, Object> itData = itLike.next();
+                Map<String, Object> data = new HashMap<>(2);
+                data.put("id", itData.getKey());
+                data.put("likes", itData.getValue() == null ? 0 : itData.getValue());
+                likeList.add(data);
+            }
+            if (likeList.size() > 0) {
+                articleMapper.updateLikesBatch(likeList);
+            }
         }
-        if(likeList.size()>0) {
-            articleMapper.updateLikesBatch(likeList);
+        // 更新文章信息
+        redisTemplate.delete(Constant.ARTICLE_DETAIL_KEY);
+        List<Map> list = articleMapper.selectListForTitleAndUrl();
+        for (Map article:list){
+            redisTemplate.opsForHash().put(Constant.ARTICLE_DETAIL_KEY,String.valueOf(article.get("id")),article);
         }
+
     }
 
     @Scheduled(cron = "0 0 */2 * * ?")

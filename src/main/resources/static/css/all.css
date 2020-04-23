@@ -590,6 +590,10 @@ header .nav-search label{
     background: #dcdfe6;
 }
 
+.rank-list li div{
+    font-size: 13px;
+}
+
 
 
 

@@ -44,7 +44,7 @@ public class Constant {
     /**
      * 点击率redis key
      */
-    public static final String HIT_RECORD_KEY = "hit_record_";
+    public static final String HIT_RECORD_KEY = "hit_record";
 
     /**
      * 邮箱发送次数

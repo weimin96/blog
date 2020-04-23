@@ -91,6 +91,7 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
             for (TypedTuple<Object> o:rankSet){
                 Map map = (Map) entry.get(o.getValue());
                 if (map!=null) {
+                    map.put("score",o.getScore());
                     result.add(map);
                 }
             }

@@ -118,4 +118,16 @@ id,uid, author, title, content, tags, category_id, img_url, article_url, article
             #{item}
         </foreach>
     </select>
+
+    <select id="selectHits" resultType="java.util.Map">
+        select id,hits from article where state = 1
+    </select>
+
+    <select id="selectLikes" resultType="java.util.Map">
+        select id,likes from article where state = 1
+    </select>
+
+    <select id="selectListForTitleAndUrl" resultType="java.util.Map">
+        select id,title,article_url as url from article where state = 1
+    </select>
 </mapper>

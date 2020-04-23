@@ -86,4 +86,10 @@ public interface ArticleMapper extends BaseMapper<Article> {
      * @return int
      */
     int updateLikesBatch(List<Map> likeList);
+
+    List<Map> selectHits();
+
+    List<Map> selectLikes();
+
+    List<Map> selectListForTitleAndUrl();
 }

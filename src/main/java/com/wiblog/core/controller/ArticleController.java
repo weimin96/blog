@@ -306,7 +306,11 @@ public class ArticleController extends BaseController {
         Integer count;
         count = (Integer) redisTemplate.opsForHash().get(Constant.LIKE_RECORD_KEY,articleId+"");
         if (count == null) {
-            count = 0;
+            Article article = articleService.getById(articleId);
+            if (article == null){
+                return ServerResponse.error("不存在该文章",30001);
+            }
+            count = article.getHits();
         }
         count++;
         redisTemplate.opsForHash().put(Constant.LIKE_RECORD_KEY , articleId+"", count);
@@ -326,13 +330,19 @@ public class ArticleController extends BaseController {
         Integer count;
         count = (Integer) redisTemplate.opsForHash().get(Constant.HIT_RECORD_KEY,articleId+"");
         if (count == null) {
-            count = 0;
+            Article article = articleService.getById(articleId);
+            if (article == null){
+                return ServerResponse.error("不存在该文章",30001);
+            }
+            count = article.getHits();
+
         }
         if (StringUtils.isNotBlank(check)){
             return ServerResponse.success(count);
         }
         count++;
         redisTemplate.opsForHash().put(Constant.HIT_RECORD_KEY , articleId+"", count);
+        // cookie保留2小时
         WiblogUtil.setCookie(response,"article_"+articleId,"1",60*60*2);
 
         return ServerResponse.success(count);
