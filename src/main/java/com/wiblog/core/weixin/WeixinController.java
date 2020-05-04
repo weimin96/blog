@@ -107,10 +107,10 @@ public class WeixinController {
             // cookies
             WiblogUtil.setCookie(response, token);
             // 跳转历史页面
-            String url = WiblogUtil.getCookie(request, "back");
-            log.info(url);
-            response.sendRedirect(url);
-            return null;
+            //String url = WiblogUtil.getCookie(request, "back");
+            //log.info(url);
+//            response.sendRedirect(url);
+            return ServerResponse.success(null);
         }
         return serverResponse;
     }
