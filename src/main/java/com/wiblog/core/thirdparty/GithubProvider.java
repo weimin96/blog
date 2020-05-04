@@ -9,13 +9,14 @@ import com.wiblog.core.mapper.CommentMapper;
 import com.wiblog.core.mapper.UserAuthMapper;
 import com.wiblog.core.mapper.UserMapper;
 import com.wiblog.core.service.IUserService;
-
+import com.wiblog.core.utils.IPUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.client.RestTemplate;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -91,7 +92,7 @@ public class GithubProvider {
      * @param token      token
      */
     @Transactional(rollbackFor = Exception.class)
-    public User registerGithub(Map githubUser, String token) {
+    public User registerGithub(Map githubUser, String token, HttpServletRequest request) {
         UserAuth userAuth = userAuthMapper.selectOne(new QueryWrapper<UserAuth>()
                 .eq("identity_type", "github")
                 .eq("identifier", githubUser.get("node_id"))
@@ -99,10 +100,13 @@ public class GithubProvider {
         User user = User.of();
         // 未注册 直接插入数据
         if (userAuth == null) {
+            String ip = IPUtil.getIpAddr(request);
+            String[] address = IPUtil.getIpInfo(ip);
+
             user.setAvatarImg((String) githubUser.get("avatar_url"));
             user.setUsername((String) githubUser.get("name"));
             user.setState(true);
-            user.setSex("male");
+            user.setSex("male").setCity(address[1]);
             user.setCreateTime(new Date());
             userMapper.insertReturnId(user);
 

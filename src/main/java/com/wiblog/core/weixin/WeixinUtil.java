@@ -8,6 +8,7 @@ import com.wiblog.core.entity.User;
 import com.wiblog.core.entity.UserAuth;
 import com.wiblog.core.mapper.UserAuthMapper;
 import com.wiblog.core.mapper.UserMapper;
+import com.wiblog.core.utils.IPUtil;
 import com.wiblog.core.utils.MessageUtil;
 import com.wiblog.core.utils.VerifyCodeUtils;
 import lombok.extern.slf4j.Slf4j;
@@ -262,7 +263,7 @@ public class WeixinUtil {
         return respMessage;
     }
 
-    public ServerResponse login(String code) {
+    public ServerResponse login(String code,HttpServletRequest request) {
         if (StringUtils.isBlank(code)) {
             return ServerResponse.error("参数错误", 30001);
         }
@@ -278,7 +279,7 @@ public class WeixinUtil {
         if (jsonObject == null){
             return ServerResponse.error("服务器异常", 30003);
         }
-        User user = registerWechat(jsonObject);
+        User user = registerWechat(jsonObject,request);
         redisTemplate.delete(Constant.WECHAT_LOGIN_CODE_ + code);
         return ServerResponse.success(user);
     }
@@ -289,7 +290,7 @@ public class WeixinUtil {
      * @param wechatUser user
      */
     @Transactional(rollbackFor = Exception.class)
-    public User registerWechat(JSONObject wechatUser) {
+    public User registerWechat(JSONObject wechatUser,HttpServletRequest request) {
         String openid = (String) wechatUser.get("openid");
         UserAuth userAuth = userAuthMapper.selectOne(new QueryWrapper<UserAuth>()
                 .eq("identity_type", "wechat")
@@ -298,9 +299,13 @@ public class WeixinUtil {
         User user = User.of();
         // 未注册 直接插入数据
         if (userAuth == null) {
+            String ip = IPUtil.getIpAddr(request);
+            String[] address = IPUtil.getIpInfo(ip);
+            log.info("用户地址{}-{}",address[0],address[1]);
+
             user.setAvatarImg((String) wechatUser.get("headimgurl"));
             user.setUsername((String) wechatUser.get("nickname"));
-            user.setState(true);
+            user.setState(true).setCity(address[1]);
             Integer sex = (Integer) wechatUser.get("sex");
             user.setSex(1 == sex ? "male" : "female");
             user.setCreateTime(new Date());

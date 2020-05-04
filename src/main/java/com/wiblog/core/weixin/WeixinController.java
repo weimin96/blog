@@ -98,7 +98,7 @@ public class WeixinController {
     @GetMapping("/wx/login")
     @ResponseBody
     public ServerResponse login(HttpServletRequest request, HttpServletResponse response,String code) throws IOException {
-        ServerResponse serverResponse = weixinUtil.login(code);
+        ServerResponse serverResponse = weixinUtil.login(code,request);
         if (serverResponse.isSuccess()){
             User user = (User) serverResponse.getData();
             // redis缓存

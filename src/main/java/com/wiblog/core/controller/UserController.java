@@ -226,7 +226,7 @@ public class UserController extends BaseController {
         String accessToken = githubProvider.getAccessToken(code, state);
         Map githubUser = githubProvider.getUser(accessToken);
         if ("login".equals(state)) {
-            User user = githubProvider.registerGithub(githubUser, accessToken);
+            User user = githubProvider.registerGithub(githubUser, accessToken,request);
             // redis缓存
             String token = Md5Util.MD5(request.getSession().getId() + user.getUid().toString());
             redisTemplate.opsForValue().set(Constant.LOGIN_REDIS_KEY + token, JSON.toJSONString(user), 7, TimeUnit.DAYS);
