@@ -1,6 +1,13 @@
 package com.wiblog.core.weixin;
 
 import com.alibaba.fastjson.JSONObject;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.wiblog.core.common.Constant;
+import com.wiblog.core.common.ServerResponse;
+import com.wiblog.core.entity.User;
+import com.wiblog.core.entity.UserAuth;
+import com.wiblog.core.mapper.UserAuthMapper;
+import com.wiblog.core.mapper.UserMapper;
 import com.wiblog.core.utils.MessageUtil;
 import com.wiblog.core.utils.VerifyCodeUtils;
 import lombok.extern.slf4j.Slf4j;
@@ -13,6 +20,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.client.RestTemplate;
 
 import javax.servlet.http.HttpServletRequest;
@@ -43,6 +51,12 @@ public class WeixinUtil {
 
     @Autowired
     private RedisTemplate<String, Object> redisTemplate;
+
+    @Autowired
+    private UserMapper userMapper;
+
+    @Autowired
+    private UserAuthMapper userAuthMapper;
 
     /**
      * 获取accessToken
@@ -223,16 +237,17 @@ public class WeixinUtil {
 
                     StringBuilder sb = new StringBuilder();
                     sb.append("Hi，欢迎关注歪博~").append("\n\n");
-                    sb.append("点击获取网站登录校验码").append("\n");
+                    sb.append("点击获取网站登录校验码 ");
                     sb.append("<a href=\"weixin://bizmsgmenu?msgmenucontent=登录&msgmenuid=1\">登录</a>");
                     text.setContent(sb.toString());
                 }
-            }else if(msgEnum == MsgEnum.TEXT){
+            } else if (msgEnum == MsgEnum.TEXT) {
                 //接收回复
                 //{Content=登录, CreateTime=1588565004, ToUserName=gh_27c767c19e20,
                 // FromUserName=oCtGTwMjE3zmLU6uIuJIvnv6-UKs, MsgType=text, MsgId=22742783737763533}
                 String code = VerifyCodeUtils.getRandomCode();
-                text.setContent("验证码："+code+"/n/n本验证码5分钟内有效，如超时请重新发送“登录”二字获取");
+                redisTemplate.opsForValue().set(Constant.WECHAT_LOGIN_CODE_ + code, fromUserName, 5, TimeUnit.MINUTES);
+                text.setContent("验证码：" + code + "\n\n本验证码5分钟内有效，如超时请重新发送“登录”二字获取");
             }
 
             text.setToUserName(fromUserName);
@@ -246,4 +261,62 @@ public class WeixinUtil {
         }
         return respMessage;
     }
+
+    public ServerResponse login(String code) {
+        if (StringUtils.isBlank(code)) {
+            return ServerResponse.error("参数错误", 30001);
+        }
+        String openid = (String) redisTemplate.opsForValue().get(Constant.WECHAT_LOGIN_CODE_ + code);
+        if (StringUtils.isBlank(openid)) {
+            return ServerResponse.error("验证码过期", 30002);
+        }
+        String url = "https://api.weixin.qq.com/cgi-bin/user/info?access_token=ACCESS_TOKEN&openid=OPENID&lang=zh_CN";
+        url = url.replace("ACCESS_TOKEN", getAccessToken()).replace("OPENID", openid);
+        RestTemplate restTemplate = new RestTemplate();
+        String response = restTemplate.getForObject(url, String.class);
+        JSONObject jsonObject = JSONObject.parseObject(response);
+        if (jsonObject == null){
+            return ServerResponse.error("服务器异常", 30003);
+        }
+        User user = registerWechat(jsonObject);
+        redisTemplate.delete(Constant.WECHAT_LOGIN_CODE_ + code);
+        return ServerResponse.success(user);
+    }
+
+    /**
+     * 用户注册 存入数据库
+     *
+     * @param wechatUser user
+     */
+    @Transactional(rollbackFor = Exception.class)
+    public User registerWechat(JSONObject wechatUser) {
+        String openid = (String) wechatUser.get("openid");
+        UserAuth userAuth = userAuthMapper.selectOne(new QueryWrapper<UserAuth>()
+                .eq("identity_type", "wechat")
+                .eq("identifier", openid)
+                .eq("state", 1));
+        User user = User.of();
+        // 未注册 直接插入数据
+        if (userAuth == null) {
+            user.setAvatarImg((String) wechatUser.get("headimgurl"));
+            user.setUsername((String) wechatUser.get("nickname"));
+            user.setState(true);
+            Integer sex = (Integer) wechatUser.get("sex");
+            user.setSex(1 == sex ? "male" : "female");
+            user.setCreateTime(new Date());
+            userMapper.insertReturnId(user);
+
+            userAuth = new UserAuth();
+            userAuth.setIdentityType("wechat");
+            userAuth.setIdentifier(openid);
+            userAuth.setPassword(openid);
+            userAuth.setUid(user.getUid());
+            userAuth.setCreateTime(new Date());
+            userAuthMapper.insert(userAuth);
+        } else { // 已经注册 使用原来帐号
+            user = userMapper.selectOne(new QueryWrapper<User>().eq("uid", userAuth.getUid()));
+        }
+        return user;
+    }
+
 }

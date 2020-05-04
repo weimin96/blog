@@ -82,6 +82,11 @@ public class Constant {
     public static final String NEAR_USER_KEY = "near_user";
 
     /**
+     * 微信登录校验码
+     */
+    public static final String WECHAT_LOGIN_CODE_ = "wechat_login_code_";
+
+    /**
      * 日志列表
      */
     public static final String LOG_PATH = "/home/pwm/log/";

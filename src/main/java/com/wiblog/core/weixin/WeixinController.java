@@ -1,8 +1,15 @@
 package com.wiblog.core.weixin;
 
+import com.alibaba.fastjson.JSON;
+import com.wiblog.core.common.Constant;
+import com.wiblog.core.common.ServerResponse;
+import com.wiblog.core.entity.User;
+import com.wiblog.core.utils.Md5Util;
+import com.wiblog.core.utils.WiblogUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -11,8 +18,10 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
 /**
  * TODO 描述
@@ -26,6 +35,9 @@ public class WeixinController {
 
     @Autowired
     private WeixinUtil weixinUtil;
+
+    @Autowired
+    private RedisTemplate<String, Object> redisTemplate;
 
     /**
      * 接收微信返回消息
@@ -83,9 +95,24 @@ public class WeixinController {
         return weixinUtil.sign(url);
     }
 
-    @GetMapping("/weixin/test")
-    public String weixin() {
-        return "test";
+    @GetMapping("/wx/login")
+    @ResponseBody
+    public ServerResponse login(HttpServletRequest request, HttpServletResponse response,String code) throws IOException {
+        ServerResponse serverResponse = weixinUtil.login(code);
+        if (serverResponse.isSuccess()){
+            User user = (User) serverResponse.getData();
+            // redis缓存
+            String token = Md5Util.MD5(request.getSession().getId() + user.getUid().toString());
+            redisTemplate.opsForValue().set(Constant.LOGIN_REDIS_KEY + token, JSON.toJSONString(user), 7, TimeUnit.DAYS);
+            // cookies
+            WiblogUtil.setCookie(response, token);
+            // 跳转历史页面
+            String url = WiblogUtil.getCookie(request, "back");
+            log.info(url);
+            response.sendRedirect(url);
+            return null;
+        }
+        return serverResponse;
     }
 
 

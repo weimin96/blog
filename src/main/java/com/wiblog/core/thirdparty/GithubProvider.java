@@ -160,4 +160,6 @@ public class GithubProvider {
         userAuthMapper.insert(userAuth);
         return ServerResponse.success(null, "绑定成功");
     }
+
+
 }
