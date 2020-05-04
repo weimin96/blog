@@ -246,7 +246,7 @@ public class WeixinUtil {
                 //{Content=登录, CreateTime=1588565004, ToUserName=gh_27c767c19e20,
                 // FromUserName=oCtGTwMjE3zmLU6uIuJIvnv6-UKs, MsgType=text, MsgId=22742783737763533}
                 String code = VerifyCodeUtils.getRandomCode();
-                redisTemplate.opsForValue().set(Constant.WECHAT_LOGIN_CODE_ + code, fromUserName, 5, TimeUnit.MINUTES);
+                redisTemplate.opsForValue().set(Constant.WECHAT_LOGIN_CODE_ + code.toLowerCase(), fromUserName, 5, TimeUnit.MINUTES);
                 text.setContent("验证码：" + code + "\n\n本验证码5分钟内有效，如超时请重新发送“登录”二字获取");
             }
 
@@ -266,7 +266,7 @@ public class WeixinUtil {
         if (StringUtils.isBlank(code)) {
             return ServerResponse.error("参数错误", 30001);
         }
-        String openid = (String) redisTemplate.opsForValue().get(Constant.WECHAT_LOGIN_CODE_ + code);
+        String openid = (String) redisTemplate.opsForValue().get(Constant.WECHAT_LOGIN_CODE_ + code.toLowerCase());
         if (StringUtils.isBlank(openid)) {
             return ServerResponse.error("验证码过期", 30002);
         }

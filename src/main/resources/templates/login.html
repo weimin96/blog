@@ -47,7 +47,7 @@
 
                     <div style="padding-bottom: 10px;">
                         <div class="el-input el-input-group el-input-group--append" style="width: 74%;">
-                            <input type="text" autocomplete="off" id="input" placeholder="输入登录验证码"
+                            <input v-model="code" type="text" autocomplete="off" id="input" placeholder="输入登录验证码"
                                    class="el-input__inner" style="width: 100%;height: 34px;">
                             <div class="el-input-group__append">
                                 <button @click="wechatCode" type="button" class="el-button el-button--default" style="cursor: pointer;">
