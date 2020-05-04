@@ -1,7 +1,8 @@
 package com.wiblog.core.weixin;
 
 import com.alibaba.fastjson.JSONObject;
-
+import com.wiblog.core.utils.MessageUtil;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.dom4j.Document;
 import org.dom4j.Element;
@@ -9,27 +10,17 @@ import org.dom4j.io.SAXReader;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
-import org.springframework.core.io.Resource;
 import org.springframework.data.redis.core.RedisTemplate;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 
+import javax.servlet.http.HttpServletRequest;
 import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-import java.util.Formatter;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 import java.util.concurrent.TimeUnit;
-
-import javax.servlet.http.HttpServletRequest;
-
-import lombok.extern.slf4j.Slf4j;
 
 
 /**
@@ -192,5 +183,28 @@ public class WeixinUtil {
         inputStream = null;
 
         return map;
+    }
+
+    public String messageHandler(HttpServletRequest request) {
+        String respMessage = null;
+        try {
+            // xml请求解析
+            Map<String, String> requestMap = MessageUtil.xmlToMap(request);
+            if (requestMap == null){
+                return respMessage;
+            }
+            // 发送方帐号（openid）
+            String fromUserName = requestMap.get("FromUserName");
+            // 公众帐号
+            String toUserName = requestMap.get("ToUserName");
+            // 消息类型
+            String msgType = requestMap.get("MsgType");
+            // 消息内容
+            String content = requestMap.get("Content");
+            log.info("接收微信消息{}", requestMap);
+        }catch (Exception e){
+            log.error(e.getMessage(),e);
+        }
+        return respMessage;
     }
 }
