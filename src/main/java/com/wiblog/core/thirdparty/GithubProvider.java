@@ -106,7 +106,7 @@ public class GithubProvider {
             user.setAvatarImg((String) githubUser.get("avatar_url"));
             user.setUsername((String) githubUser.get("name"));
             user.setState(true);
-            user.setSex("male").setCity(address[1]);
+            user.setSex("male").setRegion(address[0]).setCity(address[1]);
             user.setCreateTime(new Date());
             userMapper.insertReturnId(user);
 

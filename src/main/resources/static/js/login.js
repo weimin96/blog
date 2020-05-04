@@ -59,7 +59,7 @@ let app = new Vue({
                         location.href = "/";
                     }
                 }else{
-                    app.$message.error("验证码错误");
+                    app.$message.error(res.msg);
                 }
             })
         }

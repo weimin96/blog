@@ -305,7 +305,7 @@ public class WeixinUtil {
 
             user.setAvatarImg((String) wechatUser.get("headimgurl"));
             user.setUsername((String) wechatUser.get("nickname"));
-            user.setState(true).setCity(address[1]);
+            user.setState(true).setRegion(address[0]).setCity(address[1]);
             Integer sex = (Integer) wechatUser.get("sex");
             user.setSex(1 == sex ? "male" : "female");
             user.setCreateTime(new Date());
