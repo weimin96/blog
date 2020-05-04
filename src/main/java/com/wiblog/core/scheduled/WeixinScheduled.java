@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.scheduling.annotation.EnableScheduling;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
 /**
@@ -38,7 +39,7 @@ public class WeixinScheduled {
      * 从微信服务端获取accessToken ticket并存入redis
      * 每隔两小时执行一次
      */
-//    @Scheduled(cron = "* * */2 * * ?")
+    @Scheduled(cron = "* * */2 * * ?")
     public void setAccessTokenAndTicket(){
         log.info("微信定时任务启动");
         String accessToken = weixinUtil.setAccessToken();

@@ -1,16 +1,16 @@
 package com.wiblog.core.weixin;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.Map;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 
 /**
  * TODO 描述
@@ -19,6 +19,7 @@ import javax.servlet.http.HttpServletResponse;
  * @date 2019/7/25
  */
 @Controller
+@Slf4j
 public class WeixinController {
 
     @Autowired
